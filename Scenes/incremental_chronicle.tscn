@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://c1t2j0vipmnu6"]
+[gd_scene load_steps=6 format=3 uid="uid://c1t2j0vipmnu6"]
 
 [ext_resource type="Script" uid="uid://cvcr36wahxv8u" path="res://Scripts/incremental_chronicle.gd" id="1_4denh"]
+[ext_resource type="Script" uid="uid://cgfd5l1hpfvn" path="res://Scripts/story_points_label.gd" id="3_67ln1"]
 [ext_resource type="Script" uid="uid://qqhvylrnpjep" path="res://Scripts/action_generator.gd" id="3_rorxs"]
+[ext_resource type="Script" uid="uid://d1354ddbnb5hl" path="res://Scripts/action_list.gd" id="4_67ln1"]
 
 [sub_resource type="NobodyWhoSampler" id="NobodyWhoSampler_rorxs"]
 use_grammar = true
@@ -38,7 +40,7 @@ ws ::= ([ \\t\\n] ws)?
 ws01 ::= ([ \\t\\n])?"
 seed = 1232
 
-[node name="IncrementalChronicle" type="Control" node_paths=PackedStringArray("action_generator", "action_list")]
+[node name="IncrementalChronicle" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -48,8 +50,6 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_4denh")
-action_generator = NodePath("LLM/ActionGenerator")
-action_list = NodePath("MainWindow/ActionList")
 
 [node name="LLM" type="Node" parent="."]
 
@@ -73,14 +73,18 @@ grow_vertical = 2
 [node name="PlayerStats" type="VBoxContainer" parent="MainWindow"]
 layout_mode = 2
 
-[node name="StoryPointsLabel" type="Label" parent="MainWindow/PlayerStats"]
+[node name="StoryPointsLabel" type="Label" parent="MainWindow/PlayerStats" node_paths=PackedStringArray("action_list")]
 layout_mode = 2
 text = "Story points: 0/100"
+script = ExtResource("3_67ln1")
+action_list = NodePath("../../ActionList")
 
 [node name="ReincarnateButton" type="Button" parent="MainWindow/PlayerStats"]
 layout_mode = 2
 text = "Reincarnate"
 
-[node name="ActionList" type="VBoxContainer" parent="MainWindow"]
+[node name="ActionList" type="VBoxContainer" parent="MainWindow" node_paths=PackedStringArray("action_generator")]
 layout_mode = 2
 size_flags_horizontal = 3
+script = ExtResource("4_67ln1")
+action_generator = NodePath("../../LLM/ActionGenerator")
