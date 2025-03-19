@@ -9,7 +9,7 @@ var can_generate: bool = true
 func _ready():
 	# Create a Timer node dynamically
 	var timer = Timer.new()
-	timer.wait_time = 1.0  # 1 second interval
+	timer.wait_time = 10.0  # 1 second interval
 	timer.autostart = true
 	timer.timeout.connect(_on_timer_timeout)  # Connect the signal to the callback function
 	add_child(timer)  # Add the Timer as a child of this node
@@ -19,9 +19,9 @@ func _ready():
 func _on_timer_timeout():
 	if not can_generate:
 		return
-	#action_generator.generate_action()
+	action_generator.generate_action()
 	can_generate = false
-	print("Hello, World!")
+	print("Started generation of an action")
 
 func _action_generated(action: String):
 	can_generate = true

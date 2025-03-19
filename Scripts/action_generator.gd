@@ -7,6 +7,9 @@ func _ready():
 
 
 func generate_action() -> void:
+	start_worker()
+	var mysampler: NobodyWhoSampler = sampler
+	mysampler.seed = randi()  # Set seed to a random integer
 	# say something
 	say("What can I do in this village?")
 
