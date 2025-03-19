@@ -1,29 +1,62 @@
-[gd_scene load_steps=3 format=3 uid="uid://c1t2j0vipmnu6"]
+[gd_scene load_steps=4 format=3 uid="uid://c1t2j0vipmnu6"]
 
 [ext_resource type="Script" uid="uid://cvcr36wahxv8u" path="res://Scripts/incremental_chronicle.gd" id="1_4denh"]
 [ext_resource type="Script" uid="uid://d3h2kjdtmn7cw" path="res://Scripts/nobody_who_chat.gd" id="2_1yxy4"]
+[ext_resource type="Script" uid="uid://qqhvylrnpjep" path="res://Scripts/action_generator.gd" id="3_rorxs"]
 
-[node name="IncrementalChronicle" type="Control"]
+[node name="IncrementalChronicle" type="Control" node_paths=PackedStringArray("action_generator", "action_list")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("1_4denh")
+action_generator = NodePath("LLM/ActionGenerator")
+action_list = NodePath("MainWindow/ActionList")
 
-[node name="NobodyWhoModel" type="NobodyWhoModel" parent="."]
+[node name="LLM" type="Node" parent="."]
+
+[node name="NobodyWhoModel" type="NobodyWhoModel" parent="LLM"]
 model_path = "/home/user/.local/share/godot/app_userdata/Incremental-Chronicles/gemma-2-2b-it-Q4_K_M.gguf"
 
-[node name="NobodyWhoChat" type="NobodyWhoChat" parent="." node_paths=PackedStringArray("model_node")]
+[node name="NobodyWhoChat" type="NobodyWhoChat" parent="LLM" node_paths=PackedStringArray("model_node")]
 model_node = NodePath("../NobodyWhoModel")
 system_prompt = "You are an evil wizard. Always try to curse anyone who talks to you."
 script = ExtResource("2_1yxy4")
 
-[node name="Button" type="Button" parent="."]
-layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
-text = "test"
+[node name="ActionGenerator" type="NobodyWhoChat" parent="LLM" node_paths=PackedStringArray("model_node")]
+model_node = NodePath("../NobodyWhoModel")
+system_prompt = "You are a story writing assistant. Your job is to create short messages (up to 20 words). The message contains an action or dialogue in the following context: You are in a simple medieval fantasy village with a school, a church and is connected trough dirt roads. The village is bustling with life and there is plenty to do."
+script = ExtResource("3_rorxs")
 
-[connection signal="button_up" from="Button" to="NobodyWhoChat" method="_on_button_button_up"]
+[node name="MainWindow" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PlayerStats" type="VBoxContainer" parent="MainWindow"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MainWindow/PlayerStats"]
+layout_mode = 2
+text = "Story points: 100"
+
+[node name="ReincarnateButton" type="Button" parent="MainWindow/PlayerStats"]
+layout_mode = 2
+text = "Reincarnate"
+
+[node name="ActionList" type="VBoxContainer" parent="MainWindow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="MainWindow/ActionList"]
+layout_mode = 2
+text = "actino 1"
+
+[connection signal="button_up" from="MainWindow/PlayerStats/ReincarnateButton" to="LLM/NobodyWhoChat" method="_on_button_button_up"]

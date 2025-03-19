@@ -1,17 +1,19 @@
 extends NobodyWhoChat
 
+signal action_generated(action: String)
+
 func _ready():
-	pass
-	#start_worker()
+	start_worker()
 
 
-func _on_button_button_up() -> void:
+func generate_action() -> void:
 	# say something
-	say("Hi there! Who are you?")
+	say("What can I do in this village?")
 
 	# wait for the response
 	var response = await response_finished
 	print("Got response: " + response)
+	action_generated.emit(response)
 
 	# in this example we just use the `response_finished` signal to get the complete response
 	# in real-world-use you definitely want to connect `response_updated`, which gives one word at a time
