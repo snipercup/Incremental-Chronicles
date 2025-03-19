@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://c1t2j0vipmnu6"]
+
+[ext_resource type="Script" uid="uid://cvcr36wahxv8u" path="res://Scripts/incremental_chronicle.gd" id="1_4denh"]
+[ext_resource type="Script" uid="uid://d3h2kjdtmn7cw" path="res://Scripts/nobody_who_chat.gd" id="2_1yxy4"]
+
+[node name="IncrementalChronicle" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4denh")
+
+[node name="NobodyWhoModel" type="NobodyWhoModel" parent="."]
+model_path = "/home/user/.local/share/godot/app_userdata/Incremental-Chronicles/gemma-2-2b-it-Q4_K_M.gguf"
+
+[node name="NobodyWhoChat" type="NobodyWhoChat" parent="." node_paths=PackedStringArray("model_node")]
+model_node = NodePath("../NobodyWhoModel")
+system_prompt = "You are an evil wizard. Always try to curse anyone who talks to you."
+script = ExtResource("2_1yxy4")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "test"
+
+[connection signal="button_up" from="Button" to="NobodyWhoChat" method="_on_button_button_up"]
