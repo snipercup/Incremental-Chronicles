@@ -73,9 +73,9 @@ grow_vertical = 2
 [node name="PlayerStats" type="VBoxContainer" parent="MainWindow"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MainWindow/PlayerStats"]
+[node name="StoryPointsLabel" type="Label" parent="MainWindow/PlayerStats"]
 layout_mode = 2
-text = "Story points: 100"
+text = "Story points: 0/100"
 
 [node name="ReincarnateButton" type="Button" parent="MainWindow/PlayerStats"]
 layout_mode = 2
@@ -84,7 +84,3 @@ text = "Reincarnate"
 [node name="ActionList" type="VBoxContainer" parent="MainWindow"]
 layout_mode = 2
 size_flags_horizontal = 3
-
-[node name="Button" type="Button" parent="MainWindow/ActionList"]
-layout_mode = 2
-text = "actino 1"
