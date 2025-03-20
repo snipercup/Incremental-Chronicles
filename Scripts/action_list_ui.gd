@@ -1,43 +1,61 @@
 extends VBoxContainer
 
-# This script is used to display story actions
+# This script is used to display a list of story actions
+# Actions take place in the context of an area
+# Each area has its own list of actions. When we are assigned a new area, update the list of actions
 
-@export var action_generator: NobodyWhoChat = null
+var area: StoryArea
+@export var story_action_ui: PackedScene = null
+signal action_completed(myaction: Control)
 
-var can_generate: bool = true
-signal action_completed(myaction: Dictionary)
+# Setter for area
+func set_area(value: StoryArea) -> void:
+	print_debug("setting area to action list ui")
+	# Disconnect previous signal to avoid multiple connections
+	if area and area.action_added.is_connected(_on_action_added):
+		area.action_added.disconnect(_on_action_added)
+	
+	area = value
+	
+	# Connect to the action_added signal
+	if area and not area.action_added.is_connected(_on_action_added):
+		print_debug("connecting action_added to _on_action_added")
+		area.action_added.connect(_on_action_added)
+	
+	_update_story_actions()
 
-# Called when the node enters the scene tree.
-func _ready():
-	# Create a Timer node dynamically
-	var timer = Timer.new()
-	timer.wait_time = 5.0  # 5 second interval
-	timer.autostart = true
-	timer.timeout.connect(_on_timer_timeout)  # Connect the signal to the callback function
-	add_child(timer)  # Add the Timer as a child of this node
-	action_generator.action_generated.connect(_action_generated)
 
-# Called every second when the Timer times out
-func _on_timer_timeout():
-	if not can_generate:
+# Function to update story actions when area is set
+func _update_story_actions() -> void:
+	print_debug("refreshing action list")
+	# Remove existing children
+	for child in get_children():
+		child.queue_free()
+
+	if not area:
 		return
-	action_generator.generate_action()
-	can_generate = false
-	print("Started generation of an action")
+	
+	# Create an instance for each StoryAction
+	for action in area.get_story_actions():
+		if story_action_ui:
+			var action_ui = story_action_ui.instantiate()
+			# Set the story_action property if available
+			if action_ui.has_method("set_story_action"):
+				action_ui.set_story_action(action)
+			
+			# Connect to the action_pressed signal if it exists
+			if action_ui.has_signal("action_pressed"):
+				action_ui.action_pressed.connect(_on_action_pressed)
+			
+			# Add the instance as a child
+			add_child(action_ui)
 
-func _action_generated(action: String):
-	can_generate = true
-	
-	# Create a new Button
-	var button = Button.new()
-	button.text = action  # Set button text to the action value
-	
-	# Connect the button's pressed signal to a lambda that prints the text and frees the button
-	button.pressed.connect(func():
-		print(button.text)
-		action_completed.emit({"action": button.text, "story_points": 1})
-		button.queue_free()
-	)
-	
-	# Add the button to the action_list
-	add_child(button)
+# Function to handle action_pressed signal
+func _on_action_pressed(control: Control) -> void:
+	action_completed.emit(control)
+
+
+# Function to handle action_added signal
+func _on_action_added(_myarea: StoryArea) -> void:
+	print_debug("New action added, refreshing list")
+	_update_story_actions()

@@ -30,10 +30,11 @@ func set_area_button_text(value: String) -> void:
 func set_story_area(value: StoryArea) -> void:
 	story_area = value
 	if story_area:
+		print_debug("creating story area in area list. Name = " + story_area.get_name() + ", tier = " + str(story_area.get_tier()))
 		# Update controls based on story area properties
 		set_story_point_requirement_label("Requirement: %d" % story_area.get_story_point_requirement())
 		set_stars_label("★".repeat(story_area.get_tier()))
-		set_area_button_text(story_area.get_story_text())
+		set_area_button_text(story_area.get_name())
 
 # Handle area button press
 func _ready():
@@ -46,3 +47,6 @@ func _on_area_button_pressed() -> void:
 
 func get_area_actions() -> Array[StoryAction]:
 	return story_area.get_story_actions()
+
+func get_area() -> StoryArea:
+	return story_area

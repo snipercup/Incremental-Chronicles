@@ -1,11 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://c1t2j0vipmnu6"]
+[gd_scene load_steps=11 format=3 uid="uid://c1t2j0vipmnu6"]
 
 [ext_resource type="Script" uid="uid://cvcr36wahxv8u" path="res://Scripts/incremental_chronicle.gd" id="1_4denh"]
 [ext_resource type="Script" uid="uid://cgfd5l1hpfvn" path="res://Scripts/story_points_label.gd" id="3_67ln1"]
-[ext_resource type="Script" uid="uid://qqhvylrnpjep" path="res://Scripts/action_generator.gd" id="3_rorxs"]
+[ext_resource type="Script" uid="uid://qqhvylrnpjep" path="res://Scripts/nobody_who_chat.gd" id="3_rorxs"]
 [ext_resource type="Script" uid="uid://d1354ddbnb5hl" path="res://Scripts/action_list_ui.gd" id="4_67ln1"]
 [ext_resource type="Script" uid="uid://dvjyty3xttj0o" path="res://Scripts/area_list.gd" id="4_73alp"]
 [ext_resource type="PackedScene" uid="uid://ctfsl70gr5fnl" path="res://Scenes/story_area_ui.tscn" id="5_miw6j"]
+[ext_resource type="PackedScene" uid="uid://hf574lotfqlr" path="res://Scenes/story_action_ui.tscn" id="7_3uyo8"]
 
 [sub_resource type="NobodyWhoSampler" id="NobodyWhoSampler_rorxs"]
 use_grammar = true
@@ -42,7 +43,13 @@ ws ::= ([ \\t\\n] ws)?
 ws01 ::= ([ \\t\\n])?"
 seed = 1232
 
-[node name="IncrementalChronicle" type="Control"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3uyo8"]
+bg_color = Color(0.485472, 0.633449, 0.633375, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_onqyn"]
+bg_color = Color(0.631746, 0.584948, 0.613815, 1)
+
+[node name="IncrementalChronicle" type="Control" node_paths=PackedStringArray("area_list")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -52,17 +59,19 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_4denh")
+area_list = NodePath("MainWindow/AreasPanelContainer/AreasVBoxContainer/AreaList")
 
 [node name="LLM" type="Node" parent="."]
 
 [node name="NobodyWhoModel" type="NobodyWhoModel" parent="LLM"]
 model_path = "/home/user/.local/share/godot/app_userdata/Incremental-Chronicles/gemma-2-2b-it-Q4_K_M.gguf"
 
-[node name="ActionGenerator" type="NobodyWhoChat" parent="LLM" node_paths=PackedStringArray("model_node")]
+[node name="NobodyWhoChat" type="NobodyWhoChat" parent="LLM" node_paths=PackedStringArray("model_node", "area_list")]
 model_node = NodePath("../NobodyWhoModel")
 sampler = SubResource("NobodyWhoSampler_rorxs")
-system_prompt = "You are a story writing assistant. Your job is to create short messages (up to 20 words). The message contains an action or dialogue in the following context: You are in a simple medieval fantasy village with a school, a church and is connected trough dirt roads. The village is bustling with life and there is plenty to do."
+system_prompt = "You are a story writing assistant. Your job is to create short messages (up to 20 words). Each message should describe a creative and engaging action or dialogue that reflects the atmosphere and activity of the following setting: [insert area description]. The action or dialogue should feel natural, varied, and influenced by the location, its landmarks, and its inhabitants."
 script = ExtResource("3_rorxs")
+area_list = NodePath("../../MainWindow/AreasPanelContainer/AreasVBoxContainer/AreaList")
 
 [node name="MainWindow" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -81,21 +90,53 @@ size_flags_stretch_ratio = 0.2
 layout_mode = 2
 text = "Story points: 0/100"
 script = ExtResource("3_67ln1")
-action_list = NodePath("../../ActionList")
+action_list = NodePath("../../ActionsPanelContainer/ActionsVBoxContainer/ActionList")
 
 [node name="ReincarnateButton" type="Button" parent="MainWindow/PlayerStats"]
 layout_mode = 2
 text = "Reincarnate"
 
-[node name="AreaList" type="VBoxContainer" parent="MainWindow"]
+[node name="AreasPanelContainer" type="PanelContainer" parent="MainWindow"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.2
-script = ExtResource("4_73alp")
-story_area_ui_scene = ExtResource("5_miw6j")
+theme_override_styles/panel = SubResource("StyleBoxFlat_3uyo8")
 
-[node name="ActionList" type="VBoxContainer" parent="MainWindow" node_paths=PackedStringArray("action_generator")]
+[node name="AreasVBoxContainer" type="VBoxContainer" parent="MainWindow/AreasPanelContainer"]
+layout_mode = 2
+size_flags_stretch_ratio = 0.2
+
+[node name="AreasLabel" type="Label" parent="MainWindow/AreasPanelContainer/AreasVBoxContainer"]
+layout_mode = 2
+text = "Areas:"
+horizontal_alignment = 1
+
+[node name="AreaList" type="VBoxContainer" parent="MainWindow/AreasPanelContainer/AreasVBoxContainer" node_paths=PackedStringArray("action_list", "story_points_label", "nobody_who_chat")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.2
+script = ExtResource("4_73alp")
+action_list = NodePath("../../../ActionsPanelContainer/ActionsVBoxContainer/ActionList")
+story_area_ui_scene = ExtResource("5_miw6j")
+story_points_label = NodePath("../../../PlayerStats/StoryPointsLabel")
+nobody_who_chat = NodePath("../../../../LLM/NobodyWhoChat")
+
+[node name="ActionsPanelContainer" type="PanelContainer" parent="MainWindow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_onqyn")
+
+[node name="ActionsVBoxContainer" type="VBoxContainer" parent="MainWindow/ActionsPanelContainer"]
+layout_mode = 2
+
+[node name="ActionsLabel" type="Label" parent="MainWindow/ActionsPanelContainer/ActionsVBoxContainer"]
+layout_mode = 2
+text = "Actions:"
+horizontal_alignment = 1
+
+[node name="ActionList" type="VBoxContainer" parent="MainWindow/ActionsPanelContainer/ActionsVBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("4_67ln1")
-action_generator = NodePath("../../LLM/ActionGenerator")
+story_action_ui = ExtResource("7_3uyo8")

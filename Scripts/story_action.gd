@@ -6,6 +6,9 @@ var stars: int = 1 : set = set_stars, get = get_stars
 var story_point_requirement: int = 0 : set = set_story_point_requirement, get = get_story_point_requirement
 var story_points: int = 1 : set = set_story_points, get = get_story_points
 var story_text: String = "" : set = set_story_text, get = get_story_text
+var system_prompt: String = "you are a story writing assistant" : set = set_system_prompt, get = get_system_prompt
+var say: String = "return exactly one action" : set = set_say, get = get_say
+var area: StoryArea
 
 # Setters and Getters
 func set_stars(value: int) -> void:
@@ -32,11 +35,33 @@ func set_story_text(value: String) -> void:
 func get_story_text() -> String:
 	return story_text
 
+func set_system_prompt(value: String) -> void:
+	system_prompt = value
+
+func get_system_prompt() -> String:
+	# Get the area description from the associated area
+	var area_description: String = area.get_description() if area else "an unknown place"
+	
+	# Replace the placeholder with the actual area description
+	return "You are a story writing assistant. Your job is to create short messages (up to 20 words). " +\
+		   "Each message should describe a creative and engaging action or dialogue that reflects the atmosphere " +\
+		   "and activity of the following setting: %s. " % area_description +\
+		   "The action or dialogue should feel natural, varied, and influenced by the location, its landmarks, and its inhabitants."
+
+
+func set_say(value: String) -> void:
+	say = value
+
+func get_say() -> String:
+	return say
+
 # Function to return all properties as a dictionary
 func get_properties() -> Dictionary:
 	return {
 		"stars": stars,
 		"story_point_requirement": story_point_requirement,
 		"story_points": story_points,
-		"story_text": story_text
+		"story_text": story_text,
+		"system_prompt": system_prompt,
+		"say": say
 	}

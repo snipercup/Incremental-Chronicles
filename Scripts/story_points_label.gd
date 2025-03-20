@@ -12,9 +12,9 @@ func _ready():
 		action_list.action_completed.connect(_on_action_completed)
 
 # Called when an action is completed
-func _on_action_completed(myaction: Dictionary):
-	if myaction.has("story_points"):
-		# Increment story_points based on the value from myaction
-		story_points += myaction["story_points"]
-		# Update label text
-		text = "Story points: %d/100" % story_points
+func _on_action_completed(control: Control):
+	var story_action: StoryAction = control.story_action
+	# Increment story_points based on the value from myaction
+	story_points += story_action.story_points
+	# Update label text
+	text = "Story points: %d/100" % story_points
