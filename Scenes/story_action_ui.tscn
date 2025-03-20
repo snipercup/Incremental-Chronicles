@@ -2,16 +2,15 @@
 
 [ext_resource type="Script" uid="uid://tq7qmviup2im" path="res://Scripts/story_action_ui.gd" id="1_5urje"]
 
-[node name="StoryActionUI" type="PanelContainer" node_paths=PackedStringArray("story_point_requirement_label", "stars_label", "give_story_point_label", "action_button")]
+[node name="StoryActionUI" type="PanelContainer" node_paths=PackedStringArray("story_point_label", "stars_label", "action_button")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_5urje")
-story_point_requirement_label = NodePath("VBoxContainer/StatsContainer/StoryPointRequirementLabel")
+story_point_label = NodePath("VBoxContainer/StatsContainer/StoryPointLabel")
 stars_label = NodePath("VBoxContainer/StatsContainer/StarsLabel")
-give_story_point_label = NodePath("VBoxContainer/GiveStoryPointLabel")
 action_button = NodePath("VBoxContainer/ActionButton")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -20,7 +19,7 @@ layout_mode = 2
 [node name="StatsContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 
-[node name="StoryPointRequirementLabel" type="Label" parent="VBoxContainer/StatsContainer"]
+[node name="StoryPointLabel" type="Label" parent="VBoxContainer/StatsContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Requires story points: 100"
@@ -28,11 +27,6 @@ text = "Requires story points: 100"
 [node name="StarsLabel" type="Label" parent="VBoxContainer/StatsContainer"]
 layout_mode = 2
 text = "***"
-
-[node name="GiveStoryPointLabel" type="Label" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Gives story points: 100"
 
 [node name="ActionButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
