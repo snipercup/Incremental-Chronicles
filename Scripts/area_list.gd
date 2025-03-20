@@ -90,7 +90,7 @@ func _on_area_generated(area: String):
 
 # Create the starting area
 func create_tunnel():
-	print_debug("creating tunnel")
+	#print_debug("creating tunnel")
 	var mydescription: String = "You awaken on the cold, uneven stone floor of a dimly lit tunnel.  " +\
 		   "The air is damp and heavy, carrying the faint scent of moss and earth. Jagged rock  " +\
 		   "walls stretch upward, disappearing into darkness above. The tunnel is eerily quiet,  " +\
@@ -107,5 +107,7 @@ func create_tunnel():
 		   "your chest. The tunnel behind you remains silent and still. Whatever lies ahead,  " +\
 		   "it is the only way forward."
 	
+	var myarea: StoryArea = finalize_area("Tunnel", mydescription)
+	myarea.set_say("generate the next action for the player to do as he steps out of the tunnel")
 	# Finalize the area creation
-	action_list.set_area(finalize_area("Tunnel", mydescription))
+	action_list.set_area(myarea)

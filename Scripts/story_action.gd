@@ -41,7 +41,7 @@ func set_system_prompt(value: String) -> void:
 func get_system_prompt() -> String:
 	# Get the area description from the associated area
 	var area_description: String = area.get_description() if area else "an unknown place"
-	
+	print_debug("returning area description: " + area_description)
 	# Replace the placeholder with the actual area description
 	return "You are a story writing assistant. Your job is to create short messages (up to 20 words). " +\
 		   "Each message should describe a creative and engaging action or dialogue that reflects the atmosphere " +\

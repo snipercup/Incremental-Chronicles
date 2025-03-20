@@ -48,6 +48,10 @@ bg_color = Color(0.485472, 0.633449, 0.633375, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_onqyn"]
 bg_color = Color(0.631746, 0.584948, 0.613815, 1)
+border_width_left = 15
+border_width_top = 5
+border_width_right = 15
+border_color = Color(0.386993, 0.214806, 0.254444, 1)
 
 [node name="IncrementalChronicle" type="Control" node_paths=PackedStringArray("area_list")]
 layout_mode = 3

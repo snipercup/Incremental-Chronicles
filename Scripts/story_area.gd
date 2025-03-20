@@ -12,7 +12,7 @@ var story_point_requirement: int = 100 : set = set_story_point_requirement, get 
 var name: String = "" : set = set_name, get = get_name
 var description: String = "" : set = set_description, get = get_description
 var system_prompt: String = "you are a story writing assistant" : set = set_system_prompt, get = get_system_prompt
-var say: String = "generate an area in the kingdom" : set = set_say, get = get_say
+var say: String = "generate an area in the area" : set = set_say, get = get_say
 # Signal to emit when a new action is added
 signal action_added(myarea: StoryArea)
 
@@ -58,7 +58,17 @@ func set_system_prompt(value: String) -> void:
 	system_prompt = value
 
 func get_system_prompt() -> String:
-	return system_prompt
+	# Get the area description from the associated area
+	var area_description: String = get_description()
+	print_debug("returning area description: " + area_description)
+	# Replace the placeholder with the actual area description
+	return "You are a story writing assistant. Your job is to create short messages (up to 20 words). " +\
+		   "Each message should describe a creative and engaging action or dialogue that reflects the atmosphere " +\
+		   "and activity of the following setting: %s. " % area_description +\
+		   "The action or dialogue should feel natural, varied, and influenced by the location, its landmarks, and its inhabitants."
+#
+	#print_debug("returning system prompt for area" + name + ": " + system_prompt)
+	#return system_prompt
 
 func set_say(value: String) -> void:
 	say = value

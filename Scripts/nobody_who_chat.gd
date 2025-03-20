@@ -16,18 +16,20 @@ func _ready():
 	timer.autostart = true
 	timer.timeout.connect(_on_timer_timeout)  # Connect the signal to the callback function
 	add_child(timer)  # Add the Timer as a child of this node
-	print_debug("timer started")
+	#print_debug("timer started")
 	start_worker()
 
 
 func generate_action() -> void:
-	start_worker()
 	var current_area: StoryArea = area_list.get_random_area()
 	if not current_area:
 		return
+	start_worker()
 	print_debug("generating action for area " + current_area.get_name())
 	sampler.seed = randi()  # Set seed to a random integer
 	system_prompt = current_area.get_system_prompt()
+	print_debug("system_prompt has been set to " + system_prompt)
+	print_debug("Using get_say:  " + current_area.get_say())
 	say(current_area.get_say()) # say something
 	# wait for the response
 	var response = await response_finished
@@ -70,4 +72,4 @@ func _on_timer_timeout():
 		return
 	generate_action()
 	can_generate = false
-	print("Started generation of an action")
+	print_debug("Started generation of an action")

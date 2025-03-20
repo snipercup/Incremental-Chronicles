@@ -6,5 +6,5 @@ extends Control
 
 
 func _ready():
-	print_debug("Game started")
+	#print_debug("Game started")
 	area_list.create_tunnel()
