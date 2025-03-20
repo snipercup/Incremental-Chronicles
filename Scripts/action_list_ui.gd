@@ -52,6 +52,7 @@ func _update_story_actions() -> void:
 
 # Function to handle action_pressed signal
 func _on_action_pressed(control: Control) -> void:
+	control.story_action.area.remove_story_action(control.story_action)
 	action_completed.emit(control)
 
 

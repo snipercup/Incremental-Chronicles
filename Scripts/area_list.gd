@@ -108,6 +108,6 @@ func create_tunnel():
 		   "it is the only way forward."
 	
 	var myarea: StoryArea = finalize_area("Tunnel", mydescription)
-	myarea.set_say("generate the next action for the player to do as he steps out of the tunnel")
+	myarea.set_say("generate the next action for the player to do as he finds himself in the open wilderness")
 	# Finalize the area creation
 	action_list.set_area(myarea)

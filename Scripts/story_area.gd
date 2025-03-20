@@ -112,3 +112,11 @@ func add_story_action_from_json(json_string: String) -> void:
 	
 	print_debug("emitting action_added")
 	action_added.emit(self)
+
+# Function to remove a StoryAction from the list
+func remove_story_action(action: StoryAction) -> void:
+	if action in story_actions:
+		story_actions.erase(action)
+		print_debug("Removed story action:", action.get_story_text())
+	else:
+		print_debug("Action not found in list:", action.get_story_text())

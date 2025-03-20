@@ -36,12 +36,13 @@ func generate_action() -> void:
 	print_debug("Got action response: " + response)
 	current_area.add_story_action_from_json(response)
 	action_generated.emit(response)
+	can_generate = true
 
 
 func generate_area() -> void:
 	print_debug("generating area")
 	start_worker()
-	var current_area: StoryArea = area_list.get_random_area()
+	#var current_area: StoryArea = area_list.get_random_area()
 	sampler.seed = randi()  # Set seed to a random integer
 	var myprompt: String = "You are an expert at creating immersive and detailed locations for a medieval fantasy game called *Incremental Chronicles*. Your task is to design a new area for this game. The world of *Incremental Chronicles* is rich with magic, ancient ruins, mysterious forces, and diverse inhabitants. The setting is grounded in medieval culture with a blend of high fantasy elements.**"
 	myprompt += "**Create a name and a detailed description for the new area. The area can be a village, forest, ruins, cave, mountain, or similar location. Include the following details:**"
