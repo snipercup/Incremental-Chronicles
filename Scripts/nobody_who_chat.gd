@@ -24,6 +24,9 @@ func generate_action() -> void:
 	var current_area: StoryArea = area_list.get_random_area()
 	if not current_area:
 		return
+	if current_area.is_at_capacity():
+		can_generate = true
+		return
 	start_worker()
 	print_debug("generating action for area " + current_area.get_name())
 	sampler.seed = randi()  # Set seed to a random integer

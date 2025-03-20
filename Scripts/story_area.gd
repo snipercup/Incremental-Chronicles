@@ -13,6 +13,8 @@ var name: String = "" : set = set_name, get = get_name
 var description: String = "" : set = set_description, get = get_description
 var system_prompt: String = "you are a story writing assistant" : set = set_system_prompt, get = get_system_prompt
 var say: String = "generate an area in the area" : set = set_say, get = get_say
+# Constant for the maximum number of story actions
+const MAX_STORY_ACTIONS: int = 10
 # Signal to emit when a new action is added
 signal action_added(myarea: StoryArea)
 
@@ -91,6 +93,12 @@ func get_properties() -> Dictionary:
 # Function to parse a JSON string and add a StoryAction
 func add_story_action_from_json(json_string: String) -> void:
 	print_debug("adding a story action from json")
+
+	# Ensure we don't exceed the maximum number of actions
+	if story_actions.size() >= MAX_STORY_ACTIONS:
+		print_debug("Cannot add story action — maximum limit reached (%d)" % MAX_STORY_ACTIONS)
+		return
+	
 	# Attempt to parse the JSON string
 	var data: Dictionary = JSON.parse_string(json_string) if json_string else {}
 	if data.is_empty():
@@ -106,10 +114,10 @@ func add_story_action_from_json(json_string: String) -> void:
 	new_action.set_story_points(1)  # Default to 1 story point or customize based on data
 	new_action.area = self
 	
-	# Add the new action to the list and update
+	# Add the new action to the list
 	story_actions.append(new_action)
+
 	# Emit the signal after adding the action
-	
 	print_debug("emitting action_added")
 	action_added.emit(self)
 
@@ -120,3 +128,7 @@ func remove_story_action(action: StoryAction) -> void:
 		print_debug("Removed story action:", action.get_story_text())
 	else:
 		print_debug("Action not found in list:", action.get_story_text())
+
+# Function to check if the story actions list is at capacity
+func is_at_capacity() -> bool:
+	return story_actions.size() >= MAX_STORY_ACTIONS
