@@ -1,5 +1,7 @@
 extends VBoxContainer
 
+# This script is used to display story actions
+
 @export var action_generator: NobodyWhoChat = null
 
 var can_generate: bool = true
@@ -9,7 +11,7 @@ signal action_completed(myaction: Dictionary)
 func _ready():
 	# Create a Timer node dynamically
 	var timer = Timer.new()
-	timer.wait_time = 10.0  # 1 second interval
+	timer.wait_time = 5.0  # 5 second interval
 	timer.autostart = true
 	timer.timeout.connect(_on_timer_timeout)  # Connect the signal to the callback function
 	add_child(timer)  # Add the Timer as a child of this node
