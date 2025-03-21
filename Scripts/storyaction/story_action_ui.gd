@@ -4,22 +4,25 @@ extends PanelContainer
 # This script is used to update the ui for a StoryAction
 # This script will signal when the user presses the action_button
 
-@export var story_point_label: Label = null
-@export var stars_label: Label = null
+#Example json:
+#{
+	# "requirements": {
+		#"Story Point": 1,
+		#"Persistence": 1
+	#},
+	#"rewards": {
+		#"Story Point": 1
+	#},
+	#"story_text": "Pick wildflowers."
+#}
+
 @export var action_button: Button = null
+@export var rewards_requirements: VBoxContainer = null
+
 var story_action: StoryAction
 
 # Signal to emit when the action button is pressed
 signal action_pressed(control: Control)
-
-# Setters for controls and variables
-func set_story_point_label(value: String) -> void:
-	if story_point_label:
-		story_point_label.text = value
-
-func set_stars_label(value: String) -> void:
-	if stars_label:
-		stars_label.text = value
 
 func set_action_button_text(value: String) -> void:
 	if action_button:
@@ -29,22 +32,7 @@ func set_action_button_text(value: String) -> void:
 func set_story_action(value: StoryAction) -> void:
 	story_action = value
 	if story_action:
-		# Get values from story action
-		var requirement = story_action.get_story_point_requirement()
-		var points = story_action.get_story_points()
-
-		# Build the label text based on values
-		var label_text = []
-		if requirement > 0:
-			label_text.append("Requires: %d" % requirement)
-		if points > 0:
-			label_text.append("Gives: %d" % points)
-		
-		# Join the parts together with a comma
-		set_story_point_label(", ".join(label_text))
-		
-		# Update stars and action button
-		set_stars_label("★".repeat(story_action.get_stars()))
+		rewards_requirements.set_story_action(story_action)
 		set_action_button_text(story_action.get_story_text())
 
 

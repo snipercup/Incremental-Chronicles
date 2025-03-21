@@ -1,8 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://hf574lotfqlr"]
+[gd_scene load_steps=3 format=3 uid="uid://hf574lotfqlr"]
 
-[ext_resource type="Script" uid="uid://tq7qmviup2im" path="res://Scripts/story_action_ui.gd" id="1_5urje"]
+[ext_resource type="Script" uid="uid://tq7qmviup2im" path="res://Scripts/storyaction/story_action_ui.gd" id="1_5urje"]
+[ext_resource type="PackedScene" uid="uid://d1amlgxg4qcs5" path="res://Scenes/rewards_requirements.tscn" id="2_e83s4"]
 
-[node name="StoryActionUI" type="PanelContainer" node_paths=PackedStringArray("action_button", "rewards_requirements_v_box_container")]
+[node name="StoryActionUI" type="PanelContainer" node_paths=PackedStringArray("action_button", "rewards_requirements")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -10,15 +11,13 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_5urje")
 action_button = NodePath("StatsContainer/ActionButton")
-rewards_requirements_v_box_container = NodePath("StatsContainer/RewardsRequirementsVBoxContainer")
+rewards_requirements = NodePath("StatsContainer/RewardsRequirements")
 
 [node name="StatsContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="RewardsRequirementsVBoxContainer" type="VBoxContainer" parent="StatsContainer"]
+[node name="RewardsRequirements" parent="StatsContainer" instance=ExtResource("2_e83s4")]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.2
 
 [node name="ActionButton" type="Button" parent="StatsContainer"]
 layout_mode = 2
