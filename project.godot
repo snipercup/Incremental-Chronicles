@@ -8,6 +8,13 @@
 
 config_version=5
 
+[SLib]
+
+FileLocations={
+"AreaFiles": "res://Resources",
+"Log": "user://App.log"
+}
+
 [application]
 
 config/name="Incremental-Chronicles"
