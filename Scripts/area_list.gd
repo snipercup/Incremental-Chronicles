@@ -97,14 +97,14 @@ Beyond the tunnel, a vast wilderness unfolds beneath the mountain’s shadow. Ro
 
 Actions:
 
-	Pick wildflowers from a patch of vibrant blue and red petals nearby.
-	Smell the air and take in the crisp scent of grass and wildflowers.
+	Pick wildflowers.
+	Smell the air.
 	Touch the rough bark of a nearby gnarled oak tree.
 	Observe small creatures darting through the tall grass.
-	Step ten paces east toward a faint trail winding into the distance.
-	Examine the weathered stone remnants for carvings or signs of ancient use.
-	Rest beneath the shade of the oak trees and listen to the sound of rustling grass.
-	Search for hidden objects or tracks in the tall grass.
+	Step ten paces east.
+	Examine the weathered stone remnants.
+	Rest beneath the shade of the oak trees.
+	Search for hidden objects or tracks.
 
 The ground beneath the grass is uneven, strewn with pebbles and patches of bare earth. A faint trail winds eastward through the plains, disappearing into the distant haze. The air is crisp and cool, inviting exploration. The plains seem quiet — but the signs of life are everywhere, waiting to be uncovered."
 	
