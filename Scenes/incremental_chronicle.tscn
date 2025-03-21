@@ -18,7 +18,7 @@ border_width_top = 5
 border_width_right = 15
 border_color = Color(0.386993, 0.214806, 0.254444, 1)
 
-[node name="IncrementalChronicle" type="Control" node_paths=PackedStringArray("area_list", "helper")]
+[node name="IncrementalChronicle" type="Control" node_paths=PackedStringArray("helper")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,7 +28,6 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_4denh")
-area_list = NodePath("MainWindow/AreasPanelContainer/AreasVBoxContainer/AreaList")
 helper = NodePath("Helper")
 
 [node name="Helper" type="Node" parent="." node_paths=PackedStringArray("area_list")]

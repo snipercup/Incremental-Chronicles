@@ -120,6 +120,7 @@ func _on_area_generated(area: String):
 func create_tunnel() -> void:
 	var tunnel_description = _load_tunnel_description()
 	var new_area = finalize_area("Tunnel", tunnel_description)
+	new_area.set_say("Generate the next action for the player to do. Keep it short, like 'pick leaf', 'touch grass'")
 	action_list.set_area(new_area)
 
 # Load tunnel description from external file or resource
