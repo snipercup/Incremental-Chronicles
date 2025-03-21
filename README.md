@@ -4,7 +4,8 @@
 
 ### **How to play:**  
 1. Download the project by pressing the **code** button at the top right
-5. Start the game by pressing **play** in the godot editor.
+2. Open the project in Godot
+3. Start the game by pressing **play** in the godot editor.
 
 
 
