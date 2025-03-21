@@ -30,6 +30,8 @@ func generate_action() -> void:
 		#print_debug("can_generate = true")
 		can_generate = true
 		return
+	sampler = STORY_ACTION_SAMPLER
+	sampler.seed = randi()  # Set seed to a random integer
 	start_worker()
 	sampler = STORY_ACTION_SAMPLER
 	sampler.seed = randi()  # Set seed to a random integer
