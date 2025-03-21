@@ -1,0 +1,56 @@
+{
+  "name": "Tunnel",
+  "description": "A weathered tunnel opens onto the side of a rugged mountain, its jagged stone mouth framed by dark, mossy rock. The tunnel’s interior is cold and quiet, with no sign of an entrance behind it — only smooth stone where a path should be.\n\nBeyond the tunnel, a vast wilderness unfolds beneath the mountain’s shadow. Rolling plains stretch endlessly toward the horizon, their golden grasses swaying beneath a steady breeze. The scent of wildflowers and fresh earth drifts through the air. Clusters of weathered stone rise from the earth, remnants of ancient ruins half-swallowed by time and nature.\n\nThe ground beneath the grass is uneven, strewn with pebbles and patches of bare earth. A faint trail winds eastward through the plains, disappearing into the distant haze. The air is crisp and cool, inviting exploration. The plains seem quiet — but the signs of life are everywhere, waiting to be uncovered.",
+  "tier": 1,
+  "story_point_requirement": 100,
+  "story_actions": [
+	{
+	  "stars": 1,
+	  "story_point_requirement": 0,
+	  "story_points": 1,
+	  "story_text": "Pick wildflowers."
+	},
+	{
+	  "stars": 1,
+	  "story_point_requirement": 0,
+	  "story_points": 1,
+	  "story_text": "Smell the air."
+	},
+	{
+	  "stars": 1,
+	  "story_point_requirement": 0,
+	  "story_points": 1,
+	  "story_text": "Touch the rough bark of a nearby gnarled oak tree."
+	},
+	{
+	  "stars": 1,
+	  "story_point_requirement": 0,
+	  "story_points": 1,
+	  "story_text": "Observe small creatures darting through the tall grass."
+	},
+	{
+	  "stars": 1,
+	  "story_point_requirement": 0,
+	  "story_points": 1,
+	  "story_text": "Step ten paces east."
+	},
+	{
+	  "stars": 1,
+	  "story_point_requirement": 0,
+	  "story_points": 1,
+	  "story_text": "Examine the weathered stone remnants."
+	},
+	{
+	  "stars": 1,
+	  "story_point_requirement": 0,
+	  "story_points": 1,
+	  "story_text": "Rest beneath the shade of the oak trees."
+	},
+	{
+	  "stars": 1,
+	  "story_point_requirement": 0,
+	  "story_points": 1,
+	  "story_text": "Search for hidden objects or tracks."
+	}
+  ]
+}

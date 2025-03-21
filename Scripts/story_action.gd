@@ -6,7 +6,6 @@ var stars: int = 1 : set = set_stars, get = get_stars
 var story_point_requirement: int = 0 : set = set_story_point_requirement, get = get_story_point_requirement
 var story_points: int = 1 : set = set_story_points, get = get_story_points
 var story_text: String = "" : set = set_story_text, get = get_story_text
-var say: String = "return exactly one action" : set = set_say, get = get_say
 var area: StoryArea
 
 # Setters and Getters
@@ -45,18 +44,11 @@ func get_system_prompt() -> String:
 		   "The action should feel natural, varied, and influenced by the location, its landmarks, and its inhabitants."
 
 
-func set_say(value: String) -> void:
-	say = value
-
-func get_say() -> String:
-	return say
-
 # Function to return all properties as a dictionary
 func get_properties() -> Dictionary:
 	return {
 		"stars": stars,
 		"story_point_requirement": story_point_requirement,
 		"story_points": story_points,
-		"story_text": story_text,
-		"say": say
+		"story_text": story_text
 	}
