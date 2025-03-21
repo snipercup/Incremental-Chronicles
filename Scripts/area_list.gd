@@ -9,10 +9,8 @@ extends VBoxContainer
 @export var story_points_label: Label = null
 @export var nobody_who_chat: NobodyWhoChat = null
 
-
 var area_list: Array[StoryArea] # The data for each area
-# Signal to emit when an area is created
-signal area_created(area: StoryArea)
+signal area_created(area: StoryArea) # Signal to emit when an area is created
 
 func _ready():
 	nobody_who_chat.area_generated.connect(_on_area_generated)
@@ -29,18 +27,19 @@ func _refresh_area_list() -> void:
 	for child in get_children():
 		child.queue_free()
 
-	# Create a new instance for each StoryArea
+	# Create UI instances for each StoryArea
 	for area in area_list:
-		if story_area_ui_scene:
-			var area_ui = story_area_ui_scene.instantiate()
-			# Set the story_area property if it exists
-			if area_ui.has_method("set_story_area"):
-				area_ui.set_story_area(area)
-			
-			# Connect to the area_pressed signal
-			if area_ui.has_signal("area_pressed"):
-				area_ui.area_pressed.connect(_on_area_pressed)
-			add_child(area_ui)
+		_add_area_to_ui(area)
+
+# Add a StoryArea to the UI
+func _add_area_to_ui(area: StoryArea) -> void:
+	if story_area_ui_scene:
+		var area_ui = story_area_ui_scene.instantiate()
+		if area_ui.has_method("set_story_area"):
+			area_ui.set_story_area(area)
+		if area_ui.has_signal("area_pressed"):
+			area_ui.area_pressed.connect(_on_area_pressed)
+		add_child(area_ui)
 
 # Handle area pressed signal
 func _on_area_pressed(control: Control) -> void:
@@ -88,27 +87,14 @@ func _on_area_generated(area: String):
 	finalize_area(myname, mydescription)
 
 
-# Create the starting area
-func create_tunnel():
-	#print_debug("creating tunnel")
-	var mydescription: String = "A weathered tunnel opens onto the side of a rugged mountain, its jagged stone mouth framed by dark, mossy rock. The tunnel’s interior is cold and quiet, with no sign of an entrance behind it — only smooth stone where a path should be.
+# Create a starting tunnel area (moved to a separate function)
+func create_tunnel() -> void:
+	var tunnel_description = _load_tunnel_description()
+	var new_area = finalize_area("Tunnel", tunnel_description)
+	new_area.set_say("Generate the next action for the player to do. Keep it short, like 'pick leaf', 'touch grass'")
+	action_list.set_area(new_area)
 
-Beyond the tunnel, a vast wilderness unfolds beneath the mountain’s shadow. Rolling plains stretch endlessly toward the horizon, their golden grasses swaying beneath a steady breeze. The scent of wildflowers and fresh earth drifts through the air. Clusters of weathered stone rise from the earth, remnants of ancient ruins half-swallowed by time and nature.
-
-Actions:
-
-	Pick wildflowers.
-	Smell the air.
-	Touch the rough bark of a nearby gnarled oak tree.
-	Observe small creatures darting through the tall grass.
-	Step ten paces east.
-	Examine the weathered stone remnants.
-	Rest beneath the shade of the oak trees.
-	Search for hidden objects or tracks.
-
-The ground beneath the grass is uneven, strewn with pebbles and patches of bare earth. A faint trail winds eastward through the plains, disappearing into the distant haze. The air is crisp and cool, inviting exploration. The plains seem quiet — but the signs of life are everywhere, waiting to be uncovered."
-	
-	var myarea: StoryArea = finalize_area("Tunnel", mydescription)
-	myarea.set_say("Generate the next action for the player to do. Keep it short, like 'pick leaf', 'touch grass'")
-	# Finalize the area creation
-	action_list.set_area(myarea)
+# Load tunnel description from external file or resource
+func _load_tunnel_description() -> String:
+	var file = FileAccess.open("res://Resources/tunnel_description.txt", FileAccess.READ)
+	return file.get_as_text() if file else "Tunnel description not found."
