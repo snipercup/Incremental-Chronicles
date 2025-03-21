@@ -11,3 +11,6 @@ func perform_action() -> void:
 	else:
 		print("Action complete: %s" % story_text)
 		current_step = 0
+
+func get_icon() -> String:
+	return "🪜"

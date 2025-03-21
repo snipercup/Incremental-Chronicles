@@ -9,3 +9,6 @@ func perform_action() -> void:
 		print("You found: %s" % discovered_item)
 	else:
 		print("You searched, but found nothing.")
+
+func get_icon() -> String:
+	return "🕵️"

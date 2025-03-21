@@ -10,3 +10,6 @@ func perform_action() -> void:
 		story_points += reward
 	else:
 		print("Salvage failed. Found nothing.")
+
+func get_icon() -> String:
+	return "🛠️"

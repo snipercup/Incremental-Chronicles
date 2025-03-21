@@ -8,3 +8,6 @@ func perform_action() -> void:
 		print("Exploration successful: %s" % story_text)
 	else:
 		print("Nothing discovered... %s" % story_text)
+
+func get_icon() -> String:
+	return "🧭"

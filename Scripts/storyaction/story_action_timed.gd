@@ -18,3 +18,6 @@ func perform_action() -> void:
 
 func _on_timeout() -> void:
 	print("Failed to complete action in time: %s" % story_text)
+
+func get_icon() -> String:
+	return "⏳"

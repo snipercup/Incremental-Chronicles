@@ -10,3 +10,6 @@ func perform_action() -> void:
 # Optionally increase or decrease reward per loop
 func get_story_points() -> int:
 	return story_points + loop_count
+
+func get_icon() -> String:
+	return "🔁"

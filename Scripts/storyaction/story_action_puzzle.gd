@@ -12,3 +12,6 @@ func perform_action(player_input: String) -> void:
 		print("Incorrect! Attempts left: %d" % attempts)
 		if attempts <= 0:
 			print("Puzzle failed...")
+
+func get_icon() -> String:
+	return "🧩"
