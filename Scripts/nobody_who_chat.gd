@@ -28,15 +28,11 @@ func generate_action() -> void:
 		can_generate = true
 		return
 	start_worker()
-	print_debug("generating action for area " + current_area.get_name())
 	sampler.seed = randi()  # Set seed to a random integer
 	system_prompt = current_area.get_system_prompt()
-	print_debug("system_prompt has been set to " + system_prompt)
-	print_debug("Using get_say:  " + current_area.get_say())
 	say(current_area.get_say()) # say something
 	# wait for the response
 	var response = await response_finished
-	print_debug("Got action response: " + response)
 	current_area.add_story_action_from_json(response)
 	action_generated.emit(response)
 	can_generate = true
@@ -76,4 +72,3 @@ func _on_timer_timeout():
 		return
 	generate_action()
 	can_generate = false
-	print_debug("Started generation of an action")

@@ -91,23 +91,24 @@ func _on_area_generated(area: String):
 # Create the starting area
 func create_tunnel():
 	#print_debug("creating tunnel")
-	var mydescription: String = "You awaken on the cold, uneven stone floor of a dimly lit tunnel.  " +\
-		   "The air is damp and heavy, carrying the faint scent of moss and earth. Jagged rock  " +\
-		   "walls stretch upward, disappearing into darkness above. The tunnel is eerily quiet,  " +\
-		   "save for the distant sound of wind echoing through unseen cracks in the stone. " +\
-		   "Behind you, the tunnel’s depths fade into shadow — but no entrance is visible.  " +\
-		   "No path back. Just smooth, unyielding rock where an entrance should be. How did  " +\
-		   "you get here? Your mind offers no answers. Ahead, pale light spills in from a  " +\
-		   "rough opening at the end of the tunnel. The mouth of the tunnel leads to the  " +\
-		   "side of a mountain, overlooking a vast, open wilderness. A cold breeze cuts  " +\
-		   "through the stale air as you step toward the exit. Below, the rolling expanse of  " +\
-		   "plains stretches to the horizon — patches of tall grass sway gently, broken only by  " +\
-		   "scattered clusters of trees and the occasional dark silhouette of distant ruins. " +\
-		   "As you take a hesitant step into the light, the weight of the unknown presses on  " +\
-		   "your chest. The tunnel behind you remains silent and still. Whatever lies ahead,  " +\
-		   "it is the only way forward."
+	var mydescription: String = "A weathered tunnel opens onto the side of a rugged mountain, its jagged stone mouth framed by dark, mossy rock. The tunnel’s interior is cold and quiet, with no sign of an entrance behind it — only smooth stone where a path should be.
+
+Beyond the tunnel, a vast wilderness unfolds beneath the mountain’s shadow. Rolling plains stretch endlessly toward the horizon, their golden grasses swaying beneath a steady breeze. The scent of wildflowers and fresh earth drifts through the air. Clusters of weathered stone rise from the earth, remnants of ancient ruins half-swallowed by time and nature.
+
+Actions:
+
+	Pick wildflowers from a patch of vibrant blue and red petals nearby.
+	Smell the air and take in the crisp scent of grass and wildflowers.
+	Touch the rough bark of a nearby gnarled oak tree.
+	Observe small creatures darting through the tall grass.
+	Step ten paces east toward a faint trail winding into the distance.
+	Examine the weathered stone remnants for carvings or signs of ancient use.
+	Rest beneath the shade of the oak trees and listen to the sound of rustling grass.
+	Search for hidden objects or tracks in the tall grass.
+
+The ground beneath the grass is uneven, strewn with pebbles and patches of bare earth. A faint trail winds eastward through the plains, disappearing into the distant haze. The air is crisp and cool, inviting exploration. The plains seem quiet — but the signs of life are everywhere, waiting to be uncovered."
 	
 	var myarea: StoryArea = finalize_area("Tunnel", mydescription)
-	myarea.set_say("generate the next action for the player to do as he finds himself in the open wilderness")
+	myarea.set_say("Generate the next action for the player to do. Keep it short, like 'pick leaf', 'touch grass'")
 	# Finalize the area creation
 	action_list.set_area(myarea)
