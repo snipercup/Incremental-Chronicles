@@ -53,9 +53,9 @@ func create_area() -> void:
 	nobody_who_chat.generate_area()
 
 # Finalize the creation of an area and add it to the list
-func finalize_area(name: String, description: String) -> StoryArea:
-	var new_area = _create_story_area(name, description)
-	print_debug("Adding new area: %s" % name)
+func finalize_area(myname: String, description: String) -> StoryArea:
+	var new_area = _create_story_area(myname, description)
+	print_debug("Adding new area: %s" % myname)
 	area_list.append(new_area)
 	_refresh_area_list()
 
@@ -70,13 +70,16 @@ func _calculate_tier() -> int:
 	return 1
 
 # Create a StoryArea instance
-func _create_story_area(name: String, description: String) -> StoryArea:
+func _create_story_area(myname: String, description: String) -> StoryArea:
 	var tier: int = _calculate_tier()
 	var new_area = StoryArea.new()
-	new_area.set_name(name)
+	new_area.set_name(myname)
 	new_area.set_description(description)
 	new_area.set_tier(tier)
-	new_area.set_story_point_requirement(0)
+	
+	# Increment story point requirement based on the number of existing areas
+	var requirement = area_list.size() * 100
+	new_area.set_story_point_requirement(requirement)
 	return new_area
 
 func _on_area_generated(area: String):
@@ -103,3 +106,13 @@ func create_tunnel() -> void:
 func _load_tunnel_description() -> String:
 	var file = FileAccess.open("res://Resources/tunnel_description.txt", FileAccess.READ)
 	return file.get_as_text() if file else "Tunnel description not found."
+
+
+# Function to check if a new area needs to be created
+func needs_new_area() -> bool:
+	# If any area is locked, no need to create a new area
+	for area in area_list:
+		if area.get_state() == StoryArea.State.LOCKED:
+			return false
+	# If no area is locked, a new area needs to be created
+	return true
