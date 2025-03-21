@@ -1,12 +1,28 @@
 class_name StoryAction
 extends RefCounted
 
+# Example action json:
+#{
+  #"stars": 1,
+  #"story_point_requirement": 0,
+  #"story_points": 1,
+  #"story_text": "Smell the air."
+#}
+
 # Properties with default values
 var stars: int = 1 : set = set_stars, get = get_stars
 var story_point_requirement: int = 0 : set = set_story_point_requirement, get = get_story_point_requirement
 var story_points: int = 1 : set = set_story_points, get = get_story_points
 var story_text: String = "" : set = set_story_text, get = get_story_text
 var area: StoryArea
+
+
+# Initialize from a dictionary
+func _init(data: Dictionary = {}) -> void:
+	set_stars(data.get("stars", 1))
+	set_story_point_requirement(data.get("story_point_requirement", 0))
+	set_story_points(data.get("story_points", 1))
+	set_story_text(data.get("story_text", ""))
 
 # Setters and Getters
 func set_stars(value: int) -> void:

@@ -1,6 +1,30 @@
 class_name StoryArea
 extends RefCounted
 
+# Example story area json:
+#{
+	#"name": "Tunnel",
+	#"description": "A weathered tunnel opens onto the side of a rugged mountain, its jagged stone mouth framed by dark, mossy rock. The tunnel’s interior is cold and quiet, with no sign of an entrance behind it — only smooth stone where a path should be.\n\nBeyond the tunnel, a vast wilderness unfolds beneath the mountain’s shadow. Rolling plains stretch endlessly toward the horizon, their golden grasses swaying beneath a steady breeze. The scent of wildflowers and fresh earth drifts through the air. Clusters of weathered stone rise from the earth, remnants of ancient ruins half-swallowed by time and nature.\n\nThe ground beneath the grass is uneven, strewn with pebbles and patches of bare earth. A faint trail winds eastward through the plains, disappearing into the distant haze. The air is crisp and cool, inviting exploration. The plains seem quiet — but the signs of life are everywhere, waiting to be uncovered.",
+	#"tier": 1,
+	#"story_point_requirement": 100,
+	 #"story_actions": [
+		#{
+		  #"stars": 1,
+		  #"story_point_requirement": 0,
+		  #"story_points": 1,
+		  #"story_text": "Pick wildflowers."
+		#},
+		#{
+		  #"stars": 1,
+		  #"story_point_requirement": 0,
+		  #"story_points": 1,
+		  #"story_text": "Smell the air."
+		#}
+	#]
+#}
+
+
+
 # Enums for state
 enum State { LOCKED, UNLOCKED }
 
@@ -14,6 +38,23 @@ var description: String = "" : set = set_description, get = get_description
 # Signal to emit when a new action is added
 signal action_added(myarea: StoryArea)
 signal unlocked(myarea: StoryArea)
+
+
+# Initialize from a dictionary
+func _init(data: Dictionary = {}) -> void:
+	set_name(data.get("name", ""))
+	set_description(data.get("description", ""))
+	set_tier(data.get("tier", 1))
+	set_story_point_requirement(data.get("story_point_requirement", 100))
+	
+	# Initialize story actions if present
+	if data.has("story_actions"):
+		var actions_data = data["story_actions"]
+		for action_data in actions_data:
+			var new_action = StoryAction.new(action_data)
+			new_action.area = self
+			story_actions.append(new_action)
+
 
 # Setters and Getters
 func set_story_actions(value: Array[StoryAction]) -> void:
