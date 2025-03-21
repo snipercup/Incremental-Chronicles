@@ -25,6 +25,7 @@ func generate_action() -> void:
 	if not current_area:
 		return
 	if current_area.is_at_capacity():
+		#print_debug("can_generate = true")
 		can_generate = true
 		return
 	start_worker()
@@ -35,11 +36,12 @@ func generate_action() -> void:
 	var response = await response_finished
 	current_area.add_story_action_from_json(response)
 	action_generated.emit(response)
+	#print_debug("can_generate = true")
 	can_generate = true
 
 
 func generate_area() -> void:
-	print_debug("generating area")
+	#print_debug("generating area")
 	start_worker()
 	#var current_area: StoryArea = area_list.get_random_area()
 	sampler.seed = randi()  # Set seed to a random integer
@@ -62,13 +64,15 @@ func generate_area() -> void:
 
 	# wait for the response
 	var response = await response_finished
-	print_debug("Got area response: " + response)
+	#print_debug("Got area response: " + response)
 	area_generated.emit(response)
 
 
 # Called every second when the Timer times out
 func _on_timer_timeout():
 	if not can_generate:
+		print_debug("can not generate, returning")
 		return
-	generate_action()
+	#print_debug("can_generate = false")
 	can_generate = false
+	generate_action()

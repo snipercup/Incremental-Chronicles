@@ -94,7 +94,7 @@ size_flags_stretch_ratio = 0.2
 layout_mode = 2
 text = "Story points: 0/100"
 script = ExtResource("3_67ln1")
-action_list = NodePath("../../ActionsPanelContainer/ActionsVBoxContainer/ActionList")
+action_list = NodePath("../../ActionsPanelContainer/ActionsVBoxContainer/ScrollContainer/ActionList")
 
 [node name="ReincarnateButton" type="Button" parent="MainWindow/PlayerStats"]
 layout_mode = 2
@@ -121,7 +121,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
 script = ExtResource("4_73alp")
-action_list = NodePath("../../../ActionsPanelContainer/ActionsVBoxContainer/ActionList")
+action_list = NodePath("../../../ActionsPanelContainer/ActionsVBoxContainer/ScrollContainer/ActionList")
 story_area_ui_scene = ExtResource("5_miw6j")
 story_points_label = NodePath("../../../PlayerStats/StoryPointsLabel")
 nobody_who_chat = NodePath("../../../../LLM/NobodyWhoChat")
@@ -139,8 +139,13 @@ layout_mode = 2
 text = "Actions:"
 horizontal_alignment = 1
 
-[node name="ActionList" type="VBoxContainer" parent="MainWindow/ActionsPanelContainer/ActionsVBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MainWindow/ActionsPanelContainer/ActionsVBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ActionList" type="VBoxContainer" parent="MainWindow/ActionsPanelContainer/ActionsVBoxContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("4_67ln1")
 story_action_ui = ExtResource("7_3uyo8")
