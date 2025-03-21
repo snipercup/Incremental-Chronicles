@@ -5,6 +5,7 @@ extends NobodyWhoChat
 
 @export var area_list: VBoxContainer = null
 const STORY_ACTION_SAMPLER = preload("res://Resources/story_action_sampler.tres")
+const STORY_AREA_SAMPLER = preload("res://Resources/story_area_sampler.tres")
 
 signal action_generated(action: String)
 signal area_generated(area: String)
@@ -18,7 +19,7 @@ func _ready():
 	timer.timeout.connect(_on_timer_timeout)  # Connect the signal to the callback function
 	add_child(timer)  # Add the Timer as a child of this node
 	#print_debug("timer started")
-	start_worker()
+	#start_worker()
 
 
 func generate_action() -> void:
@@ -44,8 +45,11 @@ func generate_action() -> void:
 
 func generate_area() -> void:
 	#print_debug("generating area")
-	start_worker()
 	#var current_area: StoryArea = area_list.get_random_area()
+	sampler = STORY_AREA_SAMPLER
+	sampler.seed = randi()  # Set seed to a random integer
+	start_worker()
+	sampler = STORY_AREA_SAMPLER
 	sampler.seed = randi()  # Set seed to a random integer
 	var myprompt: String = "You are an expert at creating immersive and detailed locations for a medieval fantasy game called *Incremental Chronicles*. Your task is to design a new area for this game. The world of *Incremental Chronicles* is rich with magic, ancient ruins, mysterious forces, and diverse inhabitants. The setting is grounded in medieval culture with a blend of high fantasy elements.**"
 	myprompt += "**Create a name and a detailed description for the new area. The area can be a village, forest, ruins, cave, mountain, or similar location. Include the following details:**"
@@ -66,7 +70,7 @@ func generate_area() -> void:
 
 	# wait for the response
 	var response = await response_finished
-	#print_debug("Got area response: " + response)
+	print_debug("Got area response: " + response)
 	area_generated.emit(response)
 
 

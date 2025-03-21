@@ -1,7 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://c1t2j0vipmnu6"]
+[gd_scene load_steps=10 format=3 uid="uid://c1t2j0vipmnu6"]
 
 [ext_resource type="Script" uid="uid://cvcr36wahxv8u" path="res://Scripts/incremental_chronicle.gd" id="1_4denh"]
-[ext_resource type="NobodyWhoSampler" uid="uid://djcekom8vka8y" path="res://Resources/story_action_sampler.tres" id="2_onqyn"]
 [ext_resource type="Script" uid="uid://cgfd5l1hpfvn" path="res://Scripts/story_points_label.gd" id="3_67ln1"]
 [ext_resource type="Script" uid="uid://qqhvylrnpjep" path="res://Scripts/nobody_who_chat.gd" id="3_rorxs"]
 [ext_resource type="Script" uid="uid://d1354ddbnb5hl" path="res://Scripts/action_list_ui.gd" id="4_67ln1"]
@@ -38,7 +37,6 @@ model_path = "/home/user/.local/share/godot/app_userdata/Incremental-Chronicles/
 
 [node name="NobodyWhoChat" type="NobodyWhoChat" parent="LLM" node_paths=PackedStringArray("model_node", "area_list")]
 model_node = NodePath("../NobodyWhoModel")
-sampler = ExtResource("2_onqyn")
 system_prompt = "You are a story writing assistant. Your job is to create short messages (up to 20 words). Each message should describe a creative and engaging action or dialogue that reflects the atmosphere and activity of the following setting: [insert area description]. The action or dialogue should feel natural, varied, and influenced by the location, its landmarks, and its inhabitants."
 script = ExtResource("3_rorxs")
 area_list = NodePath("../../MainWindow/AreasPanelContainer/AreasVBoxContainer/AreaList")
