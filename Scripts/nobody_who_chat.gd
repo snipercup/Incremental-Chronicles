@@ -59,6 +59,7 @@ func _get_current_area() -> StoryArea:
 func generate_area() -> void:
 	sampler = STORY_AREA_SAMPLER
 	sampler.seed = randi()  # Set seed to a random integer
+	system_prompt = _build_area_prompt()
 	start_worker()
 	sampler = STORY_AREA_SAMPLER
 	sampler.seed = randi()  # Set seed to a random integer

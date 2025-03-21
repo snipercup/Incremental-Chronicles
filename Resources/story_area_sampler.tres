@@ -2,9 +2,11 @@
 
 [resource]
 use_grammar = true
-gbnf_grammar = "root ::= \"{\" ws01 root-name \",\" ws01 root-description \"}\" ws01
+gbnf_grammar = "root ::= \"{\" ws01 root-name \",\" ws01 root-description \",\" ws01 root-actions \"}\" ws01
 root-name ::= \"\\\"name\\\"\" \":\" ws01 string
 root-description ::= \"\\\"description\\\"\" \":\" ws01 string
+root-actions ::= \"\\\"actions\\\"\" \":\" ws01 \"[\" ws01 root-actions-items \",\" ws01 root-actions-items \",\" ws01 root-actions-items \",\" ws01 root-actions-items \",\" ws01 root-actions-items \",\" ws01 root-actions-items (\",\" ws01 root-actions-items)? (\",\" ws01 root-actions-items)? (\",\" ws01 root-actions-items)? (\",\" ws01 root-actions-items)? ws01 \"]\"
+root-actions-items ::= string
 
 
 value  ::= (object | array | string | number | boolean | null) ws

@@ -96,7 +96,7 @@ func _create_story_area(myname: String, description: String) -> StoryArea:
 	new_area.set_tier(tier)
 	
 	# Increment story point requirement based on the number of existing areas
-	var requirement = area_list.size() * 100
+	var requirement = area_list.size() * 10#0
 	new_area.set_story_point_requirement(requirement)
 	return new_area
 
@@ -108,10 +108,19 @@ func _on_area_generated(area: String):
 		print("Failed to parse area data from string:", area)
 		return
 	
-	# Extract name and description from the dictionary
+	# Extract name, description, and actions from the dictionary
 	var myname: String = area_data.get("name", "missing name")
 	var mydescription: String = area_data.get("description", "missing description")
-	finalize_area(myname, mydescription) # Finalize the area creation
+	var actions: Array = area_data.get("actions", [])
+
+	# Format actions into a readable list
+	if actions.size() > 0:
+		mydescription += "\n\nActions:\n"
+		for action in actions:
+			mydescription += "\t" + action + "\n"
+
+	# Finalize area creation with name and description
+	finalize_area(myname, mydescription)
 
 
 # Create a starting tunnel area (moved to a separate function)
