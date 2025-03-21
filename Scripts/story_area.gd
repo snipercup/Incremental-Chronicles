@@ -170,6 +170,14 @@ func unlock_with_story_points(points: int) -> int:
 	return -1
 
 
+#Example data:
+#{
+	#"stars": 1,
+	#"story_point_requirement": 0,
+	#"story_points": 1,
+	#"story_text": "Pick wildflowers.",
+	#"action_type": "salvage"
+#}
 func create_action(data: Dictionary) -> StoryAction:
 	var action_type = data.get("action_type", "free").to_lower()
 

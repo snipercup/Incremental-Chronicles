@@ -1,6 +1,14 @@
 class_name StoryAction
 extends RefCounted
 
+#Example json:
+#{
+  #"stars": 1,
+  #"story_point_requirement": 0,
+  #"story_points": 1,
+  #"story_text": "Pick wildflowers."
+#}
+
 # Properties with default values
 var stars: int = 1 : set = set_stars, get = get_stars
 var story_point_requirement: int = 0 : set = set_story_point_requirement, get = get_story_point_requirement
