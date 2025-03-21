@@ -8,9 +8,20 @@
 
 config_version=5
 
+[SLib]
+
+FileLocations={
+"AreaFiles": "res://Resources",
+"Log": "user://App.log"
+}
+
 [application]
 
 config/name="Incremental-Chronicles"
 run/main_scene="uid://dr51pb66vyw37"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
+
+[editor_plugins]
+
+enabled=PackedStringArray()

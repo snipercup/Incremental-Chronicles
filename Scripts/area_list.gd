@@ -7,13 +7,10 @@ extends VBoxContainer
 @export var action_list: VBoxContainer = null
 @export var story_area_ui_scene: PackedScene = null
 @export var story_points_label: Label = null
-@export var nobody_who_chat: NobodyWhoChat = null
 
 var area_list: Array[StoryArea] # The data for each area
 signal area_created(area: StoryArea) # Signal to emit when an area is created
 
-func _ready():
-	nobody_who_chat.area_generated.connect(_on_area_generated)
 	
 # Setter for area_list
 func set_area_list(value: Array[StoryArea]) -> void:
@@ -67,10 +64,6 @@ func get_random_area() -> StoryArea:
 	
 	return null  # Return null if no unlocked areas are available
 
-
-# Generate area and wait for the signal in _on_area_generated
-func create_area() -> void:
-	nobody_who_chat.generate_area()
 
 # Finalize the creation of an area and add it to the list
 func finalize_area(myname: String, description: String) -> StoryArea:
@@ -127,7 +120,6 @@ func _on_area_generated(area: String):
 func create_tunnel() -> void:
 	var tunnel_description = _load_tunnel_description()
 	var new_area = finalize_area("Tunnel", tunnel_description)
-	new_area.set_say("Generate the next action for the player to do. Keep it short, like 'pick leaf', 'touch grass'")
 	action_list.set_area(new_area)
 
 # Load tunnel description from external file or resource
