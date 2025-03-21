@@ -3,45 +3,46 @@ extends RefCounted
 
 #Example json:
 #{
-  #"stars": 1,
-  #"story_point_requirement": 0,
-  #"story_points": 1,
-  #"story_text": "Pick wildflowers."
+	# "requirements": {
+		#"Story Point": 1,
+		#"Persistence": 1
+	#},
+	#"rewards": {
+		#"Story Point": 1
+	#},
+	#"story_text": "Pick wildflowers."
 #}
 
 # Properties with default values
-var stars: int = 1 : set = set_stars, get = get_stars
-var story_point_requirement: int = 0 : set = set_story_point_requirement, get = get_story_point_requirement
-var story_points: int = 1 : set = set_story_points, get = get_story_points
+var rewards: Dictionary = {} : set = set_rewards, get = get_rewards
 var story_text: String = "" : set = set_story_text, get = get_story_text
-var say: String = "return exactly one action" : set = set_say, get = get_say
+var requirements: Dictionary = {} : set = set_requirements, get = get_requirements
 var area: StoryArea
 
 # Initialize from a dictionary
 func _init(data: Dictionary = {}) -> void:
-	set_stars(data.get("stars", 1))
-	set_story_point_requirement(data.get("story_point_requirement", 0))
-	set_story_points(data.get("story_points", 1))
 	set_story_text(data.get("story_text", ""))
-	
-# Setters and Getters
-func set_stars(value: int) -> void:
-	stars = clamp(value, 1, 5)  # Ensure stars are between 1 and 5
+	set_requirements(data.get("requirements", {}))
+	set_rewards(data.get("rewards", {}))
 
-func get_stars() -> int:
-	return stars
 
-func set_story_point_requirement(value: int) -> void:
-	story_point_requirement = max(value, 0)  # Ensure non-negative
+# Setter for requirements (ensure valid data)
+func set_requirements(value: Dictionary) -> void:
+	requirements = value.duplicate(true)
 
-func get_story_point_requirement() -> int:
-	return story_point_requirement
+# Getter for requirements
+func get_requirements() -> Dictionary:
+	return requirements
 
-func set_story_points(value: int) -> void:
-	story_points = max(value, 0)  # Ensure non-negative
 
-func get_story_points() -> int:
-	return story_points
+# Setter for rewards (ensure valid data)
+func set_rewards(value: Dictionary) -> void:
+	rewards = value.duplicate(true)
+
+# Getter for rewards
+func get_rewards() -> Dictionary:
+	return rewards
+
 
 func set_story_text(value: String) -> void:
 	story_text = value
@@ -49,18 +50,23 @@ func set_story_text(value: String) -> void:
 func get_story_text() -> String:
 	return story_text
 
-func set_say(value: String) -> void:
-	say = value
-
-func get_say() -> String:
-	return say
-
 # Function to return all properties as a dictionary
 func get_properties() -> Dictionary:
 	return {
-		"stars": stars,
-		"story_point_requirement": story_point_requirement,
-		"story_points": story_points,
 		"story_text": story_text,
-		"say": say
+		"requirements": requirements,
+		"rewards": rewards
 	}
+
+# Check if the player meets all the action's requirements
+func can_perform_action(resources: Dictionary) -> bool:
+	for key in requirements.keys():
+		if resources.get(key, 0) < requirements[key]:
+			return false
+	return true
+
+# Apply the action's rewards to the player's resources
+#func apply_rewards(player_resources: Dictionary) -> Dictionary:
+	#for key in rewards.keys():
+		#player_resources[key] = player_resources.get(key, 0) + rewards[key]
+	#return player_resources

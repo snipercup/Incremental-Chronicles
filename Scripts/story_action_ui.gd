@@ -4,22 +4,26 @@ extends PanelContainer
 # This script is used to update the ui for a StoryAction
 # This script will signal when the user presses the action_button
 
-@export var story_point_label: Label = null
-@export var stars_label: Label = null
+#Example json:
+#{
+	# "requirements": {
+		#"Story Point": 1,
+		#"Persistence": 1
+	#},
+	#"rewards": {
+		#"Story Point": 1
+	#},
+	#"story_text": "Pick wildflowers."
+#}
+
 @export var action_button: Button = null
+@export var rewards_requirements_v_box_container: VBoxContainer = null
+
+
 var story_action: StoryAction
 
 # Signal to emit when the action button is pressed
 signal action_pressed(control: Control)
-
-# Setters for controls and variables
-func set_story_point_label(value: String) -> void:
-	if story_point_label:
-		story_point_label.text = value
-
-func set_stars_label(value: String) -> void:
-	if stars_label:
-		stars_label.text = value
 
 func set_action_button_text(value: String) -> void:
 	if action_button:
@@ -29,22 +33,7 @@ func set_action_button_text(value: String) -> void:
 func set_story_action(value: StoryAction) -> void:
 	story_action = value
 	if story_action:
-		# Get values from story action
-		var requirement = story_action.get_story_point_requirement()
-		var points = story_action.get_story_points()
-
-		# Build the label text based on values
-		var label_text = []
-		if requirement > 0:
-			label_text.append("Requires: %d" % requirement)
-		if points > 0:
-			label_text.append("Gives: %d" % points)
-		
-		# Join the parts together with a comma
-		set_story_point_label(", ".join(label_text))
-		
-		# Update stars and action button
-		set_stars_label("★".repeat(story_action.get_stars()))
+		_update_rewards_and_requirements()
 		set_action_button_text(story_action.get_story_text())
 
 
@@ -58,3 +47,33 @@ func _on_action_button_pressed() -> void:
 	action_pressed.emit(self)
 	# Free the control after emitting the signal
 	queue_free()
+
+# Update the rewards and requirements list in a single container
+func _update_rewards_and_requirements() -> void:
+	# Clear existing labels
+	for child in rewards_requirements_v_box_container.get_children():
+		child.queue_free()
+	
+	var requirements = story_action.get_requirements()
+	var rewards = story_action.get_rewards()
+
+	var has_content = false
+
+	# Create red labels for requirements
+	for key in requirements.keys():
+		var requirement_label = Label.new()
+		requirement_label.text = "%s: %d" % [key, requirements[key]]
+		requirement_label.modulate = Color(1, 0, 0)  # Red color for requirements
+		rewards_requirements_v_box_container.add_child(requirement_label)
+		has_content = true
+	
+	# Create green labels for rewards
+	for key in rewards.keys():
+		var reward_label = Label.new()
+		reward_label.text = "%s: %d" % [key, rewards[key]]
+		reward_label.modulate = Color(0, 1, 0)  # Green color for rewards
+		rewards_requirements_v_box_container.add_child(reward_label)
+		has_content = true
+	
+	# Hide container if empty
+	rewards_requirements_v_box_container.visible = has_content

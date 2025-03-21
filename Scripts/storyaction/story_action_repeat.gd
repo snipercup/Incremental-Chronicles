@@ -8,8 +8,8 @@ func perform_action() -> void:
 	print("Performed repeat action (%d times): %s" % [repeat_count, story_text])
 
 # Optionally increase reward or difficulty
-func get_story_points() -> int:
-	return story_points * repeat_count
+#func get_story_points() -> int:
+	#return story_points * repeat_count
 
 func get_icon() -> String:
 	return "🔄"

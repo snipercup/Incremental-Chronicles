@@ -8,8 +8,8 @@ func perform_action() -> void:
 	print("Performed loop action %d times: %s" % [loop_count, story_text])
 
 # Optionally increase or decrease reward per loop
-func get_story_points() -> int:
-	return story_points + loop_count
+#func get_story_points() -> int:
+	#return story_points + loop_count
 
 func get_icon() -> String:
 	return "🔁"

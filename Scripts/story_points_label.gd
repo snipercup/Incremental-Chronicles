@@ -2,29 +2,41 @@ extends Label
 
 @export var action_list: VBoxContainer = null
 const DEFAULT_LABEL_TEXT: String = "Story points: 0/100"
-var story_points: int = 0
-signal story_points_updated(new_points: int)
+var resources: Dictionary = {} 
+
+# Signal to emit when resources are updated
+signal resources_updated(new_resources: Dictionary)
 
 # Called when the node enters the scene tree.
 func _ready():
-	# Connect the action_completed signal
 	if action_list:
 		action_list.action_completed.connect(_on_action_completed)
 
 # Called when an action is completed
 func _on_action_completed(control: Control):
 	var story_action: StoryAction = control.story_action
-	# Increment story_points based on the value from myaction
-	add_story_points(story_action.story_points)
+	var rewards = story_action.get_rewards()
+	for key in rewards.keys():
+		add_resource(key, rewards[key])
 
-func add_story_points(new_points: int) -> void:
-	story_points += new_points
-	update_story_points()
+# Add to a resource
+func add_resource(resource_name: String, amount: int) -> void:
+	resources[resource_name] = resources.get(resource_name, 0) + amount
+	_update_resources()
 
-func set_story_points(new_points: int) -> void:
-	story_points = new_points
-	update_story_points()
+# Remove from a resource
+func remove_resource(resource_name: String, amount: int) -> void:
+	if resource_name in resources:
+		resources[resource_name] = max(resources[resource_name] - amount, 0)
+		_update_resources()
 
-func update_story_points() -> void:
-	story_points_updated.emit(story_points)
-	text = "Story points: %d/100" % story_points # Update label text
+# Set a resource to a specific value
+func set_resource(resource_name: String, amount: int) -> void:
+	resources[resource_name] = max(amount, 0)
+	_update_resources()
+
+# Update resource values and emit signal
+func _update_resources() -> void:
+	resources_updated.emit(resources)
+	var story_points = resources.get("Story Point", 0)
+	text = "Story points: %d/100" % story_points

@@ -12,7 +12,6 @@ extends VBoxContainer
 
 # Example StoryAction requirements:
 # "requirements": {
-	#"required_resources": {
 		#"Story Point": 1000000,
 		#"Ethereal Mana": 1000000,
 		#"Void Essence": 750000,
@@ -24,12 +23,9 @@ extends VBoxContainer
 		#"Heart of the World Tree": 1,
 		#"Essence of Rebirth": 50000,
 		#"Light of the Lost Star": 1
-	#}
-	#"required_traits": {
 		#"Strength": 50000,
 		#"Spirit Bond": 40000,
 		#"Persistence": 45000
-	#}
 #}
 
 @onready var pin_list_label: Label = $PinListLabel
