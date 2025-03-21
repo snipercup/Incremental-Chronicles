@@ -14,3 +14,11 @@ config/name="Incremental-Chronicles"
 run/main_scene="uid://dr51pb66vyw37"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+SLib="*res://addons/SLib/SLib.gd"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/SLib/plugin.cfg")
