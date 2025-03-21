@@ -52,25 +52,32 @@ func get_random_area() ->StoryArea:
 func create_area() -> void:
 	nobody_who_chat.generate_area()
 
-# Function to create a new StoryArea and append it to the list
-func finalize_area(area_name: String, area_description: String) -> StoryArea:
-	var tier: int = min(story_points_label.story_points / 100,1)
-	var story_point_requirement: int = 0
-	var new_area = StoryArea.new()
-	new_area.set_name(area_name)
-	new_area.set_description(area_description)
-	new_area.set_tier(tier)
-	new_area.set_story_point_requirement(story_point_requirement)
-	
-	# Add to the area list and refresh the UI
-	print_debug("Adding area: " + area_name)
+# Finalize the creation of an area and add it to the list
+func finalize_area(name: String, description: String) -> StoryArea:
+	var new_area = _create_story_area(name, description)
+	print_debug("Adding new area: %s" % name)
 	area_list.append(new_area)
 	_refresh_area_list()
-	
-	# Emit signal that an area has been created
+
+	# Emit signal for external systems
 	area_created.emit(new_area)
 	return new_area
 
+# Calculate the tier based on story points
+func _calculate_tier() -> int:
+	if story_points_label:
+		return min(story_points_label.story_points / 100, 1)
+	return 1
+
+# Create a StoryArea instance
+func _create_story_area(name: String, description: String) -> StoryArea:
+	var tier: int = _calculate_tier()
+	var new_area = StoryArea.new()
+	new_area.set_name(name)
+	new_area.set_description(description)
+	new_area.set_tier(tier)
+	new_area.set_story_point_requirement(0)
+	return new_area
 
 func _on_area_generated(area: String):
 	# Attempt to parse the area string into a dictionary
@@ -82,9 +89,7 @@ func _on_area_generated(area: String):
 	# Extract name and description from the dictionary
 	var myname: String = area_data.get("name", "missing name")
 	var mydescription: String = area_data.get("description", "missing description")
-	
-	# Finalize the area creation
-	finalize_area(myname, mydescription)
+	finalize_area(myname, mydescription) # Finalize the area creation
 
 
 # Create a starting tunnel area (moved to a separate function)
