@@ -96,3 +96,45 @@ Here’s an example of how enormous the final requirements could be:
 	"Light of the Lost Star": 1
 }
 ```
+
+Here are some fitting resource ideas that could serve as a **combat entry cost** 
+
+## ⚔️ **Potential Combat Resources**  
+### 1. **Battle Energy** – A measure of physical and mental readiness for combat. Replenishes slowly over time or through rest.  
+- Works well as a stamina-based combat mechanic.  
+
+### 2. **Focus** – Represents the player’s mental clarity and tactical awareness in battle.  
+- Could regenerate naturally or through specific actions (meditation, resting).  
+- Higher-cost battles could represent more complex, strategic encounters.  
+
+### 3. **Resolve** – A measure of courage and willpower, depleted with each encounter.  
+- Works thematically for a game with a reincarnation or psychological element.  
+- Could also represent mental and emotional strain.  
+
+### 4. **Guard Tokens** – Physical or magical tokens representing the ability to withstand damage.  
+- Could be tied to the player’s ability to block or evade attacks.  
+- Ties into the concept of a shield or defensive layer.  
+
+### 5. **Aegis Shards** – Fragments of a protective magical shield.  
+- Ties into magical themes and could work as a replenishable resource from exploration or crafting.  
+- Losing all shards could put the player into a vulnerable state.  
+
+### 6. **Battle Seals** – Mystical symbols that unlock the ability to enter a combat realm.  
+- Could be farmed from exploration or gained through certain story events.  
+- Strong thematic tie to magic and supernatural forces.  
+
+### 7. **Valor** – A measure of personal strength and heroic resolve.  
+- Could accumulate through victories and diminish after losses.  
+- Works well in a heroic or high-fantasy setting.  
+
+### 8. **Rage** – A primal energy that builds through damage or combat intensity.  
+- Ties into an aggressive or high-risk combat playstyle.  
+- Could increase damage output or unlock special skills in battle.  
+
+### 9. **Spirit Orbs** – Mystical orbs that empower the player’s combat strength.  
+- Could be linked to spiritual or magical systems.  
+- Losing all orbs might weaken magical combat strength.  
+
+### 10. **Blood Echoes** – Residual energy from past battles or fallen enemies.  
+- Dark and mystical, fitting for a more intense or grim tone.  
+- Could double as a resource for upgrading combat skills or equipment.  

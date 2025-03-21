@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://c1t2j0vipmnu6"]
+[gd_scene load_steps=10 format=3 uid="uid://c1t2j0vipmnu6"]
 
 [ext_resource type="Script" uid="uid://cvcr36wahxv8u" path="res://Scripts/incremental_chronicle.gd" id="1_4denh"]
 [ext_resource type="Script" uid="uid://mgmu6dgt8ikl" path="res://Scripts/helper.gd" id="2_3uyo8"]
 [ext_resource type="Script" uid="uid://cgfd5l1hpfvn" path="res://Scripts/story_points_label.gd" id="3_67ln1"]
+[ext_resource type="Script" uid="uid://c4bjpbblkse6t" path="res://Scripts/requirements_pin_list.gd" id="4_3uyo8"]
 [ext_resource type="Script" uid="uid://d1354ddbnb5hl" path="res://Scripts/action_list_ui.gd" id="4_67ln1"]
 [ext_resource type="Script" uid="uid://dvjyty3xttj0o" path="res://Scripts/area_list.gd" id="4_73alp"]
 [ext_resource type="PackedScene" uid="uid://ctfsl70gr5fnl" path="res://Scenes/story_area_ui.tscn" id="5_miw6j"]
@@ -55,6 +56,11 @@ action_list = NodePath("../../ActionsPanelContainer/ActionsVBoxContainer/ScrollC
 [node name="ReincarnateButton" type="Button" parent="MainWindow/PlayerStats"]
 layout_mode = 2
 text = "Reincarnate"
+
+[node name="RequirementsPinList" type="VBoxContainer" parent="MainWindow/PlayerStats"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("4_3uyo8")
 
 [node name="AreasPanelContainer" type="PanelContainer" parent="MainWindow"]
 layout_mode = 2
