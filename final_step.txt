@@ -1,0 +1,75 @@
+{
+  "name": "The Final Blessing",
+  "description": "After countless trials and battles, you stand before the ancient altar — a monolithic structure etched with glowing runes, radiating a quiet, sacred power. The air hums with energy as you feel the weight of your journey pressing down upon you.\n\nThe spirits of the land stir as you lay down the final offerings — rare artifacts, hard-won knowledge, and the essence of your own strength. A deep, resonant voice echoes through your soul:\n\n'You have proven yourself worthy. Your legacy shall echo through eternity.'\n\nA blinding light engulfs the altar, and you feel a surge of power unlike any you have ever known. The blessing takes hold — a reward for your perseverance and sacrifice. You are transformed.\n\nThe world fades to white as the final echoes of the blessing fill your mind. Your story… complete.",
+  "tier": 10,
+  "story_point_requirement": 1000000,
+  "required_resources": {
+	"Ethereal Mana": 1000000,
+	"Void Essence": 750000,
+	"Ancient Rune Stones": 500000,
+	"Soul Gems": 300000,
+	"Phoenix Feathers": 100000,
+	"Dragonfang Crystals": 150000,
+	"Orb of Eternity": 1,
+	"Heart of the World Tree": 1,
+	"Essence of Rebirth": 50000,
+	"Light of the Lost Star": 1
+  },
+  "story_actions": [
+	{
+	  "stars": 5,
+	  "story_point_requirement": 1000000,
+	  "story_points": 10000,
+	  "story_text": "Offer the sacred relic.",
+	  "required_traits": {
+		"Strength": 50000,
+		"Spirit Bond": 40000,
+		"Persistence": 45000
+	  }
+	},
+	{
+	  "stars": 5,
+	  "story_point_requirement": 1000000,
+	  "story_points": 10000,
+	  "story_text": "Channel your mastery of ancient magic.",
+	  "required_traits": {
+		"Arcane Mastery": 50000,
+		"Astral Memory": 45000,
+		"Wisdom": 50000
+	  }
+	},
+	{
+	  "stars": 5,
+	  "story_point_requirement": 1000000,
+	  "story_points": 10000,
+	  "story_text": "Sacrifice a legendary weapon.",
+	  "required_traits": {
+		"Weapon Mastery": 50000,
+		"Power": 50000,
+		"Toughness": 45000
+	  }
+	},
+	{
+	  "stars": 5,
+	  "story_point_requirement": 1000000,
+	  "story_points": 10000,
+	  "story_text": "Invoke the knowledge of forgotten gods.",
+	  "required_traits": {
+		"Insight": 45000,
+		"Echoes of the Past": 40000,
+		"Bloodline Strength": 50000
+	  }
+	},
+	{
+	  "stars": 5,
+	  "story_point_requirement": 1000000,
+	  "story_points": 10000,
+	  "story_text": "Survive the final trial of will.",
+	  "required_traits": {
+		"Endurance": 50000,
+		"Instinct": 45000,
+		"Discipline": 50000
+	  }
+	}
+  ]
+}
