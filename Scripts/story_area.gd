@@ -17,6 +17,7 @@ var say: String = "generate an area in the area" : set = set_say, get = get_say
 const MAX_STORY_ACTIONS: int = 10
 # Signal to emit when a new action is added
 signal action_added(myarea: StoryArea)
+signal unlocked(myarea: StoryArea)
 
 # Setters and Getters
 func set_story_actions(value: Array[StoryAction]) -> void:
@@ -113,7 +114,7 @@ func add_story_action_from_json(json_string: String) -> void:
 	var new_action: StoryAction = StoryAction.new()
 	new_action.set_story_text(action_description)
 	new_action.set_stars(1)  # Default to 1 star or customize based on data
-	new_action.set_story_points(1)  # Default to 1 story point or customize based on data
+	new_action.set_story_points(10)  # Default to 1 story point or customize based on data
 	new_action.area = self
 	
 	# Add the new action to the list
@@ -134,3 +135,20 @@ func remove_story_action(action: StoryAction) -> void:
 # Function to check if the story actions list is at capacity
 func is_at_capacity() -> bool:
 	return story_actions.size() >= MAX_STORY_ACTIONS
+
+# Function to unlock the area if enough story points are provided
+func unlock_with_story_points(points: int) -> int:
+	# Check if the area is already unlocked
+	if state == State.UNLOCKED:
+		return -1
+	
+	# If enough points are available, unlock the area
+	if points >= story_point_requirement:
+		state = State.UNLOCKED
+		var leftover_points = points - story_point_requirement
+		story_point_requirement = 0
+		unlocked.emit(self)
+		return leftover_points
+	
+	# Not enough points to unlock the area
+	return -1

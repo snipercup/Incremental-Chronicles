@@ -14,4 +14,4 @@ Example:
 Ember Hollow
 A secluded valley where the ground is scorched and veins of molten rock glow beneath the surface. Crumbling stone towers loom over the blackened soil, remnants of an ancient battlemage citadel. Strange, red-leafed trees grow along the ridge, their roots rumored to draw power from the scorched earth. The air smells of sulfur, and flickering shadows dance along the rocky walls at night. Whispered legends speak of a trapped fire spirit beneath the valley — and those who seek its power rarely return unchanged.
 
-Be vivid, atmospheric, and creative — make the player see and feel the area!
+Be vivid, atmospheric, and creative — make the player see and feel the area! Also, avoid these overused words/phrases: Whispering.
