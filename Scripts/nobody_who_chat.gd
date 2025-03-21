@@ -3,60 +3,61 @@ extends NobodyWhoChat
 # This script belongs to the AreaGenerator UI node
 # This script will generate the text and data for a new action
 
-@export var area_list: VBoxContainer = null
+@export var area_list: VBoxContainer = null # The list that displays the current areas
+const STORY_ACTION_SAMPLER = preload("res://Resources/story_action_sampler.tres")
+const STORY_AREA_SAMPLER = preload("res://Resources/story_area_sampler.tres")
 
-signal action_generated(action: String)
-signal area_generated(area: String)
-var can_generate: bool = true
+signal action_generated(action: String) # When an action has been generated
+signal area_generated(area: String) # When an area has been generated
+var can_generate: bool = true # To enforce only one generation at a time
 
-func _ready():
-	# Create a Timer node dynamically
+# Called when the node enters the scene tree
+func _ready() -> void:
+	_initialize_timer()
+
+# Initialize the timer used for action generation
+func _initialize_timer() -> void:
 	var timer = Timer.new()
 	timer.wait_time = 5.0  # 5 second interval
 	timer.autostart = true
-	timer.timeout.connect(_on_timer_timeout)  # Connect the signal to the callback function
-	add_child(timer)  # Add the Timer as a child of this node
-	#print_debug("timer started")
-	start_worker()
+	timer.timeout.connect(_on_timer_timeout)
+	add_child(timer)
 
 
 func generate_action() -> void:
-	var current_area: StoryArea = area_list.get_random_area()
-	if not current_area:
-		return
-	if current_area.is_at_capacity():
+	print_debug("Generating action")
+	var current_area: StoryArea = _get_current_area()
+	if not current_area or current_area.is_at_capacity():
+		print_debug("can_generate = true")
 		can_generate = true
 		return
+	sampler = STORY_ACTION_SAMPLER
+	sampler.seed = randi()  # Set seed to a random integer
 	start_worker()
+	sampler = STORY_ACTION_SAMPLER
 	sampler.seed = randi()  # Set seed to a random integer
 	system_prompt = current_area.get_system_prompt()
 	say(current_area.get_say()) # say something
-	# wait for the response
-	var response = await response_finished
+
+	var response = await response_finished	# wait for the response
 	current_area.add_story_action_from_json(response)
 	action_generated.emit(response)
+	#print_debug("can_generate = true")
 	can_generate = true
 
+# Get the current active area from the list
+func _get_current_area() -> StoryArea:
+	if not area_list or area_list.get_child_count() == 0:
+		return null
+	return area_list.get_random_area()
 
 func generate_area() -> void:
-	print_debug("generating area")
-	start_worker()
-	#var current_area: StoryArea = area_list.get_random_area()
+	sampler = STORY_AREA_SAMPLER
 	sampler.seed = randi()  # Set seed to a random integer
-	var myprompt: String = "You are an expert at creating immersive and detailed locations for a medieval fantasy game called *Incremental Chronicles*. Your task is to design a new area for this game. The world of *Incremental Chronicles* is rich with magic, ancient ruins, mysterious forces, and diverse inhabitants. The setting is grounded in medieval culture with a blend of high fantasy elements.**"
-	myprompt += "**Create a name and a detailed description for the new area. The area can be a village, forest, ruins, cave, mountain, or similar location. Include the following details:**"
-	myprompt += "- **Name:** A compelling name that reflects the character and tone of the area."
-	myprompt += "- **General Overview:** A short summary of the area’s purpose, history, or significance."
-	myprompt += "- **Landmarks and Structures:** Describe unique features such as castles, ancient altars, abandoned watchtowers, mystical groves, or underground tunnels."
-	myprompt += "- **Inhabitants and NPCs:** Who or what lives here? Mention any notable factions, characters, or creatures. "
-	myprompt += "- **Atmosphere and Mood:** Describe the feeling of the area — is it peaceful, sinister, mysterious, or bustling?"
-	myprompt += "- **Lore and Backstory:** Provide any myths, curses, ancient conflicts, or lost knowledge tied to the area."
-	myprompt += "- **Resources and Dangers:** Mention any valuable resources or hidden dangers, such as rare herbs, magical artifacts, roaming monsters, or environmental hazards.**"
-	myprompt += "**Example:**"
-	myprompt += "*'Ember Hollow'*"
-	myprompt += "A secluded valley where the ground is scorched and veins of molten rock glow beneath the surface. Crumbling stone towers loom over the blackened soil, remnants of an ancient battlemage citadel. Strange, red-leafed trees grow along the ridge, their roots rumored to draw power from the scorched earth. The air smells of sulfur, and flickering shadows dance along the rocky walls at night. Whispered legends speak of a trapped fire spirit beneath the valley — and those who seek its power rarely return unchanged.*"
-	myprompt += "**Be vivid, atmospheric, and creative — make the player *see* and *feel* the area!"
-	system_prompt = myprompt
+	start_worker()
+	sampler = STORY_AREA_SAMPLER
+	sampler.seed = randi()  # Set seed to a random integer
+	system_prompt = _build_area_prompt()
 	# say something
 	say("Create a new area.")
 
@@ -64,11 +65,28 @@ func generate_area() -> void:
 	var response = await response_finished
 	print_debug("Got area response: " + response)
 	area_generated.emit(response)
+	#print_debug("can_generate = true")
+	can_generate = true
 
 
 # Called every second when the Timer times out
 func _on_timer_timeout():
 	if not can_generate:
+		print_debug("can not generate, returning")
 		return
-	generate_action()
+	#print_debug("can_generate = false")
 	can_generate = false
+	if area_list.needs_new_area():
+		generate_area()
+	else:
+		generate_action()
+
+
+# Build the detailed area creation prompt
+func _build_area_prompt() -> String:
+	var file = FileAccess.open("res://Resources/area_prompt.txt", FileAccess.READ)
+	if file:
+		return file.get_as_text()
+	else:
+		print_debug("Failed to load area prompt file.")
+		return "Describe a new area."

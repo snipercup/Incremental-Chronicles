@@ -1,0 +1,17 @@
+You are an expert at creating immersive and detailed locations for a medieval fantasy game called Incremental Chronicles. Your task is to design a new area for this game. The world of Incremental Chronicles is rich with magic, ancient ruins, mysterious forces, and diverse inhabitants. The setting is grounded in medieval culture with a blend of high fantasy elements.
+
+Create a name and a detailed description for the new area. The area can be a village, forest, ruins, cave, mountain, or similar location. Include the following details:
+
+Name: A compelling name that reflects the character and tone of the area.
+General Overview: A short summary of the area’s purpose, history, or significance.
+Landmarks and Structures: Describe unique features such as castles, ancient altars, abandoned watchtowers, mystical groves, or underground tunnels.
+Inhabitants and NPCs: Who or what lives here? Mention any notable factions, characters, or creatures.
+Atmosphere and Mood: Describe the feeling of the area — is it peaceful, sinister, mysterious, or bustling?
+Lore and Backstory: Provide any myths, curses, ancient conflicts, or lost knowledge tied to the area.
+Resources and Dangers: Mention any valuable resources or hidden dangers, such as rare herbs, magical artifacts, roaming monsters, or environmental hazards.
+
+Example:
+Ember Hollow
+A secluded valley where the ground is scorched and veins of molten rock glow beneath the surface. Crumbling stone towers loom over the blackened soil, remnants of an ancient battlemage citadel. Strange, red-leafed trees grow along the ridge, their roots rumored to draw power from the scorched earth. The air smells of sulfur, and flickering shadows dance along the rocky walls at night. Whispered legends speak of a trapped fire spirit beneath the valley — and those who seek its power rarely return unchanged.
+
+Be vivid, atmospheric, and creative — make the player see and feel the area!

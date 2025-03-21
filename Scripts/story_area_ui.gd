@@ -35,6 +35,14 @@ func set_story_area(value: StoryArea) -> void:
 		set_story_point_requirement_label("Requirement: %d" % story_area.get_story_point_requirement())
 		set_stars_label("★".repeat(story_area.get_tier()))
 		set_area_button_text(story_area.get_name())
+		
+		# Hide or show labels based on state
+		var is_locked = story_area.get_state() == StoryArea.State.LOCKED
+		if stars_label:
+			stars_label.visible = is_locked
+		if story_point_requirement_label:
+			story_point_requirement_label.visible = is_locked
+
 
 # Handle area button press
 func _ready():
@@ -50,3 +58,6 @@ func get_area_actions() -> Array[StoryAction]:
 
 func get_area() -> StoryArea:
 	return story_area
+
+func is_area_locked() -> bool:
+	return story_area.state == StoryArea.State.LOCKED

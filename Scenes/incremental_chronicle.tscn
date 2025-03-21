@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://c1t2j0vipmnu6"]
+[gd_scene load_steps=10 format=3 uid="uid://c1t2j0vipmnu6"]
 
 [ext_resource type="Script" uid="uid://cvcr36wahxv8u" path="res://Scripts/incremental_chronicle.gd" id="1_4denh"]
 [ext_resource type="Script" uid="uid://cgfd5l1hpfvn" path="res://Scripts/story_points_label.gd" id="3_67ln1"]
@@ -7,41 +7,6 @@
 [ext_resource type="Script" uid="uid://dvjyty3xttj0o" path="res://Scripts/area_list.gd" id="4_73alp"]
 [ext_resource type="PackedScene" uid="uid://ctfsl70gr5fnl" path="res://Scenes/story_area_ui.tscn" id="5_miw6j"]
 [ext_resource type="PackedScene" uid="uid://hf574lotfqlr" path="res://Scenes/story_action_ui.tscn" id="7_3uyo8"]
-
-[sub_resource type="NobodyWhoSampler" id="NobodyWhoSampler_rorxs"]
-use_grammar = true
-gbnf_grammar = "root ::= \"{\" ws01 root-message \"}\" ws01
-root-message ::= \"\\\"message\\\"\" \":\" ws01 string
-
-
-value  ::= (object | array | string | number | boolean | null) ws
-
-object ::=
-  \"{\" ws (
-    string \":\" ws value
-    (\",\" ws string \":\" ws value)*
-  )? \"}\"
-
-array  ::=
-  \"[\" ws01 (
-            value
-    (\",\" ws01 value)*
-  )? \"]\"
-
-string ::=
-  \"\\\"\" (string-char)* \"\\\"\"
-
-string-char ::= [^\"\\\\] | \"\\\\\" ([\"\\\\/bfnrt] | \"u\" [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F]) # escapes
-
-number ::= integer (\".\" [0-9]+)? ([eE] [-+]? [0-9]+)?
-integer ::= \"-\"? ([0-9] | [1-9] [0-9]*)
-boolean ::= \"true\" | \"false\"
-null ::= \"null\"
-
-# Optional space: by convention, applied in this grammar after literal chars when allowed
-ws ::= ([ \\t\\n] ws)?
-ws01 ::= ([ \\t\\n])?"
-seed = 1232
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3uyo8"]
 bg_color = Color(0.485472, 0.633449, 0.633375, 1)
@@ -72,7 +37,6 @@ model_path = "/home/user/.local/share/godot/app_userdata/Incremental-Chronicles/
 
 [node name="NobodyWhoChat" type="NobodyWhoChat" parent="LLM" node_paths=PackedStringArray("model_node", "area_list")]
 model_node = NodePath("../NobodyWhoModel")
-sampler = SubResource("NobodyWhoSampler_rorxs")
 system_prompt = "You are a story writing assistant. Your job is to create short messages (up to 20 words). Each message should describe a creative and engaging action or dialogue that reflects the atmosphere and activity of the following setting: [insert area description]. The action or dialogue should feel natural, varied, and influenced by the location, its landmarks, and its inhabitants."
 script = ExtResource("3_rorxs")
 area_list = NodePath("../../MainWindow/AreasPanelContainer/AreasVBoxContainer/AreaList")
@@ -94,7 +58,7 @@ size_flags_stretch_ratio = 0.2
 layout_mode = 2
 text = "Story points: 0/100"
 script = ExtResource("3_67ln1")
-action_list = NodePath("../../ActionsPanelContainer/ActionsVBoxContainer/ActionList")
+action_list = NodePath("../../ActionsPanelContainer/ActionsVBoxContainer/ScrollContainer/ActionList")
 
 [node name="ReincarnateButton" type="Button" parent="MainWindow/PlayerStats"]
 layout_mode = 2
@@ -121,7 +85,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
 script = ExtResource("4_73alp")
-action_list = NodePath("../../../ActionsPanelContainer/ActionsVBoxContainer/ActionList")
+action_list = NodePath("../../../ActionsPanelContainer/ActionsVBoxContainer/ScrollContainer/ActionList")
 story_area_ui_scene = ExtResource("5_miw6j")
 story_points_label = NodePath("../../../PlayerStats/StoryPointsLabel")
 nobody_who_chat = NodePath("../../../../LLM/NobodyWhoChat")
@@ -139,8 +103,13 @@ layout_mode = 2
 text = "Actions:"
 horizontal_alignment = 1
 
-[node name="ActionList" type="VBoxContainer" parent="MainWindow/ActionsPanelContainer/ActionsVBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MainWindow/ActionsPanelContainer/ActionsVBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ActionList" type="VBoxContainer" parent="MainWindow/ActionsPanelContainer/ActionsVBoxContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("4_67ln1")
 story_action_ui = ExtResource("7_3uyo8")

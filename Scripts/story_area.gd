@@ -39,6 +39,8 @@ func get_state() -> State:
 
 func set_story_point_requirement(value: int) -> void:
 	story_point_requirement = max(value, 0)  # Ensure non-negative
+	if story_point_requirement == 0:
+		state = State.UNLOCKED # If no requirements, the state becomes unlocked
 
 func get_story_point_requirement() -> int:
 	return story_point_requirement
@@ -62,7 +64,7 @@ func set_system_prompt(value: String) -> void:
 func get_system_prompt() -> String:
 	# Get the area description from the associated area
 	var area_description: String = get_description()
-	print_debug("returning area description: " + area_description)
+	#print_debug("returning area description: " + area_description)
 	# Replace the placeholder with the actual area description
 	return "You are a story writing assistant. Your job is to create short messages (up to 20 words). " +\
 		   "Each message should describe a creative and engaging action or dialogue that reflects the atmosphere " +\
@@ -92,7 +94,7 @@ func get_properties() -> Dictionary:
 
 # Function to parse a JSON string and add a StoryAction
 func add_story_action_from_json(json_string: String) -> void:
-	print_debug("adding a story action from json")
+	#print_debug("adding a story action from json")
 
 	# Ensure we don't exceed the maximum number of actions
 	if story_actions.size() >= MAX_STORY_ACTIONS:
@@ -118,7 +120,7 @@ func add_story_action_from_json(json_string: String) -> void:
 	story_actions.append(new_action)
 
 	# Emit the signal after adding the action
-	print_debug("emitting action_added")
+	#print_debug("emitting action_added")
 	action_added.emit(self)
 
 # Function to remove a StoryAction from the list

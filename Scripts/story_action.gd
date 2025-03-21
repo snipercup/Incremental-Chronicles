@@ -41,7 +41,7 @@ func set_system_prompt(value: String) -> void:
 func get_system_prompt() -> String:
 	# Get the area description from the associated area
 	var area_description: String = area.get_description() if area else "an unknown place"
-	print_debug("returning area description: " + area_description)
+	#print_debug("returning area description: " + area_description)
 	# Replace the placeholder with the actual area description
 	return "You are an action generator. Your job is to create short actions (up to 5 words). " +\
 		   "Each action should be short and engaging that reflects the possibilities in the area. " +\

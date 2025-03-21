@@ -9,10 +9,8 @@ extends VBoxContainer
 @export var story_points_label: Label = null
 @export var nobody_who_chat: NobodyWhoChat = null
 
-
 var area_list: Array[StoryArea] # The data for each area
-# Signal to emit when an area is created
-signal area_created(area: StoryArea)
+signal area_created(area: StoryArea) # Signal to emit when an area is created
 
 func _ready():
 	nobody_who_chat.area_generated.connect(_on_area_generated)
@@ -29,18 +27,19 @@ func _refresh_area_list() -> void:
 	for child in get_children():
 		child.queue_free()
 
-	# Create a new instance for each StoryArea
+	# Create UI instances for each StoryArea
 	for area in area_list:
-		if story_area_ui_scene:
-			var area_ui = story_area_ui_scene.instantiate()
-			# Set the story_area property if it exists
-			if area_ui.has_method("set_story_area"):
-				area_ui.set_story_area(area)
-			
-			# Connect to the area_pressed signal
-			if area_ui.has_signal("area_pressed"):
-				area_ui.area_pressed.connect(_on_area_pressed)
-			add_child(area_ui)
+		_add_area_to_ui(area)
+
+# Add a StoryArea to the UI
+func _add_area_to_ui(area: StoryArea) -> void:
+	if story_area_ui_scene:
+		var area_ui = story_area_ui_scene.instantiate()
+		if area_ui.has_method("set_story_area"):
+			area_ui.set_story_area(area)
+		if area_ui.has_signal("area_pressed"):
+			area_ui.area_pressed.connect(_on_area_pressed)
+		add_child(area_ui)
 
 # Handle area pressed signal
 func _on_area_pressed(control: Control) -> void:
@@ -53,25 +52,35 @@ func get_random_area() ->StoryArea:
 func create_area() -> void:
 	nobody_who_chat.generate_area()
 
-# Function to create a new StoryArea and append it to the list
-func finalize_area(area_name: String, area_description: String) -> StoryArea:
-	var tier: int = min(story_points_label.story_points / 100,1)
-	var story_point_requirement: int = 0
-	var new_area = StoryArea.new()
-	new_area.set_name(area_name)
-	new_area.set_description(area_description)
-	new_area.set_tier(tier)
-	new_area.set_story_point_requirement(story_point_requirement)
-	
-	# Add to the area list and refresh the UI
-	print_debug("Adding area: " + area_name)
+# Finalize the creation of an area and add it to the list
+func finalize_area(myname: String, description: String) -> StoryArea:
+	var new_area = _create_story_area(myname, description)
+	print_debug("Adding new area: %s" % myname)
 	area_list.append(new_area)
 	_refresh_area_list()
-	
-	# Emit signal that an area has been created
+
+	# Emit signal for external systems
 	area_created.emit(new_area)
 	return new_area
 
+# Calculate the tier based on story points
+func _calculate_tier() -> int:
+	if story_points_label:
+		return min(story_points_label.story_points / 100, 1)
+	return 1
+
+# Create a StoryArea instance
+func _create_story_area(myname: String, description: String) -> StoryArea:
+	var tier: int = _calculate_tier()
+	var new_area = StoryArea.new()
+	new_area.set_name(myname)
+	new_area.set_description(description)
+	new_area.set_tier(tier)
+	
+	# Increment story point requirement based on the number of existing areas
+	var requirement = area_list.size() * 100
+	new_area.set_story_point_requirement(requirement)
+	return new_area
 
 func _on_area_generated(area: String):
 	# Attempt to parse the area string into a dictionary
@@ -83,32 +92,27 @@ func _on_area_generated(area: String):
 	# Extract name and description from the dictionary
 	var myname: String = area_data.get("name", "missing name")
 	var mydescription: String = area_data.get("description", "missing description")
-	
-	# Finalize the area creation
-	finalize_area(myname, mydescription)
+	finalize_area(myname, mydescription) # Finalize the area creation
 
 
-# Create the starting area
-func create_tunnel():
-	#print_debug("creating tunnel")
-	var mydescription: String = "A weathered tunnel opens onto the side of a rugged mountain, its jagged stone mouth framed by dark, mossy rock. The tunnel’s interior is cold and quiet, with no sign of an entrance behind it — only smooth stone where a path should be.
+# Create a starting tunnel area (moved to a separate function)
+func create_tunnel() -> void:
+	var tunnel_description = _load_tunnel_description()
+	var new_area = finalize_area("Tunnel", tunnel_description)
+	new_area.set_say("Generate the next action for the player to do. Keep it short, like 'pick leaf', 'touch grass'")
+	action_list.set_area(new_area)
 
-Beyond the tunnel, a vast wilderness unfolds beneath the mountain’s shadow. Rolling plains stretch endlessly toward the horizon, their golden grasses swaying beneath a steady breeze. The scent of wildflowers and fresh earth drifts through the air. Clusters of weathered stone rise from the earth, remnants of ancient ruins half-swallowed by time and nature.
+# Load tunnel description from external file or resource
+func _load_tunnel_description() -> String:
+	var file = FileAccess.open("res://Resources/tunnel_description.txt", FileAccess.READ)
+	return file.get_as_text() if file else "Tunnel description not found."
 
-Actions:
 
-	Pick wildflowers from a patch of vibrant blue and red petals nearby.
-	Smell the air and take in the crisp scent of grass and wildflowers.
-	Touch the rough bark of a nearby gnarled oak tree.
-	Observe small creatures darting through the tall grass.
-	Step ten paces east toward a faint trail winding into the distance.
-	Examine the weathered stone remnants for carvings or signs of ancient use.
-	Rest beneath the shade of the oak trees and listen to the sound of rustling grass.
-	Search for hidden objects or tracks in the tall grass.
-
-The ground beneath the grass is uneven, strewn with pebbles and patches of bare earth. A faint trail winds eastward through the plains, disappearing into the distant haze. The air is crisp and cool, inviting exploration. The plains seem quiet — but the signs of life are everywhere, waiting to be uncovered."
-	
-	var myarea: StoryArea = finalize_area("Tunnel", mydescription)
-	myarea.set_say("Generate the next action for the player to do. Keep it short, like 'pick leaf', 'touch grass'")
-	# Finalize the area creation
-	action_list.set_area(myarea)
+# Function to check if a new area needs to be created
+func needs_new_area() -> bool:
+	# If any area is locked, no need to create a new area
+	for area in area_list:
+		if area.get_state() == StoryArea.State.LOCKED:
+			return false
+	# If no area is locked, a new area needs to be created
+	return true
