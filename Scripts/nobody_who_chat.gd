@@ -18,12 +18,15 @@ func _ready() -> void:
 # Initialize the timer used for action generation
 func _initialize_timer() -> void:
 	var timer = Timer.new()
-	timer.wait_time = 5.0  # 5 second interval
+	timer.wait_time = 3.0  # 5 second interval
 	timer.autostart = true
 	timer.timeout.connect(_on_timer_timeout)
 	add_child(timer)
 
 
+# Generate a new action in an area unless the area is at capacity
+# To generate the action, we use the system prompt from that area
+# The action is then added to the current area
 func generate_action() -> void:
 	print_debug("Generating action")
 	var current_area: StoryArea = _get_current_area()
@@ -33,6 +36,7 @@ func generate_action() -> void:
 		return
 	sampler = STORY_ACTION_SAMPLER
 	sampler.seed = randi()  # Set seed to a random integer
+	system_prompt = current_area.get_system_prompt()
 	start_worker()
 	sampler = STORY_ACTION_SAMPLER
 	sampler.seed = randi()  # Set seed to a random integer
@@ -51,9 +55,11 @@ func _get_current_area() -> StoryArea:
 		return null
 	return area_list.get_random_area()
 
+# Generates a new area
 func generate_area() -> void:
 	sampler = STORY_AREA_SAMPLER
 	sampler.seed = randi()  # Set seed to a random integer
+	system_prompt = _build_area_prompt()
 	start_worker()
 	sampler = STORY_AREA_SAMPLER
 	sampler.seed = randi()  # Set seed to a random integer

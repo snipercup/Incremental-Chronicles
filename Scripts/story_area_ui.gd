@@ -42,6 +42,8 @@ func set_story_area(value: StoryArea) -> void:
 			stars_label.visible = is_locked
 		if story_point_requirement_label:
 			story_point_requirement_label.visible = is_locked
+		if area_button and is_locked:
+			set_area_button_text("Locked")
 
 
 # Handle area button press

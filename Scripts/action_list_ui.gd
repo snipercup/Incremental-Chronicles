@@ -14,7 +14,6 @@ func set_area(value: StoryArea) -> void:
 	# Disconnect previous signal to avoid multiple connections
 	if area and area.action_added.is_connected(_on_action_added):
 		area.action_added.disconnect(_on_action_added)
-	
 	area = value
 	
 	# Connect to the action_added signal

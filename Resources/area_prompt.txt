@@ -1,17 +1,29 @@
-You are an expert at creating immersive and detailed locations for a medieval fantasy game called Incremental Chronicles. Your task is to design a new area for this game. The world of Incremental Chronicles is rich with magic, ancient ruins, mysterious forces, and diverse inhabitants. The setting is grounded in medieval culture with a blend of high fantasy elements.
+You are an expert at creating immersive and detailed locations for a medieval fantasy game called Incremental Chronicles. Your task is to design a new area for this game. The world of Incremental Chronicles is rich with magic, ancient ruins, mysterious forces, and diverse inhabitants. The setting is grounded in medieval culture with a blend of high fantasy elements.  
 
-Create a name and a detailed description for the new area. The area can be a village, forest, ruins, cave, mountain, or similar location. Include the following details:
+Create a name and a detailed description for the new area. The area can be a village, forest, ruins, cave, mountain, or similar location. The output should follow this structure:  
 
-Name: A compelling name that reflects the character and tone of the area.
-General Overview: A short summary of the area’s purpose, history, or significance.
-Landmarks and Structures: Describe unique features such as castles, ancient altars, abandoned watchtowers, mystical groves, or underground tunnels.
-Inhabitants and NPCs: Who or what lives here? Mention any notable factions, characters, or creatures.
-Atmosphere and Mood: Describe the feeling of the area — is it peaceful, sinister, mysterious, or bustling?
-Lore and Backstory: Provide any myths, curses, ancient conflicts, or lost knowledge tied to the area.
-Resources and Dangers: Mention any valuable resources or hidden dangers, such as rare herbs, magical artifacts, roaming monsters, or environmental hazards.
+**1. General Description**  
+Write a vivid but concise description of the area. Focus on sensory details like sights, sounds, and smells. Include unique landmarks, natural features, and points of interest. Keep the description grounded and avoid overly poetic or exaggerated language.  
 
-Example:
-Ember Hollow
-A secluded valley where the ground is scorched and veins of molten rock glow beneath the surface. Crumbling stone towers loom over the blackened soil, remnants of an ancient battlemage citadel. Strange, red-leafed trees grow along the ridge, their roots rumored to draw power from the scorched earth. The air smells of sulfur, and flickering shadows dance along the rocky walls at night. Whispered legends speak of a trapped fire spirit beneath the valley — and those who seek its power rarely return unchanged.
+**2. Actions**  
+List 6 to 10 actions that a player can realistically perform in this environment. Keep them short (no more than 8 words). The actions should reflect the environment and encourage exploration, interaction, and discovery. Example action types:  
+- Collecting (e.g., "Pick wildflowers")  
+- Sensing (e.g., "Smell the air")  
+- Movement (e.g., "Step ten paces east")  
+- Observation (e.g., "Observe small creatures in the grass")  
+- Investigation (e.g., "Examine the weathered stone")  
 
-Be vivid, atmospheric, and creative — make the player see and feel the area!
+**Example:**  
+Ember Hollow  
+A secluded valley where the ground is scorched and veins of molten rock glow beneath the surface. Crumbling stone towers loom over the blackened soil, remnants of an ancient battlemage citadel. Strange, red-leafed trees grow along the ridge, their roots rumored to draw power from the scorched earth. The air smells of sulfur, and flickering shadows dance along the rocky walls at night. Whispered legends speak of a trapped fire spirit beneath the valley — and those who seek its power rarely return unchanged.  
+
+Actions:  
+- Pick red leaves from the tree.  
+- Smell the sulfur in the air.  
+- Touch the warm stone beneath your feet.  
+- Observe the flickering shadows on the wall.  
+- Step toward the dark entrance of a tower.  
+- Examine the strange carvings on the tower.  
+- Search for hidden objects beneath the rubble.  
+
+Be vivid, atmospheric, and creative — make the player *see* and *feel* the area! Also, avoid these overused words/phrases: "Whispering."

@@ -43,10 +43,30 @@ func _add_area_to_ui(area: StoryArea) -> void:
 
 # Handle area pressed signal
 func _on_area_pressed(control: Control) -> void:
+	var myarea: StoryArea = control.story_area
+	if myarea.get_state() == StoryArea.State.LOCKED:
+		var remaining_points: int = myarea.unlock_with_story_points(story_points_label.story_points)
+		if remaining_points == -1:
+			print("Tried to unlock area, but not enough points")
+			return
+		else:
+			story_points_label.set_story_points(remaining_points)
+			_refresh_area_list()
 	action_list.set_area(control.get_area())
 
-func get_random_area() ->StoryArea:
-	return area_list.pick_random()
+# Get a random unlocked area
+func get_random_area() -> StoryArea:
+	# Filter out only unlocked areas
+	var unlocked_areas = area_list.filter(func(area): 
+		return area.get_state() == StoryArea.State.UNLOCKED
+	)
+
+	# Return a random unlocked area if available
+	if unlocked_areas.size() > 0:
+		return unlocked_areas.pick_random()
+	
+	return null  # Return null if no unlocked areas are available
+
 
 # Generate area and wait for the signal in _on_area_generated
 func create_area() -> void:
@@ -58,8 +78,6 @@ func finalize_area(myname: String, description: String) -> StoryArea:
 	print_debug("Adding new area: %s" % myname)
 	area_list.append(new_area)
 	_refresh_area_list()
-
-	# Emit signal for external systems
 	area_created.emit(new_area)
 	return new_area
 
@@ -78,10 +96,11 @@ func _create_story_area(myname: String, description: String) -> StoryArea:
 	new_area.set_tier(tier)
 	
 	# Increment story point requirement based on the number of existing areas
-	var requirement = area_list.size() * 100
+	var requirement = area_list.size() * 10#0
 	new_area.set_story_point_requirement(requirement)
 	return new_area
 
+# When a new area has been generated, extract the name and description
 func _on_area_generated(area: String):
 	# Attempt to parse the area string into a dictionary
 	var area_data: Dictionary = JSON.parse_string(area) if area else {}
@@ -89,10 +108,19 @@ func _on_area_generated(area: String):
 		print("Failed to parse area data from string:", area)
 		return
 	
-	# Extract name and description from the dictionary
+	# Extract name, description, and actions from the dictionary
 	var myname: String = area_data.get("name", "missing name")
 	var mydescription: String = area_data.get("description", "missing description")
-	finalize_area(myname, mydescription) # Finalize the area creation
+	var actions: Array = area_data.get("actions", [])
+
+	# Format actions into a readable list
+	if actions.size() > 0:
+		mydescription += "\n\nActions:\n"
+		for action in actions:
+			mydescription += "\t" + action + "\n"
+
+	# Finalize area creation with name and description
+	finalize_area(myname, mydescription)
 
 
 # Create a starting tunnel area (moved to a separate function)
