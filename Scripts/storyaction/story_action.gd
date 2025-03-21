@@ -49,7 +49,6 @@ func set_story_text(value: String) -> void:
 func get_story_text() -> String:
 	return story_text
 
-
 func set_say(value: String) -> void:
 	say = value
 

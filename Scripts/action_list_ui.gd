@@ -5,12 +5,11 @@ extends VBoxContainer
 # Each area has its own list of actions. When we are assigned a new area, update the list of actions
 
 var area: StoryArea
-@export var story_action_ui: PackedScene = null
 signal action_completed(myaction: Control)
+
 
 # Setter for area
 func set_area(value: StoryArea) -> void:
-	print_debug("setting area to action list ui")
 	# Disconnect previous signal to avoid multiple connections
 	if area and area.action_added.is_connected(_on_action_added):
 		area.action_added.disconnect(_on_action_added)
@@ -18,9 +17,7 @@ func set_area(value: StoryArea) -> void:
 	
 	# Connect to the action_added signal
 	if area and not area.action_added.is_connected(_on_action_added):
-		print_debug("connecting action_added to _on_action_added")
 		area.action_added.connect(_on_action_added)
-	
 	_update_story_actions()
 
 
@@ -36,6 +33,7 @@ func _update_story_actions() -> void:
 	
 	# Create an instance for each StoryAction
 	for action in area.get_story_actions():
+		var story_action_ui: PackedScene = action.ui_scene
 		if story_action_ui:
 			var action_ui = story_action_ui.instantiate()
 			# Set the story_action property if available
@@ -49,6 +47,7 @@ func _update_story_actions() -> void:
 			# Add the instance as a child
 			add_child(action_ui)
 
+
 # Function to handle action_pressed signal
 func _on_action_pressed(control: Control) -> void:
 	control.story_action.area.remove_story_action(control.story_action)
@@ -57,5 +56,4 @@ func _on_action_pressed(control: Control) -> void:
 
 # Function to handle action_added signal
 func _on_action_added(_myarea: StoryArea) -> void:
-	print_debug("New action added, refreshing list")
 	_update_story_actions()
