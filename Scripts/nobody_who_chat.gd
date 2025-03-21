@@ -4,6 +4,7 @@ extends NobodyWhoChat
 # This script will generate the text and data for a new action
 
 @export var area_list: VBoxContainer = null
+const STORY_ACTION_SAMPLER = preload("res://Resources/story_action_sampler.tres")
 
 signal action_generated(action: String)
 signal area_generated(area: String)
@@ -29,6 +30,7 @@ func generate_action() -> void:
 		can_generate = true
 		return
 	start_worker()
+	sampler = STORY_ACTION_SAMPLER
 	sampler.seed = randi()  # Set seed to a random integer
 	system_prompt = current_area.get_system_prompt()
 	say(current_area.get_say()) # say something
