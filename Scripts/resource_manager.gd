@@ -74,6 +74,10 @@ func get_base_cap(resource_name: String) -> int:
 	return resource_caps_data.get(resource_name, 0)
 
 # Apply the action's rewards to the player's resources
+# Example rewards:
+#"rewards": {
+	#"Story Point": 1
+#},
 func apply_rewards(rewards: Dictionary) -> bool:
 	var added = false
 	for key in rewards.keys():
@@ -134,3 +138,19 @@ func _load_resource_caps() -> void:
 			print_debug("Failed to parse resource_caps.json")
 	else:
 		print_debug("Failed to load resource_caps.json")
+
+# Attempt to subtract resources based on the provided requirements
+func apply_requirements(requirements: Dictionary) -> bool:
+	# First, check if all requirements are met
+	for key in requirements.keys():
+		var current_value = get_resource(key)
+		if current_value < requirements[key]:
+			return false  # Not enough resources to fulfill the requirements
+
+	# If all requirements are met, subtract the values
+	for key in requirements.keys():
+		remove_resource(key, requirements[key])
+	
+	# Update the UI and emit signal after successful subtraction
+	_update_resources()
+	return true

@@ -17,7 +17,7 @@ extends StoryAction
 		#}
 	#}
 
-
+var ui_scene: PackedScene = preload("res://Scenes/action/story_action_combat_ui.tscn")
 var enemy: Dictionary = {}
 # Number of allowed attempts to defeat the enemy
 const TOTAL_CHANCES: int = 3
@@ -69,7 +69,6 @@ func attempt_combat(player_strength: int) -> bool:
 		return false
 
 	remaining_chances -= 1
-	
 	if test_combat_success(player_strength):
 		success_count += 1
 	
@@ -77,5 +76,11 @@ func attempt_combat(player_strength: int) -> bool:
 	if success_count >= 2:
 		enemy_defeated.emit()
 		return true
-	
 	return false
+
+# Check if the enemy is defeated (two or more successes)
+func is_enemy_defeated() -> bool:
+	return success_count >= 2
+
+func get_successes() -> int:
+	return success_count

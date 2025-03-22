@@ -30,14 +30,12 @@ extends VBoxContainer
 
 @export var pin_list_label: Label = null
 @export var rewards_requirements: VBoxContainer = null
-var story_points_label: Label = null
 var action: StoryAction = null
 signal removed
 
 func set_story_action(myaction: StoryAction):
 	action = myaction
 	pin_list_label.text = action.area.name
-	rewards_requirements.story_points_label = story_points_label
 	rewards_requirements.set_story_action(myaction)
 
 

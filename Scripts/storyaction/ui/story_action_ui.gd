@@ -58,6 +58,10 @@ func get_helper() -> Node:
 func apply_rewards(rewards: Dictionary) -> bool:
 	return get_resource_manager().apply_rewards(rewards)
 
+# Attempt to subtract resources based on the provided requirements
+func apply_requirements(requirements: Dictionary) -> bool:
+	return get_resource_manager().apply_requirements(requirements)
+
 # Handle action_pressed from the instantiated action scene
 func _on_action_instance_pressed(control: Control) -> void:
 	print_debug("Action instance pressed:", control)
