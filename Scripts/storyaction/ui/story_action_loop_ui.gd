@@ -50,6 +50,15 @@ func apply_rewards(rewards: Dictionary) -> bool:
 func get_signal_broker() -> Node:
 	return get_tree().get_first_node_in_group("signalbroker")
 
+func get_helper() -> Node:
+	return get_tree().get_first_node_in_group("helper")
+
+func get_resource_manager() -> Label:
+	return get_helper().get_resource_manager()
+
+func is_at_capacity() -> bool:
+	return get_resource_manager().are_all_at_capacity(story_action.rewards)
+
 # Interrupt the loop if the active action changes
 func _on_active_action_updated(new_action: StoryAction) -> void:
 	if new_action != story_action:
@@ -71,11 +80,18 @@ func _process(delta: float) -> void:
 	# If cooldown finishes, trigger the next loop
 	if elapsed_time >= cooldown:
 		elapsed_time = 0.0
+		
+		# Stop the loop if the action is at capacity
+		if is_at_capacity():
+			is_looping = false
+			return
+		
+		# Emit the signal for the next loop
 		action_pressed.emit(self)
 		
 		# Check if the current action is still the active action
 		if parent.get_active_action() != story_action:
 			is_looping = false
 		else:
-			# Continue the loop
+			# Continue the loop if not at capacity
 			is_looping = true

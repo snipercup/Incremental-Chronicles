@@ -63,3 +63,6 @@ func on_rewards_requirments_right_clicked(rewardsrequirmentsnode: VBoxContainer)
 # Get the active action from the action list. May be null
 func get_active_action() -> StoryAction:
 	return action_list.get_active_action()
+	
+func get_resource_manager() -> Label:
+	return resource_manager

@@ -105,3 +105,19 @@ func _update_tooltip() -> void:
 	
 	# Format the tooltip text
 	tooltip_text = "\n".join(resource_list) if not resource_list.is_empty() else ""
+
+# Check if a resource is at capacity
+func is_at_capacity(resource_name: String) -> bool:
+	var current_value = resources.get(resource_name, 0)
+	var max_value = get_resource_max(resource_name)
+	
+	if max_value > 0 and current_value >= max_value:
+		return true
+	return false
+
+# Check if all resources in the provided dictionary are at capacity
+func are_all_at_capacity(resources_to_check: Dictionary) -> bool:
+	for key in resources_to_check.keys():
+		if not is_at_capacity(key):
+			return false
+	return true
