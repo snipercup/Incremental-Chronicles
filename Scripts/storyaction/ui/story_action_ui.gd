@@ -25,7 +25,6 @@ var needs_remove: bool = true
 # Signal to emit when the action button is pressed
 signal action_pressed(control: Control)
 
-
 # Update the UI for this action
 func set_story_action(value: StoryAction) -> void:
 	story_action = value
@@ -43,7 +42,7 @@ func set_story_action(value: StoryAction) -> void:
 			# Add to the action_container
 			action_container.add_child(action_instance)
 
-
+# The resource manager will handle rewards
 func get_resource_manager() -> Node:
 	return get_tree().get_first_node_in_group("helper").resource_manager
 

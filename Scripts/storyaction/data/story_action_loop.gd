@@ -5,6 +5,7 @@ var ui_scene: PackedScene = preload("res://Scenes/action/story_action_loop_ui.ts
 var cooldown: float = 1.0
 
 func _init(data: Dictionary) -> void:
+	super(data)  # Call parent class _init function
 	cooldown = data.get("cooldown", 1.0)
 
 func perform_action() -> void:

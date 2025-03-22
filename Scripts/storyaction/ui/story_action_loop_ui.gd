@@ -1,4 +1,4 @@
-extends Button
+extends VBoxContainer
 
 
 # This script is used with the StoryActionLoopUI scene
@@ -33,7 +33,7 @@ func set_parent(newparent: Control) -> void:
 
 # Handle action button press
 func _ready():
-	pressed.connect(_on_action_button_pressed)
+	button.pressed.connect(_on_action_button_pressed)
 
 # Start the cooldown process and fill progress bar
 func _on_action_button_pressed() -> void:
