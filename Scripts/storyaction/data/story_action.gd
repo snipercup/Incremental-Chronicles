@@ -43,7 +43,6 @@ func set_rewards(value: Dictionary) -> void:
 func get_rewards() -> Dictionary:
 	return rewards
 
-
 func set_story_text(value: String) -> void:
 	story_text = value
 
@@ -64,9 +63,3 @@ func can_perform_action(resources: Dictionary) -> bool:
 		if resources.get(key, 0) < requirements[key]:
 			return false
 	return true
-
-# Apply the action's rewards to the player's resources
-#func apply_rewards(player_resources: Dictionary) -> Dictionary:
-	#for key in rewards.keys():
-		#player_resources[key] = player_resources.get(key, 0) + rewards[key]
-	#return player_resources

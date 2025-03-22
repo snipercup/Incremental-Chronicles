@@ -20,7 +20,6 @@ extends VBoxContainer
 # Provides an option to select viewing either rewards, requirements or both
 enum DisplayMode { REQUIREMENTS, REWARDS, BOTH }
 @export var display_mode: DisplayMode = DisplayMode.BOTH
-@export var story_points_label: Label = null
 
 var story_action: StoryAction
 # Signal to emit when the user right-clicks the container
@@ -48,10 +47,10 @@ func _update_rewards_and_requirements() -> void:
 		for key in requirements.keys():
 			var needed = requirements[key]
 			var label_text = ""
-
-			if story_points_label:
-				var current = story_points_label.get_resource(key)
-				var max_value = story_points_label.get_resource("Max %s" % key)
+			var resource_manager: Node = get_resource_manager()
+			if resource_manager:
+				var current = resource_manager.get_resource(key)
+				var max_value = resource_manager.get_resource("Max %s" % key)
 
 				if max_value != 0: 
 					# Include max value only if it’s greater than 0
@@ -94,3 +93,8 @@ func _handle_right_click() -> void:
 		print_debug("Right-click detected")
 		right_clicked.emit()
 		get_tree().get_first_node_in_group("helper").on_rewards_requirments_right_clicked(self)
+
+
+# The resource manager will handle rewards
+func get_resource_manager() -> Node:
+	return get_tree().get_first_node_in_group("helper").resource_manager

@@ -3,9 +3,9 @@ extends Node
 var loaded_areas: Dictionary = {}
 @export var area_list: VBoxContainer = null
 @export var requirements_pin_list: VBoxContainer = null
-const RESOURCE_CAPS: JSON = preload("res://JSON/resource_caps.tres")
-# Dictionary to store current caps for each resource
-var current_resource_caps: Dictionary = {}
+@export var resource_manager: Label = null
+@export var action_list: VBoxContainer = null
+
 
 func initialize():
 	loaded_areas = load_json_files_from_path("res://Area_data/")
@@ -36,9 +36,7 @@ func load_json_files_from_path(path: String) -> Dictionary:
 		dir.list_dir_end()
 	else:
 		print_debug("Failed to open directory: %s" % path)
-	
 	return data_dict
-
 
 
 # Function to create StoryArea instances from loaded areas and set area_list
@@ -62,10 +60,9 @@ func create_story_areas() -> void:
 func on_rewards_requirments_right_clicked(rewardsrequirmentsnode: VBoxContainer):
 	requirements_pin_list.add_action(rewardsrequirmentsnode.story_action)
 
-
-# Function to get the base cap for a resource from RESOURCE_CAPS
-func get_base_cap(resource_name: String) -> int:
-	# Ensure the resource exists in RESOURCE_CAPS
-	if RESOURCE_CAPS.data.has(resource_name):
-		return RESOURCE_CAPS.data.get(resource_name, 0)
-	return 0
+# Get the active action from the action list. May be null
+func get_active_action() -> StoryAction:
+	return action_list.get_active_action()
+	
+func get_resource_manager() -> Label:
+	return resource_manager

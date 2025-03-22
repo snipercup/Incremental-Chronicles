@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://hf574lotfqlr"]
 
-[ext_resource type="Script" uid="uid://tq7qmviup2im" path="res://Scripts/storyaction/story_action_ui.gd" id="1_5urje"]
+[ext_resource type="Script" uid="uid://tq7qmviup2im" path="res://Scripts/storyaction/ui/story_action_ui.gd" id="1_5urje"]
 [ext_resource type="PackedScene" uid="uid://d1amlgxg4qcs5" path="res://Scenes/rewards_requirements.tscn" id="2_e83s4"]
 
 [node name="StoryActionUI" type="PanelContainer" node_paths=PackedStringArray("rewards_requirements", "action_container")]

@@ -5,9 +5,11 @@ extends VBoxContainer
 # Each area has its own list of actions. When we are assigned a new area, update the list of actions
 
 var area: StoryArea
-const STORY_ACTION_UI = preload("res://Scenes/story_action_ui.tscn")
+const STORY_ACTION_UI = preload("res://Scenes/action/story_action_ui.tscn")
 signal action_completed(myaction: Control)
 
+# Store the currently active action
+var active_action: StoryAction = null
 
 
 # Setter for area
@@ -50,10 +52,18 @@ func _update_story_actions() -> void:
 
 # Function to handle action_pressed signal
 func _on_action_pressed(control: Control) -> void:
-	control.story_action.area.remove_story_action(control.story_action)
+	if control.needs_remove:
+		control.story_action.area.remove_story_action(control.story_action)
+		active_action = null # Clear active action if it needs removal
+	else:
+		active_action = control.story_action # Set active action if it doesn't need removal
+	get_tree().get_first_node_in_group("signalbroker").active_action_updated.emit(active_action)
 	action_completed.emit(control)
 
 
 # Function to handle action_added signal
 func _on_action_added(_myarea: StoryArea) -> void:
 	_update_story_actions()
+	
+func get_active_action() -> StoryAction:
+	return active_action
