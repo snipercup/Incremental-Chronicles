@@ -44,6 +44,7 @@ func _update_resources() -> void:
 	resources_updated.emit(resources)
 	var story_points = resources.get("Story Point", 0)
 	text = "Story points: %d/100" % story_points
+	_update_tooltip()
 
 # Get the value of a specific resource
 func get_resource(resource_name: String) -> int:
@@ -65,3 +66,26 @@ func apply_rewards(rewards: Dictionary) -> Dictionary:
 	for key in rewards.keys():
 		resources[key] = resources.get(key, 0) + rewards[key]
 	return resources
+
+
+# Update the tooltip with the first 10 resources
+func _update_tooltip() -> void:
+	var resource_list = []
+	var count = 0
+	
+	for key in resources.keys():
+		var value = resources[key]
+		var max_value = get_resource_max(key)
+		
+		# Include max value if available
+		if max_value > 0:
+			resource_list.append("%s: %d/%d" % [key, value, max_value])
+		else:
+			resource_list.append("%s: %d" % [key, value])
+		
+		count += 1
+		if count >= 10:
+			break
+	
+	# Format the tooltip text
+	tooltip_text = "\n".join(resource_list) if not resource_list.is_empty() else ""
