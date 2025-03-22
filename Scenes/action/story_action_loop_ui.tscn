@@ -5,7 +5,7 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2a1fg"]
 bg_color = Color(0.300694, 0.592945, 0.814944, 1)
 
-[node name="StoryActionLoopUI" type="VBoxContainer" node_paths=PackedStringArray("cooldown_timer", "button", "progress_bar")]
+[node name="StoryActionLoopUI" type="VBoxContainer" node_paths=PackedStringArray("button", "progress_bar")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -14,7 +14,6 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_2a1fg")
-cooldown_timer = NodePath("Timer")
 button = NodePath("Button")
 progress_bar = NodePath("ProgressBar")
 
@@ -27,6 +26,3 @@ text = "Walk trough the forest"
 layout_mode = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_2a1fg")
 show_percentage = false
-
-[node name="Timer" type="Timer" parent="."]
-one_shot = true
