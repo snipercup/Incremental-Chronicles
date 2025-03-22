@@ -23,9 +23,16 @@ func _on_action_completed(control: Control):
 	for key in rewards.keys():
 		add_resource(key, rewards[key])
 
-# Add to a resource
+# Add to a resource (respect max capacity)
 func add_resource(resource_name: String, amount: int) -> void:
-	resources[resource_name] = resources.get(resource_name, 0) + amount
+	var current_value = resources.get(resource_name, 0)
+	var max_value = get_resource_max(resource_name)
+	if max_value > 0:
+		# If a cap exists, limit the value to the cap
+		resources[resource_name] = min(current_value + amount, max_value)
+	else:
+		# No cap - increase value without limit
+		resources[resource_name] = current_value + amount
 	_update_resources()
 
 # Remove from a resource
