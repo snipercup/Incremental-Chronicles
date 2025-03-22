@@ -19,6 +19,13 @@ extends StoryAction
 
 
 var enemy: Dictionary = {}
+# Number of allowed attempts to defeat the enemy
+const TOTAL_CHANCES: int = 3
+var remaining_chances: int = TOTAL_CHANCES
+var success_count: int = 0
+
+# Signal to emit when the enemy is defeated
+signal enemy_defeated
 
 func _init(data: Dictionary) -> void:
 	super(data)  # Call parent class _init function
@@ -45,3 +52,30 @@ func test_combat_success(player_strength: int) -> bool:
 
 func get_icon() -> String:
 	return "⚔️"
+
+
+# Set the number of chances and reset success count
+func reset_combat_progress() -> void:
+	remaining_chances = TOTAL_CHANCES
+	success_count = 0
+
+# Get the number of remaining chances
+func get_remaining_chances() -> int:
+	return remaining_chances
+
+# Perform a combat attempt and track success
+func attempt_combat(player_strength: int) -> bool:
+	if remaining_chances <= 0:
+		return false
+
+	remaining_chances -= 1
+	
+	if test_combat_success(player_strength):
+		success_count += 1
+	
+	# If two or more successes → defeat enemy
+	if success_count >= 2:
+		enemy_defeated.emit()
+		return true
+	
+	return false
