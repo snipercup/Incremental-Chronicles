@@ -15,29 +15,27 @@ func initialize():
 func load_json_files_from_path(path: String) -> Dictionary:
 	var data_dict: Dictionary = {}
 	var dir = DirAccess.open(path)
-	
 	if dir:
 		dir.list_dir_begin()
 		var file_name = dir.get_next()
 		while file_name != "":
-			# Check if the file is a .tres resource file
-			if file_name.ends_with(".tres"):
+			# Check if the file is a JSON file
+			if file_name.ends_with(".json"):
 				var file_path = path + "/" + file_name
-				var resource = ResourceLoader.load(file_path)
-				
-				# Ensure the resource is a JSON type
-				if resource is JSON:
-					var base_name = file_name.get_basename()
-					data_dict[base_name] = resource.data
-				else:
-					print_debug("Invalid resource type: %s" % file_path)
+				var file = FileAccess.open(file_path, FileAccess.READ)
+				if file:
+					var content = JSON.parse_string(file.get_as_text())
+					if content != null:
+						var base_name = file_name.get_basename()
+						data_dict[base_name] = content
+					else:
+						print_debug("Failed to parse JSON file: %s" % file_path)
+				file.close()
 			file_name = dir.get_next()
-		
 		dir.list_dir_end()
 	else:
 		print_debug("Failed to open directory: %s" % path)
 	return data_dict
-
 
 # Function to create StoryArea instances from loaded areas and set area_list
 func create_story_areas() -> void:
