@@ -29,4 +29,13 @@ extends VBoxContainer
 #}
 
 @onready var pin_list_label: Label = $PinListLabel
-@onready var requirement_item_list: ItemList = $RequirementItemList
+@onready var rewards_requirements: VBoxContainer = $RewardsRequirements
+var story_points_label: Label = null
+var action: StoryAction = null
+
+
+func set_story_action(myaction: StoryAction):
+	action = myaction
+	pin_list_label.text = action.area.name
+	rewards_requirements.story_points_label = story_points_label
+	rewards_requirements.set_story_action(myaction)

@@ -57,10 +57,11 @@ action_list = NodePath("../../ActionsPanelContainer/ActionsVBoxContainer/ScrollC
 layout_mode = 2
 text = "Reincarnate"
 
-[node name="RequirementsPinList" type="VBoxContainer" parent="MainWindow/PlayerStats"]
+[node name="RequirementsPinList" type="VBoxContainer" parent="MainWindow/PlayerStats" node_paths=PackedStringArray("story_points_label")]
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("4_3uyo8")
+story_points_label = NodePath("../StoryPointsLabel")
 
 [node name="AreasPanelContainer" type="PanelContainer" parent="MainWindow"]
 layout_mode = 2

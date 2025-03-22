@@ -5,15 +5,22 @@ extends VBoxContainer
 # Rewards will be displayed as green labels, requirements as red
 # You can specify if you want to see requirements, rewards or both
 
+# If story_points_label is present, we can get story_points_label.get_resource()
+# and story_points_label.get_resource_max() to get the relevant values
+# The format of each item will be [needed] requirement (current/max)
+# For example: [40] resolve (1/10)
+# If story_points_label is null, we just use resource: #
+
 # Example JSON from story_action.get_requirements() and story_action.get_rewards():
 # {
 #     "Story Point": 1,
 #     "Persistence": 1
 # }
 
+# Provides an option to select viewing either rewards, requirements or both
 enum DisplayMode { REQUIREMENTS, REWARDS, BOTH }
-
 @export var display_mode: DisplayMode = DisplayMode.BOTH
+@export var story_points_label: Label = null
 
 var story_action: StoryAction
 
@@ -37,8 +44,25 @@ func _update_rewards_and_requirements() -> void:
 	# Display requirements if enabled
 	if display_mode == DisplayMode.REQUIREMENTS or display_mode == DisplayMode.BOTH:
 		for key in requirements.keys():
+			var needed = requirements[key]
+			var label_text = ""
+
+			if story_points_label:
+				var current = story_points_label.get_resource(key)
+				var max_value = story_points_label.get_resource("Max %s" % key)
+
+				if max_value != 0: 
+					# Include max value only if it’s greater than 0
+					label_text = "[%d] %s (%d/%d)" % [needed, key, current, max_value]
+				else:
+					# No max value — omit the (current/max) part
+					label_text = "[%d] %s" % [needed, key]
+			else:
+				# If no story_points_label, fall back to basic format
+				label_text = "%s: %d" % [key, needed]
+
 			var requirement_label = Label.new()
-			requirement_label.text = "%s: %d" % [key, requirements[key]]
+			requirement_label.text = label_text
 			requirement_label.modulate = Color(1, 0, 0)  # Red color for requirements
 			add_child(requirement_label)
 			has_content = true
@@ -47,7 +71,8 @@ func _update_rewards_and_requirements() -> void:
 	if display_mode == DisplayMode.REWARDS or display_mode == DisplayMode.BOTH:
 		for key in rewards.keys():
 			var reward_label = Label.new()
-			reward_label.text = "%s: %d" % [key, rewards[key]]
+			var amount = rewards[key]
+			reward_label.text = "%s: %d" % [key, amount]
 			reward_label.modulate = Color(0, 1, 0)  # Green color for rewards
 			add_child(reward_label)
 			has_content = true
