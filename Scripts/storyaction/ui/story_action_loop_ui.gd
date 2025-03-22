@@ -37,11 +37,14 @@ func set_parent(newparent: Control) -> void:
 
 # Start the cooldown process and fill progress bar
 func _on_action_button_pressed() -> void:
-	if is_looping:
+	# If already looping or at capacity, do nothing
+	if is_looping or is_at_capacity():
+		progress_bar.value = 0
 		return
 	
 	elapsed_time = 0.0
 	is_looping = true
+
 
 # Apply the action's rewards to the player's resources
 func apply_rewards(rewards: Dictionary) -> bool:
