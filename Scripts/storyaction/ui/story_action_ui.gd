@@ -55,7 +55,7 @@ func get_helper() -> Node:
 	return get_tree().get_first_node_in_group("helper")
 
 # Apply the action's rewards to the player's resources
-func apply_rewards(rewards: Dictionary) -> Dictionary:
+func apply_rewards(rewards: Dictionary) -> bool:
 	return get_resource_manager().apply_rewards(rewards)
 
 # Handle action_pressed from the instantiated action scene

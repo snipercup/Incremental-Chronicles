@@ -24,16 +24,22 @@ func _on_action_completed(control: Control):
 		add_resource(key, rewards[key])
 
 # Add to a resource (respect max capacity)
-func add_resource(resource_name: String, amount: int) -> void:
+func add_resource(resource_name: String, amount: int) -> bool:
+	if amount <= 0:
+		return false
+	
 	var current_value = resources.get(resource_name, 0)
 	var max_value = get_resource_max(resource_name)
+
+	# Respect max capacity if there's a limit
 	if max_value > 0:
-		# If a cap exists, limit the value to the cap
+		if current_value >= max_value:
+			return false # No change since it's already at max
 		resources[resource_name] = min(current_value + amount, max_value)
 	else:
-		# No cap - increase value without limit
 		resources[resource_name] = current_value + amount
 	_update_resources()
+	return true
 
 # Remove from a resource
 func remove_resource(resource_name: String, amount: int) -> void:
@@ -69,10 +75,13 @@ func get_base_cap(resource_name: String) -> int:
 	return 0
 
 # Apply the action's rewards to the player's resources
-func apply_rewards(rewards: Dictionary) -> Dictionary:
+func apply_rewards(rewards: Dictionary) -> bool:
+	var added = false
 	for key in rewards.keys():
-		resources[key] = resources.get(key, 0) + rewards[key]
-	return resources
+		# If any resource is successfully added, return true
+		if add_resource(key, rewards[key]):
+			added = true
+	return added
 
 
 # Update the tooltip with the first 10 resources

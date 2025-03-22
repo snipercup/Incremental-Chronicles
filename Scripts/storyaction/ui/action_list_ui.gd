@@ -57,6 +57,7 @@ func _on_action_pressed(control: Control) -> void:
 		active_action = null # Clear active action if it needs removal
 	else:
 		active_action = control.story_action # Set active action if it doesn't need removal
+	get_tree().get_first_node_in_group("signalbroker").active_action_updated.emit(active_action)
 	action_completed.emit(control)
 
 

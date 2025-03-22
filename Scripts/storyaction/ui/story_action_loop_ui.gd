@@ -14,6 +14,11 @@ var parent: Control
 # Signal to emit when the action button is pressed
 signal action_pressed(control: Control)
 
+# Handle action button press
+func _ready():
+	button.pressed.connect(_on_action_button_pressed)
+	get_signal_broker().active_action_updated.connect(_on_active_action_updated)
+
 func set_action_button_text(value: String) -> void:
 	button.text = value
 
@@ -31,9 +36,6 @@ func set_story_action(value: StoryAction) -> void:
 func set_parent(newparent: Control) -> void:
 	parent = newparent
 
-# Handle action button press
-func _ready():
-	button.pressed.connect(_on_action_button_pressed)
 
 # Start the cooldown process and fill progress bar
 func _on_action_button_pressed() -> void:
@@ -42,7 +44,7 @@ func _on_action_button_pressed() -> void:
 	_start_cooldown()
 
 # Apply the action's rewards to the player's resources
-func apply_rewards(rewards: Dictionary) -> Dictionary:
+func apply_rewards(rewards: Dictionary) -> bool:
 	return parent.apply_rewards(rewards)
 
 # Function to handle progress bar fill based on cooldown
@@ -68,3 +70,13 @@ func _on_cooldown_complete() -> void:
 	if parent.get_active_action() == story_action:
 		# Restart the cooldown and loop if active
 		_start_cooldown()
+
+func get_signal_broker() -> Node:
+	return get_tree().get_first_node_in_group("signalbroker")
+
+# Interrupt the loop if the active action changes
+func _on_active_action_updated(new_action: StoryAction) -> void:
+	# If the new action is not the same as this node's story_action, stop the loop
+	if new_action != story_action:
+		cooldown_timer.stop() # Stop the timer to prevent further looping
+		progress_bar.value = 0 # Reset progress bar
