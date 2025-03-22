@@ -2,6 +2,8 @@ extends Node
 
 var loaded_areas: Dictionary = {}
 @export var area_list: VBoxContainer = null
+@export var requirements_pin_list: VBoxContainer = null
+
 
 func initialize():
 	loaded_areas = load_json_files_from_path("res://Resources/")
@@ -53,3 +55,9 @@ func create_story_areas() -> void:
 	# Assign the created areas to area_list
 	if area_list:
 		area_list.set_area_list(areas)
+
+
+# The user right-clicked on the rewards and requirements node on an action
+# We add the action to the pin list
+func on_rewards_requirments_right_clicked(rewardsrequirmentsnode: VBoxContainer):
+	requirements_pin_list.add_action(rewardsrequirmentsnode.story_action)

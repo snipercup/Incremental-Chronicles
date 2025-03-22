@@ -23,6 +23,8 @@ enum DisplayMode { REQUIREMENTS, REWARDS, BOTH }
 @export var story_points_label: Label = null
 
 var story_action: StoryAction
+# Signal to emit when the user right-clicks the container
+signal right_clicked
 
 # Set story action and update UI
 func set_story_action(value: StoryAction) -> void:
@@ -79,3 +81,16 @@ func _update_rewards_and_requirements() -> void:
 	
 	# Hide container if empty
 	visible = has_content
+
+# Detect right-click events
+func _gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed:
+		if event.button_index == MOUSE_BUTTON_RIGHT:
+			_handle_right_click()
+
+# Handle right-click event (only emit if requirements exist)
+func _handle_right_click() -> void:
+	if not story_action.get_requirements().is_empty():
+		print_debug("Right-click detected")
+		right_clicked.emit()
+		get_tree().get_first_node_in_group("helper").on_rewards_requirments_right_clicked(self)
