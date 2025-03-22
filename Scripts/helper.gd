@@ -2,12 +2,16 @@ extends Node
 
 var loaded_areas: Dictionary = {}
 @export var area_list: VBoxContainer = null
+@export var requirements_pin_list: VBoxContainer = null
+const RESOURCE_CAPS: JSON = preload("res://JSON/resource_caps.tres")
+# Dictionary to store current caps for each resource
+var current_resource_caps: Dictionary = {}
 
 func initialize():
-	loaded_areas = load_json_files_from_path("res://Resources/")
+	loaded_areas = load_json_files_from_path("res://Area_data/")
 	create_story_areas()
 
-# Function to load all JSON files from a directory into a dictionary
+# Function to load all JSON resource files from a directory into a dictionary
 func load_json_files_from_path(path: String) -> Dictionary:
 	var data_dict: Dictionary = {}
 	var dir = DirAccess.open(path)
@@ -16,20 +20,17 @@ func load_json_files_from_path(path: String) -> Dictionary:
 		dir.list_dir_begin()
 		var file_name = dir.get_next()
 		while file_name != "":
-			# Check if the file is a JSON file
-			if file_name.ends_with(".json"):
+			# Check if the file is a .tres resource file
+			if file_name.ends_with(".tres"):
 				var file_path = path + "/" + file_name
-				var file = FileAccess.open(file_path, FileAccess.READ)
+				var resource = ResourceLoader.load(file_path)
 				
-				if file:
-					var content = JSON.parse_string(file.get_as_text())
-					if content != null:
-						var base_name = file_name.get_basename()
-						data_dict[base_name] = content
-					else:
-						print_debug("Failed to parse JSON file: %s" % file_path)
-				
-				file.close()
+				# Ensure the resource is a JSON type
+				if resource is JSON:
+					var base_name = file_name.get_basename()
+					data_dict[base_name] = resource.data
+				else:
+					print_debug("Invalid resource type: %s" % file_path)
 			file_name = dir.get_next()
 		
 		dir.list_dir_end()
@@ -37,6 +38,7 @@ func load_json_files_from_path(path: String) -> Dictionary:
 		print_debug("Failed to open directory: %s" % path)
 	
 	return data_dict
+
 
 
 # Function to create StoryArea instances from loaded areas and set area_list
@@ -53,3 +55,17 @@ func create_story_areas() -> void:
 	# Assign the created areas to area_list
 	if area_list:
 		area_list.set_area_list(areas)
+
+
+# The user right-clicked on the rewards and requirements node on an action
+# We add the action to the pin list
+func on_rewards_requirments_right_clicked(rewardsrequirmentsnode: VBoxContainer):
+	requirements_pin_list.add_action(rewardsrequirmentsnode.story_action)
+
+
+# Function to get the base cap for a resource from RESOURCE_CAPS
+func get_base_cap(resource_name: String) -> int:
+	# Ensure the resource exists in RESOURCE_CAPS
+	if RESOURCE_CAPS.data.has(resource_name):
+		return RESOURCE_CAPS.data.get(resource_name, 0)
+	return 0

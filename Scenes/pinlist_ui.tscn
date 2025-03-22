@@ -1,18 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://bgjvwr5ydyvse"]
+[gd_scene load_steps=3 format=3 uid="uid://bgjvwr5ydyvse"]
 
 [ext_resource type="Script" uid="uid://rvwdhnrjqi5t" path="res://Scripts/pinlist_ui.gd" id="1_qxdo0"]
+[ext_resource type="PackedScene" uid="uid://d1amlgxg4qcs5" path="res://Scenes/rewards_requirements.tscn" id="2_23vck"]
 
-[node name="PinList" type="VBoxContainer"]
+[node name="PinList" type="VBoxContainer" node_paths=PackedStringArray("pin_list_label", "rewards_requirements")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_qxdo0")
+pin_list_label = NodePath("PinListLabel")
+rewards_requirements = NodePath("RewardsRequirements")
 
 [node name="PinListLabel" type="Label" parent="."]
 layout_mode = 2
 
-[node name="RequirementItemList" type="ItemList" parent="."]
+[node name="RewardsRequirements" parent="." instance=ExtResource("2_23vck")]
 layout_mode = 2
-size_flags_vertical = 3

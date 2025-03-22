@@ -1,0 +1,6 @@
+[gd_resource type="JSON" format=3 uid="uid://x06w22akmgco"]
+
+[resource]
+data = {
+"Resolve": 10.0
+}

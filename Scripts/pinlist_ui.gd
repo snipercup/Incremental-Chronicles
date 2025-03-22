@@ -28,5 +28,23 @@ extends VBoxContainer
 		#"Persistence": 45000
 #}
 
-@onready var pin_list_label: Label = $PinListLabel
-@onready var requirement_item_list: ItemList = $RequirementItemList
+@export var pin_list_label: Label = null
+@export var rewards_requirements: VBoxContainer = null
+var story_points_label: Label = null
+var action: StoryAction = null
+signal removed
+
+func set_story_action(myaction: StoryAction):
+	action = myaction
+	pin_list_label.text = action.area.name
+	rewards_requirements.story_points_label = story_points_label
+	rewards_requirements.set_story_action(myaction)
+
+
+# Detect right-click events
+func _gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed:
+		if event.button_index == MOUSE_BUTTON_RIGHT:
+			print_debug("Right-click detected")
+			removed.emit() # Send signal to pinlist
+			queue_free() # Remove itself from pin list

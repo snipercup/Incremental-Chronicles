@@ -40,3 +40,12 @@ func _update_resources() -> void:
 	resources_updated.emit(resources)
 	var story_points = resources.get("Story Point", 0)
 	text = "Story points: %d/100" % story_points
+
+# Get the value of a specific resource
+func get_resource(resource_name: String) -> int:
+	return resources.get(resource_name, 0)
+
+# Get the max value of a specific resource
+# TODO: implement actual max values for resources
+func get_resource_max(_resource_name: String) -> int:
+	return 100

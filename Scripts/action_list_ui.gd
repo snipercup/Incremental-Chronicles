@@ -5,7 +5,9 @@ extends VBoxContainer
 # Each area has its own list of actions. When we are assigned a new area, update the list of actions
 
 var area: StoryArea
+const STORY_ACTION_UI = preload("res://Scenes/story_action_ui.tscn")
 signal action_completed(myaction: Control)
+
 
 
 # Setter for area
@@ -33,19 +35,17 @@ func _update_story_actions() -> void:
 	
 	# Create an instance for each StoryAction
 	for action in area.get_story_actions():
-		var story_action_ui: PackedScene = action.ui_scene
-		if story_action_ui:
-			var action_ui = story_action_ui.instantiate()
-			# Set the story_action property if available
-			if action_ui.has_method("set_story_action"):
-				action_ui.set_story_action(action)
-			
-			# Connect to the action_pressed signal if it exists
-			if action_ui.has_signal("action_pressed"):
-				action_ui.action_pressed.connect(_on_action_pressed)
-			
-			# Add the instance as a child
-			add_child(action_ui)
+		var action_ui: Control = STORY_ACTION_UI.instantiate()
+		# Set the story_action property if available
+		if action_ui.has_method("set_story_action"):
+			action_ui.set_story_action(action)
+		
+		# Connect to the action_pressed signal if it exists
+		if action_ui.has_signal("action_pressed"):
+			action_ui.action_pressed.connect(_on_action_pressed)
+		
+		# Add the instance as a child
+		add_child(action_ui)
 
 
 # Function to handle action_pressed signal
