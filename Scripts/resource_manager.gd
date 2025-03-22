@@ -3,6 +3,10 @@ extends Label
 @export var action_list: VBoxContainer = null
 const DEFAULT_LABEL_TEXT: String = "Story points: 0/100"
 var resources: Dictionary = {} 
+const RESOURCE_CAPS: JSON = preload("res://JSON/resource_caps.tres")
+# Dictionary to store current caps for each resource
+var current_resource_caps: Dictionary = {}
+
 
 # Signal to emit when resources are updated
 signal resources_updated(new_resources: Dictionary)
@@ -46,6 +50,18 @@ func get_resource(resource_name: String) -> int:
 	return resources.get(resource_name, 0)
 
 # Get the max value of a specific resource
-# TODO: implement actual max values for resources
-func get_resource_max(_resource_name: String) -> int:
-	return 100
+func get_resource_max(resource_name: String) -> int:
+	return get_base_cap(resource_name)
+
+# Function to get the base cap for a resource from RESOURCE_CAPS
+func get_base_cap(resource_name: String) -> int:
+	# Ensure the resource exists in RESOURCE_CAPS
+	if RESOURCE_CAPS.data.has(resource_name):
+		return RESOURCE_CAPS.data.get(resource_name, 0)
+	return 0
+
+# Apply the action's rewards to the player's resources
+func apply_rewards(rewards: Dictionary) -> Dictionary:
+	for key in rewards.keys():
+		resources[key] = resources.get(key, 0) + rewards[key]
+	return resources

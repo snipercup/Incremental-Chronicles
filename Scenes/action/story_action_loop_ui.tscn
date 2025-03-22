@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://casoq72ydqnei"]
+
+[ext_resource type="Script" uid="uid://clrlpehate1wv" path="res://Scripts/storyaction/ui/story_action_loop_ui.gd" id="1_2a1fg"]
+
+[node name="StoryActionLoopUI" type="VBoxContainer" node_paths=PackedStringArray("cooldown_timer", "button", "progress_bar")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_2a1fg")
+cooldown_timer = NodePath("Timer")
+button = NodePath("Button")
+progress_bar = NodePath("ProgressBar")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Walk trough the forest"
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+layout_mode = 2
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true

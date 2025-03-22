@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ctfsl70gr5fnl"]
 
-[ext_resource type="Script" uid="uid://b20hlnkae7a80" path="res://Scripts/story_area_ui.gd" id="1_hdrx1"]
+[ext_resource type="Script" uid="uid://b20hlnkae7a80" path="res://Scripts/storyarea/story_area_ui.gd" id="1_hdrx1"]
 
 [node name="StoryAreaUI" type="PanelContainer" node_paths=PackedStringArray("story_point_requirement_label", "stars_label", "area_button")]
 anchors_preset = 15
