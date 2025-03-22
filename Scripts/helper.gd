@@ -4,6 +4,7 @@ var loaded_areas: Dictionary = {}
 @export var area_list: VBoxContainer = null
 @export var requirements_pin_list: VBoxContainer = null
 @export var resource_manager: Label = null
+@export var action_list: VBoxContainer = null
 
 
 func initialize():
@@ -58,3 +59,7 @@ func create_story_areas() -> void:
 # We add the action to the pin list
 func on_rewards_requirments_right_clicked(rewardsrequirmentsnode: VBoxContainer):
 	requirements_pin_list.add_action(rewardsrequirmentsnode.story_action)
+
+# Get the active action from the action list. May be null
+func get_active_action() -> StoryAction:
+	return action_list.get_active_action()

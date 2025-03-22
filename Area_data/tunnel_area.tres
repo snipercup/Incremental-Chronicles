@@ -58,7 +58,7 @@ The ground beneath the grass is uneven, strewn with pebbles and patches of bare 
 "story_text": "Search for hidden objects or tracks."
 }, {
 "action_type": "loop",
-"cooldown": 1.0,
+"cooldown": 2.0,
 "rewards": {
 "Resolve": 1.0
 },

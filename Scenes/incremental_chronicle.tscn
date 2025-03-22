@@ -30,10 +30,12 @@ size_flags_vertical = 3
 script = ExtResource("1_4denh")
 helper = NodePath("Helper")
 
-[node name="Helper" type="Node" parent="." node_paths=PackedStringArray("area_list", "requirements_pin_list") groups=["helper"]]
+[node name="Helper" type="Node" parent="." node_paths=PackedStringArray("area_list", "requirements_pin_list", "resource_manager", "action_list") groups=["helper"]]
 script = ExtResource("2_3uyo8")
 area_list = NodePath("../MainWindow/AreasPanelContainer/AreasVBoxContainer/AreaList")
 requirements_pin_list = NodePath("../MainWindow/PlayerStats/RequirementsPinList")
+resource_manager = NodePath("../MainWindow/PlayerStats/ResourceManager")
+action_list = NodePath("../MainWindow/ActionsPanelContainer/ActionsVBoxContainer/ScrollContainer/ActionList")
 
 [node name="MainWindow" type="HBoxContainer" parent="."]
 layout_mode = 1

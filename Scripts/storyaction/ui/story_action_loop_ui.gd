@@ -39,8 +39,6 @@ func _ready():
 func _on_action_button_pressed() -> void:
 	if cooldown_timer and not cooldown_timer.is_stopped():
 		return
-	
-	action_pressed.emit(self)
 	_start_cooldown()
 
 # Apply the action's rewards to the player's resources
@@ -62,3 +60,11 @@ func _start_cooldown() -> void:
 # Called when cooldown completes
 func _on_cooldown_complete() -> void:
 	progress_bar.value = 0
+	
+	# Emit the signal when the loop repeats
+	action_pressed.emit(self)
+	
+	# Check if the current action is still the active action
+	if parent.get_active_action() == story_action:
+		# Restart the cooldown and loop if active
+		_start_cooldown()

@@ -44,7 +44,15 @@ func set_story_action(value: StoryAction) -> void:
 
 # The resource manager will handle rewards
 func get_resource_manager() -> Node:
-	return get_tree().get_first_node_in_group("helper").resource_manager
+	return get_helper().resource_manager
+
+# The resource manager will handle rewards
+func get_active_action() -> StoryAction:
+	return get_helper().get_active_action()
+	
+# Return the helper
+func get_helper() -> Node:
+	return get_tree().get_first_node_in_group("helper")
 
 # Apply the action's rewards to the player's resources
 func apply_rewards(rewards: Dictionary) -> Dictionary:
