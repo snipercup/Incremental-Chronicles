@@ -1,16 +1,86 @@
 class_name CombatAction
 extends StoryAction
 
-var attack_power: int = 5
-var defense_power: int = 3
+# Example combat step:
+	#{
+	  #"action_type": "combat",
+	  #"requirements": {
+		#"Resolve": 1.0
+	  #},
+	  #"rewards": {
+		#"Story Point": 10.0
+	  #},
+	  #"story_text": "A rat scurries toward you, teeth bared and eyes gleaming in the dim light. You prepare to defend yourself.",
+	  #"enemy": {
+		  #"name": "Rat",
+		  #"strength": 1.0
+		#}
+	#}
+
+var ui_scene: PackedScene = preload("res://Scenes/action/story_action_combat_ui.tscn")
+var enemy: Dictionary = {}
+# Number of allowed attempts to defeat the enemy
+const TOTAL_CHANCES: int = 3
+var remaining_chances: int = TOTAL_CHANCES
+var success_count: int = 0
+
+# Signal to emit when the enemy is defeated
+signal enemy_defeated
+
+func _init(data: Dictionary) -> void:
+	super(data)  # Call parent class _init function
+	# Read and store the enemy data if available
+	enemy = data.get("enemy", {})
 
 
-func perform_action() -> void:
-	var success = attack_power > defense_power
-	if success:
-		print("Combat success! %s" % story_text)
-	else:
-		print("Combat failed... %s" % story_text)
+#Player Strength	Enemy Strength	Success Chance
+#0					1				0%
+#1					1				50%
+#2					1				100%
+#1.5				1				75%
+#0.5				1				25%
+func test_combat_success(player_strength: int) -> bool:
+	var enemy_strength: float = enemy.get("strength", 1.0)
+	
+	if player_strength <= 0:
+		return false  # 0 strength = 0% chance
+	var success_chance: float = clamp(player_strength / (enemy_strength * 2), 0.0, 1.0)
+	# If player strength == enemy strength → 50% chance of success
+	success_chance = lerp(0.5, 1.0, success_chance)
+	return randf() < success_chance
+
 
 func get_icon() -> String:
 	return "⚔️"
+
+
+# Set the number of chances and reset success count
+func reset_combat_progress() -> void:
+	remaining_chances = TOTAL_CHANCES
+	success_count = 0
+
+# Get the number of remaining chances
+func get_remaining_chances() -> int:
+	return remaining_chances
+
+# Perform a combat attempt and track success
+func attempt_combat(player_strength: int) -> bool:
+	if remaining_chances <= 0:
+		return false
+
+	remaining_chances -= 1
+	if test_combat_success(player_strength):
+		success_count += 1
+	
+	# If two or more successes → defeat enemy
+	if success_count >= 2:
+		enemy_defeated.emit()
+		return true
+	return false
+
+# Check if the enemy is defeated (two or more successes)
+func is_enemy_defeated() -> bool:
+	return success_count >= 2
+
+func get_successes() -> int:
+	return success_count

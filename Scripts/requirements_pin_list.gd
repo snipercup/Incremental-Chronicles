@@ -8,7 +8,6 @@ extends VBoxContainer
 # When a pinlist is removed trough its UI, we also remove the associated action
 
 const PINLIST_UI = preload("res://Scenes/pinlist_ui.tscn")
-@export var story_points_label: Label = null
 var actions: Array[StoryAction] = []
 
 # Add a StoryAction to the list if it's not already present
@@ -22,7 +21,6 @@ func add_action(action: StoryAction) -> void:
 # Create a new instance of PINLIST_UI and set the action
 func _create_pinlist_ui(action: StoryAction) -> void:
 	var pinlist_ui = PINLIST_UI.instantiate()
-	pinlist_ui.story_points_label = story_points_label
 	pinlist_ui.set_story_action(action)
 	
 	# Connect the signal for removal

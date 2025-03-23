@@ -25,11 +25,14 @@ var story_action: StoryAction
 # Signal to emit when the user right-clicks the container
 signal right_clicked
 
+func _ready():
+	if story_action:
+		_update_rewards_and_requirements()
+	
+
 # Set story action and update UI
 func set_story_action(value: StoryAction) -> void:
 	story_action = value
-	if story_action:
-		_update_rewards_and_requirements()
 
 # Update the rewards and requirements list based on display mode
 func _update_rewards_and_requirements() -> void:

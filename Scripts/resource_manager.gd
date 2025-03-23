@@ -3,7 +3,8 @@ extends Label
 @export var action_list: VBoxContainer = null
 const DEFAULT_LABEL_TEXT: String = "Story points: 0/100"
 var resources: Dictionary = {} 
-const RESOURCE_CAPS: JSON = preload("res://JSON/resource_caps.tres")
+# Dictionary to store parsed resource caps data
+var resource_caps_data: Dictionary = {}
 # Dictionary to store current caps for each resource
 var current_resource_caps: Dictionary = {}
 
@@ -13,13 +14,12 @@ signal resources_updated(new_resources: Dictionary)
 
 # Called when the node enters the scene tree.
 func _ready():
-	if action_list:
-		action_list.action_completed.connect(_on_action_completed)
+	_load_resource_caps()
+	SignalBroker.action_rewarded.connect(_on_action_rewarded)
 
 # Called when an action is completed
-func _on_action_completed(control: Control):
-	var story_action: StoryAction = control.story_action
-	var rewards = story_action.get_rewards()
+func _on_action_rewarded(myaction: StoryAction):
+	var rewards = myaction.get_rewards()
 	for key in rewards.keys():
 		add_resource(key, rewards[key])
 
@@ -69,12 +69,13 @@ func get_resource_max(resource_name: String) -> int:
 
 # Function to get the base cap for a resource from RESOURCE_CAPS
 func get_base_cap(resource_name: String) -> int:
-	# Ensure the resource exists in RESOURCE_CAPS
-	if RESOURCE_CAPS.data.has(resource_name):
-		return RESOURCE_CAPS.data.get(resource_name, 0)
-	return 0
+	return resource_caps_data.get(resource_name, 0)
 
 # Apply the action's rewards to the player's resources
+# Example rewards:
+#"rewards": {
+	#"Story Point": 1
+#},
 func apply_rewards(rewards: Dictionary) -> bool:
 	var added = false
 	for key in rewards.keys():
@@ -120,4 +121,34 @@ func are_all_at_capacity(resources_to_check: Dictionary) -> bool:
 	for key in resources_to_check.keys():
 		if not is_at_capacity(key):
 			return false
+	return true
+
+
+# Load and parse the resource caps file
+func _load_resource_caps() -> void:
+	var file = FileAccess.open("res://JSON/resource_caps.json", FileAccess.READ)
+	if file:
+		var content = file.get_as_text()
+		var json = JSON.parse_string(content)
+		if json is Dictionary:
+			resource_caps_data = json
+		else:
+			print_debug("Failed to parse resource_caps.json")
+	else:
+		print_debug("Failed to load resource_caps.json")
+
+# Attempt to subtract resources based on the provided requirements
+func apply_requirements(requirements: Dictionary) -> bool:
+	# First, check if all requirements are met
+	for key in requirements.keys():
+		var current_value = get_resource(key)
+		if current_value < requirements[key]:
+			return false  # Not enough resources to fulfill the requirements
+
+	# If all requirements are met, subtract the values
+	for key in requirements.keys():
+		remove_resource(key, requirements[key])
+	
+	# Update the UI and emit signal after successful subtraction
+	_update_resources()
 	return true
