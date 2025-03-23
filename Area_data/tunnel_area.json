@@ -75,11 +75,24 @@
 	  "rewards": {
 		"Story Point": 10.0
 	  },
+	  "hidden_rewards": {
+		"hidden_rat_reward": 1.0
+	  },
 	  "story_text": "A rat scurries toward you, teeth bared and eyes gleaming in the dim light. You prepare to defend yourself.",
 	  "enemy": {
 		"name": "Rat",
 		"strength": 1.0
 	  }
+	},
+	{
+	  "action_type": "free",
+	  "appear_requirements": {
+		"hidden_rat_reward": 1.0
+	  },
+	  "rewards": {
+		"Story Point": 1.0
+	  },
+	  "story_text": "Examine the defeated rat."
 	}
   ],
   "story_point_requirement": 0.0,

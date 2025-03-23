@@ -12,6 +12,17 @@ signal action_activated(myaction: StoryAction)
 @warning_ignore("unused_signal")
 signal action_rewarded(myaction: StoryAction)
 
+# When an action has changed state
+@warning_ignore("unused_signal")
+signal action_state_changed(myaction: StoryAction)
+
 # When an action will be removed
 @warning_ignore("unused_signal")
 signal action_removed(myaction: Control)
+
+# Signal to emit when hidden resources are updated
+@warning_ignore("unused_signal")
+signal hidden_resources_updated(resource_manager: Label)
+# Signal to emit when resources are updated
+@warning_ignore("unused_signal")
+signal resources_updated(new_resources: Dictionary)

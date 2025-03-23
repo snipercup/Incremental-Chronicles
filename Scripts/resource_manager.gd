@@ -7,10 +7,9 @@ var resources: Dictionary = {}
 var resource_caps_data: Dictionary = {}
 # Dictionary to store current caps for each resource
 var current_resource_caps: Dictionary = {}
+# Dictionary to store hidden resources
+var hidden_resources: Dictionary = {}
 
-
-# Signal to emit when resources are updated
-signal resources_updated(new_resources: Dictionary)
 
 # Called when the node enters the scene tree.
 func _ready():
@@ -22,6 +21,12 @@ func _on_action_rewarded(myaction: StoryAction):
 	var rewards = myaction.get_rewards()
 	for key in rewards.keys():
 		add_resource(key, rewards[key])
+
+	# Apply hidden rewards to hidden resources
+	var hidden_rewards = myaction.get_hidden_rewards()
+	for key in hidden_rewards.keys():
+		add_hidden_resource(key, hidden_rewards[key])
+
 
 # Add to a resource (respect max capacity)
 func add_resource(resource_name: String, amount: int) -> bool:
@@ -54,7 +59,7 @@ func set_resource(resource_name: String, amount: int) -> void:
 
 # Update resource values and emit signal
 func _update_resources() -> void:
-	resources_updated.emit(resources)
+	SignalBroker.resources_updated.emit(resources)
 	var story_points = resources.get("Story Point", 0)
 	text = "Story points: %d/100" % story_points
 	_update_tooltip()
@@ -138,17 +143,53 @@ func _load_resource_caps() -> void:
 		print_debug("Failed to load resource_caps.json")
 
 # Attempt to subtract resources based on the provided requirements
-func apply_requirements(requirements: Dictionary) -> bool:
+func apply_requirements(requirements: Dictionary, use_hidden_resources: bool = false) -> bool:
+	# Choose which resource dictionary to work with
+	var target_resources = hidden_resources if use_hidden_resources else resources
+
 	# First, check if all requirements are met
 	for key in requirements.keys():
-		var current_value = get_resource(key)
+		var current_value = target_resources.get(key, 0)
 		if current_value < requirements[key]:
 			return false  # Not enough resources to fulfill the requirements
 
 	# If all requirements are met, subtract the values
 	for key in requirements.keys():
-		remove_resource(key, requirements[key])
-	
-	# Update the UI and emit signal after successful subtraction
-	_update_resources()
+		target_resources[key] = max(target_resources[key] - requirements[key], 0)
+
+	# Update signals and UI based on the resource type
+	if use_hidden_resources:
+		_update_hidden_resources()
+	else:
+		_update_resources()
+
 	return true
+
+
+
+# Add to a hidden resource (no capacity limit)
+func add_hidden_resource(resource_name: String, amount: int) -> void:
+	if amount <= 0:
+		return
+	
+	hidden_resources[resource_name] = hidden_resources.get(resource_name, 0) + amount
+	_update_hidden_resources()
+
+# Remove from a hidden resource
+func remove_hidden_resource(resource_name: String, amount: int) -> void:
+	if hidden_resources.has(resource_name):
+		hidden_resources[resource_name] = max(hidden_resources[resource_name] - amount, 0)
+		_update_hidden_resources()
+
+# Set a hidden resource to a specific value
+func set_hidden_resource(resource_name: String, amount: int) -> void:
+	hidden_resources[resource_name] = max(amount, 0)
+	_update_hidden_resources()
+
+# Get the value of a specific hidden resource
+func get_hidden_resource(resource_name: String) -> int:
+	return hidden_resources.get(resource_name, 0)
+
+# Emit signal when hidden resources are updated
+func _update_hidden_resources() -> void:
+	SignalBroker.hidden_resources_updated.emit(self)
