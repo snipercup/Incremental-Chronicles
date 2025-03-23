@@ -55,7 +55,7 @@ func _on_action_activated(myaction: StoryAction) -> void:
 	SignalBroker.active_action_updated.emit(active_action)
 
 # Function to handle action_removed signal
-func _on_action_removed(myaction: StoryAction) -> void:
+func _on_action_removed(_myaction: StoryAction) -> void:
 	active_action = null # Clear active action if it needs removal
 
 # Function to handle action_added signal

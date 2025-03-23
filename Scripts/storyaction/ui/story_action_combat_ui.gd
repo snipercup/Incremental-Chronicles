@@ -23,6 +23,7 @@ func set_parent(newparent: Control) -> void:
 # Handle action button press
 func _ready():
 	button.pressed.connect(_on_action_button_pressed)
+	update_combat_progress()
 
 
 # Get the player's strength from the resource manager
@@ -69,8 +70,8 @@ func _on_action_button_pressed() -> void:
 	# If enemy is defeated, set to remove
 	if story_action.is_enemy_defeated():
 		print_debug("Enemy defeated!")
-		parent.needs_remove = true
 		SignalBroker.action_rewarded.emit(story_action)
+		SignalBroker.action_removed.emit(story_action)
 		return
 	
 	# If all chances are used up and enemy is not defeated, reset progress
