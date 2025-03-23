@@ -116,19 +116,6 @@ func _on_area_generated(area: String):
 	finalize_area(myname, mydescription)
 
 
-# Create a starting tunnel area (moved to a separate function)
-func create_tunnel() -> void:
-	var tunnel_description = _load_tunnel_description()
-	var new_area = finalize_area("Tunnel", tunnel_description)
-	new_area.set_say("Generate the next action for the player to do. Keep it short, like 'pick leaf', 'touch grass'")
-	action_list.set_area(new_area)
-
-# Load tunnel description from external file or resource
-func _load_tunnel_description() -> String:
-	var file = FileAccess.open("res://Resources/tunnel_description.txt", FileAccess.READ)
-	return file.get_as_text() if file else "Tunnel description not found."
-
-
 # Function to check if a new area needs to be created
 func needs_new_area() -> bool:
 	# If any area is locked, no need to create a new area

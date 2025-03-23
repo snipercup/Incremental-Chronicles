@@ -6,12 +6,15 @@ extends VBoxContainer
 
 var area: StoryArea
 const STORY_ACTION_UI = preload("res://Scenes/action/story_action_ui.tscn")
-signal action_completed(myaction: Control)
 
 # Store the currently active action
 var active_action: StoryAction = null
 
-
+func _ready():
+	# Connect to the action_activated signal
+	SignalBroker.action_activated.connect(_on_action_activated)
+	SignalBroker.action_removed.connect(_on_action_removed)
+	
 # Setter for area
 func set_area(value: StoryArea) -> void:
 	# Disconnect previous signal to avoid multiple connections
@@ -42,24 +45,18 @@ func _update_story_actions() -> void:
 		if action_ui.has_method("set_story_action"):
 			action_ui.set_story_action(action)
 		
-		# Connect to the action_pressed signal if it exists
-		if action_ui.has_signal("action_pressed"):
-			action_ui.action_pressed.connect(_on_action_pressed)
-		
 		# Add the instance as a child
 		add_child(action_ui)
 
 
-# Function to handle action_pressed signal
-func _on_action_pressed(control: Control) -> void:
-	if control.needs_remove:
-		control.story_action.area.remove_story_action(control.story_action)
-		active_action = null # Clear active action if it needs removal
-	else:
-		active_action = control.story_action # Set active action if it doesn't need removal
-	get_tree().get_first_node_in_group("signalbroker").active_action_updated.emit(active_action)
-	action_completed.emit(control)
+# Function to handle action_activated signal
+func _on_action_activated(myaction: StoryAction) -> void:
+	active_action = myaction # Set active action if it doesn't need removal
+	SignalBroker.active_action_updated.emit(active_action)
 
+# Function to handle action_removed signal
+func _on_action_removed(myaction: StoryAction) -> void:
+	active_action = null # Clear active action if it needs removal
 
 # Function to handle action_added signal
 func _on_action_added(_myarea: StoryArea) -> void:

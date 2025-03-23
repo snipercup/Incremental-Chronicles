@@ -15,13 +15,11 @@ signal resources_updated(new_resources: Dictionary)
 # Called when the node enters the scene tree.
 func _ready():
 	_load_resource_caps()
-	if action_list:
-		action_list.action_completed.connect(_on_action_completed)
+	SignalBroker.action_rewarded.connect(_on_action_rewarded)
 
 # Called when an action is completed
-func _on_action_completed(control: Control):
-	var story_action: StoryAction = control.story_action
-	var rewards = story_action.get_rewards()
+func _on_action_rewarded(myaction: StoryAction):
+	var rewards = myaction.get_rewards()
 	for key in rewards.keys():
 		add_resource(key, rewards[key])
 

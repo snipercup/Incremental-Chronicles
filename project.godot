@@ -22,6 +22,10 @@ run/main_scene="uid://dr51pb66vyw37"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+SignalBroker="*res://Scripts/signal_broker.gd"
+
 [editor_plugins]
 
 enabled=PackedStringArray()

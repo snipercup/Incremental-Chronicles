@@ -8,9 +8,6 @@ var parent: Control
 @export var button: Button = null
 @export var checks_v_box_container: VBoxContainer = null
 
-# Signal to emit when the action button is pressed
-signal action_pressed(control: Control)
-
 func set_action_button_text(value: String) -> void:
 	button.text = value
 
@@ -18,7 +15,6 @@ func set_action_button_text(value: String) -> void:
 func set_story_action(value: StoryAction) -> void:
 	story_action = value
 	if story_action:
-		parent.needs_remove = false
 		set_action_button_text(story_action.get_story_text())
 
 func set_parent(newparent: Control) -> void:
@@ -28,10 +24,6 @@ func set_parent(newparent: Control) -> void:
 func _ready():
 	button.pressed.connect(_on_action_button_pressed)
 
-
-# Apply the action's rewards to the player's resources
-func apply_rewards(rewards: Dictionary) -> bool:
-	return parent.apply_rewards(rewards)
 
 # Get the player's strength from the resource manager
 func get_player_strength() -> int:
@@ -69,16 +61,16 @@ func _on_action_button_pressed() -> void:
 	if not parent.apply_requirements(story_action.requirements):
 		print_debug("Not enough resources to perform combat.")
 		return
+	SignalBroker.action_activated.emit(story_action)
 	
 	story_action.attempt_combat(get_player_strength())
 	update_combat_progress()
 	
-	action_pressed.emit(self)
 	# If enemy is defeated, set to remove
 	if story_action.is_enemy_defeated():
 		print_debug("Enemy defeated!")
 		parent.needs_remove = true
-		apply_rewards(story_action.get_rewards())
+		SignalBroker.action_rewarded.emit(story_action)
 		return
 	
 	# If all chances are used up and enemy is not defeated, reset progress

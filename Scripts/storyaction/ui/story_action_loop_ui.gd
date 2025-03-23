@@ -13,13 +13,10 @@ var parent: Control
 var elapsed_time: float = 0.0
 var is_looping: bool = false
 
-# Signal to emit when the action button is pressed
-signal action_pressed(control: Control)
-
 # Handle action button press
 func _ready():
 	button.pressed.connect(_on_action_button_pressed)
-	get_signal_broker().active_action_updated.connect(_on_active_action_updated)
+	SignalBroker.active_action_updated.connect(_on_active_action_updated)
 
 func set_action_button_text(value: String) -> void:
 	button.text = value
@@ -27,7 +24,6 @@ func set_action_button_text(value: String) -> void:
 # Update the UI for this action
 func set_story_action(value: StoryAction) -> void:
 	story_action = value
-	parent.needs_remove = false
 	if story_action:
 		set_action_button_text(story_action.get_story_text())
 
@@ -49,9 +45,6 @@ func _on_action_button_pressed() -> void:
 # Apply the action's rewards to the player's resources
 func apply_rewards(rewards: Dictionary) -> bool:
 	return parent.apply_rewards(rewards)
-
-func get_signal_broker() -> Node:
-	return get_tree().get_first_node_in_group("signalbroker")
 
 func get_helper() -> Node:
 	return get_tree().get_first_node_in_group("helper")
@@ -90,7 +83,8 @@ func _process(delta: float) -> void:
 			return
 		
 		# Emit the signal for the next loop
-		action_pressed.emit(self)
+		SignalBroker.action_activated.emit(story_action)
+		SignalBroker.action_rewarded.emit(story_action)
 		
 		# Check if the current action is still the active action
 		if parent.get_active_action() != story_action:

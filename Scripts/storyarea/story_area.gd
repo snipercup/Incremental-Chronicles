@@ -33,6 +33,7 @@ func _init(data: Dictionary = {}) -> void:
 			var new_action = create_action(action_data)
 			new_action.area = self
 			story_actions.append(new_action)
+	SignalBroker.action_removed.connect(remove_story_action)
 
 
 # Setters and Getters

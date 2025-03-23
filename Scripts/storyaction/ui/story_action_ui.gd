@@ -20,10 +20,11 @@ extends PanelContainer
 @export var action_container: HBoxContainer = null
 
 var story_action: StoryAction
-var needs_remove: bool = true
+var action_instance: Control = null
 
-# Signal to emit when the action button is pressed
-signal action_pressed(control: Control)
+func _ready():
+	# Connect to the action_activated signal
+	SignalBroker.action_removed.connect(_on_action_instance_pressed)
 
 # Update the UI for this action
 func set_story_action(value: StoryAction) -> void:
@@ -34,11 +35,9 @@ func set_story_action(value: StoryAction) -> void:
 		# Instantiate the action scene if available
 		var action_scene: PackedScene = story_action.ui_scene
 		if action_scene:
-			var action_instance = action_scene.instantiate()
+			action_instance = action_scene.instantiate()
 			action_instance.set_parent(self)
 			action_instance.set_story_action(story_action)
-			# Connect to the action_pressed signal
-			action_instance.action_pressed.connect(_on_action_instance_pressed)
 			# Add to the action_container
 			action_container.add_child(action_instance)
 
@@ -54,19 +53,13 @@ func get_active_action() -> StoryAction:
 func get_helper() -> Node:
 	return get_tree().get_first_node_in_group("helper")
 
-# Apply the action's rewards to the player's resources
-func apply_rewards(rewards: Dictionary) -> bool:
-	return get_resource_manager().apply_rewards(rewards)
-
 # Attempt to subtract resources based on the provided requirements
 func apply_requirements(requirements: Dictionary) -> bool:
 	return get_resource_manager().apply_requirements(requirements)
 
-# Handle action_pressed from the instantiated action scene
-func _on_action_instance_pressed(control: Control) -> void:
-	print_debug("Action instance pressed:", control)
-	action_pressed.emit(self)
-	if not needs_remove:
+# Handle action_removed from the instantiated action scene
+func _on_action_instance_pressed(myaction: StoryAction) -> void:
+	if not story_action == myaction:
 		return
 	# Free the control after emitting the signal
 	queue_free()

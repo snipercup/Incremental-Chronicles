@@ -6,8 +6,6 @@ extends Button
 
 var story_action: StoryAction
 var parent: Control
-# Signal to emit when the action button is pressed
-signal action_pressed(control: Control)
 
 func set_action_button_text(value: String) -> void:
 	text = value
@@ -27,7 +25,9 @@ func _ready():
 
 func _on_action_button_pressed() -> void:
 	# Emit the signal, passing this control as a parameter
-	action_pressed.emit(self)
+	SignalBroker.action_activated.emit(story_action)
+	SignalBroker.action_rewarded.emit(story_action)
+	SignalBroker.action_removed.emit(story_action)
 
 # Apply the action's rewards to the player's resources
 func apply_rewards(rewards: Dictionary) -> Dictionary:
