@@ -14,6 +14,7 @@ func _ready():
 	# Connect to the action_activated signal
 	SignalBroker.action_activated.connect(_on_action_activated)
 	SignalBroker.action_removed.connect(_on_action_removed)
+	SignalBroker.action_state_changed.connect(_on_action_state_changed)
 	
 # Setter for area
 func set_area(value: StoryArea) -> void:
@@ -38,16 +39,21 @@ func _update_story_actions() -> void:
 	if not area:
 		return
 	
-	# Create an instance for each StoryAction
+	# Create an instance for each StoryAction (only visible ones)
 	for action in area.get_story_actions():
-		var action_ui: Control = STORY_ACTION_UI.instantiate()
-		# Set the story_action property if available
-		if action_ui.has_method("set_story_action"):
-			action_ui.set_story_action(action)
-		
-		# Add the instance as a child
-		add_child(action_ui)
+		# Only create UI for visible actions
+		if action.get_state() == StoryAction.State.VISIBLE:
+			var action_ui: Control = STORY_ACTION_UI.instantiate()
+			# Set the story_action property if available
+			if action_ui.has_method("set_story_action"):
+				action_ui.set_story_action(action)
+			# Add the instance as a child
+			add_child(action_ui)
 
+# Handle action state changes
+func _on_action_state_changed(_action: StoryAction) -> void:
+	# When the action state changes, refresh the action list
+	_update_story_actions()
 
 # Function to handle action_activated signal
 func _on_action_activated(myaction: StoryAction) -> void:
