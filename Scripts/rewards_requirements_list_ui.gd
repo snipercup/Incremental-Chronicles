@@ -26,6 +26,7 @@ var story_action: StoryAction
 signal right_clicked
 
 func _ready():
+	SignalBroker.resources_updated.connect(_on_resources_updated)
 	if story_action:
 		_update_rewards_and_requirements()
 	
@@ -53,7 +54,7 @@ func _update_rewards_and_requirements() -> void:
 			var resource_manager: Node = get_resource_manager()
 			if resource_manager:
 				var current = resource_manager.get_resource(key)
-				var max_value = resource_manager.get_resource("Max %s" % key)
+				var max_value = resource_manager.get_resource_max(key)
 
 				if max_value != 0: 
 					# Include max value only if it’s greater than 0
@@ -101,3 +102,7 @@ func _handle_right_click() -> void:
 # The resource manager will handle rewards
 func get_resource_manager() -> Node:
 	return get_tree().get_first_node_in_group("helper").resource_manager
+
+func _on_resources_updated(_resource_manager: Label) -> void:
+	_update_rewards_and_requirements()
+	

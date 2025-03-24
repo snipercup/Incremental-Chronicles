@@ -59,7 +59,7 @@ func set_resource(resource_name: String, amount: int) -> void:
 
 # Update resource values and emit signal
 func _update_resources() -> void:
-	SignalBroker.resources_updated.emit(resources)
+	SignalBroker.resources_updated.emit(self)
 	var story_points = resources.get("Story Point", 0)
 	text = "Story points: %d/100" % story_points
 	_update_tooltip()

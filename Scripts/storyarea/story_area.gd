@@ -31,6 +31,7 @@ var story_point_requirement: int = 100 : set = set_story_point_requirement, get 
 var name: String = "" : set = set_name, get = get_name
 var description: String = "" : set = set_description, get = get_description
 # Signal to emit when a new action is added
+@warning_ignore("unused_signal")
 signal action_added(myarea: StoryArea)
 signal unlocked(myarea: StoryArea)
 
