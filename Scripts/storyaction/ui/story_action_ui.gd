@@ -23,8 +23,8 @@ var story_action: StoryAction
 var action_instance: Control = null
 
 func _ready():
-	# Connect to the action_activated signal
-	SignalBroker.action_removed.connect(_on_action_instance_pressed)
+	# Connect to the action_removed signal
+	SignalBroker.action_removed.connect(_on_action_instance_removed)
 
 # Update the UI for this action
 func set_story_action(value: StoryAction) -> void:
@@ -58,7 +58,7 @@ func apply_requirements(requirements: Dictionary) -> bool:
 	return get_resource_manager().apply_requirements(requirements)
 
 # Handle action_removed from the instantiated action scene
-func _on_action_instance_pressed(myaction: StoryAction) -> void:
+func _on_action_instance_removed(myaction: StoryAction) -> void:
 	if not story_action == myaction:
 		return
 	# Free the control after emitting the signal

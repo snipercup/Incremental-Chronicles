@@ -12,20 +12,8 @@ extends VBoxContainer
 
 # Example StoryAction requirements:
 # "requirements": {
-		#"Story Point": 1000000,
-		#"Ethereal Mana": 1000000,
-		#"Void Essence": 750000,
-		#"Ancient Rune Stones": 500000,
-		#"Soul Gems": 300000,
-		#"Phoenix Feathers": 100000,
-		#"Dragonfang Crystals": 150000,
-		#"Orb of Eternity": 1,
-		#"Heart of the World Tree": 1,
-		#"Essence of Rebirth": 50000,
-		#"Light of the Lost Star": 1
-		#"Strength": 50000,
-		#"Spirit Bond": 40000,
-		#"Persistence": 45000
+		#"Story Point": 1,
+		#"Ethereal Mana": 2
 #}
 
 @export var pin_list_label: Label = null
@@ -37,7 +25,6 @@ func set_story_action(myaction: StoryAction):
 	action = myaction
 	pin_list_label.text = action.area.name
 	rewards_requirements.set_story_action(myaction)
-
 
 # Detect right-click events
 func _gui_input(event: InputEvent) -> void:

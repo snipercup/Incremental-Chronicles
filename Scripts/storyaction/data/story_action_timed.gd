@@ -10,7 +10,6 @@ func _init(data: Dictionary = {}, myarea: StoryArea = null) -> void:
 	timer = Timer.new()
 	timer.wait_time = time_limit
 	timer.timeout.connect(_on_timeout)
-	#add_child(timer)
 
 func perform_action() -> void:
 	print("Starting timed action: %s" % story_text)
