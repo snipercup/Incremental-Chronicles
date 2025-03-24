@@ -101,16 +101,19 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_onqyn")
 layout_mode = 2
 
 [node name="ActionsLabel" type="Label" parent="MainWindow/ActionsPanelContainer/ActionsVBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 text = "Actions:"
 horizontal_alignment = 1
+autowrap_mode = 3
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MainWindow/ActionsPanelContainer/ActionsVBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ActionList" type="VBoxContainer" parent="MainWindow/ActionsPanelContainer/ActionsVBoxContainer/ScrollContainer"]
+[node name="ActionList" type="VBoxContainer" parent="MainWindow/ActionsPanelContainer/ActionsVBoxContainer/ScrollContainer" node_paths=PackedStringArray("header_label")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("4_67ln1")
+header_label = NodePath("../../ActionsLabel")

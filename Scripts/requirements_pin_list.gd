@@ -19,7 +19,7 @@ func add_action(action: StoryAction) -> void:
 	if action in story_actions:
 		return # Already added, skip
 	story_actions.append(action)
-	_create_pinlist_ui(action)
+	refresh_pinlist()
 
 # Create a new instance of PINLIST_UI and set the action
 func _create_pinlist_ui(action: StoryAction) -> void:
@@ -33,12 +33,20 @@ func _create_pinlist_ui(action: StoryAction) -> void:
 func _on_pinlist_removed(action: StoryAction) -> void:
 	if action in story_actions:
 		story_actions.erase(action)
-		print_debug("Removed action:", action.get_story_text())
+		refresh_pinlist()
 
 # Function to remove a StoryAction from the list
 func remove_story_action(action: StoryAction) -> void:
 	if action in story_actions:
 		story_actions.erase(action)
-		print_debug("Removed story action:", action.get_story_text())
-	else:
-		print_debug("Action not found in list:", action.get_story_text())
+		refresh_pinlist()
+
+# Function to refresh the pinlist
+func refresh_pinlist() -> void:
+	# Remove existing pinlists
+	for child in get_children():
+		child.queue_free()
+	
+	# Create new pinlists from story_actions
+	for action in story_actions:
+		_create_pinlist_ui(action)

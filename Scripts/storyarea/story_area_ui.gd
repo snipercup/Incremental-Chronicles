@@ -12,6 +12,12 @@ var story_area: StoryArea
 # Signal to emit when the area button is pressed
 signal area_pressed(control: Control)
 
+
+# Handle area button press
+func _ready():
+	if area_button:
+		area_button.pressed.connect(_on_area_button_pressed)
+
 # Setters for controls and variables
 func set_story_point_requirement_label(value: String) -> void:
 	if story_point_requirement_label:
@@ -31,8 +37,15 @@ func set_story_area(value: StoryArea) -> void:
 	story_area = value
 	if story_area:
 		print_debug("creating story area in area list. Name = " + story_area.get_name() + ", tier = " + str(story_area.get_tier()))
+		
+		# Format requirements into a readable string
+		var requirements = story_area.get_requirements()
+		var requirements_text = []
+		for key in requirements.keys():
+			requirements_text.append("%s: %d" % [key, requirements[key]])
+		
 		# Update controls based on story area properties
-		set_story_point_requirement_label("Requirement: %d" % story_area.get_story_point_requirement())
+		set_story_point_requirement_label("Requirements: %s" % ", ".join(requirements_text))
 		set_stars_label("★".repeat(story_area.get_tier()))
 		set_area_button_text(story_area.get_name())
 		
@@ -44,12 +57,6 @@ func set_story_area(value: StoryArea) -> void:
 			story_point_requirement_label.visible = is_locked
 		if area_button and is_locked:
 			set_area_button_text("Locked")
-
-
-# Handle area button press
-func _ready():
-	if area_button:
-		area_button.pressed.connect(_on_area_button_pressed)
 
 func _on_area_button_pressed() -> void:
 	# Emit the signal, passing this control as a parameter
