@@ -18,3 +18,4 @@ layout_mode = 2
 
 [node name="RewardsRequirements" parent="." instance=ExtResource("2_23vck")]
 layout_mode = 2
+display_mode = 0

@@ -27,8 +27,8 @@ var success_count: int = 0
 # Signal to emit when the enemy is defeated
 signal enemy_defeated
 
-func _init(data: Dictionary) -> void:
-	super(data)  # Call parent class _init function
+func _init(data: Dictionary, myarea: StoryArea = null) -> void:
+	super(data, myarea)  # Call parent class _init function
 	# Read and store the enemy data if available
 	enemy = data.get("enemy", {})
 

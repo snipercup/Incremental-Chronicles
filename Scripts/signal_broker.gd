@@ -25,4 +25,4 @@ signal action_removed(myaction: Control)
 signal hidden_resources_updated(resource_manager: Label)
 # Signal to emit when resources are updated
 @warning_ignore("unused_signal")
-signal resources_updated(new_resources: Dictionary)
+signal resources_updated(resource_manager: Label)

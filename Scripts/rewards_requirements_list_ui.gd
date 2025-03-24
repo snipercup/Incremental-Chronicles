@@ -26,6 +26,7 @@ var story_action: StoryAction
 signal right_clicked
 
 func _ready():
+	SignalBroker.resources_updated.connect(_on_resources_updated)
 	if story_action:
 		_update_rewards_and_requirements()
 	
@@ -36,53 +37,81 @@ func set_story_action(value: StoryAction) -> void:
 
 # Update the rewards and requirements list based on display mode
 func _update_rewards_and_requirements() -> void:
-	# Clear existing labels
+	_clear_existing_labels()
+	var has_content = false
+	
+	if display_mode == DisplayMode.REQUIREMENTS or display_mode == DisplayMode.BOTH:
+		has_content = _display_requirements() or has_content
+	
+	if display_mode == DisplayMode.REWARDS or display_mode == DisplayMode.BOTH:
+		has_content = _display_rewards() or has_content
+	
+	visible = has_content
+
+# Clear existing labels
+func _clear_existing_labels() -> void:
 	for child in get_children():
 		child.queue_free()
-	
+
+# Display requirements and return true if any are shown
+func _display_requirements() -> bool:
 	var requirements = story_action.get_requirements()
-	var rewards = story_action.get_rewards()
-
+	var resource_manager: Node = get_resource_manager()
+	if requirements.is_empty() or not resource_manager:
+		return false
+	
 	var has_content = false
+	for key in requirements.keys():
+		var needed = requirements[key]
+		var current = resource_manager.get_resource(key)
+		var max_value = resource_manager.get_resource_max(key)
+		var requirement_met = current >= needed
 
-	# Display requirements if enabled
-	if display_mode == DisplayMode.REQUIREMENTS or display_mode == DisplayMode.BOTH:
-		for key in requirements.keys():
-			var needed = requirements[key]
-			var label_text = ""
-			var resource_manager: Node = get_resource_manager()
-			if resource_manager:
-				var current = resource_manager.get_resource(key)
-				var max_value = resource_manager.get_resource("Max %s" % key)
+		# Format label text
+		var label_text = _format_requirement_text(key, needed, current, max_value)
 
-				if max_value != 0: 
-					# Include max value only if it’s greater than 0
-					label_text = "[%d] %s (%d/%d)" % [needed, key, current, max_value]
-				else:
-					# No max value — omit the (current/max) part
-					label_text = "[%d] %s" % [needed, key]
-			else:
-				# If no story_points_label, fall back to basic format
-				label_text = "%s: %d" % [key, needed]
+		# Choose color and emoji based on status
+		var label_color = Color(0.2, 0.6, 1) if requirement_met else Color(1, 0, 0)
+		var prefix = "✔️ " if requirement_met else "❌ "
 
-			var requirement_label = Label.new()
-			requirement_label.text = label_text
-			requirement_label.modulate = Color(1, 0, 0)  # Red color for requirements
-			add_child(requirement_label)
-			has_content = true
+		_create_label(prefix + label_text, label_color)
+		has_content = true
 	
-	# Display rewards if enabled
-	if display_mode == DisplayMode.REWARDS or display_mode == DisplayMode.BOTH:
-		for key in rewards.keys():
-			var reward_label = Label.new()
-			var amount = rewards[key]
-			reward_label.text = "%s: %d" % [key, amount]
-			reward_label.modulate = Color(0, 1, 0)  # Green color for rewards
-			add_child(reward_label)
-			has_content = true
+	return has_content
+
+# Display rewards and return true if any are shown
+func _display_rewards() -> bool:
+	var rewards = story_action.get_rewards()
+	if rewards.is_empty():
+		return false
 	
-	# Hide container if empty
-	visible = has_content
+	var has_content = false
+	for key in rewards.keys():
+		var amount = rewards[key]
+		var label_text = "%s: %d" % [key, amount]
+		_create_label(label_text, Color(0, 1, 0))  # Green for rewards
+		has_content = true
+	
+	return has_content
+
+# Format requirement text based on availability
+func _format_requirement_text(key: String, needed: int, current: int, max_value: int) -> String:
+	if max_value > 0:
+		return "[%d] %s (%d/%d)" % [needed, key, current, max_value]
+	else:
+		return "[%d] %s" % [needed, key]
+
+# Create and add label to the container
+func _create_label(text: String, color: Color) -> void:
+	var label = Label.new()
+	label.text = text
+	label.modulate = color
+	add_child(label)
+
+# The resource manager will handle rewards
+func get_resource_manager() -> Node:
+	return get_tree().get_first_node_in_group("helper").resource_manager
+
 
 # Detect right-click events
 func _gui_input(event: InputEvent) -> void:
@@ -98,6 +127,6 @@ func _handle_right_click() -> void:
 		get_tree().get_first_node_in_group("helper").on_rewards_requirments_right_clicked(self)
 
 
-# The resource manager will handle rewards
-func get_resource_manager() -> Node:
-	return get_tree().get_first_node_in_group("helper").resource_manager
+func _on_resources_updated(_resource_manager: Label) -> void:
+	_update_rewards_and_requirements()
+	

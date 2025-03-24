@@ -4,8 +4,8 @@ extends StoryAction
 var ui_scene: PackedScene = preload("res://Scenes/action/story_action_loop_ui.tscn")
 var cooldown: float = 1.0
 
-func _init(data: Dictionary) -> void:
-	super(data)  # Call parent class _init function
+func _init(data: Dictionary, myarea: StoryArea = null) -> void:
+	super(data, myarea)  # Call parent class _init function
 	cooldown = data.get("cooldown", 1.0)
 
 func perform_action() -> void:

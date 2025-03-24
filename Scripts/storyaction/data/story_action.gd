@@ -46,12 +46,13 @@ var state: State = State.HIDDEN : set = set_state, get = get_state
 var area: StoryArea
 
 # Initialize from a dictionary
-func _init(data: Dictionary = {}) -> void:
+func _init(data: Dictionary = {}, myarea: StoryArea = null) -> void:
 	set_story_text(data.get("story_text", ""))
 	set_requirements(data.get("requirements", {}))
 	set_rewards(data.get("rewards", {}))
 	set_hidden_rewards(data.get("hidden_rewards", {}))
 	set_appear_requirements(data.get("appear_requirements", {}))
+	area = myarea
 
 	# If there are appear requirements, set state to hidden
 	if not appear_requirements.is_empty():
