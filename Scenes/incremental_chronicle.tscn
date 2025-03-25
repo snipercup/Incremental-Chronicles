@@ -82,7 +82,7 @@ layout_mode = 2
 text = "Areas:"
 horizontal_alignment = 1
 
-[node name="AreaList" type="VBoxContainer" parent="MainWindow/AreasPanelContainer/AreasVBoxContainer" node_paths=PackedStringArray("action_list", "story_points_label")]
+[node name="AreaList" type="VBoxContainer" parent="MainWindow/AreasPanelContainer/AreasVBoxContainer" node_paths=PackedStringArray("action_list", "resource_manager")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -90,7 +90,7 @@ size_flags_stretch_ratio = 0.2
 script = ExtResource("4_73alp")
 action_list = NodePath("../../../ActionsPanelContainer/ActionsVBoxContainer/ScrollContainer/ActionList")
 story_area_ui_scene = ExtResource("5_miw6j")
-story_points_label = NodePath("../../../PlayerStats/ResourceManager")
+resource_manager = NodePath("../../../PlayerStats/ResourceManager")
 
 [node name="ActionsPanelContainer" type="PanelContainer" parent="MainWindow"]
 layout_mode = 2

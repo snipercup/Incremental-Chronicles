@@ -95,6 +95,8 @@
 	  "story_text": "Examine the defeated rat."
 	}
   ],
-  "story_point_requirement": 0.0,
+  "requirements": {
+	"Story points": 0.0
+  },
   "tier": 1.0
 }

@@ -6,7 +6,7 @@ extends VBoxContainer
 # Displays each action for an area
 @export var action_list: VBoxContainer = null
 @export var story_area_ui_scene: PackedScene = null
-@export var story_points_label: Label = null
+@export var resource_manager: Label = null
 
 var area_list: Array[StoryArea] # The data for each area
 signal area_created(area: StoryArea) # Signal to emit when an area is created
@@ -42,12 +42,10 @@ func _add_area_to_ui(area: StoryArea) -> void:
 func _on_area_pressed(control: Control) -> void:
 	var myarea: StoryArea = control.story_area
 	if myarea.get_state() == StoryArea.State.LOCKED:
-		var remaining_points: int = myarea.unlock_with_story_points(story_points_label.story_points)
-		if remaining_points == -1:
-			print("Tried to unlock area, but not enough points")
+		if not myarea.unlock_with_resources(resource_manager.resources):
+			print("Tried to unlock area, but not enough resources")
 			return
 		else:
-			story_points_label.set_story_points(remaining_points)
 			_refresh_area_list()
 	action_list.set_area(control.get_area())
 
@@ -76,8 +74,8 @@ func finalize_area(myname: String, description: String) -> StoryArea:
 
 # Calculate the tier based on story points
 func _calculate_tier() -> int:
-	if story_points_label:
-		return min(story_points_label.story_points / 100, 1)
+	if resource_manager:
+		return min(resource_manager.story_points / 100, 1)
 	return 1
 
 # Create a StoryArea instance
