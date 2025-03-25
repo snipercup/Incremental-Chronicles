@@ -4,6 +4,7 @@ extends VBoxContainer
 # Actions take place in the context of an area
 # Each area has its own list of actions. When we are assigned a new area, update the list of actions
 
+@export var header_label: Label = null
 var area: StoryArea
 const STORY_ACTION_UI = preload("res://Scenes/action/story_action_ui.tscn")
 
@@ -23,10 +24,16 @@ func set_area(value: StoryArea) -> void:
 		area.action_added.disconnect(_on_action_added)
 	area = value
 	
+	# Set header label text based on description
+	if header_label:
+		var description = area.get_description() if area else ""
+		header_label.text = description if description else "Actions:"
+	
 	# Connect to the action_added signal
 	if area and not area.action_added.is_connected(_on_action_added):
 		area.action_added.connect(_on_action_added)
 	_update_story_actions()
+
 
 
 # Function to update story actions when area is set
