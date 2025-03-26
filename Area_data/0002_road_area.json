@@ -40,6 +40,7 @@
 	{
 	  "action_type": "loop",
 	  "cooldown": 2.0,
+	  "max_loops": 10.0,
 	  "hidden_rewards": {
 		"Miles": 1.0
 	  },
