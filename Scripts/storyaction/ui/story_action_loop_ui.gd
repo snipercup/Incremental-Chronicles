@@ -53,6 +53,8 @@ func get_resource_manager() -> Label:
 	return get_helper().get_resource_manager()
 
 func is_at_capacity() -> bool:
+	if story_action.rewards.is_empty():
+		return false
 	return get_resource_manager().are_all_at_capacity(story_action.rewards)
 
 # Interrupt the loop if the active action changes

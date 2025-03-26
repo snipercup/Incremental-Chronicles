@@ -5,7 +5,7 @@
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 1.0,
+		"Story points": 5.0,
 		"Strength": 1.0
 	  },
 	  "story_text": "Lift a stone."
@@ -13,49 +13,49 @@
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 1.0
+		"Story points": 3.0
 	  },
 	  "story_text": "Smell the air."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 1.0
+		"Story points": 3.0
 	  },
 	  "story_text": "Touch the rough bark of a nearby gnarled oak tree."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 1.0
+		"Story points": 4.0
 	  },
 	  "story_text": "Observe small creatures darting through the tall grass."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 1.0
+		"Story points": 4.0
 	  },
 	  "story_text": "Step ten paces east."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 1.0
+		"Story points": 4.0
 	  },
 	  "story_text": "Examine the weathered stone remnants."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 1.0
+		"Story points": 4.0
 	  },
 	  "story_text": "Rest beneath the shade of the oak trees."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 1.0
+		"Story points": 3.0
 	  },
 	  "story_text": "Search for hidden objects or tracks."
 	},
@@ -73,7 +73,7 @@
 		"Resolve": 1.0
 	  },
 	  "rewards": {
-		"Story Point": 10.0
+		"Story points": 15.0
 	  },
 	  "hidden_rewards": {
 		"hidden_rat_reward": 1.0
@@ -90,13 +90,10 @@
 		"hidden_rat_reward": 1.0
 	  },
 	  "rewards": {
-		"Story Point": 1.0
+		"Story points": 5.0
 	  },
 	  "story_text": "Examine the defeated rat."
 	}
   ],
-  "requirements": {
-	"Story points": 0.0
-  },
   "tier": 1.0
 }
