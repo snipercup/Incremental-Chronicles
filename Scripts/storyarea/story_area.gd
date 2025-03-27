@@ -3,7 +3,7 @@ extends RefCounted
 
 # Example data:
 #{
-#	"description": "A weathered tunnel opens onto the side of a rugged mountain, its jagged stone mouth framed by dark, mossy rock. The tunnel’s interior is cold and quiet, with no sign of an entrance behind it — only smooth stone where a path should be.\n\nBeyond the tunnel, a vast wilderness unfolds beneath the mountain’s shadow. Rolling plains stretch endlessly toward the horizon, their golden grasses swaying beneath a steady breeze. The scent of wildflowers and fresh earth drifts through the air. Clusters of weathered stone rise from the earth, remnants of ancient ruins half-swallowed by time and nature.\n\nThe ground beneath the grass is uneven, strewn with pebbles and patches of bare earth. A faint trail winds eastward through the plains, disappearing into the distant haze. The air is crisp and cool, inviting exploration. The plains seem quiet — but the signs of life are everywhere, waiting to be uncovered.",
+#	"description": "A weathered tunnel opens to rugged plains, golden grasses swaying beneath a breeze. Ruins and hidden paths await discovery.",
 #	"name": "Tunnel",
 #	"requirements": {
 #		"Story points": 1.0
@@ -132,6 +132,10 @@ func remove_story_action(action: StoryAction) -> void:
 	if action in story_actions:
 		story_actions.erase(action)
 		print_debug("Removed story action:", action.get_story_text())
+		
+		# Emit area_removed if no more actions remain
+		if story_actions.is_empty():
+			SignalBroker.area_removed.emit(self)
 	else:
 		print_debug("Action not found in list:", action.get_story_text())
 
