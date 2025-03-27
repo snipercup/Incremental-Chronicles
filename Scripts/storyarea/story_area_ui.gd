@@ -45,7 +45,7 @@ func set_story_area(value: StoryArea) -> void:
 			requirements_text.append("%s: %d" % [key, requirements[key]])
 		
 		# Update controls based on story area properties
-		set_story_point_requirement_label("Requirements: %s" % ", ".join(requirements_text))
+		set_story_point_requirement_label("%s" % ", ".join(requirements_text))
 		set_stars_label("★".repeat(story_area.get_tier()))
 		set_area_button_text(story_area.get_name())
 		

@@ -5,7 +5,9 @@ extends RefCounted
 #{
 #	"description": "A weathered tunnel opens onto the side of a rugged mountain, its jagged stone mouth framed by dark, mossy rock. The tunnel’s interior is cold and quiet, with no sign of an entrance behind it — only smooth stone where a path should be.\n\nBeyond the tunnel, a vast wilderness unfolds beneath the mountain’s shadow. Rolling plains stretch endlessly toward the horizon, their golden grasses swaying beneath a steady breeze. The scent of wildflowers and fresh earth drifts through the air. Clusters of weathered stone rise from the earth, remnants of ancient ruins half-swallowed by time and nature.\n\nThe ground beneath the grass is uneven, strewn with pebbles and patches of bare earth. A faint trail winds eastward through the plains, disappearing into the distant haze. The air is crisp and cool, inviting exploration. The plains seem quiet — but the signs of life are everywhere, waiting to be uncovered.",
 #	"name": "Tunnel",
-#	"story_point_requirement": 0.0,
+#	"requirements": {
+#		"Story points": 1.0
+#	 },
 #	"tier": 1.0
 #	"story_actions": [
 #		{
@@ -54,7 +56,6 @@ func _init(data: Dictionary = {}) -> void:
 			var new_action: StoryAction = create_action(action_data)
 			new_action.area = self
 			story_actions.append(new_action)
-	
 	SignalBroker.action_removed.connect(remove_story_action)
 
 # Setters and Getters
@@ -88,7 +89,6 @@ func set_description(value: String) -> void:
 
 func get_description() -> String:
 	return description
-
 
 # Setters and Getters
 func set_requirements(value: Dictionary) -> void:
