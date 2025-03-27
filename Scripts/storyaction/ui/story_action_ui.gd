@@ -18,6 +18,8 @@ extends PanelContainer
 
 @export var rewards_requirements: VBoxContainer = null
 @export var action_container: HBoxContainer = null
+@export var icon_label: Label = null
+
 
 var story_action: StoryAction
 var action_instance: Control = null
@@ -31,6 +33,8 @@ func set_story_action(value: StoryAction) -> void:
 	story_action = value
 	if story_action:
 		rewards_requirements.set_story_action(story_action)
+		# Set the emoji icon as text
+		icon_label.text = story_action.get_icon()
 		
 		# Instantiate the action scene if available
 		var action_scene: PackedScene = story_action.ui_scene
