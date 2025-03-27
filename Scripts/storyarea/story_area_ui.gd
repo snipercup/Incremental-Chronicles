@@ -18,6 +18,10 @@ func _ready():
 	if area_button:
 		area_button.pressed.connect(_on_area_button_pressed)
 
+	# Connect to the area_removed signal
+	SignalBroker.area_removed.connect(_on_area_removed)
+
+
 # Setters for controls and variables
 func set_story_point_requirement_label(value: String) -> void:
 	if story_point_requirement_label:
@@ -70,3 +74,8 @@ func get_area() -> StoryArea:
 
 func is_area_locked() -> bool:
 	return story_area.state == StoryArea.State.LOCKED
+
+# Handle when an area is removed
+func _on_area_removed(removed_area: StoryArea) -> void:
+	if removed_area == story_area:
+		queue_free()  # Free this UI element if the associated area was removed

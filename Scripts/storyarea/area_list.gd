@@ -11,7 +11,15 @@ extends VBoxContainer
 var area_list: Array[StoryArea] # The data for each area
 signal area_created(area: StoryArea) # Signal to emit when an area is created
 
-	
+
+func _ready() -> void:
+	SignalBroker.area_removed.connect(_on_area_removed)
+
+	# Set the first area in the list if available
+	if area_list.size() > 0:
+		action_list.set_area(area_list[0])
+
+
 # Setter for area_list
 func set_area_list(value: Array[StoryArea]) -> void:
 	area_list = value
@@ -27,6 +35,10 @@ func _refresh_area_list() -> void:
 	# Create UI instances for each StoryArea
 	for area in area_list:
 		_add_area_to_ui(area)
+
+	# Set the first area again if one remains
+	if area_list.size() > 0:
+		action_list.set_area(area_list[0])
 
 # Add a StoryArea to the UI
 func _add_area_to_ui(area: StoryArea) -> void:
@@ -113,7 +125,6 @@ func _on_area_generated(area: String):
 	# Finalize area creation with name and description
 	finalize_area(myname, mydescription)
 
-
 # Function to check if a new area needs to be created
 func needs_new_area() -> bool:
 	# If any area is locked, no need to create a new area
@@ -122,3 +133,9 @@ func needs_new_area() -> bool:
 			return false
 	# If no area is locked, a new area needs to be created
 	return true
+
+# Called when an area is removed from the game
+func _on_area_removed(removed_area: StoryArea) -> void:
+	if removed_area in area_list:
+		area_list.erase(removed_area)
+		_refresh_area_list()
