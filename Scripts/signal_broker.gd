@@ -34,3 +34,7 @@ signal hidden_resources_updated(resource_manager: Label)
 # Signal to emit when resources are updated
 @warning_ignore("unused_signal")
 signal resources_updated(resource_manager: Label)
+
+# Signal to emit when the game is started
+@warning_ignore("unused_signal")
+signal game_started()

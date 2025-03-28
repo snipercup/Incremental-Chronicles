@@ -56,9 +56,9 @@ func _init(data: Dictionary = {}, myarea: StoryArea = null) -> void:
 
 	# If there are appear requirements, set state to hidden
 	if not appear_requirements.is_empty():
-		set_state(State.HIDDEN)
+		state = State.HIDDEN
 	else:
-		set_state(State.VISIBLE)
+		state = State.VISIBLE
 
 	# Connect to the hidden_resources_updated signal
 	SignalBroker.hidden_resources_updated.connect(_on_hidden_resources_updated)

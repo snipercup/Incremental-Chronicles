@@ -6,3 +6,5 @@ extends Control
 
 func _ready():
 	helper.initialize()
+	print_debug("game started")
+	SignalBroker.game_started.emit()
