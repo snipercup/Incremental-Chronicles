@@ -69,7 +69,7 @@
 		"Story Point": 2.0
 	  },
 	  "hidden_rewards": {
-		"grove_final_clue": 1.0
+		"grove_final_clue": 2.0
 	  },
 	  "story_text": "At the base of a tree, you uncover a journal — pages torn, but the name is clear: Aldric."
 	},
@@ -85,6 +85,19 @@
 		"grove_report_complete": 1.0
 	  },
 	  "story_text": "You gather what you’ve found and prepare to return to the village with news of Aldric."
+	},
+	{
+	  "action_type": "free",
+	  "appear_requirements": {
+		"grove_final_clue": 1.0
+	  },
+	  "rewards": {
+		"Story Point": 1.0
+	  },
+	  "hidden_rewards": {
+		"temple_intro_1": 1.0
+	  },
+	  "story_text": "As you prepare to leave, a warmth floods your senses. For a moment, time bends — a vision of a sunlit altar flashes in your mind."
 	}
   ],
   "appear_requirements": {

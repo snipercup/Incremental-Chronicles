@@ -138,7 +138,8 @@ func _on_hidden_resources_updated(resource_manager: Label) -> void:
 
 	# Check if requirements are met before consuming
 	if resource_manager.has_required_resources(appear_requirements, true):
-		if resource_manager.consume_resources(appear_requirements, true):
-			set_state(State.VISIBLE)
+		set_state(State.VISIBLE)
+		if not resource_manager.consume_resources(appear_requirements, true):
+			set_state(State.HIDDEN)
 	else:
 		set_state(State.HIDDEN)
