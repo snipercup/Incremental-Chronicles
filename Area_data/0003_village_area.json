@@ -94,6 +94,9 @@
 	  "rewards": {
 		"Story Point": 3.0
 	  },
+	  "hidden_rewards": {
+		"grove_access": 1.0
+	  },
 	  "story_text": "You agree to help and note the direction of the hollow grove."
 	},
 	{
@@ -188,6 +191,9 @@
 	  "story_text": "You lift a loose stone behind the altar. Beneath it rests a shimmering vessel — cold to the touch."
 	}
   ],
+  "appear_requirements": {
+	"village_access": 1.0
+  },
   "requirements": {
 	"Story points": 50.0
   },

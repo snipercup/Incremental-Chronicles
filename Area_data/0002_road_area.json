@@ -51,6 +51,9 @@
 	  "appear_requirements": {
 		"Miles": 10.0
 	  },
+	  "hidden_rewards": {
+		"village_access": 1.0
+	  },
 	  "rewards": {
 		"Story Point": 25.0
 	  },

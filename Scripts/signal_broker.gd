@@ -24,6 +24,10 @@ signal action_removed(myaction: Control)
 @warning_ignore("unused_signal")
 signal area_removed(myarea: StoryArea)
 
+# Signal to emit when visibility changes
+@warning_ignore("unused_signal")
+signal area_visibility_changed(area: StoryArea)
+
 # Signal to emit when hidden resources are updated
 @warning_ignore("unused_signal")
 signal hidden_resources_updated(resource_manager: Label)

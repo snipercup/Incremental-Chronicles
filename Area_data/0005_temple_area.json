@@ -49,8 +49,11 @@
 	  "story_text": "The soul vessel glows. Light floods your vision as your form dissolves. You are reborn — stronger, wiser, and bound to a greater cycle."
 	}
   ],
-  "requirements": {
+  "appear_requirements": {
 	"temple_access": 1.0
+  },
+  "requirements": {
+	"Story points": 50.0
   },
   "tier": 1.0
 }

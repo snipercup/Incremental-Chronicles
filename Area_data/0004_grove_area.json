@@ -87,6 +87,9 @@
 	  "story_text": "You gather what you’ve found and prepare to return to the village with news of Aldric."
 	}
   ],
+  "appear_requirements": {
+	"grove_access": 1.0
+  },
   "requirements": {
 	"Story points": 50.0
   },

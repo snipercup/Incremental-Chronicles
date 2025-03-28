@@ -14,11 +14,11 @@ signal area_created(area: StoryArea) # Signal to emit when an area is created
 
 func _ready() -> void:
 	SignalBroker.area_removed.connect(_on_area_removed)
+	SignalBroker.area_visibility_changed.connect(_on_area_visibility_changed)
 
 	# Set the first area in the list if available
 	if area_list.size() > 0:
 		action_list.set_area(area_list[0])
-
 
 # Setter for area_list
 func set_area_list(value: Array[StoryArea]) -> void:
@@ -32,9 +32,10 @@ func _refresh_area_list() -> void:
 	for child in get_children():
 		child.queue_free()
 
-	# Create UI instances for each StoryArea
+	# Create UI instances only for visible areas
 	for area in area_list:
-		_add_area_to_ui(area)
+		if area.get_visibility_state() == StoryArea.VisibilityState.VISIBLE:
+			_add_area_to_ui(area)
 
 	# Set the first area again if one remains
 	if area_list.size() > 0:
@@ -138,4 +139,9 @@ func needs_new_area() -> bool:
 func _on_area_removed(removed_area: StoryArea) -> void:
 	if removed_area in area_list:
 		area_list.erase(removed_area)
+		_refresh_area_list()
+
+# Called when an area is removed from the game
+func _on_area_visibility_changed(visible_area: StoryArea) -> void:
+	if visible_area in area_list:
 		_refresh_area_list()

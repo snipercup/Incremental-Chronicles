@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://cgfd5l1hpfvn" path="res://Scripts/resource_manager.gd" id="3_67ln1"]
 [ext_resource type="Script" uid="uid://c4bjpbblkse6t" path="res://Scripts/requirements_pin_list.gd" id="4_3uyo8"]
 [ext_resource type="Script" uid="uid://d1354ddbnb5hl" path="res://Scripts/storyaction/ui/action_list_ui.gd" id="4_67ln1"]
-[ext_resource type="Script" uid="uid://dvjyty3xttj0o" path="res://Scripts/storyarea/area_list.gd" id="4_73alp"]
+[ext_resource type="Script" uid="uid://dvjyty3xttj0o" path="res://Scripts/storyarea/area_list_ui.gd" id="4_73alp"]
 [ext_resource type="PackedScene" uid="uid://ctfsl70gr5fnl" path="res://Scenes/story_area_ui.tscn" id="5_miw6j"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3uyo8"]
