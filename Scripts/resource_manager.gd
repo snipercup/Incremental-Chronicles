@@ -59,6 +59,7 @@ func set_resource(resource_name: String, amount: int) -> void:
 
 # Update resource values and emit signal
 func _update_resources() -> void:
+	_prune_zero_resources()
 	SignalBroker.resources_updated.emit(self)
 	var story_points = resources.get("Story Point", 0)
 	text = "Story points: %d/100" % story_points
@@ -142,30 +143,35 @@ func _load_resource_caps() -> void:
 	else:
 		print_debug("Failed to load resource_caps.json")
 
-# Attempt to subtract resources based on the provided requirements
-func apply_requirements(requirements: Dictionary, use_hidden_resources: bool = false) -> bool:
-	# Choose which resource dictionary to work with
+# Checks whether all required resources are available
+func has_required_resources(requirements: Dictionary, use_hidden_resources: bool = false) -> bool:
 	var target_resources = hidden_resources if use_hidden_resources else resources
 
-	# First, check if all requirements are met
 	for key in requirements.keys():
-		var current_value = target_resources.get(key, 0)
-		if current_value < requirements[key]:
-			return false  # Not enough resources to fulfill the requirements
+		var required = requirements[key]
+		var current = target_resources.get(key, 0)
+		if current < required:
+			print_debug("Requirement not met for key '%s'" % key)
+			return false
 
-	# If all requirements are met, subtract the values
+	return true
+
+# Subtracts required resources if available, returns true if successful
+func consume_resources(requirements: Dictionary, use_hidden_resources: bool = false) -> bool:
+	if not has_required_resources(requirements, use_hidden_resources):
+		return false
+
+	var target_resources = hidden_resources if use_hidden_resources else resources
+
 	for key in requirements.keys():
-		target_resources[key] = max(target_resources[key] - requirements[key], 0)
-
-	# Update signals and UI based on the resource type
+		var before = target_resources[key]
+		target_resources[key] = max(before - requirements[key], 0)
+		
 	if use_hidden_resources:
 		_update_hidden_resources()
 	else:
 		_update_resources()
-
 	return true
-
-
 
 # Add to a hidden resource (no capacity limit)
 func add_hidden_resource(resource_name: String, amount: int) -> void:
@@ -193,3 +199,13 @@ func get_hidden_resource(resource_name: String) -> int:
 # Emit signal when hidden resources are updated
 func _update_hidden_resources() -> void:
 	SignalBroker.hidden_resources_updated.emit(self)
+
+# Removes any resource entries with a value of 0.0
+func _prune_zero_resources() -> void:
+	var keys_to_remove: Array = []
+	for key in resources.keys():
+		if resources[key] == 0.0:
+			keys_to_remove.append(key)
+
+	for key in keys_to_remove:
+		resources.erase(key)

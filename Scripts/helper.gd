@@ -12,29 +12,39 @@ func initialize():
 	create_story_areas()
 
 # Function to load all JSON resource files from a directory into a dictionary
-func load_json_files_from_path(path: String) -> Dictionary:
-	var data_dict: Dictionary = {}
+# Step 1: Get sorted list of JSON file names
+func get_sorted_json_filenames(path: String) -> Array:
+	var filenames: Array = []
 	var dir = DirAccess.open(path)
 	if dir:
 		dir.list_dir_begin()
 		var file_name = dir.get_next()
 		while file_name != "":
-			# Check if the file is a JSON file
 			if file_name.ends_with(".json"):
-				var file_path = path + "/" + file_name
-				var file = FileAccess.open(file_path, FileAccess.READ)
-				if file:
-					var content = JSON.parse_string(file.get_as_text())
-					if content != null:
-						var base_name = file_name.get_basename()
-						data_dict[base_name] = content
-					else:
-						print_debug("Failed to parse JSON file: %s" % file_path)
-				file.close()
+				filenames.append(file_name)
 			file_name = dir.get_next()
 		dir.list_dir_end()
+		filenames.sort()  # Sort alphabetically
 	else:
 		print_debug("Failed to open directory: %s" % path)
+	return filenames
+
+# Step 2: Build data_dict from sorted file names
+func load_json_files_from_path(path: String) -> Dictionary:
+	var data_dict: Dictionary = {}
+	var filenames = get_sorted_json_filenames(path)
+
+	for file_name in filenames:
+		var file_path = path + "/" + file_name
+		var file = FileAccess.open(file_path, FileAccess.READ)
+		if file:
+			var content = JSON.parse_string(file.get_as_text())
+			if content != null:
+				var base_name = file_name.get_basename()
+				data_dict[base_name] = content
+			else:
+				print_debug("Failed to parse JSON file: %s" % file_path)
+			file.close()
 	return data_dict
 
 # Function to create StoryArea instances from loaded areas and set area_list

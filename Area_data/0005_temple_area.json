@@ -1,0 +1,59 @@
+{
+  "description": "You step into the Forgotten Temple. Stone walls rise around you, etched with symbols of flame and renewal. The air hums with quiet power, and echoes from lost ages whisper through the dust.",
+  "name": "Forgotten Temple",
+  "story_actions": [
+	{
+	  "action_type": "free",
+	  "rewards": {
+		"Story Point": 3.0
+	  },
+	  "story_text": "Enter the temple through a cracked stone archway."
+	},
+	{
+	  "action_type": "free",
+	  "rewards": {
+		"Story Point": 3.0
+	  },
+	  "story_text": "Touch a faded mural depicting souls rising in a spiral of light."
+	},
+	{
+	  "action_type": "free",
+	  "rewards": {
+		"Story Point": 3.0
+	  },
+	  "hidden_rewards": {
+		"reincarnation_ready": 1.0
+	  },
+	  "story_text": "Study an inscription: 'To rise again, the soul must shed its tether to the past.'"
+	},
+	{
+	  "action_type": "free",
+	  "appear_requirements": {
+		"reincarnation_ready": 1.0
+	  },
+	  "requirements": {
+		"Soul Vessel": 1.0
+	  },
+	  "story_text": "You kneel before the altar, prepared for rebirth — but the ritual falters. Something’s missing."
+	},
+	{
+	  "action_type": "reincarnation",
+	  "appear_requirements": {
+		"reincarnation_ready": 1.0,
+		"has_soul_vessel": 1.0
+	  },
+	  "rewards": {
+		"Story Point": 10.0,
+		"Reincarnation": 1.0
+	  },
+	  "story_text": "The soul vessel glows. Light floods your vision as your form dissolves. You are reborn — stronger, wiser, and bound to a greater cycle."
+	}
+  ],
+  "appear_requirements": {
+	"temple_access": 1.0
+  },
+  "requirements": {
+	"Story points": 50.0
+  },
+  "tier": 1.0
+}

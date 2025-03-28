@@ -5,35 +5,35 @@
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 1.0
+		"Story Point": 5.0
 	  },
 	  "story_text": "Walk along the road."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 1.0
+		"Story Point": 5.0
 	  },
 	  "story_text": "Avoid a pothole."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 1.0
+		"Story Point": 5.0
 	  },
 	  "story_text": "Observe the side of the road."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 1.0
+		"Story Point": 5.0
 	  },
 	  "story_text": "Enjoy the weather."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 1.0
+		"Story Point": 5.0
 	  },
 	  "story_text": "Look ahead toward the horizon."
 	},
@@ -51,6 +51,9 @@
 	  "appear_requirements": {
 		"Miles": 10.0
 	  },
+	  "hidden_rewards": {
+		"village_access": 1.0
+	  },
 	  "rewards": {
 		"Story Point": 25.0
 	  },
@@ -60,5 +63,5 @@
   "requirements": {
 	"Story points": 50.0
   },
-  "tier": 2.0
+  "tier": 1.0
 }
