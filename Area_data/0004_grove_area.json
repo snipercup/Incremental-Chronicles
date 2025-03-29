@@ -5,42 +5,42 @@
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 3.0
+		"Story points": 3.0
 	  },
 	  "story_text": "Step between the towering trees and feel the air grow heavy."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 3.0
+		"Story points": 3.0
 	  },
 	  "story_text": "Inspect a deep claw mark on a mossy tree trunk."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 3.0
+		"Story points": 3.0
 	  },
 	  "story_text": "Notice strange footprints in the mud, too large to be human."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 3.0
+		"Story points": 3.0
 	  },
 	  "story_text": "Listen closely — faint whispers echo through the leaves."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 3.0
+		"Story points": 3.0
 	  },
 	  "story_text": "Discover a torn piece of cloth tangled in a bramble."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 1.0
+		"Story points": 1.0
 	  },
 	  "hidden_rewards": {
 		"grove_clue_1": 1.0
@@ -53,7 +53,7 @@
 		"grove_clue_1": 1.0
 	  },
 	  "rewards": {
-		"Story Point": 1.0
+		"Story points": 1.0
 	  },
 	  "hidden_rewards": {
 		"grove_clue_2": 1.0
@@ -66,7 +66,7 @@
 		"grove_clue_2": 1.0
 	  },
 	  "rewards": {
-		"Story Point": 2.0
+		"Story points": 2.0
 	  },
 	  "hidden_rewards": {
 		"grove_final_clue": 2.0
@@ -79,7 +79,7 @@
 		"grove_final_clue": 1.0
 	  },
 	  "rewards": {
-		"Story Point": 5.0
+		"Story points": 5.0
 	  },
 	  "hidden_rewards": {
 		"grove_report_complete": 1.0
@@ -92,7 +92,7 @@
 		"grove_final_clue": 1.0
 	  },
 	  "rewards": {
-		"Story Point": 1.0
+		"Story points": 1.0
 	  },
 	  "hidden_rewards": {
 		"temple_intro_1": 1.0

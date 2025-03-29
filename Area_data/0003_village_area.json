@@ -33,14 +33,14 @@
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story points": 2.0
+		"Story points": 3.0
 	  },
 	  "story_text": "Smell stew simmering from a nearby home."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story points": 1.0
+		"Story points": 4.0
 	  },
 	  "hidden_rewards": {
 		"npc_intro_1": 1.0
@@ -53,7 +53,7 @@
 		"npc_intro_1": 1.0
 	  },
 	  "rewards": {
-		"Story points": 1.0
+		"Story points": 4.0
 	  },
 	  "hidden_rewards": {
 		"npc_intro_2": 1.0
@@ -66,7 +66,7 @@
 		"npc_intro_2": 1.0
 	  },
 	  "rewards": {
-		"Story points": 1.0
+		"Story points": 6.0
 	  },
 	  "hidden_rewards": {
 		"npc_intro_3": 1.0
@@ -79,7 +79,7 @@
 		"npc_intro_3": 1.0
 	  },
 	  "rewards": {
-		"Story points": 1.0
+		"Story points": 7.0
 	  },
 	  "hidden_rewards": {
 		"npc_quest_active": 1.0
@@ -92,7 +92,7 @@
 		"npc_quest_active": 1.0
 	  },
 	  "rewards": {
-		"Story points": 3.0
+		"Story points": 10.0
 	  },
 	  "hidden_rewards": {
 		"grove_access": 1.0
@@ -156,7 +156,7 @@
 		"temple_intro_2": 1.0
 	  },
 	  "rewards": {
-		"Story points": 1.0
+		"Story points": 19.0
 	  },
 	  "hidden_rewards": {
 		"temple_access": 1.0

@@ -5,21 +5,21 @@
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 3.0
+		"Story points": 3.0
 	  },
 	  "story_text": "Enter the temple through a cracked stone archway."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 3.0
+		"Story points": 3.0
 	  },
 	  "story_text": "Touch a faded mural depicting souls rising in a spiral of light."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 3.0
+		"Story points": 3.0
 	  },
 	  "hidden_rewards": {
 		"reincarnation_ready": 1.0
@@ -43,7 +43,7 @@
 		"has_soul_vessel": 1.0
 	  },
 	  "rewards": {
-		"Story Point": 10.0,
+		"Story points": 10.0,
 		"Reincarnation": 1.0
 	  },
 	  "story_text": "The soul vessel glows. Light floods your vision as your form dissolves. You are reborn — stronger, wiser, and bound to a greater cycle."

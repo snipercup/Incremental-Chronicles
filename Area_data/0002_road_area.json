@@ -42,7 +42,7 @@
 	  "cooldown": 2.0,
 	  "max_loops": 10.0,
 	  "hidden_rewards": {
-		"Miles": 10.0
+		"Miles": 1.0
 	  },
 	  "story_text": "Keep walking down the road."
 	},
