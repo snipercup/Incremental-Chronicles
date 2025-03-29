@@ -24,6 +24,14 @@ signal action_removed(myaction: Control)
 @warning_ignore("unused_signal")
 signal area_removed(myarea: StoryArea)
 
+# Signal to emit when the area button is pressed
+@warning_ignore("unused_signal")
+signal area_pressed(myarea: StoryArea)
+
+# Signal to emit when the area is unlocked
+@warning_ignore("unused_signal")
+signal area_unlocked(myarea: StoryArea)
+
 # Signal to emit when visibility changes
 @warning_ignore("unused_signal")
 signal area_visibility_changed(area: StoryArea)

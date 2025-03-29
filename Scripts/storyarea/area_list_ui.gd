@@ -14,6 +14,8 @@ signal area_created(area: StoryArea) # Signal to emit when an area is created
 
 func _ready() -> void:
 	SignalBroker.area_removed.connect(_on_area_removed)
+	SignalBroker.area_pressed.connect(_on_area_pressed)
+	SignalBroker.area_unlocked.connect(_on_area_unlocked)
 	SignalBroker.area_visibility_changed.connect(_on_area_visibility_changed)
 
 	# Set the first area in the list if available
@@ -43,20 +45,18 @@ func _add_area_to_ui(area: StoryArea) -> void:
 		var area_ui = story_area_ui_scene.instantiate()
 		if area_ui.has_method("set_story_area"):
 			area_ui.set_story_area(area)
-		if area_ui.has_signal("area_pressed"):
-			area_ui.area_pressed.connect(_on_area_pressed)
 		add_child(area_ui)
 
 # Handle area pressed signal
-func _on_area_pressed(control: Control) -> void:
-	var myarea: StoryArea = control.story_area
+func _on_area_pressed(myarea: StoryArea) -> void:
 	if myarea.get_state() == StoryArea.State.LOCKED:
-		if not myarea.unlock_with_resources(resource_manager.resources):
-			print("Tried to unlock area, but not enough resources")
-			return
-		else:
-			_refresh_area_list()
-	action_list.set_area(control.get_area())
+		return
+	action_list.set_area(myarea)
+
+# Handle area unlocked signal
+func _on_area_unlocked(myarea: StoryArea) -> void:
+	_refresh_area_list()
+	action_list.set_area(myarea)
 
 # Calculate the tier based on story points
 func _calculate_tier() -> int:

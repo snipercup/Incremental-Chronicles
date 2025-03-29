@@ -45,9 +45,8 @@ var appear_requirements: Dictionary = {} : set = set_appear_requirements, get = 
 # Signal to emit when a new action is added
 @warning_ignore("unused_signal")
 signal action_added(myarea: StoryArea)
-signal unlocked(myarea: StoryArea)
 
-# Replace single story point requirement with a dictionary
+# The requirements to unlock this area
 var requirements: Dictionary = {} : set = set_requirements, get = get_requirements
 
 # Initialize from a dictionary
@@ -119,19 +118,14 @@ func get_requirements() -> Dictionary:
 	return requirements
 
 # Function to unlock the area if enough resources are provided
-func unlock_with_resources(resources: Dictionary) -> bool:
+func unlock() -> bool:
 	if state == State.UNLOCKED:
 		return false
 
-	# Check if all requirements are met
-	for key in requirements.keys():
-		if resources.get(key, 0) < requirements[key]:
-			return false
-	
 	# If all requirements are met, unlock the area
 	state = State.UNLOCKED
 	requirements.clear()
-	unlocked.emit(self)
+	SignalBroker.area_unlocked.emit(self)
 	return true
 
 # Update the get_properties function to include the new requirements dictionary

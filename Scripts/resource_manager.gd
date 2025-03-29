@@ -16,6 +16,7 @@ func _ready():
 	visible_resources.resources_updated.connect(_on_visible_resources_updated)
 	hidden_resources.resources_updated.connect(_on_hidden_resources_updated)
 	SignalBroker.action_rewarded.connect(_on_action_rewarded)
+	SignalBroker.area_pressed.connect(_on_area_pressed)
 
 func _on_action_rewarded(myaction: StoryAction):
 	for key in myaction.get_rewards().keys():
@@ -23,14 +24,15 @@ func _on_action_rewarded(myaction: StoryAction):
 	for key in myaction.get_hidden_rewards().keys():
 		hidden_resources.add(key, myaction.get_hidden_rewards()[key])
 
-func _on_visible_resources_updated(store: ResourceStore) -> void:
+func _on_visible_resources_updated(_store: ResourceStore) -> void:
+	SignalBroker.resources_updated.emit(self)
 	_update_display()
 
-func _on_hidden_resources_updated(store: ResourceStore) -> void:
+func _on_hidden_resources_updated(_store: ResourceStore) -> void:
 	SignalBroker.hidden_resources_updated.emit(self)
 
 func _update_display() -> void:
-	var story_points = visible_resources.get_value("Story Point")
+	var story_points = visible_resources.get_value("Story points")
 	text = "Story points: %d/100" % int(story_points)
 	_update_tooltip()
 
@@ -49,7 +51,7 @@ func _update_tooltip() -> void:
 			break
 	tooltip_text = "\n".join(list)
 
-# Wrapper methods to match existing API
+# Returns the value of the resource by name
 func get_resource(resource_name: String) -> float:
 	return visible_resources.get_value(resource_name)
 
@@ -72,9 +74,12 @@ func consume_resources(requirements: Dictionary, use_hidden: bool = false) -> bo
 func is_at_capacity(resource_name: String) -> bool:
 	return visible_resources.is_at_capacity(resource_name)
 
-func are_all_at_capacity(requirements: Dictionary) -> bool:
-	return visible_resources.are_all_at_capacity(requirements)
+# Returns true if all resources in requirements are at capacity
+# If a resource has no capacity limit, this function will always return false
+func are_all_at_capacity(myresources: Dictionary) -> bool:
+	return visible_resources.are_all_at_capacity(myresources)
 
+# Loads the resource caps from the json file
 func _load_resource_caps() -> void:
 	var file = FileAccess.open("res://JSON/resource_caps.json", FileAccess.READ)
 	if file:
@@ -86,3 +91,14 @@ func _load_resource_caps() -> void:
 			print_debug("Failed to parse resource_caps.json")
 	else:
 		print_debug("Failed to load resource_caps.json")
+
+# When an area has been pressed, try to unlock it if it is locked
+func _on_area_pressed(myarea: StoryArea) -> void:
+	if not myarea.get_state() == StoryArea.State.LOCKED:
+		return
+	var requirements: Dictionary = myarea.get_requirements()
+	if not has_required_resources(requirements):
+		print_debug("Tried to unlock an area, but not enough resources")
+		return
+	if consume_resources(requirements):
+		myarea.unlock()

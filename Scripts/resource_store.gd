@@ -4,8 +4,8 @@ extends RefCounted
 
 signal resources_updated(store: ResourceStore)
 
-var resources: Dictionary = {}
-var caps: Dictionary = {}
+var resources: Dictionary = {} # Keep track of each resource amount by using name and value
+var caps: Dictionary = {} # Base capacity per resource
 var respect_caps: bool = false
 
 # Optional: provide caps if needed
@@ -44,12 +44,14 @@ func set_value(key: String, amount: float) -> void:
 func get_value(key: String) -> float:
 	return resources.get(key, 0.0)
 
+# Returns true if the resources contain enough of each to fulfill the requirements
 func has_all(requirements: Dictionary) -> bool:
 	for key in requirements.keys():
 		if get_value(key) < requirements[key]:
 			return false
 	return true
 
+# Subtracts all the requirments from the resources and returns true on success
 func consume(requirements: Dictionary) -> bool:
 	if not has_all(requirements):
 		return false
@@ -58,7 +60,7 @@ func consume(requirements: Dictionary) -> bool:
 		resources[key] = max(resources.get(key, 0.0) - requirements[key], 0.0)
 
 	prune_zeros()
-	emit_signal("resources_updated", self)
+	resources_updated.emit(self)
 	return true
 
 # Check if all resources in the provided dictionary are at capacity

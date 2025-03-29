@@ -63,7 +63,7 @@
 	  "action_type": "loop",
 	  "cooldown": 2.0,
 	  "rewards": {
-		"Resolve": 1.0
+		"Resolve": 10.0
 	  },
 	  "story_text": "Meditate under the ancient oak tree."
 	},

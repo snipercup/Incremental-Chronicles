@@ -9,10 +9,6 @@ extends PanelContainer
 @export var area_button: Button = null
 var story_area: StoryArea
 
-# Signal to emit when the area button is pressed
-signal area_pressed(control: Control)
-
-
 # Handle area button press
 func _ready():
 	if area_button:
@@ -64,7 +60,7 @@ func set_story_area(value: StoryArea) -> void:
 
 func _on_area_button_pressed() -> void:
 	# Emit the signal, passing this control as a parameter
-	area_pressed.emit(self)
+	SignalBroker.area_pressed.emit(story_area)
 
 func get_area_actions() -> Array[StoryAction]:
 	return story_area.get_story_actions()

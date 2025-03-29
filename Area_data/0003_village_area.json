@@ -5,42 +5,42 @@
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 2.0
+		"Story points": 2.0
 	  },
 	  "story_text": "Look around the village square."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 2.0
+		"Story points": 2.0
 	  },
 	  "story_text": "Rest by the central fountain."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 2.0
+		"Story points": 2.0
 	  },
 	  "story_text": "Watch children chasing chickens."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 2.0
+		"Story points": 2.0
 	  },
 	  "story_text": "Visit the small market and browse simple wares."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 2.0
+		"Story points": 2.0
 	  },
 	  "story_text": "Smell stew simmering from a nearby home."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 1.0
+		"Story points": 1.0
 	  },
 	  "hidden_rewards": {
 		"npc_intro_1": 1.0
@@ -53,7 +53,7 @@
 		"npc_intro_1": 1.0
 	  },
 	  "rewards": {
-		"Story Point": 1.0
+		"Story points": 1.0
 	  },
 	  "hidden_rewards": {
 		"npc_intro_2": 1.0
@@ -66,7 +66,7 @@
 		"npc_intro_2": 1.0
 	  },
 	  "rewards": {
-		"Story Point": 1.0
+		"Story points": 1.0
 	  },
 	  "hidden_rewards": {
 		"npc_intro_3": 1.0
@@ -79,7 +79,7 @@
 		"npc_intro_3": 1.0
 	  },
 	  "rewards": {
-		"Story Point": 1.0
+		"Story points": 1.0
 	  },
 	  "hidden_rewards": {
 		"npc_quest_active": 1.0
@@ -92,7 +92,7 @@
 		"npc_quest_active": 1.0
 	  },
 	  "rewards": {
-		"Story Point": 3.0
+		"Story points": 3.0
 	  },
 	  "hidden_rewards": {
 		"grove_access": 1.0
@@ -102,28 +102,28 @@
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 2.0
+		"Story points": 2.0
 	  },
 	  "story_text": "Talk to the old blacksmith sharpening a blade."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 2.0
+		"Story points": 2.0
 	  },
 	  "story_text": "Pet a friendly village dog."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 2.0
+		"Story points": 2.0
 	  },
 	  "story_text": "Read the weathered notice board near the inn."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 2.0
+		"Story points": 2.0
 	  },
 	  "story_text": "Peek inside the chapel — old and still, candles flickering inside."
 	},
@@ -133,7 +133,7 @@
 		"grove_report_complete": 1.0
 	  },
 	  "rewards": {
-		"Story Point": 5.0
+		"Story points": 5.0
 	  },
 	  "story_text": "The villager listens in silence. So he’s gone then... Thank you. He deserved peace."
 	},
@@ -143,7 +143,7 @@
 		"temple_intro_1": 1.0
 	  },
 	  "rewards": {
-		"Story Point": 1.0
+		"Story points": 1.0
 	  },
 	  "hidden_rewards": {
 		"temple_intro_2": 1.0
@@ -156,7 +156,7 @@
 		"temple_intro_2": 1.0
 	  },
 	  "rewards": {
-		"Story Point": 1.0
+		"Story points": 1.0
 	  },
 	  "hidden_rewards": {
 		"temple_access": 1.0
@@ -169,7 +169,7 @@
 		"reincarnation_ready": 1.0
 	  },
 	  "rewards": {
-		"Story Point": 1.0
+		"Story points": 1.0
 	  },
 	  "hidden_rewards": {
 		"chapel_search": 1.0
@@ -182,7 +182,7 @@
 		"chapel_search": 1.0
 	  },
 	  "rewards": {
-		"Story Point": 1.0,
+		"Story points": 1.0,
 		"Soul Vessel": 1.0
 	  },
 	  "hidden_rewards": {

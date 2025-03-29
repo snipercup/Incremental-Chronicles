@@ -5,35 +5,35 @@
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 5.0
+		"Story points": 5.0
 	  },
 	  "story_text": "Walk along the road."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 5.0
+		"Story points": 5.0
 	  },
 	  "story_text": "Avoid a pothole."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 5.0
+		"Story points": 5.0
 	  },
 	  "story_text": "Observe the side of the road."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 5.0
+		"Story points": 5.0
 	  },
 	  "story_text": "Enjoy the weather."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 5.0
+		"Story points": 5.0
 	  },
 	  "story_text": "Look ahead toward the horizon."
 	},
@@ -42,7 +42,7 @@
 	  "cooldown": 2.0,
 	  "max_loops": 10.0,
 	  "hidden_rewards": {
-		"Miles": 1.0
+		"Miles": 10.0
 	  },
 	  "story_text": "Keep walking down the road."
 	},
@@ -55,7 +55,7 @@
 		"village_access": 1.0
 	  },
 	  "rewards": {
-		"Story Point": 25.0
+		"Story points": 25.0
 	  },
 	  "story_text": "A village appears in the distance — small homes and the sound of voices greet you. You've reached the end of the road."
 	}
