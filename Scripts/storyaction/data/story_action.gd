@@ -61,7 +61,7 @@ func _init(data: Dictionary = {}, myarea: StoryArea = null) -> void:
 		state = State.VISIBLE
 
 	# Connect to the hidden_resources_updated signal
-	SignalBroker.hidden_resources_updated.connect(_on_hidden_resources_updated)
+	SignalBroker.resources_updated.connect(_on_hidden_resources_updated)
 
 
 # Setter for requirements (ensure valid data)
@@ -132,14 +132,14 @@ func can_perform_action(resources: Dictionary) -> bool:
 	return true
 
 # Called when hidden resources are updated
-func _on_hidden_resources_updated(hidden_resources: ResourceStore) -> void:
+func _on_hidden_resources_updated(myresources: ResourceStore) -> void:
 	if appear_requirements.is_empty() or get_state() == StoryAction.State.VISIBLE:
 		return # No need to run any more code if there are no requirements or already visible
 
 	# Check if requirements are met before consuming
-	if hidden_resources.has_all(appear_requirements):
+	if myresources.has_all(appear_requirements):
 		set_state(State.VISIBLE)
-		if not hidden_resources.consume(appear_requirements):
+		if not myresources.consume(appear_requirements):
 			set_state(State.HIDDEN)
 	else:
 		set_state(State.HIDDEN)

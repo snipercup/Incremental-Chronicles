@@ -36,12 +36,9 @@ signal area_unlocked(myarea: StoryArea)
 @warning_ignore("unused_signal")
 signal area_visibility_changed(area: StoryArea)
 
-# Signal to emit when hidden resources are updated
-@warning_ignore("unused_signal")
-signal hidden_resources_updated(resource_manager: Label)
 # Signal to emit when resources are updated
 @warning_ignore("unused_signal")
-signal resources_updated(resource_manager: Label)
+signal resources_updated(resource_store: ResourceStore)
 
 # Signal to emit when the game is started
 @warning_ignore("unused_signal")
