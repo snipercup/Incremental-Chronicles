@@ -9,8 +9,6 @@ extends VBoxContainer
 @export var resource_manager: Label = null
 
 var area_list: Array[StoryArea] # The data for each area
-signal area_created(area: StoryArea) # Signal to emit when an area is created
-
 
 func _ready() -> void:
 	SignalBroker.area_removed.connect(_on_area_removed)

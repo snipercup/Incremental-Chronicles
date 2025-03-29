@@ -132,14 +132,14 @@ func can_perform_action(resources: Dictionary) -> bool:
 	return true
 
 # Called when hidden resources are updated
-func _on_hidden_resources_updated(resource_manager: Label) -> void:
+func _on_hidden_resources_updated(hidden_resources: ResourceStore) -> void:
 	if appear_requirements.is_empty() or get_state() == StoryAction.State.VISIBLE:
 		return # No need to run any more code if there are no requirements or already visible
 
 	# Check if requirements are met before consuming
-	if resource_manager.has_required_resources(appear_requirements, true):
+	if hidden_resources.has_all(appear_requirements):
 		set_state(State.VISIBLE)
-		if not resource_manager.consume_resources(appear_requirements, true):
+		if not hidden_resources.consume(appear_requirements):
 			set_state(State.HIDDEN)
 	else:
 		set_state(State.HIDDEN)

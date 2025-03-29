@@ -2,7 +2,7 @@
 class_name ResourceStore
 extends RefCounted
 
-signal resources_updated(store: ResourceStore)
+var updated: Signal # Dynamically emitted when resources change
 
 var resources: Dictionary = {} # Keep track of each resource amount by using name and value
 var caps: Dictionary = {} # Base capacity per resource
@@ -27,19 +27,19 @@ func add(key: String, amount: float) -> bool:
 	else:
 		resources[key] = current + amount
 
-	emit_signal("resources_updated", self)
+	updated.emit(self)
 	return true
 
 func remove(key: String, amount: float) -> void:
 	if key in resources:
 		resources[key] = max(resources[key] - amount, 0.0)
 		prune_zeros()
-		emit_signal("resources_updated", self)
+		updated.emit(self)
 
 func set_value(key: String, amount: float) -> void:
 	resources[key] = max(amount, 0.0)
 	prune_zeros()
-	emit_signal("resources_updated", self)
+	updated.emit(self)
 
 func get_value(key: String) -> float:
 	return resources.get(key, 0.0)
@@ -60,7 +60,7 @@ func consume(requirements: Dictionary) -> bool:
 		resources[key] = max(resources.get(key, 0.0) - requirements[key], 0.0)
 
 	prune_zeros()
-	resources_updated.emit(self)
+	updated.emit(self)
 	return true
 
 # Check if all resources in the provided dictionary are at capacity

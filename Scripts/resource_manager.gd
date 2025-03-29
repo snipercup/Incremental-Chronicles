@@ -13,8 +13,9 @@ var resource_caps_data: Dictionary = {}
 func _ready():
 	_load_resource_caps()
 	visible_resources.caps = resource_caps_data
-	visible_resources.resources_updated.connect(_on_visible_resources_updated)
-	hidden_resources.resources_updated.connect(_on_hidden_resources_updated)
+	visible_resources.updated = SignalBroker.resources_updated
+	hidden_resources.updated = SignalBroker.hidden_resources_updated
+	visible_resources.updated.connect(_on_visible_resources_updated)
 	SignalBroker.action_rewarded.connect(_on_action_rewarded)
 	SignalBroker.area_pressed.connect(_on_area_pressed)
 
@@ -25,11 +26,7 @@ func _on_action_rewarded(myaction: StoryAction):
 		hidden_resources.add(key, myaction.get_hidden_rewards()[key])
 
 func _on_visible_resources_updated(_store: ResourceStore) -> void:
-	SignalBroker.resources_updated.emit(self)
 	_update_display()
-
-func _on_hidden_resources_updated(_store: ResourceStore) -> void:
-	SignalBroker.hidden_resources_updated.emit(self)
 
 func _update_display() -> void:
 	var story_points = visible_resources.get_value("Story points")

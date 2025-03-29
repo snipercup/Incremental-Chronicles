@@ -211,7 +211,7 @@ func get_visibility_state() -> VisibilityState:
 	return visibility_state
 
 # When the Resource Manager updates the hidden resources, we update the visibility
-func _on_hidden_resources_updated(resource_manager: Label) -> void:
+func _on_hidden_resources_updated(hidden_resources: ResourceStore) -> void:
 	if appear_requirements.is_empty():
 		return
 
@@ -219,10 +219,10 @@ func _on_hidden_resources_updated(resource_manager: Label) -> void:
 		return
 
 	# First check if the requirements are met
-	if resource_manager.has_required_resources(appear_requirements, true):
+	if hidden_resources.has_all(appear_requirements):
 		set_visibility_state(VisibilityState.VISIBLE)
 
-		if not resource_manager.consume_resources(appear_requirements, true):
+		if not hidden_resources.consume(appear_requirements):
 			set_visibility_state(VisibilityState.HIDDEN)
 	else:
 		set_visibility_state(VisibilityState.HIDDEN)
