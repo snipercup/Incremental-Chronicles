@@ -39,10 +39,11 @@ func set_story_area(value: StoryArea) -> void:
 		print_debug("creating story area in area list. Name = " + story_area.get_name() + ", tier = " + str(story_area.get_tier()))
 		
 		# Format requirements into a readable string
-		var requirements = story_area.get_requirements()
+		var requirements: Dictionary = story_area.get_requirements()
 		var requirements_text = []
-		for key in requirements.keys():
-			requirements_text.append("%s: %d" % [key, requirements[key]])
+		if requirements.has("visible"):
+			for key in requirements["visible"].keys():
+				requirements_text.append("%s: %d" % [key, requirements["visible"][key]])
 		
 		# Update controls based on story area properties
 		set_story_point_requirement_label("%s" % ", ".join(requirements_text))

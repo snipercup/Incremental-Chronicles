@@ -46,7 +46,12 @@ var appear_requirements: Dictionary = {} : set = set_appear_requirements, get = 
 @warning_ignore("unused_signal")
 signal action_added(myarea: StoryArea)
 
-# The requirements to unlock this area
+# The requirements to unlock this area. Example
+#  "requirements": {
+#	"visible": {
+#	  "Story points": 50.0
+#	}
+#  },
 var requirements: Dictionary = {} : set = set_requirements, get = get_requirements
 
 # Initialize from a dictionary
@@ -72,7 +77,7 @@ func _init(data: Dictionary = {}) -> void:
 		set_visibility_state(VisibilityState.HIDDEN)
 
 	# Listen for hidden resource updates
-	SignalBroker.hidden_resources_updated.connect(_on_hidden_resources_updated)
+	SignalBroker.resources_updated.connect(_on_resources_updated)
 
 
 # Setters and Getters
@@ -211,7 +216,7 @@ func get_visibility_state() -> VisibilityState:
 	return visibility_state
 
 # When the Resource Manager updates the hidden resources, we update the visibility
-func _on_hidden_resources_updated(hidden_resources: ResourceStore) -> void:
+func _on_resources_updated(myresources: ResourceStore) -> void:
 	if appear_requirements.is_empty():
 		return
 
@@ -219,10 +224,9 @@ func _on_hidden_resources_updated(hidden_resources: ResourceStore) -> void:
 		return
 
 	# First check if the requirements are met
-	if hidden_resources.has_all(appear_requirements):
+	if myresources.has_all(appear_requirements):
 		set_visibility_state(VisibilityState.VISIBLE)
-
-		if not hidden_resources.consume(appear_requirements):
+		if not myresources.consume(appear_requirements):
 			set_visibility_state(VisibilityState.HIDDEN)
 	else:
 		set_visibility_state(VisibilityState.HIDDEN)

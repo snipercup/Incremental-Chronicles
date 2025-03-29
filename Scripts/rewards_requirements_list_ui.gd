@@ -54,7 +54,7 @@ func _clear_existing_labels() -> void:
 
 # Display requirements and return true if any are shown
 func _display_requirements() -> bool:
-	var requirements = story_action.get_requirements()
+	var requirements: Dictionary = story_action.get_requirements().get("visible", {})
 	var resource_manager: Node = get_resource_manager()
 	if requirements.is_empty() or not resource_manager:
 		return false
@@ -80,7 +80,7 @@ func _display_requirements() -> bool:
 
 # Display rewards and return true if any are shown
 func _display_rewards() -> bool:
-	var rewards = story_action.get_rewards()
+	var rewards: Dictionary = story_action.get_rewards().get("visible", {})
 	if rewards.is_empty():
 		return false
 	
