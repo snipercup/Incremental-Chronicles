@@ -7,11 +7,16 @@ var updated: Signal # Dynamically emitted when resources change
 var resources: Dictionary = {} # Keep track of each resource amount by using name and value
 var caps: Dictionary = {} # Base capacity per resource
 var respect_caps: bool = false
+# If true, this store will not reset its values when reset() is called
+var permanent: bool = false
+
 
 # Optional: provide caps if needed
-func _init(use_caps: bool = false, caps_data: Dictionary = {}) -> void:
+func _init(use_caps: bool = false, caps_data: Dictionary = {}, is_permanent: bool = false) -> void:
 	respect_caps = use_caps
 	caps = caps_data
+	permanent = is_permanent
+
 
 func add(key: String, amount: float) -> bool:
 	if amount <= 0:
@@ -86,3 +91,15 @@ func prune_zeros() -> void:
 			to_remove.append(key)
 	for key in to_remove:
 		resources.erase(key)
+
+# Resets all resource values to 0 unless the store is marked as permanent
+func reset() -> void:
+	if permanent:
+		print_debug("Skipping reset: store is marked as permanent.")
+		return
+
+	for key in resources.keys():
+		resources[key] = 0.0
+
+	prune_zeros()
+	updated.emit(self)

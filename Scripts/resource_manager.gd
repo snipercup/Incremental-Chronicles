@@ -5,7 +5,7 @@ const DEFAULT_LABEL_TEXT: String = "Story points: 0/100"
 # Use ResourceStore class
 var visible_resources := ResourceStore.new(true)
 var hidden_resources := ResourceStore.new(false)
-var permanent_resources := ResourceStore.new()
+var permanent_resources := ResourceStore.new(false,{},true)
 
 var resource_caps_data: Dictionary = {}
 @onready var story_point_label := self
