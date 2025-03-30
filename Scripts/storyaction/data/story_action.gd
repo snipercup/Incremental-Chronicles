@@ -61,7 +61,6 @@ func _init(data: Dictionary = {}, myarea: StoryArea = null) -> void:
 
 	# Determine visibility based on appear requirements
 	state = State.HIDDEN if not appear_requirements.is_empty() else State.VISIBLE
-
 	SignalBroker.resources_updated.connect(_on_hidden_resources_updated)
 
 

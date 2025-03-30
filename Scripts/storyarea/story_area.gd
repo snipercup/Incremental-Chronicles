@@ -177,6 +177,8 @@ func create_action(data: Dictionary) -> StoryAction:
 	match action_type:
 		"free":
 			return FreeAction.new(data, self)
+		"reincarnation":
+			return ReincarnationAction.new(data, self)
 		"repeat":
 			return RepeatAction.new(data, self)
 		"chain":

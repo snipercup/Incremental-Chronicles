@@ -21,7 +21,7 @@
 	  "action_type": "spend_echoes",
 	  "story_text": "Engrave your memory into the fabric of the world. (Increase Max Story Points)",
 	  "requirements": {
-		"visible": {
+		"permanent": {
 		  "Echoes of the Past": 1
 		}
 	  },
@@ -35,7 +35,7 @@
 	  "action_type": "spend_echoes",
 	  "story_text": "Strengthen your foundation. (Increase Base Strength by 1)",
 	  "requirements": {
-		"visible": {
+		"permanent": {
 		  "Echoes of the Past": 1
 		}
 	  },
@@ -49,7 +49,7 @@
 	  "action_type": "spend_echoes",
 	  "story_text": "Sharpen your insight. (Increase Perception by 1)",
 	  "requirements": {
-		"visible": {
+		"permanent": {
 		  "Echoes of the Past": 1
 		}
 	  },

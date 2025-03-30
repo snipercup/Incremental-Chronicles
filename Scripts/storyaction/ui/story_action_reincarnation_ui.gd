@@ -24,6 +24,10 @@ func _ready():
 	pressed.connect(_on_action_button_pressed)
 
 func _on_action_button_pressed() -> void:
+	# First check if the player meets the requirements
+	if not parent.apply_requirements(story_action.requirements):
+		print_debug("Not enough resources to perform reincarnation.")
+		return
 	story_action.perform_action()
 
 # Apply the action's rewards to the player's resources

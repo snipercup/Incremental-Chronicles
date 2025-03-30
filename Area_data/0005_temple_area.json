@@ -38,7 +38,7 @@
 		  "Story points": 3.0
 		},
 		"hidden": {
-		  "reincarnation_ready": 1.0
+		  "reincarnation_ready": 3.0
 		}
 	  },
 	  "story_text": "Study an inscription: 'To rise again, the soul must shed its tether to the past.'"
@@ -69,6 +69,9 @@
 		"visible": {
 		  "Story points": 10.0,
 		  "Reincarnation": 1.0
+		},
+		"hidden": {
+		  "reincarnation_started": 0.0
 		}
 	  },
 	  "story_text": "The soul vessel glows. Light floods your vision as your form dissolves. You are reborn — stronger, wiser, and bound to a greater cycle."
