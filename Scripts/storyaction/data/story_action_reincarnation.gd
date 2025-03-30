@@ -18,6 +18,9 @@ extends StoryAction
 #		  "Story points": 10.0,
 #		  "Reincarnation": 1.0
 #		}
+#		"hidden": {
+#		  "reincarnation_finished": 0.0
+#		}
 #	  },
 #	  "story_text": "You reincarnate."
 #	}
@@ -33,8 +36,17 @@ func perform_action() -> void:
 	print("Performed reincarnation action: %s" % story_text)
 	SignalBroker.action_activated.emit(self)
 	SignalBroker.action_rewarded.emit(self)
-	SignalBroker.reincarnation_started.emit(self)
+
+	# Check for reincarnation signals in hidden rewards
+	var hidden: Dictionary = get_hidden_rewards()
+
+	if hidden.has("reincarnation_started"):
+		SignalBroker.reincarnation_started.emit(self)
+	elif hidden.has("reincarnation_finished"):
+		SignalBroker.reincarnation_finished.emit(self)
+
 	SignalBroker.action_removed.emit(self)
 
+
 func get_icon() -> String:
-	return "✨"
+	return "🌀" # Symbolizes cycles, rebirth, and transformation
