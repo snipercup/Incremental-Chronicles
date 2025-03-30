@@ -20,6 +20,8 @@ var caps: Dictionary = {} # Base capacity per resource
 # When this initializes
 func _init(caps_data: Dictionary = {}) -> void:
 	caps = caps_data
+	# Connect to reincarnation_started signal
+	SignalBroker.reincarnation_started.connect(_on_reincarnation_started)
 
 func add(group: String, key: String, amount: float) -> bool:
 	if amount <= 0:
@@ -120,3 +122,7 @@ func reset() -> void:
 
 	prune_zeros()
 	SignalBroker.resources_updated.emit(self)
+
+# When reincarnation starts, reset
+func _on_reincarnation_started(_action: StoryAction) -> void:
+	reset()

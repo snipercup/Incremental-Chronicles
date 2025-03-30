@@ -7,6 +7,8 @@ extends VBoxContainer
 @export var action_list: VBoxContainer = null
 @export var story_area_ui_scene: PackedScene = null
 @export var resource_manager: Label = null
+@export var areas_panel_container: PanelContainer = null
+
 
 var area_list: Array[StoryArea] # The data for each area
 
@@ -15,6 +17,8 @@ func _ready() -> void:
 	SignalBroker.area_pressed.connect(_on_area_pressed)
 	SignalBroker.area_unlocked.connect(_on_area_unlocked)
 	SignalBroker.area_visibility_changed.connect(_on_area_visibility_changed)
+	# Connect to reincarnation_started signal
+	SignalBroker.reincarnation_started.connect(_on_reincarnation_started)
 
 	# Set the first area in the list if available
 	if area_list.size() > 0:
@@ -75,3 +79,8 @@ func _on_area_removed(removed_area: StoryArea) -> void:
 func _on_area_visibility_changed(visible_area: StoryArea) -> void:
 	if visible_area in area_list:
 		_refresh_area_list()
+
+# When reincarnation starts, hide the areas panel
+func _on_reincarnation_started(_action: StoryAction) -> void:
+	if areas_panel_container:
+		areas_panel_container.visible = false

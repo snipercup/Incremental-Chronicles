@@ -7,6 +7,8 @@ extends VBoxContainer
 @export var action_list: VBoxContainer = null
 @export var story_area_ui_scene: PackedScene = null
 @export var resource_manager: Label = null
+@export var special_areas_panel_container: PanelContainer = null
+
 const REINCARNATION_AREA = preload("res://Special_areas/reincarnation_area.json")
 
 var area_list: Array[StoryArea] # The data for each area
@@ -21,13 +23,13 @@ func _ready() -> void:
 			var area = StoryArea.new(reincarnation_data)
 			area_list = [area]
 			_refresh_area_list()
-			#action_list.set_area(area)
 		else:
 			print_debug("Failed to parse reincarnation area JSON.")
 		file.close()
 	else:
 		print_debug("Failed to open reincarnation area file.")
-
+	# Connect to reincarnation_started signal
+	SignalBroker.reincarnation_started.connect(_on_reincarnation_started)
 
 # Setter for area_list
 func set_area_list(value: Array[StoryArea]) -> void:
@@ -58,3 +60,9 @@ func _add_area_to_ui(area: StoryArea) -> void:
 # Handle area pressed signal
 func _on_area_pressed(control: Control) -> void:
 	action_list.set_area(control.get_area())
+
+# When reincarnation starts, reveal the special areas panel
+func _on_reincarnation_started(_action: StoryAction) -> void:
+	if special_areas_panel_container:
+		special_areas_panel_container.visible = true
+	action_list.set_area(area_list[0])

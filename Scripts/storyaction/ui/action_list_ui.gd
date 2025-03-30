@@ -16,6 +16,8 @@ func _ready():
 	SignalBroker.action_activated.connect(_on_action_activated)
 	SignalBroker.action_removed.connect(_on_action_removed)
 	SignalBroker.game_started.connect(_on_game_started)
+	# Connect to reincarnation_started signal
+	SignalBroker.reincarnation_started.connect(_on_reincarnation_started)
 	
 # Setter for area
 func set_area(value: StoryArea) -> void:
@@ -82,3 +84,7 @@ func _on_game_started() -> void:
 	
 func get_active_action() -> StoryAction:
 	return active_action
+
+# When reincarnation starts, clear active action
+func _on_reincarnation_started(_action: StoryAction) -> void:
+	active_action = null # Clear active action if it needs removal

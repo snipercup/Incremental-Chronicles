@@ -43,3 +43,7 @@ signal resources_updated(resource_store: ResourceStore)
 # Signal to emit when the game is started
 @warning_ignore("unused_signal")
 signal game_started()
+
+# Signal to emit when the player reincarnates
+@warning_ignore("unused_signal")
+signal reincarnation_started(myaction: StoryAction)
