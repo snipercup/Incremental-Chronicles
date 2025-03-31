@@ -45,9 +45,13 @@ var appear_requirements: Dictionary = {} : set = set_appear_requirements, get = 
 # Signal to emit when a new action is added
 @warning_ignore("unused_signal")
 signal action_added(myarea: StoryArea)
-signal unlocked(myarea: StoryArea)
 
-# Replace single story point requirement with a dictionary
+# The requirements to unlock this area. Example
+#  "requirements": {
+#	"visible": {
+#	  "Story points": 50.0
+#	}
+#  },
 var requirements: Dictionary = {} : set = set_requirements, get = get_requirements
 
 # Initialize from a dictionary
@@ -73,7 +77,7 @@ func _init(data: Dictionary = {}) -> void:
 		set_visibility_state(VisibilityState.HIDDEN)
 
 	# Listen for hidden resource updates
-	SignalBroker.hidden_resources_updated.connect(_on_hidden_resources_updated)
+	SignalBroker.resources_updated.connect(_on_resources_updated)
 
 
 # Setters and Getters
@@ -119,19 +123,14 @@ func get_requirements() -> Dictionary:
 	return requirements
 
 # Function to unlock the area if enough resources are provided
-func unlock_with_resources(resources: Dictionary) -> bool:
+func unlock() -> bool:
 	if state == State.UNLOCKED:
 		return false
 
-	# Check if all requirements are met
-	for key in requirements.keys():
-		if resources.get(key, 0) < requirements[key]:
-			return false
-	
 	# If all requirements are met, unlock the area
 	state = State.UNLOCKED
 	requirements.clear()
-	unlocked.emit(self)
+	SignalBroker.area_unlocked.emit(self)
 	return true
 
 # Update the get_properties function to include the new requirements dictionary
@@ -178,6 +177,8 @@ func create_action(data: Dictionary) -> StoryAction:
 	match action_type:
 		"free":
 			return FreeAction.new(data, self)
+		"reincarnation":
+			return ReincarnationAction.new(data, self)
 		"repeat":
 			return RepeatAction.new(data, self)
 		"chain":
@@ -217,7 +218,7 @@ func get_visibility_state() -> VisibilityState:
 	return visibility_state
 
 # When the Resource Manager updates the hidden resources, we update the visibility
-func _on_hidden_resources_updated(resource_manager: Label) -> void:
+func _on_resources_updated(myresources: ResourceStore) -> void:
 	if appear_requirements.is_empty():
 		return
 
@@ -225,10 +226,9 @@ func _on_hidden_resources_updated(resource_manager: Label) -> void:
 		return
 
 	# First check if the requirements are met
-	if resource_manager.has_required_resources(appear_requirements, true):
+	if myresources.has_all(appear_requirements):
 		set_visibility_state(VisibilityState.VISIBLE)
-
-		if not resource_manager.consume_resources(appear_requirements, true):
+		if not myresources.consume(appear_requirements):
 			set_visibility_state(VisibilityState.HIDDEN)
 	else:
 		set_visibility_state(VisibilityState.HIDDEN)

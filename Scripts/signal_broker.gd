@@ -24,13 +24,26 @@ signal action_removed(myaction: Control)
 @warning_ignore("unused_signal")
 signal area_removed(myarea: StoryArea)
 
+# Signal to emit when the area button is pressed
+@warning_ignore("unused_signal")
+signal area_pressed(myarea: StoryArea)
+
+# Signal to emit when the area is unlocked
+@warning_ignore("unused_signal")
+signal area_unlocked(myarea: StoryArea)
+
 # Signal to emit when visibility changes
 @warning_ignore("unused_signal")
 signal area_visibility_changed(area: StoryArea)
 
-# Signal to emit when hidden resources are updated
-@warning_ignore("unused_signal")
-signal hidden_resources_updated(resource_manager: Label)
 # Signal to emit when resources are updated
 @warning_ignore("unused_signal")
-signal resources_updated(resource_manager: Label)
+signal resources_updated(resource_store: ResourceStore)
+
+# Signal to emit when the game is started
+@warning_ignore("unused_signal")
+signal game_started()
+
+# Signal to emit when the player reincarnates
+@warning_ignore("unused_signal")
+signal reincarnation_started(myaction: StoryAction)

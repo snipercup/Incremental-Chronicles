@@ -1,0 +1,63 @@
+{
+  "name": "The Shifting Mirror",
+  "description": "A quiet plane of rippling light, where past lives echo and future potential awaits. Time is suspended here — only decisions remain.",
+  "tier": 0,
+  "appear_requirements": {
+	"visible": {
+	  "Reincarnation": 1
+	}
+  },
+  "story_actions": [
+	{
+	  "action_type": "free",
+	  "story_text": "You awaken in the mirror-world. Your reflection watches silently.",
+	  "rewards": {
+		"permanent": {
+		  "Echoes of the Past": 1
+		}
+	  }
+	},
+	{
+	  "action_type": "spend_echoes",
+	  "story_text": "Engrave your memory into the fabric of the world. (Increase Max Story Points)",
+	  "requirements": {
+		"permanent": {
+		  "Echoes of the Past": 1
+		}
+	  },
+	  "rewards": {
+		"permanent": {
+		  "Max Story Points": 10
+		}
+	  }
+	},
+	{
+	  "action_type": "spend_echoes",
+	  "story_text": "Strengthen your foundation. (Increase Base Strength by 1)",
+	  "requirements": {
+		"permanent": {
+		  "Echoes of the Past": 1
+		}
+	  },
+	  "rewards": {
+		"permanent": {
+		  "Strength": 1
+		}
+	  }
+	},
+	{
+	  "action_type": "spend_echoes",
+	  "story_text": "Sharpen your insight. (Increase Perception by 1)",
+	  "requirements": {
+		"permanent": {
+		  "Echoes of the Past": 1
+		}
+	  },
+	  "rewards": {
+		"permanent": {
+		  "Perception": 1
+		}
+	  }
+	}
+  ]
+}

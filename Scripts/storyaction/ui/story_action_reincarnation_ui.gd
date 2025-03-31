@@ -1,7 +1,7 @@
 extends Button
 
 
-# This script is used with the StoryActionFreeUI scene
+# This script is used with the StoryActionReincarnationUI scene
 # This script will signal when the user presses the button
 
 var story_action: StoryAction
@@ -26,12 +26,9 @@ func _ready():
 func _on_action_button_pressed() -> void:
 	# First check if the player meets the requirements
 	if not parent.apply_requirements(story_action.requirements):
-		print_debug("Not enough resources to perform combat.")
+		print_debug("Not enough resources to perform reincarnation.")
 		return
-	# Emit the signal, passing this control as a parameter
-	SignalBroker.action_activated.emit(story_action)
-	SignalBroker.action_rewarded.emit(story_action)
-	SignalBroker.action_removed.emit(story_action)
+	story_action.perform_action()
 
 # Apply the action's rewards to the player's resources
 func apply_rewards(rewards: Dictionary) -> Dictionary:

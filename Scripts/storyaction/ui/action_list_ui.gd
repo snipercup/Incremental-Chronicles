@@ -15,7 +15,9 @@ func _ready():
 	# Connect to the action_activated signal
 	SignalBroker.action_activated.connect(_on_action_activated)
 	SignalBroker.action_removed.connect(_on_action_removed)
-	SignalBroker.action_state_changed.connect(_on_action_state_changed)
+	SignalBroker.game_started.connect(_on_game_started)
+	# Connect to reincarnation_started signal
+	SignalBroker.reincarnation_started.connect(_on_reincarnation_started)
 	
 # Setter for area
 func set_area(value: StoryArea) -> void:
@@ -33,7 +35,6 @@ func set_area(value: StoryArea) -> void:
 	if area and not area.action_added.is_connected(_on_action_added):
 		area.action_added.connect(_on_action_added)
 	_update_story_actions()
-
 
 
 # Function to update story actions when area is set
@@ -74,6 +75,16 @@ func _on_action_removed(_myaction: StoryAction) -> void:
 # Function to handle action_added signal
 func _on_action_added(_myarea: StoryArea) -> void:
 	_update_story_actions()
+
+# Function to handle game_started signal
+func _on_game_started() -> void:
+	# Connect to the action_state_changed signal
+	if not SignalBroker.action_state_changed.is_connected(_on_action_state_changed):
+		SignalBroker.action_state_changed.connect(_on_action_state_changed)
 	
 func get_active_action() -> StoryAction:
 	return active_action
+
+# When reincarnation starts, clear active action
+func _on_reincarnation_started(_action: StoryAction) -> void:
+	active_action = null # Clear active action if it needs removal

@@ -57,6 +57,8 @@ func get_helper() -> Node:
 func get_resource_manager() -> Label:
 	return get_helper().get_resource_manager()
 
+# Returns true of all rewards of this action are at capacity
+# If a resource has no capacity limit, this function will always return false
 func is_at_capacity() -> bool:
 	if story_action.rewards.is_empty():
 		return false

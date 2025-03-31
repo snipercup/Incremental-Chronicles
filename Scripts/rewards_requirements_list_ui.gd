@@ -29,7 +29,6 @@ func _ready():
 	SignalBroker.resources_updated.connect(_on_resources_updated)
 	if story_action:
 		_update_rewards_and_requirements()
-	
 
 # Set story action and update UI
 func set_story_action(value: StoryAction) -> void:
@@ -55,7 +54,7 @@ func _clear_existing_labels() -> void:
 
 # Display requirements and return true if any are shown
 func _display_requirements() -> bool:
-	var requirements = story_action.get_requirements()
+	var requirements: Dictionary = story_action.get_requirements().get("visible", {})
 	var resource_manager: Node = get_resource_manager()
 	if requirements.is_empty() or not resource_manager:
 		return false
@@ -81,7 +80,7 @@ func _display_requirements() -> bool:
 
 # Display rewards and return true if any are shown
 func _display_rewards() -> bool:
-	var rewards = story_action.get_rewards()
+	var rewards: Dictionary = story_action.get_rewards().get("visible", {})
 	if rewards.is_empty():
 		return false
 	
@@ -112,7 +111,6 @@ func _create_label(text: String, color: Color) -> void:
 func get_resource_manager() -> Node:
 	return get_tree().get_first_node_in_group("helper").resource_manager
 
-
 # Detect right-click events
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:
@@ -126,7 +124,7 @@ func _handle_right_click() -> void:
 		right_clicked.emit()
 		get_tree().get_first_node_in_group("helper").on_rewards_requirments_right_clicked(self)
 
-
-func _on_resources_updated(_resource_manager: Label) -> void:
+# When visible resources is updated
+func _on_resources_updated(_myresources: ResourceStore) -> void:
 	_update_rewards_and_requirements()
 	

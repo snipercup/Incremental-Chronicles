@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://d8tihel7vgtk"]
+
+[ext_resource type="Script" uid="uid://bbb5mc6uuaffd" path="res://Scripts/storyaction/ui/story_action_reincarnation_ui.gd" id="1_1s1cw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1s1cw"]
+bg_color = Color(0.619079, 0.207378, 0.244674, 1)
+
+[node name="StoryActionReincarnationUI" type="Button"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_1s1cw")
+text = "My action"
+autowrap_mode = 3
+script = ExtResource("1_1s1cw")

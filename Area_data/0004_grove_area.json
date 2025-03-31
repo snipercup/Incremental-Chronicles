@@ -1,110 +1,142 @@
 {
   "description": "You enter the Hollow Grove — tall trees close in around you, their twisted limbs reaching toward a dim sky. The air is damp, the ground soft, and the forest unnaturally quiet.",
   "name": "Hollow Grove",
+  "tier": 1.0,
+  "requirements": {
+	"visible": {
+	  "Story points": 50.0
+	}
+  },
+  "appear_requirements": {
+	"hidden": {
+	  "grove_access": 1.0
+	}
+  },
   "story_actions": [
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 3.0
+		"visible": {
+		  "Story points": 3.0
+		}
 	  },
 	  "story_text": "Step between the towering trees and feel the air grow heavy."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 3.0
+		"visible": {
+		  "Story points": 3.0
+		}
 	  },
 	  "story_text": "Inspect a deep claw mark on a mossy tree trunk."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 3.0
+		"visible": {
+		  "Story points": 3.0
+		}
 	  },
 	  "story_text": "Notice strange footprints in the mud, too large to be human."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 3.0
+		"visible": {
+		  "Story points": 3.0
+		}
 	  },
 	  "story_text": "Listen closely — faint whispers echo through the leaves."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 3.0
+		"visible": {
+		  "Story points": 3.0
+		}
 	  },
 	  "story_text": "Discover a torn piece of cloth tangled in a bramble."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 1.0
-	  },
-	  "hidden_rewards": {
-		"grove_clue_1": 1.0
+		"visible": {
+		  "Story points": 1.0
+		},
+		"hidden": {
+		  "grove_clue_1": 1.0
+		}
 	  },
 	  "story_text": "You find a boot lying beside a fallen log — worn, and stained with mud."
 	},
 	{
 	  "action_type": "free",
 	  "appear_requirements": {
-		"grove_clue_1": 1.0
+		"hidden": {
+		  "grove_clue_1": 1.0
+		}
 	  },
 	  "rewards": {
-		"Story Point": 1.0
-	  },
-	  "hidden_rewards": {
-		"grove_clue_2": 1.0
+		"visible": {
+		  "Story points": 1.0
+		},
+		"hidden": {
+		  "grove_clue_2": 1.0
+		}
 	  },
 	  "story_text": "Nearby, a shattered wooden charm — the same design worn by the villager in town."
 	},
 	{
 	  "action_type": "free",
 	  "appear_requirements": {
-		"grove_clue_2": 1.0
+		"hidden": {
+		  "grove_clue_2": 1.0
+		}
 	  },
 	  "rewards": {
-		"Story Point": 2.0
-	  },
-	  "hidden_rewards": {
-		"grove_final_clue": 2.0
+		"visible": {
+		  "Story points": 2.0
+		},
+		"hidden": {
+		  "grove_final_clue": 2.0
+		}
 	  },
 	  "story_text": "At the base of a tree, you uncover a journal — pages torn, but the name is clear: Aldric."
 	},
 	{
 	  "action_type": "free",
 	  "appear_requirements": {
-		"grove_final_clue": 1.0
+		"hidden": {
+		  "grove_final_clue": 1.0
+		}
 	  },
 	  "rewards": {
-		"Story Point": 5.0
-	  },
-	  "hidden_rewards": {
-		"grove_report_complete": 1.0
+		"visible": {
+		  "Story points": 5.0
+		},
+		"hidden": {
+		  "grove_report_complete": 1.0
+		}
 	  },
 	  "story_text": "You gather what you’ve found and prepare to return to the village with news of Aldric."
 	},
 	{
 	  "action_type": "free",
 	  "appear_requirements": {
-		"grove_final_clue": 1.0
+		"hidden": {
+		  "grove_final_clue": 1.0
+		}
 	  },
 	  "rewards": {
-		"Story Point": 1.0
-	  },
-	  "hidden_rewards": {
-		"temple_intro_1": 1.0
+		"visible": {
+		  "Story points": 1.0
+		},
+		"hidden": {
+		  "temple_intro_1": 1.0
+		}
 	  },
 	  "story_text": "As you prepare to leave, a warmth floods your senses. For a moment, time bends — a vision of a sunlit altar flashes in your mind."
 	}
-  ],
-  "appear_requirements": {
-	"grove_access": 1.0
-  },
-  "requirements": {
-	"Story points": 50.0
-  },
-  "tier": 1.0
+  ]
 }

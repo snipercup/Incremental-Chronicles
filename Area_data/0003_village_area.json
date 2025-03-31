@@ -1,201 +1,261 @@
 {
   "description": "You arrive in a quaint village nestled at the edge of the wilds. Cobblestone paths, wooden homes, and distant laughter fill the air. Something about this place feels safe... but not without mystery.",
   "name": "Village",
+  "tier": 1.0,
+  "requirements": {
+	"visible": {
+	  "Story points": 50.0
+	}
+  },
+  "appear_requirements": {
+	"hidden": {
+	  "village_access": 1.0
+	}
+  },
   "story_actions": [
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 2.0
+		"visible": {
+		  "Story points": 2.0
+		}
 	  },
 	  "story_text": "Look around the village square."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 2.0
+		"visible": {
+		  "Story points": 2.0
+		}
 	  },
 	  "story_text": "Rest by the central fountain."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 2.0
+		"visible": {
+		  "Story points": 2.0
+		}
 	  },
 	  "story_text": "Watch children chasing chickens."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 2.0
+		"visible": {
+		  "Story points": 2.0
+		}
 	  },
 	  "story_text": "Visit the small market and browse simple wares."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 2.0
+		"visible": {
+		  "Story points": 3.0
+		}
 	  },
 	  "story_text": "Smell stew simmering from a nearby home."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 1.0
-	  },
-	  "hidden_rewards": {
-		"npc_intro_1": 1.0
+		"visible": {
+		  "Story points": 4.0
+		},
+		"hidden": {
+		  "npc_intro_1": 1.0
+		}
 	  },
 	  "story_text": "A hooded villager steps forward. You... don't look like you're from here."
 	},
 	{
 	  "action_type": "free",
 	  "appear_requirements": {
-		"npc_intro_1": 1.0
+		"hidden": {
+		  "npc_intro_1": 1.0
+		}
 	  },
 	  "rewards": {
-		"Story Point": 1.0
-	  },
-	  "hidden_rewards": {
-		"npc_intro_2": 1.0
+		"visible": {
+		  "Story points": 4.0
+		},
+		"hidden": {
+		  "npc_intro_2": 1.0
+		}
 	  },
 	  "story_text": "The forest's been talking. Something stirs beyond the stone hill."
 	},
 	{
 	  "action_type": "free",
 	  "appear_requirements": {
-		"npc_intro_2": 1.0
+		"hidden": {
+		  "npc_intro_2": 1.0
+		}
 	  },
 	  "rewards": {
-		"Story Point": 1.0
-	  },
-	  "hidden_rewards": {
-		"npc_intro_3": 1.0
+		"visible": {
+		  "Story points": 6.0
+		},
+		"hidden": {
+		  "npc_intro_3": 1.0
+		}
 	  },
 	  "story_text": "My brother went looking. Days ago. Hasn’t come back."
 	},
 	{
 	  "action_type": "free",
 	  "appear_requirements": {
-		"npc_intro_3": 1.0
+		"hidden": {
+		  "npc_intro_3": 1.0
+		}
 	  },
 	  "rewards": {
-		"Story Point": 1.0
-	  },
-	  "hidden_rewards": {
-		"npc_quest_active": 1.0
+		"visible": {
+		  "Story points": 7.0
+		},
+		"hidden": {
+		  "npc_quest_active": 1.0
+		}
 	  },
 	  "story_text": "I saw his trail. It led into the hollow grove. Will you look for him?"
 	},
 	{
 	  "action_type": "free",
 	  "appear_requirements": {
-		"npc_quest_active": 1.0
+		"hidden": {
+		  "npc_quest_active": 1.0
+		}
 	  },
 	  "rewards": {
-		"Story Point": 3.0
-	  },
-	  "hidden_rewards": {
-		"grove_access": 1.0
+		"visible": {
+		  "Story points": 10.0
+		},
+		"hidden": {
+		  "grove_access": 1.0
+		}
 	  },
 	  "story_text": "You agree to help and note the direction of the hollow grove."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 2.0
+		"visible": {
+		  "Story points": 2.0
+		}
 	  },
 	  "story_text": "Talk to the old blacksmith sharpening a blade."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 2.0
+		"visible": {
+		  "Story points": 2.0
+		}
 	  },
 	  "story_text": "Pet a friendly village dog."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 2.0
+		"visible": {
+		  "Story points": 2.0
+		}
 	  },
 	  "story_text": "Read the weathered notice board near the inn."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story Point": 2.0
+		"visible": {
+		  "Story points": 2.0
+		}
 	  },
 	  "story_text": "Peek inside the chapel — old and still, candles flickering inside."
 	},
 	{
 	  "action_type": "free",
 	  "appear_requirements": {
-		"grove_report_complete": 1.0
+		"hidden": {
+		  "grove_report_complete": 1.0
+		}
 	  },
 	  "rewards": {
-		"Story Point": 5.0
+		"visible": {
+		  "Story points": 5.0
+		}
 	  },
 	  "story_text": "The villager listens in silence. So he’s gone then... Thank you. He deserved peace."
 	},
 	{
 	  "action_type": "free",
 	  "appear_requirements": {
-		"temple_intro_1": 1.0
+		"hidden": {
+		  "temple_intro_1": 1.0
+		}
 	  },
 	  "rewards": {
-		"Story Point": 1.0
-	  },
-	  "hidden_rewards": {
-		"temple_intro_2": 1.0
+		"visible": {
+		  "Story points": 1.0
+		},
+		"hidden": {
+		  "temple_intro_2": 1.0
+		}
 	  },
 	  "story_text": "The elder leans in. There’s a place they don’t speak of — carved in stone, hidden from the sun."
 	},
 	{
 	  "action_type": "free",
 	  "appear_requirements": {
-		"temple_intro_2": 1.0
+		"hidden": {
+		  "temple_intro_2": 1.0
+		}
 	  },
 	  "rewards": {
-		"Story Point": 1.0
-	  },
-	  "hidden_rewards": {
-		"temple_access": 1.0
+		"visible": {
+		  "Story points": 19.0
+		},
+		"hidden": {
+		  "temple_access": 1.0
+		}
 	  },
 	  "story_text": "Some say it teaches the path of rebirth. But few return from the temple unchanged."
 	},
 	{
 	  "action_type": "free",
 	  "appear_requirements": {
-		"reincarnation_ready": 1.0
+		"hidden": {
+		  "reincarnation_ready": 1.0
+		}
 	  },
 	  "rewards": {
-		"Story Point": 1.0
-	  },
-	  "hidden_rewards": {
-		"chapel_search": 1.0
+		"visible": {
+		  "Story points": 1.0
+		},
+		"hidden": {
+		  "chapel_search": 1.0
+		}
 	  },
 	  "story_text": "Someone mentions the chapel keeper once spoke of soul rituals long ago."
 	},
 	{
 	  "action_type": "free",
 	  "appear_requirements": {
-		"chapel_search": 1.0
+		"hidden": {
+		  "chapel_search": 1.0
+		}
 	  },
 	  "rewards": {
-		"Story Point": 1.0,
-		"Soul Vessel": 1.0
-	  },
-	  "hidden_rewards": {
-		"has_soul_vessel": 1.0
+		"visible": {
+		  "Story points": 1.0,
+		  "Soul Vessel": 1.0
+		},
+		"hidden": {
+		  "has_soul_vessel": 1.0
+		}
 	  },
 	  "story_text": "You lift a loose stone behind the altar. Beneath it rests a shimmering vessel — cold to the touch."
 	}
-  ],
-  "appear_requirements": {
-	"village_access": 1.0
-  },
-  "requirements": {
-	"Story points": 50.0
-  },
-  "tier": 1.0
+  ]
 }

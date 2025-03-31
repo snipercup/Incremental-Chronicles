@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c1t2j0vipmnu6"]
+[gd_scene load_steps=11 format=3 uid="uid://c1t2j0vipmnu6"]
 
 [ext_resource type="Script" uid="uid://cvcr36wahxv8u" path="res://Scripts/incremental_chronicle.gd" id="1_4denh"]
 [ext_resource type="Script" uid="uid://mgmu6dgt8ikl" path="res://Scripts/helper.gd" id="2_3uyo8"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://d1354ddbnb5hl" path="res://Scripts/storyaction/ui/action_list_ui.gd" id="4_67ln1"]
 [ext_resource type="Script" uid="uid://dvjyty3xttj0o" path="res://Scripts/storyarea/area_list_ui.gd" id="4_73alp"]
 [ext_resource type="PackedScene" uid="uid://ctfsl70gr5fnl" path="res://Scenes/story_area_ui.tscn" id="5_miw6j"]
+[ext_resource type="Script" uid="uid://65vu38ks7n5i" path="res://Scripts/storyarea/special_area_list_ui.gd" id="7_onqyn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3uyo8"]
 bg_color = Color(0.485472, 0.633449, 0.633375, 1)
@@ -82,7 +83,7 @@ layout_mode = 2
 text = "Areas:"
 horizontal_alignment = 1
 
-[node name="AreaList" type="VBoxContainer" parent="MainWindow/AreasPanelContainer/AreasVBoxContainer" node_paths=PackedStringArray("action_list", "resource_manager")]
+[node name="AreaList" type="VBoxContainer" parent="MainWindow/AreasPanelContainer/AreasVBoxContainer" node_paths=PackedStringArray("action_list", "resource_manager", "areas_panel_container")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -91,6 +92,34 @@ script = ExtResource("4_73alp")
 action_list = NodePath("../../../ActionsPanelContainer/ActionsVBoxContainer/ScrollContainer/ActionList")
 story_area_ui_scene = ExtResource("5_miw6j")
 resource_manager = NodePath("../../../PlayerStats/ResourceManager")
+areas_panel_container = NodePath("../..")
+
+[node name="SpecialAreasPanelContainer" type="PanelContainer" parent="MainWindow"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3uyo8")
+
+[node name="AreasVBoxContainer" type="VBoxContainer" parent="MainWindow/SpecialAreasPanelContainer"]
+layout_mode = 2
+size_flags_stretch_ratio = 0.2
+
+[node name="AreasLabel" type="Label" parent="MainWindow/SpecialAreasPanelContainer/AreasVBoxContainer"]
+layout_mode = 2
+text = "Areas:"
+horizontal_alignment = 1
+
+[node name="AreaList" type="VBoxContainer" parent="MainWindow/SpecialAreasPanelContainer/AreasVBoxContainer" node_paths=PackedStringArray("action_list", "resource_manager", "special_areas_panel_container")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.2
+script = ExtResource("7_onqyn")
+action_list = NodePath("../../../ActionsPanelContainer/ActionsVBoxContainer/ScrollContainer/ActionList")
+story_area_ui_scene = ExtResource("5_miw6j")
+resource_manager = NodePath("../../../PlayerStats/ResourceManager")
+special_areas_panel_container = NodePath("../..")
 
 [node name="ActionsPanelContainer" type="PanelContainer" parent="MainWindow"]
 layout_mode = 2

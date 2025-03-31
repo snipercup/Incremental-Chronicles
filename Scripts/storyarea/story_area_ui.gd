@@ -9,10 +9,6 @@ extends PanelContainer
 @export var area_button: Button = null
 var story_area: StoryArea
 
-# Signal to emit when the area button is pressed
-signal area_pressed(control: Control)
-
-
 # Handle area button press
 func _ready():
 	if area_button:
@@ -43,10 +39,11 @@ func set_story_area(value: StoryArea) -> void:
 		print_debug("creating story area in area list. Name = " + story_area.get_name() + ", tier = " + str(story_area.get_tier()))
 		
 		# Format requirements into a readable string
-		var requirements = story_area.get_requirements()
+		var requirements: Dictionary = story_area.get_requirements()
 		var requirements_text = []
-		for key in requirements.keys():
-			requirements_text.append("%s: %d" % [key, requirements[key]])
+		if requirements.has("visible"):
+			for key in requirements["visible"].keys():
+				requirements_text.append("%s: %d" % [key, requirements["visible"][key]])
 		
 		# Update controls based on story area properties
 		set_story_point_requirement_label("%s" % ", ".join(requirements_text))
@@ -64,7 +61,7 @@ func set_story_area(value: StoryArea) -> void:
 
 func _on_area_button_pressed() -> void:
 	# Emit the signal, passing this control as a parameter
-	area_pressed.emit(self)
+	SignalBroker.area_pressed.emit(story_area)
 
 func get_area_actions() -> Array[StoryAction]:
 	return story_area.get_story_actions()
