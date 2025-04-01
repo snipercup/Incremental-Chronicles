@@ -66,9 +66,9 @@
 	},
 	{
 	  "action_type": "free",
-	  "appear_requirements": {
+	  "requirements": {
 		"hidden": {
-		  "Miles": 10.0
+		  "Miles": {"type": "appear", "min": 10.0}
 		}
 	  },
 	  "rewards": {
