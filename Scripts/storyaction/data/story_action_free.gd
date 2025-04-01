@@ -8,11 +8,15 @@ extends StoryAction
 # Example free action data
 #	{
 #	  "action_type": "free",
-#	  "appear_requirements": {
-#		"hidden_rat_reward": 1.0
+#	  "requirements": {
+#		"hidden": {
+#			"hidden_rat_reward": {"type": "appear", "min": 1.0}
+#		}
 #	  },
 #	  "rewards": {
-#		"Story points": 5.0
+#		"visible": {
+#		  "Story points": 5.0
+#		}
 #	  },
 #	  "story_text": "Examine the defeated rat."
 #	}

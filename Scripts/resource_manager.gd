@@ -2,8 +2,6 @@ extends Label
 @export var action_list: VBoxContainer = null
 const DEFAULT_LABEL_TEXT: String = "Story points: 0/100"
 
-
-
 # Resources dictionary can look like this:
 #"resources": {
   #"visible": { "Story points": 3.0 },
@@ -78,13 +76,11 @@ func apply_rewards(rewards: Dictionary) -> bool:
 				success = true
 	return success
 
-func has_required_resources(requirements: Dictionary, use_hidden: bool = false) -> bool:
-	var group = "hidden" if use_hidden else "visible"
-	return resources.has_all({ group: requirements.get(group, {}) })
+func can_fulfill_requirements(requirements: Dictionary) -> bool:
+	return resources.can_fulfill_requirements(requirements)
 
-func consume_resources(requirements: Dictionary, use_hidden: bool = false) -> bool:
-	var group = "hidden" if use_hidden else "visible"
-	return resources.consume({ group: requirements.get(group, {}) })
+func consume(requirements: Dictionary) -> bool:
+	return resources.consume(requirements)
 
 func is_at_capacity(resource_name: String) -> bool:
 	return resources.is_at_capacity("visible", resource_name)
@@ -110,8 +106,8 @@ func _on_area_pressed(myarea: StoryArea) -> void:
 	if not myarea.get_state() == StoryArea.State.LOCKED:
 		return
 	var requirements: Dictionary = myarea.get_requirements()
-	if not has_required_resources(requirements):
+	if not can_fulfill_requirements(requirements):
 		print_debug("Tried to unlock an area, but not enough resources")
 		return
-	if consume_resources(requirements):
+	if consume(requirements):
 		myarea.unlock()

@@ -87,7 +87,6 @@ func test_incremental_chronicles():
 	var num_children := func(expected: int) -> bool:
 		return action_list.get_children().size() == expected
 	assert_true(await wait_until(num_children.bind(2), 2, 0.5), "Expected 2 children to remain")
-	#assert_true(await wait_until(num_children, 2, 0.5), "Expected 2 children to remain")
 	assert_eq(test_instance.helper.resource_manager.get_resource("Story points"), 30.0, "There should be 30 story points.")
 
 	# Loop to generate Resolve
@@ -120,6 +119,8 @@ func test_incremental_chronicles():
 
 	# -- ROAD --
 	_open_area(area_list, 1, "Road")
+	# We have 0 story points after entering road
+	assert_eq(test_instance.helper.resource_manager.get_resource("Story points"), 0.0, "There should be 0 story points.")
 	await get_tree().process_frame
 	assert_eq(action_list.get_children().size(), 6, "There should be 6 actions in Road.")
 	_press_actions_of_type(action_list, "free", 5)

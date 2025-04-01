@@ -16,10 +16,8 @@ func _ready() -> void:
 	_connect_default_signals()
 	SignalBroker.reincarnation_started.connect(_on_reincarnation_started)
 	SignalBroker.reincarnation_finished.connect(_on_reincarnation_finished)
-
 	if area_list.size() > 0:
 		action_list.set_area(area_list[0])
-
 
 # Setter for area_list
 func set_area_list(value: Array[StoryArea]) -> void:
