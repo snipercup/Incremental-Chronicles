@@ -4,12 +4,16 @@
   "tier": 1.0,
   "requirements": {
 	"visible": {
-	  "Story points": 50.0
-	}
-  },
-  "appear_requirements": {
+	  "Story points": {
+		"type": "consume",
+		"amount": 50.0
+	  }
+	},
 	"hidden": {
-	  "grove_access": 1.0
+	  "grove_access": {
+		"type": "appear",
+		"min": 1.0
+	  }
 	}
   },
   "story_actions": [
@@ -72,9 +76,12 @@
 	},
 	{
 	  "action_type": "free",
-	  "appear_requirements": {
+	  "requirements": {
 		"hidden": {
-		  "grove_clue_1": 1.0
+		  "grove_clue_1": {
+			"type": "appear",
+			"min": 1.0
+		  }
 		}
 	  },
 	  "rewards": {
@@ -89,9 +96,12 @@
 	},
 	{
 	  "action_type": "free",
-	  "appear_requirements": {
+	  "requirements": {
 		"hidden": {
-		  "grove_clue_2": 1.0
+		  "grove_clue_2": {
+			"type": "appear",
+			"min": 1.0
+		  }
 		}
 	  },
 	  "rewards": {
@@ -106,9 +116,12 @@
 	},
 	{
 	  "action_type": "free",
-	  "appear_requirements": {
+	  "requirements": {
 		"hidden": {
-		  "grove_final_clue": 1.0
+		  "grove_final_clue": {
+			"type": "appear",
+			"min": 1.0
+		  }
 		}
 	  },
 	  "rewards": {
@@ -123,9 +136,12 @@
 	},
 	{
 	  "action_type": "free",
-	  "appear_requirements": {
+	  "requirements": {
 		"hidden": {
-		  "grove_final_clue": 1.0
+		  "grove_final_clue": {
+			"type": "appear",
+			"min": 1.0
+		  }
 		}
 	  },
 	  "rewards": {

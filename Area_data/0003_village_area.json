@@ -4,12 +4,16 @@
   "tier": 1.0,
   "requirements": {
 	"visible": {
-	  "Story points": 50.0
-	}
-  },
-  "appear_requirements": {
+	  "Story points": {
+		"type": "consume",
+		"amount": 50.0
+	  }
+	},
 	"hidden": {
-	  "village_access": 1.0
+	  "village_access": {
+		"type": "appear",
+		"min": 1.0
+	  }
 	}
   },
   "story_actions": [
@@ -72,9 +76,12 @@
 	},
 	{
 	  "action_type": "free",
-	  "appear_requirements": {
+	  "requirements": {
 		"hidden": {
-		  "npc_intro_1": 1.0
+		  "npc_intro_1": {
+			"type": "appear",
+			"min": 1.0
+		  }
 		}
 	  },
 	  "rewards": {
@@ -89,9 +96,12 @@
 	},
 	{
 	  "action_type": "free",
-	  "appear_requirements": {
+	  "requirements": {
 		"hidden": {
-		  "npc_intro_2": 1.0
+		  "npc_intro_2": {
+			"type": "appear",
+			"min": 1.0
+		  }
 		}
 	  },
 	  "rewards": {
@@ -106,9 +116,12 @@
 	},
 	{
 	  "action_type": "free",
-	  "appear_requirements": {
+	  "requirements": {
 		"hidden": {
-		  "npc_intro_3": 1.0
+		  "npc_intro_3": {
+			"type": "appear",
+			"min": 1.0
+		  }
 		}
 	  },
 	  "rewards": {
@@ -123,9 +136,12 @@
 	},
 	{
 	  "action_type": "free",
-	  "appear_requirements": {
+	  "requirements": {
 		"hidden": {
-		  "npc_quest_active": 1.0
+		  "npc_quest_active": {
+			"type": "appear",
+			"min": 1.0
+		  }
 		}
 	  },
 	  "rewards": {
@@ -176,9 +192,12 @@
 	},
 	{
 	  "action_type": "free",
-	  "appear_requirements": {
+	  "requirements": {
 		"hidden": {
-		  "grove_report_complete": 1.0
+		  "grove_report_complete": {
+			"type": "appear",
+			"min": 1.0
+		  }
 		}
 	  },
 	  "rewards": {
@@ -190,9 +209,12 @@
 	},
 	{
 	  "action_type": "free",
-	  "appear_requirements": {
+	  "requirements": {
 		"hidden": {
-		  "temple_intro_1": 1.0
+		  "temple_intro_1": {
+			"type": "appear",
+			"min": 1.0
+		  }
 		}
 	  },
 	  "rewards": {
@@ -207,9 +229,12 @@
 	},
 	{
 	  "action_type": "free",
-	  "appear_requirements": {
+	  "requirements": {
 		"hidden": {
-		  "temple_intro_2": 1.0
+		  "temple_intro_2": {
+			"type": "appear",
+			"min": 1.0
+		  }
 		}
 	  },
 	  "rewards": {
@@ -224,9 +249,12 @@
 	},
 	{
 	  "action_type": "free",
-	  "appear_requirements": {
+	  "requirements": {
 		"hidden": {
-		  "reincarnation_ready": 1.0
+		  "reincarnation_ready": {
+			"type": "appear",
+			"min": 1.0
+		  }
 		}
 	  },
 	  "rewards": {
@@ -241,9 +269,12 @@
 	},
 	{
 	  "action_type": "free",
-	  "appear_requirements": {
+	  "requirements": {
 		"hidden": {
-		  "chapel_search": 1.0
+		  "chapel_search": {
+			"type": "appear",
+			"min": 1.0
+		  }
 		}
 	  },
 	  "rewards": {
