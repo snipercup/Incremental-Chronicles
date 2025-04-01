@@ -28,4 +28,4 @@ SignalBroker="*res://Scripts/signal_broker.gd"
 
 [editor_plugins]
 
-enabled=PackedStringArray()
+enabled=PackedStringArray("res://addons/gut/plugin.cfg")

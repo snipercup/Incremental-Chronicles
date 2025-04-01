@@ -31,6 +31,7 @@ func _init(data: Dictionary, myarea: StoryArea = null) -> void:
 	super(data, myarea)  # Call parent class _init function
 	# Read and store the enemy data if available
 	enemy = data.get("enemy", {})
+	print_debug("my class name is: " + get_class())
 
 
 #Player Strength	Enemy Strength	Success Chance
@@ -84,3 +85,7 @@ func is_enemy_defeated() -> bool:
 
 func get_successes() -> int:
 	return success_count
+
+# Returns the type as specified in the json
+func get_type() -> String:
+	return "combat"

@@ -137,3 +137,8 @@ func _on_hidden_resources_updated(myresources: ResourceStore) -> void:
 
 func get_hidden_rewards() -> Dictionary:
 	return rewards.get("hidden", {})
+
+# Returns the type of action. For the base class, this will be "action"
+# For other classes, it will be "combat", "free", "loop" etc. as they override this function
+func get_type() -> String:
+	return "action"

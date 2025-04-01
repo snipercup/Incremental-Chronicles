@@ -20,7 +20,6 @@ extends PanelContainer
 @export var action_container: HBoxContainer = null
 @export var icon_label: Label = null
 
-
 var story_action: StoryAction
 var action_instance: Control = null
 
@@ -52,6 +51,10 @@ func get_resource_manager() -> Node:
 # The resource manager will handle rewards
 func get_active_action() -> StoryAction:
 	return get_helper().get_active_action()
+
+# The story_action will be returned
+func get_story_action() -> StoryAction:
+	return story_action
 	
 # Return the helper
 func get_helper() -> Node:
