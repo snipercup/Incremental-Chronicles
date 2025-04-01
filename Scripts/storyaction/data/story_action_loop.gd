@@ -22,3 +22,7 @@ func get_max_loops() -> float:
 
 func get_icon() -> String:
 	return "🔁"
+
+# Returns the type as specified in the json
+func get_type() -> String:
+	return "loop"

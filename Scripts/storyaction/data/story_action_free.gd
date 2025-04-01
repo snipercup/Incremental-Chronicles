@@ -29,3 +29,7 @@ func perform_action() -> void:
 
 func get_icon() -> String:
 	return "✨"
+
+# Returns the type as specified in the json
+func get_type() -> String:
+	return "free"
