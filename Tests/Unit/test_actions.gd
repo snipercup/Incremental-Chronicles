@@ -41,9 +41,7 @@ func _press_action_button(action_list: Control, childnr: int) -> void:
 		return
 
 	var myaction_ui: Control = story_action_uis[childnr]
-	var myaction_button_container: Control = myaction_ui.action_container
-	var mybutton: Control = myaction_button_container.get_child(2)
-	mybutton._on_action_button_pressed()
+	myaction_ui.action_instance._on_action_button_pressed()
 
 # Returns true if an action of the given type exists in the action list
 func _has_action_type(action_list: Control, type_name: String) -> bool:
@@ -54,7 +52,6 @@ func _has_action_type(action_list: Control, type_name: String) -> bool:
 
 # Test if the game initializes correctly.
 func test_incremental_chronicles():
-	
 	# Get the control lists
 	var action_list: Control = test_instance.action_list
 	var area_list: Control = test_instance.area_list
@@ -90,21 +87,28 @@ func test_incremental_chronicles():
 	# Instead of waiting for 10 loops, we set the resolve to 10
 	test_instance.helper.resource_manager.resources.set_value("visible","Resolve", 10)
 	var resolve: float = test_instance.helper.resource_manager.resources.get_value("visible","Resolve")
-	assert_eq(resolve, 10, "10 resolve")
+	assert_eq(resolve, 10.0, "expected 10 resolve")
+	
+	var my_combat_action: Control = action_list.get_first_action_of_type("combat")
+	assert_true(not my_combat_action == null, "There should be a combat action.")
 	
 	# Press the combat action until it disappears or we hit a max number of presses
 	var max_attempts := 100
 	var attempt := 0
-	while attempt < max_attempts and _has_action_type(action_list, "combat"):
-		# Re-fetch story_action_uis each loop since children may change
-		if action_list.get_child_count() > 1:
-			_press_action_button(action_list, 1)
-			await get_tree().process_frame
+	while attempt < max_attempts and not action_list.get_first_action_of_type("combat") == null:
+		my_combat_action = action_list.get_first_action_of_type("combat")
+		my_combat_action.action_instance._on_action_button_pressed()
+		await get_tree().process_frame
 		attempt += 1
 
+	my_combat_action = action_list.get_first_action_of_type("combat")
+	assert_true(my_combat_action == null, "There should be no combat action.")
+	
+	# Rat was defeated, examine the rat
+	var my_free_action: Control = action_list.get_first_action_of_type("free")
+	my_free_action.action_instance._on_action_button_pressed()
+	await get_tree().process_frame
+	
+	# The tunnel area is completed
 	story_action_uis = action_list.get_children()
 	assert_eq(story_action_uis.size(), 1, "There should be 1 action remaining.")
-	#var finished_combat = func():
-		#_press_action_button(action_list,1) # Press the combat button
-		#var resolve: float = test_instance.helper.resource_manager.resources.get_value("visible","Resolve")
-		#return resolve == 1.0

@@ -88,3 +88,12 @@ func get_active_action() -> StoryAction:
 # When reincarnation starts, clear active action
 func _on_reincarnation_started(_action: StoryAction) -> void:
 	active_action = null # Clear active action if it needs removal
+
+# Returns the first child action_ui that matches the specified action type
+func get_first_action_of_type(action_type: String) -> Control:
+	for child in get_children():
+		if child.has_method("get_story_action"):
+			var action = child.get_story_action()
+			if action and action.has_method("get_type") and action.get_type() == action_type:
+				return child
+	return null # No matching action found
