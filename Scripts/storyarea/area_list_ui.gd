@@ -13,16 +13,13 @@ extends VBoxContainer
 var area_list: Array[StoryArea] # The data for each area
 
 func _ready() -> void:
-	SignalBroker.area_removed.connect(_on_area_removed)
-	SignalBroker.area_pressed.connect(_on_area_pressed)
-	SignalBroker.area_unlocked.connect(_on_area_unlocked)
-	SignalBroker.area_visibility_changed.connect(_on_area_visibility_changed)
-	# Connect to reincarnation_started signal
+	_connect_default_signals()
 	SignalBroker.reincarnation_started.connect(_on_reincarnation_started)
+	SignalBroker.reincarnation_finished.connect(_on_reincarnation_finished)
 
-	# Set the first area in the list if available
 	if area_list.size() > 0:
 		action_list.set_area(area_list[0])
+
 
 # Setter for area_list
 func set_area_list(value: Array[StoryArea]) -> void:
@@ -84,3 +81,28 @@ func _on_area_visibility_changed(visible_area: StoryArea) -> void:
 func _on_reincarnation_started(_action: StoryAction) -> void:
 	if areas_panel_container:
 		areas_panel_container.visible = false
+	_disconnect_default_signals()
+
+# When the reincarnation has finished, make the panel visible
+func _on_reincarnation_finished(_action: StoryAction) -> void:
+	if areas_panel_container:
+		areas_panel_container.visible = true
+	_connect_default_signals()
+
+# Helper to (re)connect all default signals
+func _connect_default_signals() -> void:
+	SignalBroker.area_removed.connect(_on_area_removed)
+	SignalBroker.area_pressed.connect(_on_area_pressed)
+	SignalBroker.area_unlocked.connect(_on_area_unlocked)
+	SignalBroker.area_visibility_changed.connect(_on_area_visibility_changed)
+
+# Helper to disconnect all default signals
+func _disconnect_default_signals() -> void:
+	if SignalBroker.area_removed.is_connected(_on_area_removed):
+		SignalBroker.area_removed.disconnect(_on_area_removed)
+	if SignalBroker.area_pressed.is_connected(_on_area_pressed):
+		SignalBroker.area_pressed.disconnect(_on_area_pressed)
+	if SignalBroker.area_unlocked.is_connected(_on_area_unlocked):
+		SignalBroker.area_unlocked.disconnect(_on_area_unlocked)
+	if SignalBroker.area_visibility_changed.is_connected(_on_area_visibility_changed):
+		SignalBroker.area_visibility_changed.disconnect(_on_area_visibility_changed)

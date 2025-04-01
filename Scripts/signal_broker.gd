@@ -47,3 +47,7 @@ signal game_started()
 # Signal to emit when the player reincarnates
 @warning_ignore("unused_signal")
 signal reincarnation_started(myaction: StoryAction)
+
+# Signal to emit when the player reincarnates
+@warning_ignore("unused_signal")
+signal reincarnation_finished(myaction: StoryAction)
