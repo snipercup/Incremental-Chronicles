@@ -87,7 +87,7 @@ func test_incremental_chronicles():
 	var num_children := func(expected: int) -> bool:
 		return action_list.get_children().size() == expected
 	assert_true(await wait_until(num_children.bind(2), 2, 0.5), "Expected 2 children to remain")
-	assert_eq(test_instance.helper.resource_manager.get_resource("Story points"), 30.0, "There should be 30 story points.")
+	assert_eq(test_instance.helper.resource_manager.get_resource("visible","Story points"), 30.0, "There should be 30 story points.")
 
 	# Loop to generate Resolve
 	var loop_action: Control = action_list.get_first_action_of_type("loop")
@@ -120,7 +120,7 @@ func test_incremental_chronicles():
 	# -- ROAD --
 	_open_area(area_list, 1, "Road")
 	# We have 0 story points after entering road
-	assert_eq(test_instance.helper.resource_manager.get_resource("Story points"), 0.0, "There should be 0 story points.")
+	assert_eq(test_instance.helper.resource_manager.get_resource("visible","Story points"), 0.0, "There should be 0 story points.")
 	await get_tree().process_frame
 	assert_eq(action_list.get_children().size(), 6, "There should be 6 actions in Road.")
 	_press_actions_of_type(action_list, "free", 5)
@@ -151,12 +151,12 @@ func test_incremental_chronicles():
 	assert_true(await wait_until(num_children.bind(0), 2, 0.5), "Expected 0 children to remain")
 
 	# We have 50 story points after village
-	assert_eq(test_instance.helper.resource_manager.get_resource("Story points"), 50.0, "There should be 50 story points.")
+	assert_eq(test_instance.helper.resource_manager.get_resource("visible","Story points"), 50.0, "There should be 50 story points.")
 
 	# -- HOLLOW GROVE --
 	_open_area(area_list, 3, "Hollow Grove")
 	await get_tree().process_frame
-	assert_eq(test_instance.helper.resource_manager.get_resource("Story points"), 0.0, "Story points should be spent. 0 remaining.")
+	assert_eq(test_instance.helper.resource_manager.get_resource("visible","Story points"), 0.0, "Story points should be spent. 0 remaining.")
 	
 	# We press all the grove actions
 	assert_eq(action_list.get_children().size(), 6, "There should be 6 actions in grove.")

@@ -18,8 +18,12 @@ extends VBoxContainer
 #       },
 #		"visible": {
 #		  "Resolve": {"type": "consume", "amount": 1.0}
+#		},
+#		"permanent": {
+#		  "Echoes of the Past": {"type": "consume","amount": 1.0}
 #		}
 #	  }
+
 
 # Provides an option to select viewing either rewards, requirements or both
 enum DisplayMode { REQUIREMENTS, REWARDS, BOTH }
@@ -57,36 +61,36 @@ func _clear_existing_labels() -> void:
 		child.queue_free()
 
 # Display requirements and return true if any are shown
-# Display visible requirements with the new structured format
+# Display requirements for both "visible" and "permanent" groups
 func _display_requirements() -> bool:
-	var requirements: Dictionary = story_action.get_requirements().get("visible", {})
+	var requirement_groups := ["visible", "permanent"]
 	var resource_manager: Node = get_resource_manager()
-	if requirements.is_empty() or not resource_manager:
+	if not resource_manager:
 		return false
 
 	var has_content := false
-	for key in requirements.keys():
-		var req_data: Dictionary = requirements[key]
-		if not req_data.has("amount"):
-			continue  # Skip if there's no amount to compare
 
-		var required_amount: float = req_data.get("amount", 0.0)
-		var current: float = resource_manager.get_resource(key)
-		var max_value: float = resource_manager.get_resource_max(key)
-		var requirement_met: bool = current >= required_amount
+	for group in requirement_groups:
+		var group_requirements: Dictionary = story_action.get_requirements().get(group, {})
+		for key in group_requirements.keys():
+			var req_data: Dictionary = group_requirements[key]
+			if typeof(req_data) != TYPE_DICTIONARY or not req_data.has("amount"):
+				continue  # Skip if structure is invalid or has no amount
 
-		# Format label text for UI
-		var label_text := _format_requirement_text(key, required_amount, current, max_value)
+			var required_amount: float = req_data.get("amount", 0.0)
+			var current: float = resource_manager.get_resource(group, key)
+			var max_value: float = resource_manager.get_resource_max(group, key)
+			var requirement_met: bool = current >= required_amount
 
-		# Choose label color and prefix based on requirement status
-		var label_color := Color(0.2, 0.6, 1) if requirement_met else Color(1, 0, 0)
-		var prefix := "✔️ " if requirement_met else "❌ "
+			# Format and display label
+			var label_text := _format_requirement_text(key, required_amount, current, max_value)
+			var label_color := Color(0.2, 0.6, 1) if requirement_met else Color(1, 0, 0)
+			var prefix := "✔️ " if requirement_met else "❌ "
 
-		_create_label(prefix + label_text, label_color)
-		has_content = true
+			_create_label(prefix + label_text, label_color)
+			has_content = true
 
 	return has_content
-
 
 # Display rewards and return true if any are shown
 func _display_rewards() -> bool:

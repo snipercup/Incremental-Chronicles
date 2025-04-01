@@ -62,11 +62,11 @@ func _update_tooltip() -> void:
 			break
 	tooltip_text = "\n".join(list)
 
-func get_resource(resource_name: String) -> float:
-	return resources.get_value("visible", resource_name)
+func get_resource(group: String, resource_name: String) -> float:
+	return resources.get_value(group, resource_name)
 
-func get_resource_max(resource_name: String) -> float:
-	return resource_caps_data.get("visible", {}).get(resource_name, 0)
+func get_resource_max(group: String, resource_name: String) -> float:
+	return resource_caps_data.get(group, {}).get(resource_name, 0)
 
 func apply_rewards(rewards: Dictionary) -> bool:
 	var success := false

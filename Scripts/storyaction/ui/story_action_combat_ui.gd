@@ -29,7 +29,7 @@ func _ready():
 # Get the player's strength from the resource manager
 func get_player_strength() -> int:
 	var resource_manager: Node = parent.get_resource_manager()
-	return resource_manager.get_resource("Strength")
+	return resource_manager.get_resource("visible","Strength")
 
 
 # Create nodes in the container to represent combat chances
