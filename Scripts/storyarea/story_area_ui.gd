@@ -17,7 +17,6 @@ func _ready():
 	# Connect to the area_removed signal
 	SignalBroker.area_removed.connect(_on_area_removed)
 
-
 # Setters for controls and variables
 func set_story_point_requirement_label(value: String) -> void:
 	if story_point_requirement_label:
@@ -26,7 +25,6 @@ func set_story_point_requirement_label(value: String) -> void:
 func set_stars_label(value: String) -> void:
 	if stars_label:
 		stars_label.text = value
-
 
 func set_area_button_text(value: String) -> void:
 	if area_button:
@@ -43,7 +41,21 @@ func set_story_area(value: StoryArea) -> void:
 		var requirements_text = []
 		if requirements.has("visible"):
 			for key in requirements["visible"].keys():
-				requirements_text.append("%s: %d" % [key, requirements["visible"][key]])
+				var rule = requirements["visible"][key]
+				if typeof(rule) == TYPE_DICTIONARY:
+					if rule.get("type") == "consume":
+						var amount = rule.get("amount", 0.0)
+						requirements_text.append("[%s] %s" % [amount, key])
+					elif rule.get("type") == "appear":
+						var min_val = rule.get("min", 0.0)
+						var max_val = rule.get("max", INF)
+						if max_val < INF:
+							requirements_text.append("[%s–%s] %s" % [min_val, max_val, key])
+						else:
+							requirements_text.append("[%s+] %s" % [min_val, key])
+				else:
+					# Legacy fallback: plain value
+					requirements_text.append("[%s] %s" % [rule, key])
 		
 		# Update controls based on story area properties
 		set_story_point_requirement_label("%s" % ", ".join(requirements_text))

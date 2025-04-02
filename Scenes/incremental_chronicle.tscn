@@ -62,10 +62,6 @@ text = "Story points: 0/100"
 script = ExtResource("3_67ln1")
 action_list = NodePath("../../ActionsPanelContainer/ActionsVBoxContainer/ScrollContainer/ActionList")
 
-[node name="ReincarnateButton" type="Button" parent="MainWindow/PlayerStats"]
-layout_mode = 2
-text = "Reincarnate"
-
 [node name="RequirementsPinList" type="VBoxContainer" parent="MainWindow/PlayerStats"]
 layout_mode = 2
 size_flags_vertical = 3

@@ -62,8 +62,8 @@ func get_helper() -> Node:
 
 # Attempt to subtract resources based on the provided requirements
 func apply_requirements(requirements: Dictionary) -> bool:
-	if get_resource_manager().has_required_resources(requirements):
-		if get_resource_manager().consume_resources(requirements):
+	if get_resource_manager().resources.can_fulfill_requirements(requirements):
+		if get_resource_manager().resources.consume(requirements):
 			return true
 	return false
 

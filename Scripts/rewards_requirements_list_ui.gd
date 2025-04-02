@@ -11,11 +11,19 @@ extends VBoxContainer
 # For example: [40] resolve (1/10)
 # If story_points_label is null, we just use resource: #
 
-# Example JSON from story_action.get_requirements() and story_action.get_rewards():
-# {
-#     "Story Point": 1,
-#     "Persistence": 1
-# }
+# Example JSON from story_action.get_requirements():
+#	  "requirements": {
+#		"hidden": {
+#			"hidden_rat_reward": {"type": "appear", "min": 1.0}
+#       },
+#		"visible": {
+#		  "Resolve": {"type": "consume", "amount": 1.0}
+#		},
+#		"permanent": {
+#		  "Echoes of the Past": {"type": "consume","amount": 1.0}
+#		}
+#	  }
+
 
 # Provides an option to select viewing either rewards, requirements or both
 enum DisplayMode { REQUIREMENTS, REWARDS, BOTH }
@@ -53,48 +61,53 @@ func _clear_existing_labels() -> void:
 		child.queue_free()
 
 # Display requirements and return true if any are shown
+# Display requirements for both "visible" and "permanent" groups
 func _display_requirements() -> bool:
-	var requirements: Dictionary = story_action.get_requirements().get("visible", {})
+	var requirement_groups := ["visible", "permanent"]
 	var resource_manager: Node = get_resource_manager()
-	if requirements.is_empty() or not resource_manager:
+	if not resource_manager:
 		return false
-	
-	var has_content = false
-	for key in requirements.keys():
-		var needed = requirements[key]
-		var current = resource_manager.get_resource(key)
-		var max_value = resource_manager.get_resource_max(key)
-		var requirement_met = current >= needed
 
-		# Format label text
-		var label_text = _format_requirement_text(key, needed, current, max_value)
+	var has_content := false
 
-		# Choose color and emoji based on status
-		var label_color = Color(0.2, 0.6, 1) if requirement_met else Color(1, 0, 0)
-		var prefix = "✔️ " if requirement_met else "❌ "
+	for group in requirement_groups:
+		var group_requirements: Dictionary = story_action.get_requirements().get(group, {})
+		for key in group_requirements.keys():
+			var req_data: Dictionary = group_requirements[key]
+			if typeof(req_data) != TYPE_DICTIONARY or not req_data.has("amount"):
+				continue  # Skip if structure is invalid or has no amount
 
-		_create_label(prefix + label_text, label_color)
-		has_content = true
-	
+			var required_amount: float = req_data.get("amount", 0.0)
+			var current: float = resource_manager.get_resource(group, key)
+			var max_value: float = resource_manager.get_resource_max(group, key)
+			var requirement_met: bool = current >= required_amount
+
+			# Format and display label
+			var label_text := _format_requirement_text(key, required_amount, current, max_value)
+			var label_color := Color(0.2, 0.6, 1) if requirement_met else Color(1, 0, 0)
+			var prefix := "✔️ " if requirement_met else "❌ "
+
+			_create_label(prefix + label_text, label_color)
+			has_content = true
+
 	return has_content
 
 # Display rewards and return true if any are shown
 func _display_rewards() -> bool:
-	var rewards: Dictionary = story_action.get_rewards().get("visible", {})
-	if rewards.is_empty():
-		return false
-	
-	var has_content = false
-	for key in rewards.keys():
-		var amount = rewards[key]
-		var label_text = "%s: %d" % [key, amount]
-		_create_label(label_text, Color(0, 1, 0))  # Green for rewards
-		has_content = true
-	
+	var reward_groups := ["visible", "permanent"]
+	var has_content := false
+
+	for group in reward_groups:
+		var rewards: Dictionary = story_action.get_rewards().get(group, {})
+		for key in rewards.keys():
+			var amount: float = rewards[key]
+			var label_text := "%s: %d" % [key, amount]
+			_create_label(label_text, Color(0, 1, 0))  # Green for rewards
+			has_content = true
 	return has_content
 
 # Format requirement text based on availability
-func _format_requirement_text(key: String, needed: int, current: int, max_value: int) -> String:
+func _format_requirement_text(key: String, needed: float, current: float, max_value: float) -> String:
 	if max_value > 0:
 		return "[%d] %s (%d/%d)" % [needed, key, current, max_value]
 	else:

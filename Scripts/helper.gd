@@ -7,6 +7,9 @@ var loaded_areas: Dictionary = {}
 @export var action_list: VBoxContainer = null
 
 
+func _ready() -> void:
+	SignalBroker.reincarnation_finished.connect(_on_reincarnation_finished)
+
 func initialize():
 	loaded_areas = load_json_files_from_path("res://Area_data/")
 	create_story_areas()
@@ -74,3 +77,7 @@ func get_active_action() -> StoryAction:
 	
 func get_resource_manager() -> Label:
 	return resource_manager
+
+# When the reincarnation has finished, restart
+func _on_reincarnation_finished(_action: StoryAction) -> void:
+	initialize()

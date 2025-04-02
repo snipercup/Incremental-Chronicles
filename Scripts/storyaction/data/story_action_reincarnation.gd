@@ -47,6 +47,9 @@ func perform_action() -> void:
 
 	SignalBroker.action_removed.emit(self)
 
-
 func get_icon() -> String:
 	return "🌀" # Symbolizes cycles, rebirth, and transformation
+
+# Returns the type as specified in the json
+func get_type() -> String:
+	return "reincarnation"

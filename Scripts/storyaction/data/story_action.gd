@@ -6,7 +6,7 @@ extends RefCounted
 #	  "action_type": "combat",
 #	  "requirements": {
 #		"visible": {
-#		  "Resolve": 1.0
+#		  "Resolve": {"type": "consume", "amount": 1.0}
 #		}
 #	  },
 #	  "rewards": {
@@ -25,9 +25,9 @@ extends RefCounted
 #	},
 #	{
 #	  "action_type": "free",
-#	  "appear_requirements": {
+#	  "requirements": {
 #		"hidden": {
-#		  "hidden_rat_reward": 1.0
+#			"hidden_rat_reward": {"type": "appear", "min": 1.0}
 #		}
 #	  },
 #	  "rewards": {
@@ -42,7 +42,6 @@ extends RefCounted
 var rewards: Dictionary = {} : set = set_rewards, get = get_rewards
 var story_text: String = "" : set = set_story_text, get = get_story_text
 var requirements: Dictionary = {} : set = set_requirements, get = get_requirements
-var appear_requirements: Dictionary = {} : set = set_appear_requirements, get = get_appear_requirements
 
 # New state enum for action visibility
 enum State { VISIBLE, HIDDEN }
@@ -56,11 +55,18 @@ func _init(data: Dictionary = {}, myarea: StoryArea = null) -> void:
 	set_story_text(data.get("story_text", ""))
 	set_requirements(data.get("requirements", {}))
 	set_rewards(data.get("rewards", {}))  # Already includes hidden rewards inside
-	set_appear_requirements(data.get("appear_requirements", {}))
 	area = myarea
 
-	# Determine visibility based on appear requirements
-	state = State.HIDDEN if not appear_requirements.is_empty() else State.VISIBLE
+	# Determine initial visibility from "appear" type requirements
+	var has_appear := false
+	for group in requirements:
+		for key in requirements[group]:
+			var rule = requirements[group][key]
+			if typeof(rule) == TYPE_DICTIONARY and rule.get("type") == "appear":
+				has_appear = true
+				break
+
+	state = State.HIDDEN if has_appear else State.VISIBLE
 	SignalBroker.resources_updated.connect(_on_hidden_resources_updated)
 
 
@@ -86,14 +92,6 @@ func set_story_text(value: String) -> void:
 func get_story_text() -> String:
 	return story_text
 
-# Setter for appear requirements
-func set_appear_requirements(value: Dictionary) -> void:
-	appear_requirements = value.duplicate(true)
-
-# Getter for appear requirements
-func get_appear_requirements() -> Dictionary:
-	return appear_requirements
-
 # Setter for state
 func set_state(value: State) -> void:
 	if state != value:
@@ -111,27 +109,33 @@ func get_properties() -> Dictionary:
 		"story_text": story_text,
 		"requirements": requirements,
 		"rewards": rewards,
-		"appear_requirements": appear_requirements,
 		"state": state
 	}
 
-# Check if the player meets all the action's requirements
-func can_perform_action(resources: Dictionary) -> bool:
-	for key in requirements.keys():
-		if resources.get(key, 0) < requirements[key]:
-			return false
-	return true
-
 # Called when hidden resources are updated
-func _on_hidden_resources_updated(myresources: ResourceStore) -> void:
-	if appear_requirements.is_empty() or get_state() == StoryAction.State.VISIBLE:
-		return # No need to run any more code if there are no requirements or already visible
+func _on_hidden_resources_updated(resource_store: ResourceStore) -> void:
+	if get_state() == State.VISIBLE:
+		return
 
-	# Check if requirements are met before consuming
-	if myresources.has_all(appear_requirements):
+	# Extract "appear"-type requirements
+	var appear_requirements := {}
+
+	for group in requirements:
+		for key in requirements[group]:
+			var rule = requirements[group][key]
+			if typeof(rule) == TYPE_DICTIONARY and rule.get("type") == "appear":
+				if not appear_requirements.has(group):
+					appear_requirements[group] = {}
+				appear_requirements[group][key] = rule
+
+	# If no appear-type requirements, show it
+	if appear_requirements.is_empty():
 		set_state(State.VISIBLE)
-		if not myresources.consume(appear_requirements):
-			set_state(State.HIDDEN)
+		return
+
+	# Set visibility based on whether requirements are met
+	if resource_store.can_fulfill_requirements(appear_requirements):
+		set_state(State.VISIBLE)
 	else:
 		set_state(State.HIDDEN)
 

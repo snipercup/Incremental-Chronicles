@@ -4,12 +4,16 @@
   "tier": 1.0,
   "requirements": {
 	"visible": {
-	  "Story points": 50.0
-	}
-  },
-  "appear_requirements": {
+	  "Story points": {
+		"type": "consume",
+		"amount": 50.0
+	  }
+	},
 	"hidden": {
-	  "temple_access": 1.0
+	  "temple_access": {
+		"type": "appear",
+		"min": 1.0
+	  }
 	}
   },
   "story_actions": [
@@ -45,24 +49,34 @@
 	},
 	{
 	  "action_type": "free",
-	  "appear_requirements": {
-		"hidden": {
-		  "reincarnation_ready": 1.0
-		}
-	  },
 	  "requirements": {
+		"hidden": {
+		  "reincarnation_ready": {
+			"type": "appear",
+			"min": 1.0
+		  }
+		},
 		"visible": {
-		  "Soul Vessel": 1.0
+		  "Soul Vessel": {
+			"type": "consume",
+			"amount": 1.0
+		  }
 		}
 	  },
 	  "story_text": "You kneel before the altar, prepared for rebirth — but the ritual falters. Something’s missing."
 	},
 	{
 	  "action_type": "reincarnation",
-	  "appear_requirements": {
+	  "requirements": {
 		"hidden": {
-		  "reincarnation_ready": 1.0,
-		  "has_soul_vessel": 1.0
+		  "reincarnation_ready": {
+			"type": "appear",
+			"min": 1.0
+		  },
+		  "has_soul_vessel": {
+			"type": "appear",
+			"min": 1.0
+		  }
 		}
 	  },
 	  "rewards": {

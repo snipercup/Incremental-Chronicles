@@ -14,6 +14,21 @@ extends RefCounted
   #"hidden": { "reincarnation_ready": 10.0 },
   #"permanent": { "Ascension Tokens": 10.0 }
 #}
+
+# Example requirments dictionary:
+#	  "requirements": {
+#		"hidden": {
+#		  "reincarnation_ready": {
+#			"type": "appear",
+#			"min": 1.0
+#		  },
+#		"visible": {
+#		  "Story points": {
+#			"type": "consume",
+#			"amount": 50.0
+#		  }
+#		}
+#	  }
 var resources: Dictionary = {} # Keep track of each resource amount by using name and value
 var caps: Dictionary = {} # Base capacity per resource
 
@@ -62,27 +77,51 @@ func get_value(group: String, key: String) -> float:
 	return 0.0
 
 # Returns true if the resources contain enough of each to fulfill the requirements
-func has_all(requirements: Dictionary) -> bool:
+func can_fulfill_requirements(requirements: Dictionary) -> bool:
 	for group in requirements.keys():
 		for key in requirements[group].keys():
-			if get_value(group, key) < requirements[group][key]:
-				return false
+			var rule = requirements[group][key]
+
+			if typeof(rule) == TYPE_DICTIONARY:
+				var value = get_value(group, key)
+
+				if rule.get("type", "") == "appear":
+					var min_value = rule.get("min", 0.0)
+					var max_value = rule.get("max", INF)
+					if value < min_value or value > max_value:
+						return false
+				elif rule.get("type", "") == "consume":
+					var required_amount = rule.get("amount", 0.0)
+					if value < required_amount:
+						return false
+			else:
+				# Legacy fallback: plain number
+				if get_value(group, key) < rule:
+					return false
 	return true
 
 # Subtracts all the requirments from the resources and returns true on success
 func consume(requirements: Dictionary) -> bool:
-	if not has_all(requirements):
+	if not can_fulfill_requirements(requirements):
 		return false
 
 	for group in requirements.keys():
 		for key in requirements[group].keys():
-			resources[group][key] = max(
-				resources[group].get(key, 0.0) - requirements[group][key],
-				0.0
-			)
+			var rule = requirements[group][key]
+			if typeof(rule) == TYPE_DICTIONARY:
+				if rule.get("type", "") == "consume":
+					var amount = rule.get("amount", 0.0)
+					var current = get_value(group, key)
+					resources[group][key] = max(current - amount, 0.0)
+			else:
+				# Legacy fallback
+				var current = get_value(group, key)
+				resources[group][key] = max(current - rule, 0.0)
+
 	prune_zeros()
 	SignalBroker.resources_updated.emit(self)
 	return true
+
 
 # Check if all resources in the provided dictionary are at capacity
 func are_all_at_capacity(requirements: Dictionary) -> bool:

@@ -38,20 +38,24 @@ var description: String = "" : set = set_description, get = get_description
 enum VisibilityState { VISIBLE, HIDDEN }
 var visibility_state: VisibilityState = VisibilityState.HIDDEN : set = set_visibility_state, get = get_visibility_state
 
-# New appear_requirements dictionary
-var appear_requirements: Dictionary = {} : set = set_appear_requirements, get = get_appear_requirements
-
-
 # Signal to emit when a new action is added
 @warning_ignore("unused_signal")
 signal action_added(myarea: StoryArea)
 
 # The requirements to unlock this area. Example
-#  "requirements": {
-#	"visible": {
-#	  "Story points": 50.0
-#	}
-#  },
+#	  "requirements": {
+#		"hidden": {
+#		  "reincarnation_ready": {
+#			"type": "appear",
+#			"min": 1.0
+#		  },
+#		"visible": {
+#		  "Story points": {
+#			"type": "consume",
+#			"amount": 50.0
+#		  }
+#		}
+#	  }
 var requirements: Dictionary = {} : set = set_requirements, get = get_requirements
 
 # Initialize from a dictionary
@@ -68,13 +72,20 @@ func _init(data: Dictionary = {}) -> void:
 			var new_action: StoryAction = create_action(action_data)
 			story_actions.append(new_action)
 	SignalBroker.action_removed.connect(remove_story_action)
-	set_appear_requirements(data.get("appear_requirements", {}))
 
-	# Set initial visibility based on appear_requirements
-	if appear_requirements.is_empty():
-		set_visibility_state(VisibilityState.VISIBLE)
-	else:
+	# Set initial visibility based on whether any "appear"-type requirements exist
+	var has_appear_requirements := false
+	for group in requirements.keys():
+		for key in requirements[group].keys():
+			var rule = requirements[group][key]
+			if typeof(rule) == TYPE_DICTIONARY and rule.get("type") == "appear":
+				has_appear_requirements = true
+				break
+
+	if has_appear_requirements:
 		set_visibility_state(VisibilityState.HIDDEN)
+	else:
+		set_visibility_state(VisibilityState.VISIBLE)
 
 	# Listen for hidden resource updates
 	SignalBroker.resources_updated.connect(_on_resources_updated)
@@ -116,7 +127,15 @@ func get_description() -> String:
 func set_requirements(value: Dictionary) -> void:
 	requirements = value.duplicate(true)
 	# If no requirements are set, unlock the area automatically
-	if requirements.is_empty():
+	var has_consume := false
+	for group in requirements:
+		for key in requirements[group]:
+			var rule = requirements[group][key]
+			if typeof(rule) == TYPE_DICTIONARY and rule.get("type") == "consume":
+				has_consume = true
+				break
+
+	if not has_consume:
 		set_state(State.UNLOCKED)
 
 func get_requirements() -> Dictionary:
@@ -142,8 +161,7 @@ func get_properties() -> Dictionary:
 		"state": state,
 		"requirements": requirements,
 		"story_actions": story_actions.map(func(action): return action.get_properties()),
-		"visibility_state": visibility_state,
-		"appear_requirements": appear_requirements
+		"visibility_state": visibility_state
 	}
 
 # Function to remove a StoryAction from the list
@@ -203,11 +221,6 @@ func create_action(data: Dictionary) -> StoryAction:
 			print_debug("Unknown action type: %s" % action_type)
 			return FreeAction.new(data, self)
 
-func set_appear_requirements(value: Dictionary) -> void:
-	appear_requirements = value.duplicate(true)
-
-func get_appear_requirements() -> Dictionary:
-	return appear_requirements
 
 func set_visibility_state(value: VisibilityState) -> void:
 	if visibility_state != value:
@@ -218,17 +231,27 @@ func get_visibility_state() -> VisibilityState:
 	return visibility_state
 
 # When the Resource Manager updates the hidden resources, we update the visibility
-func _on_resources_updated(myresources: ResourceStore) -> void:
-	if appear_requirements.is_empty():
-		return
-
+func _on_resources_updated(resource_store: ResourceStore) -> void:
 	if get_visibility_state() == VisibilityState.VISIBLE:
 		return
 
-	# First check if the requirements are met
-	if myresources.has_all(appear_requirements):
+	# Only consider requirements with type = "appear"
+	var appear_requirements: Dictionary = {}
+
+	for group in requirements.keys():
+		for key in requirements[group].keys():
+			var rule = requirements[group][key]
+			if typeof(rule) == TYPE_DICTIONARY and rule.get("type") == "appear":
+				if not appear_requirements.has(group):
+					appear_requirements[group] = {}
+				appear_requirements[group][key] = rule
+
+	if appear_requirements.is_empty():
 		set_visibility_state(VisibilityState.VISIBLE)
-		if not myresources.consume(appear_requirements):
-			set_visibility_state(VisibilityState.HIDDEN)
+		return
+
+	# Check appear requirements
+	if resource_store.can_fulfill_requirements(appear_requirements):
+		set_visibility_state(VisibilityState.VISIBLE)
 	else:
 		set_visibility_state(VisibilityState.HIDDEN)

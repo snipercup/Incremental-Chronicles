@@ -90,7 +90,7 @@
 	  "action_type": "combat",
 	  "requirements": {
 		"visible": {
-		  "Resolve": 1.0
+		  "Resolve": {"type": "consume", "amount": 1.0}
 		}
 	  },
 	  "rewards": {
@@ -109,9 +109,9 @@
 	},
 	{
 	  "action_type": "free",
-	  "appear_requirements": {
+	  "requirements": {
 		"hidden": {
-		  "hidden_rat_reward": 1.0
+			"hidden_rat_reward": {"type": "appear", "min": 1.0}
 		}
 	  },
 	  "rewards": {

@@ -2,8 +2,6 @@ extends Label
 @export var action_list: VBoxContainer = null
 const DEFAULT_LABEL_TEXT: String = "Story points: 0/100"
 
-
-
 # Resources dictionary can look like this:
 #"resources": {
   #"visible": { "Story points": 3.0 },
@@ -47,28 +45,45 @@ func _update_display() -> void:
 	_update_tooltip()
 
 func _update_tooltip() -> void:
-	var list = []
-	var count = 0
-	if not resources.resources.has("visible"):
-		return
+	var lines := []
+	var total_count := 0
 
-	for key in resources.resources["visible"].keys():
-		var value = resources.get_value("visible", key)
-		var max_value = resource_caps_data.get("visible", {}).get(key, 0)
+	# Add visible (temporary) resources
+	total_count += _append_resource_group("visible", "Temporary Resources", lines, total_count, 10)
+	# Add permanent resources
+	if total_count < 20:
+		total_count += _append_resource_group("permanent", "Permanent Resources", lines, total_count, 10)
+	tooltip_text = "\n".join(lines)
+
+# Appends a formatted section of resources to the tooltip lines
+func _append_resource_group(group_name: String, section_title: String, lines: Array, count: int, max_items: int) -> int:
+	if not resources.resources.has(group_name):
+		return 0
+
+	var added := 0
+	if count > 0:
+		lines.append("")  # Add spacing between sections
+	lines.append(section_title)
+
+	for key in resources.resources[group_name].keys():
+		var value = resources.get_value(group_name, key)
+		var max_value = resource_caps_data.get(group_name, {}).get(key, 0)
 		if max_value > 0:
-			list.append("%s: %d/%d" % [key, value, max_value])
+			lines.append("  %s: %d/%d" % [key, value, max_value])
 		else:
-			list.append("%s: %d" % [key, value])
-		count += 1
-		if count >= 10:
+			lines.append("  %s: %d" % [key, value])
+		added += 1
+		if added >= max_items:
 			break
-	tooltip_text = "\n".join(list)
 
-func get_resource(resource_name: String) -> float:
-	return resources.get_value("visible", resource_name)
+	return added
 
-func get_resource_max(resource_name: String) -> float:
-	return resource_caps_data.get("visible", {}).get(resource_name, 0)
+
+func get_resource(group: String, resource_name: String) -> float:
+	return resources.get_value(group, resource_name)
+
+func get_resource_max(group: String, resource_name: String) -> float:
+	return resource_caps_data.get(group, {}).get(resource_name, 0)
 
 func apply_rewards(rewards: Dictionary) -> bool:
 	var success := false
@@ -78,13 +93,11 @@ func apply_rewards(rewards: Dictionary) -> bool:
 				success = true
 	return success
 
-func has_required_resources(requirements: Dictionary, use_hidden: bool = false) -> bool:
-	var group = "hidden" if use_hidden else "visible"
-	return resources.has_all({ group: requirements.get(group, {}) })
+func can_fulfill_requirements(requirements: Dictionary) -> bool:
+	return resources.can_fulfill_requirements(requirements)
 
-func consume_resources(requirements: Dictionary, use_hidden: bool = false) -> bool:
-	var group = "hidden" if use_hidden else "visible"
-	return resources.consume({ group: requirements.get(group, {}) })
+func consume(requirements: Dictionary) -> bool:
+	return resources.consume(requirements)
 
 func is_at_capacity(resource_name: String) -> bool:
 	return resources.is_at_capacity("visible", resource_name)
@@ -110,8 +123,8 @@ func _on_area_pressed(myarea: StoryArea) -> void:
 	if not myarea.get_state() == StoryArea.State.LOCKED:
 		return
 	var requirements: Dictionary = myarea.get_requirements()
-	if not has_required_resources(requirements):
+	if not can_fulfill_requirements(requirements):
 		print_debug("Tried to unlock an area, but not enough resources")
 		return
-	if consume_resources(requirements):
+	if consume(requirements):
 		myarea.unlock()
