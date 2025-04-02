@@ -42,16 +42,11 @@
 	  "story_text": "Strengthen your foundation. (Increase Base Strength by 1)",
 	  "requirements": {
 		"permanent": {
-		  "Echoes of the Past": {
-			"type": "consume",
-			"amount": 1.0
-		  }
+		  "Echoes of the Past": {"type": "consume","amount": 1.0}
 		}
 	  },
 	  "rewards": {
-		"permanent": {
-		  "Strength": 1
-		}
+		"permanent": {"Strength": 1}
 	  }
 	},
 	{

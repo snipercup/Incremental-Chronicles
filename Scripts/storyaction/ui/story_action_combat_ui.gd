@@ -27,9 +27,11 @@ func _ready():
 
 
 # Get the player's strength from the resource manager
-func get_player_strength() -> int:
+func get_player_strength() -> float:
 	var resource_manager: Node = parent.get_resource_manager()
-	return resource_manager.get_resource("visible","Strength")
+	var temporary_strength: float = resource_manager.get_resource("visible","Strength")
+	var permanent_strength: float = resource_manager.get_resource("permanent","Strength")
+	return temporary_strength+permanent_strength
 
 
 # Create nodes in the container to represent combat chances

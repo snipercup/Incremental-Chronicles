@@ -78,7 +78,6 @@ func get_active_action() -> StoryAction:
 func get_resource_manager() -> Label:
 	return resource_manager
 
-
 # When the reincarnation has finished, restart
 func _on_reincarnation_finished(_action: StoryAction) -> void:
 	initialize()

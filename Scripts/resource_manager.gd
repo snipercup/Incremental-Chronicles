@@ -45,22 +45,39 @@ func _update_display() -> void:
 	_update_tooltip()
 
 func _update_tooltip() -> void:
-	var list = []
-	var count = 0
-	if not resources.resources.has("visible"):
-		return
+	var lines := []
+	var total_count := 0
 
-	for key in resources.resources["visible"].keys():
-		var value = resources.get_value("visible", key)
-		var max_value = resource_caps_data.get("visible", {}).get(key, 0)
+	# Add visible (temporary) resources
+	total_count += _append_resource_group("visible", "Temporary Resources", lines, total_count, 10)
+	# Add permanent resources
+	if total_count < 20:
+		total_count += _append_resource_group("permanent", "Permanent Resources", lines, total_count, 10)
+	tooltip_text = "\n".join(lines)
+
+# Appends a formatted section of resources to the tooltip lines
+func _append_resource_group(group_name: String, section_title: String, lines: Array, count: int, max_items: int) -> int:
+	if not resources.resources.has(group_name):
+		return 0
+
+	var added := 0
+	if count > 0:
+		lines.append("")  # Add spacing between sections
+	lines.append(section_title)
+
+	for key in resources.resources[group_name].keys():
+		var value = resources.get_value(group_name, key)
+		var max_value = resource_caps_data.get(group_name, {}).get(key, 0)
 		if max_value > 0:
-			list.append("%s: %d/%d" % [key, value, max_value])
+			lines.append("  %s: %d/%d" % [key, value, max_value])
 		else:
-			list.append("%s: %d" % [key, value])
-		count += 1
-		if count >= 10:
+			lines.append("  %s: %d" % [key, value])
+		added += 1
+		if added >= max_items:
 			break
-	tooltip_text = "\n".join(list)
+
+	return added
+
 
 func get_resource(group: String, resource_name: String) -> float:
 	return resources.get_value(group, resource_name)
