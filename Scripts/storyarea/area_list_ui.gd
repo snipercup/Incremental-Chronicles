@@ -86,6 +86,9 @@ func _on_reincarnation_finished(_action: StoryAction) -> void:
 	if areas_panel_container:
 		areas_panel_container.visible = true
 	_connect_default_signals()
+	# Set the first area again if one remains
+	if area_list.size() > 0:
+		action_list.set_area(area_list[0])
 
 # Helper to (re)connect all default signals
 func _connect_default_signals() -> void:

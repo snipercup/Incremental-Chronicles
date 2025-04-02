@@ -94,17 +94,16 @@ func _display_requirements() -> bool:
 
 # Display rewards and return true if any are shown
 func _display_rewards() -> bool:
-	var rewards: Dictionary = story_action.get_rewards().get("visible", {})
-	if rewards.is_empty():
-		return false
-	
-	var has_content = false
-	for key in rewards.keys():
-		var amount = rewards[key]
-		var label_text = "%s: %d" % [key, amount]
-		_create_label(label_text, Color(0, 1, 0))  # Green for rewards
-		has_content = true
-	
+	var reward_groups := ["visible", "permanent"]
+	var has_content := false
+
+	for group in reward_groups:
+		var rewards: Dictionary = story_action.get_rewards().get(group, {})
+		for key in rewards.keys():
+			var amount: float = rewards[key]
+			var label_text := "%s: %d" % [key, amount]
+			_create_label(label_text, Color(0, 1, 0))  # Green for rewards
+			has_content = true
 	return has_content
 
 # Format requirement text based on availability

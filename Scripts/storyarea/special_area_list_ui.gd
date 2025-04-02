@@ -30,6 +30,7 @@ func _ready() -> void:
 		print_debug("Failed to open reincarnation area file.")
 	# Connect to reincarnation_started signal
 	SignalBroker.reincarnation_started.connect(_on_reincarnation_started)
+	SignalBroker.reincarnation_finished.connect(_on_reincarnation_finished)
 
 # Setter for area_list
 func set_area_list(value: Array[StoryArea]) -> void:
@@ -66,3 +67,8 @@ func _on_reincarnation_started(_action: StoryAction) -> void:
 	if special_areas_panel_container:
 		special_areas_panel_container.visible = true
 	action_list.set_area(area_list[0])
+
+# When the reincarnation has finished, make the panel invisible
+func _on_reincarnation_finished(_action: StoryAction) -> void:
+	if special_areas_panel_container:
+		special_areas_panel_container.visible = false

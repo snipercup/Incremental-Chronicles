@@ -70,6 +70,13 @@
 		  "Perception": 1
 		}
 	  }
+	},
+	{
+	  "action_type": "reincarnation",
+	  "story_text": "You step forward. The mirror ripples, then steadies — your new self reflected clearly. The cycle is complete. You are ready to begin again.",
+	  "rewards": {
+		"hidden": {"reincarnation_finished": 0.0}
+	  }
 	}
   ]
 }

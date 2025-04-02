@@ -206,6 +206,6 @@ func test_incremental_chronicles():
 	#assert_true(area_list.visible == false, "Expected area_list to be invisible")
 	assert_true(special_area_list.special_areas_panel_container.visible == true, "Expected special_area_list to be invisible")
 	# We have entered the special reincarnation area, which holds 4 actions
-	assert_true(await wait_until(num_children.bind(4), 2, 0.5), "Expected 4 children to remain")
+	assert_true(await wait_until(num_children.bind(5), 2, 0.5), "Expected 5 children to remain")
 	
 	await wait_seconds(100, "Wait 10 seconds to see the result")
