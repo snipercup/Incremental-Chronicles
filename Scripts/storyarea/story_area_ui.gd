@@ -31,24 +31,26 @@ func set_area_button_text(value: String) -> void:
 		area_button.text = value
 
 # Set story area and update controls
+# Updated to handle new format where "consume" and "appear" are direct keys instead of "type"
 func set_story_area(value: StoryArea) -> void:
 	story_area = value
 	if story_area:
 		print_debug("creating story area in area list. Name = " + story_area.get_name() + ", tier = " + str(story_area.get_tier()))
-		
-		# Format requirements into a readable string
+
 		var requirements: Dictionary = story_area.get_requirements()
-		var requirements_text = []
+		var requirements_text: Array[String] = []
+
 		if requirements.has("visible"):
 			for key in requirements["visible"].keys():
 				var rule = requirements["visible"][key]
+
 				if typeof(rule) == TYPE_DICTIONARY:
-					if rule.get("type") == "consume":
-						var amount = rule.get("amount", 0.0)
+					if rule.has("consume"):
+						var amount = rule["consume"]
 						requirements_text.append("[%s] %s" % [amount, key])
-					elif rule.get("type") == "appear":
-						var min_val = rule.get("min", 0.0)
-						var max_val = rule.get("max", INF)
+					elif rule.has("appear"):
+						var min_val = rule["appear"].get("min", 0.0)
+						var max_val = rule["appear"].get("max", INF)
 						if max_val < INF:
 							requirements_text.append("[%s–%s] %s" % [min_val, max_val, key])
 						else:
@@ -56,13 +58,13 @@ func set_story_area(value: StoryArea) -> void:
 				else:
 					# Legacy fallback: plain value
 					requirements_text.append("[%s] %s" % [rule, key])
-		
-		# Update controls based on story area properties
+
+		# Update UI labels
 		set_story_point_requirement_label("%s" % ", ".join(requirements_text))
 		set_stars_label("★".repeat(story_area.get_tier()))
 		set_area_button_text(story_area.get_name())
-		
-		# Hide or show labels based on state
+
+		# Show/hide labels based on locked state
 		var is_locked = story_area.get_state() == StoryArea.State.LOCKED
 		if stars_label:
 			stars_label.visible = is_locked
@@ -70,6 +72,7 @@ func set_story_area(value: StoryArea) -> void:
 			story_point_requirement_label.visible = is_locked
 		if area_button and is_locked:
 			set_area_button_text("Locked")
+
 
 func _on_area_button_pressed() -> void:
 	# Emit the signal, passing this control as a parameter

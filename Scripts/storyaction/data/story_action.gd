@@ -57,18 +57,10 @@ func _init(data: Dictionary = {}, myarea: StoryArea = null) -> void:
 	set_rewards(data.get("rewards", {}))  # Already includes hidden rewards inside
 	area = myarea
 
-	# Determine initial visibility from "appear" type requirements
-	var has_appear := false
-	for group in requirements:
-		for key in requirements[group]:
-			var rule = requirements[group][key]
-			if typeof(rule) == TYPE_DICTIONARY and rule.get("type") == "appear":
-				has_appear = true
-				break
-
-	state = State.HIDDEN if has_appear else State.VISIBLE
-	SignalBroker.resources_updated.connect(_on_hidden_resources_updated)
-
+	# If there are appear requirements, the action is hidden
+	var appear_requirements := ResourceUtils.filter_requirements_by_type(requirements, "appear")
+	state = State.VISIBLE if appear_requirements.is_empty() else State.HIDDEN
+	SignalBroker.resources_updated.connect(_on_resources_updated)
 
 # Setter for requirements (ensure valid data)
 func set_requirements(value: Dictionary) -> void:
@@ -112,28 +104,16 @@ func get_properties() -> Dictionary:
 		"state": state
 	}
 
-# Called when hidden resources are updated
-func _on_hidden_resources_updated(resource_store: ResourceStore) -> void:
+# Called when resources are updated
+func _on_resources_updated(resource_store: ResourceStore) -> void:
 	if get_state() == State.VISIBLE:
 		return
 
-	# Extract "appear"-type requirements
-	var appear_requirements := {}
-
-	for group in requirements:
-		for key in requirements[group]:
-			var rule = requirements[group][key]
-			if typeof(rule) == TYPE_DICTIONARY and rule.get("type") == "appear":
-				if not appear_requirements.has(group):
-					appear_requirements[group] = {}
-				appear_requirements[group][key] = rule
-
-	# If no appear-type requirements, show it
+	var appear_requirements := ResourceUtils.filter_requirements_by_type(requirements, "appear")
 	if appear_requirements.is_empty():
 		set_state(State.VISIBLE)
 		return
 
-	# Set visibility based on whether requirements are met
 	if resource_store.can_fulfill_requirements(appear_requirements):
 		set_state(State.VISIBLE)
 	else:

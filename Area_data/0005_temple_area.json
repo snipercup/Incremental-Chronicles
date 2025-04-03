@@ -5,14 +5,14 @@
   "requirements": {
 	"visible": {
 	  "Story points": {
-		"type": "consume",
-		"amount": 50.0
+		"consume": 50.0
 	  }
 	},
 	"hidden": {
 	  "temple_access": {
-		"type": "appear",
-		"min": 1.0
+		"appear": {
+		  "min": 1.0
+		}
 	  }
 	}
   },
@@ -52,14 +52,14 @@
 	  "requirements": {
 		"hidden": {
 		  "reincarnation_ready": {
-			"type": "appear",
-			"min": 1.0
+			"appear": {
+			  "min": 1.0
+			}
 		  }
 		},
 		"visible": {
 		  "Soul Vessel": {
-			"type": "consume",
-			"amount": 1.0
+			"consume": 1.0
 		  }
 		}
 	  },
@@ -70,12 +70,14 @@
 	  "requirements": {
 		"hidden": {
 		  "reincarnation_ready": {
-			"type": "appear",
-			"min": 1.0
+			"appear": {
+			  "min": 1.0
+			}
 		  },
 		  "has_soul_vessel": {
-			"type": "appear",
-			"min": 1.0
+			"appear": {
+			  "min": 1.0
+			}
 		  }
 		}
 	  },

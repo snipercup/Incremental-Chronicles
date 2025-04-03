@@ -5,8 +5,9 @@
   "requirements": {
 	"visible": {
 	  "Reincarnation": {
-		"type": "appear",
-		"min": 1.0
+		"appear": {
+		  "min": 1.0
+		}
 	  }
 	}
   },
@@ -26,8 +27,7 @@
 	  "requirements": {
 		"permanent": {
 		  "Echoes of the Past": {
-			"type": "consume",
-			"amount": 1.0
+			"consume": 1.0
 		  }
 		}
 	  },
@@ -42,11 +42,15 @@
 	  "story_text": "Strengthen your foundation. (Increase Base Strength by 1)",
 	  "requirements": {
 		"permanent": {
-		  "Echoes of the Past": {"type": "consume","amount": 1.0}
+		  "Echoes of the Past": {
+			"consume": 1.0
+		  }
 		}
 	  },
 	  "rewards": {
-		"permanent": {"Strength": 1}
+		"permanent": {
+		  "Strength": 1
+		}
 	  }
 	},
 	{
@@ -55,8 +59,7 @@
 	  "requirements": {
 		"permanent": {
 		  "Echoes of the Past": {
-			"type": "consume",
-			"amount": 1.0
+			"consume": 1.0
 		  }
 		}
 	  },
@@ -70,7 +73,9 @@
 	  "action_type": "reincarnation",
 	  "story_text": "You step forward. The mirror ripples, then steadies — your new self reflected clearly. The cycle is complete. You are ready to begin again.",
 	  "rewards": {
-		"hidden": {"reincarnation_finished": 0.0}
+		"hidden": {
+		  "reincarnation_finished": 0.0
+		}
 	  }
 	}
   ]

@@ -4,23 +4,23 @@ extends RefCounted
 # Example data:
 #{
 #	"description": "A weathered tunnel opens to rugged plains, golden grasses swaying beneath a breeze. Ruins and hidden paths await discovery.",
-#	"name": "Tunnel",
-#	"requirements": {
-#		"Story points": 1.0
-#	 },
-#	"tier": 1.0
-#	"story_actions": [
-#		{
-#			"action_type": "free",
-#	  		"requirements": {
-#				"Resolve": 1.0
-#	  		},
-#			"rewards": {
-#				"Story Point": 1.0,
-#				"Strength": 1.0
-#			},
-#			"story_text": "Lift a stone."
-#		},
+#  "name": "Village",
+#  "tier": 1.0,
+#  "requirements": {
+#	"visible": {"Story points": {"consume": 50.0}},
+#	"hidden": {"village_access": {"appear": {"min": 1.0}}}
+#  },
+#  "story_actions": [
+#	{
+#	  "action_type": "free",
+#	  "rewards": {
+#		"visible": {
+#		  "Story points": 5.0,
+#		  "Strength": 1.0
+#		}
+#	  },
+#	  "story_text": "Lift a stone."
+#	}
 #	]
 #}
 
@@ -73,23 +73,14 @@ func _init(data: Dictionary = {}) -> void:
 			story_actions.append(new_action)
 	SignalBroker.action_removed.connect(remove_story_action)
 
-	# Set initial visibility based on whether any "appear"-type requirements exist
-	var has_appear_requirements := false
-	for group in requirements.keys():
-		for key in requirements[group].keys():
-			var rule = requirements[group][key]
-			if typeof(rule) == TYPE_DICTIONARY and rule.get("type") == "appear":
-				has_appear_requirements = true
-				break
-
-	if has_appear_requirements:
-		set_visibility_state(VisibilityState.HIDDEN)
-	else:
+	# If there are appear requirements, the action is hidden
+	var appear_requirements := ResourceUtils.filter_requirements_by_type(requirements, "appear")
+	if appear_requirements.is_empty():
 		set_visibility_state(VisibilityState.VISIBLE)
-
+	else:
+		set_visibility_state(VisibilityState.HIDDEN)
 	# Listen for hidden resource updates
 	SignalBroker.resources_updated.connect(_on_resources_updated)
-
 
 # Setters and Getters
 func set_story_actions(value: Array[StoryAction]) -> void:
@@ -126,16 +117,8 @@ func get_description() -> String:
 # Setters and Getters
 func set_requirements(value: Dictionary) -> void:
 	requirements = value.duplicate(true)
-	# If no requirements are set, unlock the area automatically
-	var has_consume := false
-	for group in requirements:
-		for key in requirements[group]:
-			var rule = requirements[group][key]
-			if typeof(rule) == TYPE_DICTIONARY and rule.get("type") == "consume":
-				has_consume = true
-				break
-
-	if not has_consume:
+	var consume_requirements := ResourceUtils.filter_requirements_by_type(requirements, "consume")
+	if consume_requirements.is_empty():
 		set_state(State.UNLOCKED)
 
 func get_requirements() -> Dictionary:
@@ -235,22 +218,14 @@ func _on_resources_updated(resource_store: ResourceStore) -> void:
 	if get_visibility_state() == VisibilityState.VISIBLE:
 		return
 
-	# Only consider requirements with type = "appear"
-	var appear_requirements: Dictionary = {}
-
-	for group in requirements.keys():
-		for key in requirements[group].keys():
-			var rule = requirements[group][key]
-			if typeof(rule) == TYPE_DICTIONARY and rule.get("type") == "appear":
-				if not appear_requirements.has(group):
-					appear_requirements[group] = {}
-				appear_requirements[group][key] = rule
-
+	# Build a new appear_requirements dictionary based on new format
+	var appear_requirements := ResourceUtils.filter_requirements_by_type(requirements, "appear")
+	# No appear requirements = always visible
 	if appear_requirements.is_empty():
 		set_visibility_state(VisibilityState.VISIBLE)
 		return
 
-	# Check appear requirements
+	# Check if appear requirements are met
 	if resource_store.can_fulfill_requirements(appear_requirements):
 		set_visibility_state(VisibilityState.VISIBLE)
 	else:
