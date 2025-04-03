@@ -14,33 +14,6 @@
 		  "Story points": 2.0
 		}
 	  },
-	  "story_text": "Look around the village square."
-	},
-	{
-	  "action_type": "free",
-	  "rewards": {
-		"visible": {
-		  "Story points": 2.0
-		}
-	  },
-	  "story_text": "Rest by the central fountain."
-	},
-	{
-	  "action_type": "free",
-	  "rewards": {
-		"visible": {
-		  "Story points": 2.0
-		}
-	  },
-	  "story_text": "Watch children chasing chickens."
-	},
-	{
-	  "action_type": "free",
-	  "rewards": {
-		"visible": {
-		  "Story points": 2.0
-		}
-	  },
 	  "story_text": "Visit the small market and browse simple wares."
 	},
 	{
@@ -286,6 +259,121 @@
 		}
 	  },
 	  "story_text": "You lift a loose stone behind the altar. Beneath it rests a shimmering vessel — cold to the touch."
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Stroll through the village square. Merchants greet you with nods and warm smiles.",
+	  "rewards": {"visible": {"Story points": 2.0}}
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Speak with the reeve mediating a land dispute.",
+	  "rewards": {"visible": {"Story points": 3.0, "Diplomacy": 1.0}}
+	},
+	{
+	  "action_type": "loop",
+	  "story_text": "Help harvest turnips in the outer fields.",
+	  "cooldown": 1.0,
+	  "max_loops": 10,
+	  "rewards": {
+		"visible": {"Story points": 4.0, "Turnips": 1.0}
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Trade your turnips for lantern oil at the market.",
+	  "requirements": {
+		"visible": {
+		  "Turnips": {"consume": 10.0, "appear": {"min":5.0}}
+		}
+	  },
+	  "rewards": {
+		"visible": {"Lantern Oil": 1.0}
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Deliver the lantern oil to the chapel keeper for the dusk lighting.",
+	  "requirements": {
+		"visible": {
+		  "Lantern Oil": {"consume": 1.0, "appear": {"min": 1.0}}
+		}
+	  },
+	  "rewards": {
+		"visible": {"Resolve": 10.0}
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Visit the smithy and watch sparks fly as iron meets anvil.",
+	  "rewards": {"visible": {"Story points": 2.0}}
+	},
+	{
+	  "action_type": "loop",
+	  "story_text": "Assist the blacksmith in forging nails.",
+	  "cooldown": 1.5,
+	  "rewards": {"visible": {"Iron Nails": 1.0}}
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Help the herbalist sisters dry bundles of lavender and yarrow.",
+	  "rewards": {"visible": {"Herbs": 1.0, "Story points": 2.0}}
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Bring herbs to the chapel to prepare for dusk rites.",
+	  "requirements": {
+		"visible": {"Herbs": {"consume": 1.0}}
+	  },
+	  "rewards": {
+		"visible": {"Resolve": 10.0}
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Speak with a peddler about a strange scroll from the hill cities.",
+	  "rewards": {
+		"visible": {"Story points": 3.0},
+		"hidden": {"temple_intro_1": 1.0}
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Read the public noticeboard — faded ink, fresh concerns.",
+	  "rewards": {"visible": {"Story points": 2.0}}
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "A child speaks of a ghost light in the hills beyond the field.",
+	  "rewards": {"visible": {"Story points": 3.0}, "hidden": {"grove_rumor": 1.0}}
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You meet Elder Branna near the well. She tells you of a massive landslide that has buried the forest path to the east. 'It fell after a quake some winters ago. We've sent for help, but none came. That path must be cleared. There are people waiting.'",
+	  "rewards": {"visible": {"Story points": 3.0}, "hidden": {"path_obstructed": 1.0}}
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "The blacksmith crosses his arms. 'That landslide? It's not just rubble. There's old stone, roots grown thick, and slabs heavier than oxen. You'd need the strength of ten men and something to shift the earth itself.'",
+	  "requirements": {
+		"hidden": {"path_obstructed": {"appear": {"min": 1.0}}}
+	  },
+	  "rewards": {"visible": {"Story points": 2.0}}
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Attempt to clear the landslide blocking the eastern path.",
+	  "requirements": {
+		"visible": {
+		  "Strength": {"amount": 5.0},
+		  "Resolve": {"consume": 20.0}
+		},
+		"hidden": {"path_obstructed": {"appear":{"min": 1.0}}}
+	  },
+	  "rewards": {
+		"visible": {"Story points": 25.0},
+		"hidden": {"grove_access": 1.0}
+	  }
 	}
   ]
 }
