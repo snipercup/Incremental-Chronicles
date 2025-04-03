@@ -3,18 +3,8 @@
   "name": "Village",
   "tier": 1.0,
   "requirements": {
-	"visible": {
-	  "Story points": {
-		"type": "consume",
-		"amount": 50.0
-	  }
-	},
-	"hidden": {
-	  "village_access": {
-		"type": "appear",
-		"min": 1.0
-	  }
-	}
+	"visible": {"Story points": {"consume": 50.0}},
+	"hidden": {"village_access": {"appear": {"min": 1.0}}}
   },
   "story_actions": [
 	{
@@ -79,8 +69,9 @@
 	  "requirements": {
 		"hidden": {
 		  "npc_intro_1": {
-			"type": "appear",
-			"min": 1.0
+			"appear": {
+			  "min": 1.0
+			}
 		  }
 		}
 	  },
@@ -99,8 +90,9 @@
 	  "requirements": {
 		"hidden": {
 		  "npc_intro_2": {
-			"type": "appear",
-			"min": 1.0
+			"appear": {
+			  "min": 1.0
+			}
 		  }
 		}
 	  },
@@ -119,8 +111,9 @@
 	  "requirements": {
 		"hidden": {
 		  "npc_intro_3": {
-			"type": "appear",
-			"min": 1.0
+			"appear": {
+			  "min": 1.0
+			}
 		  }
 		}
 	  },
@@ -139,8 +132,9 @@
 	  "requirements": {
 		"hidden": {
 		  "npc_quest_active": {
-			"type": "appear",
-			"min": 1.0
+			"appear": {
+			  "min": 1.0
+			}
 		  }
 		}
 	  },
@@ -195,8 +189,9 @@
 	  "requirements": {
 		"hidden": {
 		  "grove_report_complete": {
-			"type": "appear",
-			"min": 1.0
+			"appear": {
+			  "min": 1.0
+			}
 		  }
 		}
 	  },
@@ -212,8 +207,9 @@
 	  "requirements": {
 		"hidden": {
 		  "temple_intro_1": {
-			"type": "appear",
-			"min": 1.0
+			"appear": {
+			  "min": 1.0
+			}
 		  }
 		}
 	  },
@@ -232,8 +228,9 @@
 	  "requirements": {
 		"hidden": {
 		  "temple_intro_2": {
-			"type": "appear",
-			"min": 1.0
+			"appear": {
+			  "min": 1.0
+			}
 		  }
 		}
 	  },
@@ -252,8 +249,9 @@
 	  "requirements": {
 		"hidden": {
 		  "reincarnation_ready": {
-			"type": "appear",
-			"min": 1.0
+			"appear": {
+			  "min": 1.0
+			}
 		  }
 		}
 	  },
@@ -272,8 +270,9 @@
 	  "requirements": {
 		"hidden": {
 		  "chapel_search": {
-			"type": "appear",
-			"min": 1.0
+			"appear": {
+			  "min": 1.0
+			}
 		  }
 		}
 	  },

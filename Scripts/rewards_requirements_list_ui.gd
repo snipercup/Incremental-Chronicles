@@ -62,6 +62,8 @@ func _clear_existing_labels() -> void:
 
 # Display requirements and return true if any are shown
 # Display requirements for both "visible" and "permanent" groups
+# Display requirements and return true if any are shown
+# Now handles requirements using the new format: {"consume": 1.0} or {"appear": {"min": 1.0}}
 func _display_requirements() -> bool:
 	var requirement_groups := ["visible", "permanent"]
 	var resource_manager: Node = get_resource_manager()
@@ -74,23 +76,43 @@ func _display_requirements() -> bool:
 		var group_requirements: Dictionary = story_action.get_requirements().get(group, {})
 		for key in group_requirements.keys():
 			var req_data: Dictionary = group_requirements[key]
-			if typeof(req_data) != TYPE_DICTIONARY or not req_data.has("amount"):
-				continue  # Skip if structure is invalid or has no amount
+			if typeof(req_data) != TYPE_DICTIONARY:
+				continue
 
-			var required_amount: float = req_data.get("amount", 0.0)
+			var requirement_met := false
+			var label_text := ""
 			var current: float = resource_manager.get_resource(group, key)
 			var max_value: float = resource_manager.get_resource_max(group, key)
-			var requirement_met: bool = current >= required_amount
 
-			# Format and display label
-			var label_text := _format_requirement_text(key, required_amount, current, max_value)
+			# Handle "consume" format: { "consume": 1.0 }
+			if req_data.has("consume"):
+				var needed: float = req_data["consume"]
+				requirement_met = current >= needed
+				label_text = _format_requirement_text(key, needed, current, max_value)
+
+			# Handle "appear" format: { "appear": { "min": 1.0, "max": 5.0 } }
+			elif req_data.has("appear"):
+				var appear_range: Dictionary = req_data["appear"]
+				var min_val: float = appear_range.get("min", 0.0)
+				var max_val: float = appear_range.get("max", INF)
+				requirement_met = current >= min_val and current <= max_val
+
+				if max_val < INF:
+					label_text = "[%s–%s] %s (%d)" % [min_val, max_val, key, current]
+				else:
+					label_text = "[%s+] %s (%d)" % [min_val, key, current]
+
+			else:
+				continue  # Skip unrecognized rule
+
+			# Display result
 			var label_color := Color(0.2, 0.6, 1) if requirement_met else Color(1, 0, 0)
 			var prefix := "✔️ " if requirement_met else "❌ "
-
 			_create_label(prefix + label_text, label_color)
 			has_content = true
 
 	return has_content
+
 
 # Display rewards and return true if any are shown
 func _display_rewards() -> bool:

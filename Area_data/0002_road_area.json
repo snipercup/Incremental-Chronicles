@@ -4,7 +4,9 @@
   "tier": 1.0,
   "requirements": {
 	"visible": {
-	  "Story points": {"type": "consume", "amount": 50.0}
+	  "Story points": {
+		"consume": 50.0
+	  }
 	}
   },
   "story_actions": [
@@ -68,7 +70,11 @@
 	  "action_type": "free",
 	  "requirements": {
 		"hidden": {
-		  "Miles": {"type": "appear", "min": 10.0}
+		  "Miles": {
+			"appear": {
+			  "min": 10.0
+			}
+		  }
 		}
 	  },
 	  "rewards": {

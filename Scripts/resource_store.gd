@@ -16,19 +16,10 @@ extends RefCounted
 #}
 
 # Example requirments dictionary:
-#	  "requirements": {
-#		"hidden": {
-#		  "reincarnation_ready": {
-#			"type": "appear",
-#			"min": 1.0
-#		  },
-#		"visible": {
-#		  "Story points": {
-#			"type": "consume",
-#			"amount": 50.0
-#		  }
-#		}
-#	  }
+#  "requirements": {
+#	"visible": {"Story points": {"consume": 50.0}},
+#	"hidden": {"village_access": {"appear": {"min": 1.0}}}
+# }
 var resources: Dictionary = {} # Keep track of each resource amount by using name and value
 var caps: Dictionary = {} # Base capacity per resource
 
@@ -76,52 +67,67 @@ func get_value(group: String, key: String) -> float:
 		return resources[group].get(key, 0.0)
 	return 0.0
 
+# Utility: Gets the numeric requirement value for a resource if it matches the given type
+func _get_requirement_amount(rule: Variant, requirement_type: String) -> float:
+	if typeof(rule) == TYPE_DICTIONARY:
+		match requirement_type:
+			"consume":
+				return rule.get("consume", -1.0)
+			"appear":
+				var myrange = rule.get("appear", {})
+				if typeof(myrange) == TYPE_DICTIONARY:
+					return myrange.get("min", -1.0)  # Used in myrange checking
+	return -1.0  # Fallback (invalid or missing)
+
 # Returns true if the resources contain enough of each to fulfill the requirements
 func can_fulfill_requirements(requirements: Dictionary) -> bool:
-	for group in requirements.keys():
-		for key in requirements[group].keys():
+	var all_ok := true
+
+	for group in requirements:
+		for key in requirements[group]:
 			var rule = requirements[group][key]
+			var value = get_value(group, key)
 
 			if typeof(rule) == TYPE_DICTIONARY:
-				var value = get_value(group, key)
-
-				if rule.get("type", "") == "appear":
-					var min_value = rule.get("min", 0.0)
-					var max_value = rule.get("max", INF)
+				if rule.has("consume"):
+					var required: float = rule["consume"]
+					if value < required:
+						all_ok = false
+						break
+				elif rule.has("appear"):
+					var myrange: Dictionary = rule["appear"]
+					var min_value: float = myrange.get("min", 0.0)
+					var max_value: float = myrange.get("max", INF)
 					if value < min_value or value > max_value:
-						return false
-				elif rule.get("type", "") == "consume":
-					var required_amount = rule.get("amount", 0.0)
-					if value < required_amount:
-						return false
+						all_ok = false
+						break
 			else:
-				# Legacy fallback: plain number
-				if get_value(group, key) < rule:
-					return false
-	return true
+				# Legacy fallback
+				if value < rule:
+					all_ok = false
+					break
+	return all_ok
 
-# Subtracts all the requirments from the resources and returns true on success
+
+# Subtracts all the requirements from the resources and returns true on success
 func consume(requirements: Dictionary) -> bool:
 	if not can_fulfill_requirements(requirements):
 		return false
 
-	for group in requirements.keys():
-		for key in requirements[group].keys():
+	for group in requirements:
+		for key in requirements[group]:
 			var rule = requirements[group][key]
-			if typeof(rule) == TYPE_DICTIONARY:
-				if rule.get("type", "") == "consume":
-					var amount = rule.get("amount", 0.0)
-					var current = get_value(group, key)
-					resources[group][key] = max(current - amount, 0.0)
-			else:
-				# Legacy fallback
-				var current = get_value(group, key)
-				resources[group][key] = max(current - rule, 0.0)
+			var current = get_value(group, key)
+
+			if typeof(rule) == TYPE_DICTIONARY and rule.has("consume"):
+				var amount := _get_requirement_amount(rule, "consume")
+				resources[group][key] = max(current - amount, 0.0)
+			elif typeof(rule) == TYPE_FLOAT or typeof(rule) == TYPE_INT:
+				resources[group][key] = max(current - rule, 0.0)  # Legacy fallback
 
 	prune_zeros()
 	SignalBroker.resources_updated.emit(self)
 	return true
-
 
 # Check if all resources in the provided dictionary are at capacity
 func are_all_at_capacity(requirements: Dictionary) -> bool:
