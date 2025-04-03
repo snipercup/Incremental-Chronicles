@@ -56,10 +56,6 @@ func _clear_existing_labels() -> void:
 		child.queue_free()
 
 # Display requirements and return true if any are shown
-# Display requirements for both "visible" and "permanent" groups
-# Display requirements and return true if any are shown
-# Now handles requirements using the new format: {"consume": 1.0} or {"appear": {"min": 1.0}}
-# Display requirements and return true if any are shown
 # Now handles "consume", "appear", and "amount" types
 # Also adds support for the "sum" requirement group
 func _display_requirements() -> bool:

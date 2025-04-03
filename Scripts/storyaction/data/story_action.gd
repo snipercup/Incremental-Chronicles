@@ -5,9 +5,10 @@ extends RefCounted
 #	{
 #	  "action_type": "combat",
 #	  "requirements": {
-#		"visible": {
-#		  "Resolve": {"type": "consume", "amount": 1.0}
-#		}
+#		"visible": { "Resolve": {"consume": 20.0} },
+#		"hidden": { "path_obstructed": {"appear":{"min": 1.0}} },
+#		"permanent": { "Intelligence": {"amount": 1.0} },
+#		"sum": { "Strength": {"amount": 1.0} }
 #	  },
 #	  "rewards": {
 #		"visible": {
