@@ -10,30 +10,8 @@
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"visible": {
-		  "Story points": 2.0
-		}
-	  },
-	  "story_text": "Visit the small market and browse simple wares."
-	},
-	{
-	  "action_type": "free",
-	  "rewards": {
-		"visible": {
-		  "Story points": 3.0
-		}
-	  },
-	  "story_text": "Smell stew simmering from a nearby home."
-	},
-	{
-	  "action_type": "free",
-	  "rewards": {
-		"visible": {
-		  "Story points": 4.0
-		},
-		"hidden": {
-		  "npc_intro_1": 1.0
-		}
+		"visible": { "Story points": 4.0 },
+		"hidden": { "npc_intro_1": 1.0 }
 	  },
 	  "story_text": "A hooded villager steps forward. You... don't look like you're from here."
 	},
@@ -178,13 +156,7 @@
 	{
 	  "action_type": "free",
 	  "requirements": {
-		"hidden": {
-		  "temple_intro_1": {
-			"appear": {
-			  "min": 1.0
-			}
-		  }
-		}
+		"hidden": { "temple_intro_1": { "appear": { "min": 1.0 } } }
 	  },
 	  "rewards": {
 		"visible": {
@@ -275,9 +247,7 @@
 	  "story_text": "Help harvest turnips in the outer fields.",
 	  "cooldown": 1.0,
 	  "max_loops": 10,
-	  "rewards": {
-		"visible": {"Story points": 4.0, "Turnips": 1.0}
-	  }
+	  "rewards": { "visible": {"Story points": 4.0, "Turnips": 1.0} }
 	},
 	{
 	  "action_type": "free",
@@ -327,14 +297,6 @@
 	  },
 	  "rewards": {
 		"visible": {"Resolve": 10.0}
-	  }
-	},
-	{
-	  "action_type": "free",
-	  "story_text": "Speak with a peddler about a strange scroll from the hill cities.",
-	  "rewards": {
-		"visible": {"Story points": 3.0},
-		"hidden": {"temple_intro_1": 1.0}
 	  }
 	},
 	{

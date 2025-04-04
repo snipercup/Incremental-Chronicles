@@ -145,11 +145,19 @@ func test_incremental_chronicles():
 	# -- VILLAGE --
 	_open_area(area_list, 2, "Village")
 	await get_tree().process_frame
-	assert_eq(action_list.get_children().size(), 10, "There should be 10 visible actions in Village.")
-	_press_actions_of_type(action_list, "free", 14)
+	await wait_seconds(100, "Wait 10 seconds to see the result")
+	assert_eq(action_list.get_children().size(), 15, "There should be 15 visible actions in Village.")
+	_press_actions_of_type(action_list, "free", 18)
 	await get_tree().process_frame
-	assert_true(await wait_until(num_children.bind(0), 2, 0.5), "Expected 0 children to remain")
+	assert_true(await wait_until(num_children.bind(3), 2, 0.5), "Expected 3 children to remain")
 
+	# Loop to generate turnips
+	loop_action = action_list.get_first_action_of_type("loop")
+	assert_true(loop_action != null, "Expected a loop action.")
+	loop_action.story_action.cooldown = 0.1
+	loop_action.action_instance._on_action_button_pressed()
+	_wait_for_resource(resources, "visible", "Turnips", 10.0)
+	
 	# We have 50 story points after village
 	assert_eq(test_instance.helper.resource_manager.get_resource("visible","Story points"), 50.0, "There should be 50 story points.")
 
