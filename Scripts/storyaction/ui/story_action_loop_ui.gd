@@ -9,11 +9,6 @@ var parent: Control
 # New timer node to control cooldown timing
 @export var button: Button = null
 @export var progress_bar: ProgressBar = null
-# Track cooldown progress
-var elapsed_time: float = 0.0
-var is_looping: bool = false
-# Track how many times the loop has run
-var current_loops: int = 0
 
 
 # Handle action button press
@@ -27,10 +22,8 @@ func set_action_button_text(value: String) -> void:
 # Update the UI for this action
 func set_story_action(value: StoryAction) -> void:
 	story_action = value
-	current_loops = 0  # Reset loop count when a new action is assigned
 	if story_action:
 		set_action_button_text(story_action.get_story_text())
-
 
 # Save the parent control, which will be story_action_ui.tscn
 func set_parent(newparent: Control) -> void:
@@ -38,14 +31,11 @@ func set_parent(newparent: Control) -> void:
 
 # Start the cooldown process and fill progress bar
 func _on_action_button_pressed() -> void:
-	# If already looping or at capacity, do nothing
-	if is_looping or is_at_capacity():
+	SignalBroker.action_activated.emit(story_action)
+	if story_action is LoopAction and not is_at_capacity():
+		story_action.start_loop()
+	else:
 		progress_bar.value = 0
-		return
-	
-	elapsed_time = 0.0
-	is_looping = true
-
 
 # Apply the action's rewards to the player's resources
 func apply_rewards(rewards: Dictionary) -> bool:
@@ -66,45 +56,25 @@ func is_at_capacity() -> bool:
 
 # Interrupt the loop if the active action changes
 func _on_active_action_updated(new_action: StoryAction) -> void:
-	if new_action != story_action:
-		is_looping = false
-		elapsed_time = 0.0
+	if story_action and new_action != story_action and story_action is LoopAction:
+		story_action.cancel_loop()
 		progress_bar.value = 0
 
 # Frame-based cooldown handling
 func _process(delta: float) -> void:
-	if not is_looping:
+	if not story_action or not story_action is LoopAction:
 		return
-	
-	var cooldown = story_action.get_cooldown()
-	elapsed_time += delta
-	
-	# Update the progress bar based on elapsed time
-	progress_bar.value = min((elapsed_time / cooldown) * 100, 100)
-	
-	# If cooldown finishes, trigger the next loop
-	if elapsed_time >= cooldown:
-		elapsed_time = 0.0
 
-		# Stop the loop if the action is at capacity
-		if is_at_capacity():
-			is_looping = false
-			return
+	# Update the progress bar using the loop action's own progress calculation
+	progress_bar.value = story_action.get_progress_percent()
 
-		# Emit the signal for the next loop
-		SignalBroker.action_activated.emit(story_action)
-		SignalBroker.action_rewarded.emit(story_action)
+	# Run the loop logic — handles cooldown, loop limits, capacity, and reward signaling
+	var still_looping := story_action.process_loop(
+		delta,
+		parent.get_active_action(),  # Ensure it only continues if it's the active action
+		get_resource_manager()
+	)
 
-		# Increment loop count and check against max
-		current_loops += 1
-		var max_loops = story_action.get_max_loops()
-		if max_loops > -1 and current_loops >= max_loops:
-			is_looping = false
-			SignalBroker.action_removed.emit(story_action)
-			return  # Stop further looping
-
-		# Continue looping if still the active action
-		if parent.get_active_action() != story_action:
-			is_looping = false
-		else:
-			is_looping = true
+	# Stop showing progress if the loop is no longer running
+	if not still_looping:
+		progress_bar.value = 0
