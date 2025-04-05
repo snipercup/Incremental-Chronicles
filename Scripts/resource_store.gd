@@ -25,6 +25,16 @@ extends RefCounted
 var resources: Dictionary = {} # Keep track of each resource amount by using name and value
 var caps: Dictionary = {} # Base capacity per resource
 
+# Stores per-second generation rates for each resource
+# {
+#   "Focus": {
+#     "permanent": 1.0,
+#     "temporary": 0.0
+#   }
+# }
+var generation_data: Dictionary = {}
+
+
 # When this initializes
 func _init(caps_data: Dictionary = {}) -> void:
 	caps = caps_data
@@ -162,6 +172,9 @@ func reset() -> void:
 
 		for key in resources[group].keys():
 			resources[group][key] = 0.0
+	# Clear temporary buffs when reincarnating or fully resetting
+	for key in generation_data:
+		generation_data[key]["temporary"] = 0.0
 
 	prune_zeros()
 	SignalBroker.resources_updated.emit(self)
@@ -169,3 +182,43 @@ func reset() -> void:
 # When reincarnation starts, reset
 func _on_reincarnation_started(_action: StoryAction) -> void:
 	reset()
+
+func add_permanent_generation(key: String, amount: float) -> void:
+	if generation_data.has(key):
+		generation_data[key]["permanent"] += amount
+
+func add_temporary_generation(key: String, amount: float) -> void:
+	if generation_data.has(key):
+		generation_data[key]["temporary"] += amount
+
+# Adds or updates generation for a single resource
+# Example usage:
+# add_generation("Focus", { "permanent": 1.0, "temporary": 0.0 })
+func add_generation(key: String, data: Dictionary) -> void:
+	if typeof(data) != TYPE_DICTIONARY:
+		push_warning("Generation data for '%s' must be a Dictionary." % key)
+		return
+
+	var permanent = data.get("permanent", 0.0)
+	var temporary = data.get("temporary", 0.0)
+
+	if generation_data.has(key):
+		# Overwrite both permanent and temporary values
+		generation_data[key]["permanent"] = permanent
+		generation_data[key]["temporary"] = temporary
+	else:
+		generation_data[key] = {
+			"permanent": permanent,
+			"temporary": temporary
+		}
+
+
+# Applies resource generation based on time delta and regeneration rates
+func update_generation(delta: float) -> void:
+	for key in generation_data:
+		var gen = generation_data[key]
+		var group = "visible" # Only visible resources regenerate
+		var rate = gen.get("permanent", 0.0) + gen.get("temporary", 0.0)
+
+		if rate > 0.0:
+			add(group, key, rate * delta)

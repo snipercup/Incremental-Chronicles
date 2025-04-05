@@ -85,12 +85,19 @@ func get_resource(group: String, resource_name: String) -> float:
 func get_resource_max(group: String, resource_name: String) -> float:
 	return resource_caps_data.get(group, {}).get(resource_name, 0)
 
+# "rewards": { "regeneration": { "Focus": {"permanent": 1, "temporary": 0} } }
+# "rewards": { "permanent": { "Perception": 1 } }
 func apply_rewards(rewards: Dictionary) -> bool:
 	var success := false
-	for group in rewards.keys():
-		for key in rewards[group].keys():
-			if resources.add(group, key, rewards[group][key]):
+	for group in rewards.keys(): # For example: "visible" or "permanent"
+		for key in rewards[group].keys(): # For example: "Focus"
+			var count = rewards[group][key]
+			if group == "regeneration":
+				resources.add_generation(key, count)
 				success = true
+			else:
+				if resources.add(group, key, count):
+					success = true
 	return success
 
 func can_fulfill_requirements(requirements: Dictionary) -> bool:
