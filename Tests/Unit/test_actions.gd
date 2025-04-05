@@ -160,6 +160,7 @@ func test_incremental_chronicles():
 	_open_area(area_list, 2, "Village")
 	await get_tree().process_frame
 	assert_eq(action_list.get_children().size(), 15, "There should be 15 visible actions in Village.")
+	
 	_press_actions_of_type(action_list, "free", 18)
 	await get_tree().process_frame
 	assert_true(await wait_until(num_children.bind(3), 2, 0.5), "Expected 3 children to remain")

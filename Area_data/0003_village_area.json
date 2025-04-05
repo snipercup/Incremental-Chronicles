@@ -18,21 +18,11 @@
 	{
 	  "action_type": "free",
 	  "requirements": {
-		"hidden": {
-		  "npc_intro_1": {
-			"appear": {
-			  "min": 1.0
-			}
-		  }
-		}
+		"hidden": { "npc_intro_1": { "appear": { "min": 1.0 } } }
 	  },
 	  "rewards": {
-		"visible": {
-		  "Story points": 2.0
-		},
-		"hidden": {
-		  "npc_intro_2": 1.0
-		}
+		"visible": { "Story points": 2.0 },
+		"hidden": { "npc_intro_2": 1.0 }
 	  },
 	  "story_text": "The forest's been talking. Something stirs beyond the stone hill."
 	},
@@ -40,11 +30,7 @@
 	  "action_type": "free",
 	  "requirements": {
 		"hidden": {
-		  "npc_intro_2": {
-			"appear": {
-			  "min": 1.0
-			}
-		  }
+		  "npc_intro_2": { "appear": { "min": 1.0 } }
 		}
 	  },
 	  "rewards": {
