@@ -31,7 +31,6 @@ func set_area_button_text(value: String) -> void:
 		area_button.text = value
 
 # Set story area and update controls
-# Updated to handle new format where "consume" and "appear" are direct keys instead of "type"
 func set_story_area(value: StoryArea) -> void:
 	story_area = value
 	if story_area:
@@ -40,13 +39,21 @@ func set_story_area(value: StoryArea) -> void:
 		var requirements: Dictionary = story_area.get_requirements()
 		var requirements_text: Array[String] = []
 
-		if requirements.has("visible"):
-			for key in requirements["visible"].keys():
-				var rule = requirements["visible"][key]
+		var requirement_groups := ["visible", "sum"]
+
+		for group in requirement_groups:
+			if not requirements.has(group):
+				continue
+
+			for key in requirements[group].keys():
+				var rule = requirements[group][key]
 
 				if typeof(rule) == TYPE_DICTIONARY:
 					if rule.has("consume"):
 						var amount = rule["consume"]
+						requirements_text.append("[%s] %s" % [amount, key])
+					elif rule.has("amount"):
+						var amount = rule["amount"]
 						requirements_text.append("[%s] %s" % [amount, key])
 					elif rule.has("appear"):
 						var min_val = rule["appear"].get("min", 0.0)

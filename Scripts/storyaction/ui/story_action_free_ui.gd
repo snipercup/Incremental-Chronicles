@@ -26,7 +26,7 @@ func _ready():
 func _on_action_button_pressed() -> void:
 	# First check if the player meets the requirements
 	if not parent.apply_requirements(story_action.requirements):
-		print_debug("Not enough resources to perform combat.")
+		print_debug("Not enough resources to execute this free action.")
 		return
 	# Emit the signal, passing this control as a parameter
 	SignalBroker.action_activated.emit(story_action)

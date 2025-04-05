@@ -6,10 +6,12 @@ extends RefCounted
 #	"description": "A weathered tunnel opens to rugged plains, golden grasses swaying beneath a breeze. Ruins and hidden paths await discovery.",
 #  "name": "Village",
 #  "tier": 1.0,
-#  "requirements": {
-#	"visible": {"Story points": {"consume": 50.0}},
-#	"hidden": {"village_access": {"appear": {"min": 1.0}}}
-#  },
+#	"requirements": {
+#	  "visible": { "Resolve": {"consume": 20.0} },
+#	  "hidden": { "path_obstructed": {"appear":{"min": 1.0}} },
+#	  "permanent": { "Intelligence": {"amount": 1.0} },
+#	  "sum": { "Strength": {"amount": 1.0} }
+#	}
 #  "story_actions": [
 #	{
 #	  "action_type": "free",
@@ -44,17 +46,10 @@ signal action_added(myarea: StoryArea)
 
 # The requirements to unlock this area. Example
 #	  "requirements": {
-#		"hidden": {
-#		  "reincarnation_ready": {
-#			"type": "appear",
-#			"min": 1.0
-#		  },
-#		"visible": {
-#		  "Story points": {
-#			"type": "consume",
-#			"amount": 50.0
-#		  }
-#		}
+#		"visible": { "Resolve": {"consume": 20.0} },
+#		"hidden": { "path_obstructed": {"appear":{"min": 1.0}} },
+#		"permanent": { "Intelligence": {"amount": 1.0} },
+#		"sum": { "Strength": {"amount": 1.0} }
 #	  }
 var requirements: Dictionary = {} : set = set_requirements, get = get_requirements
 

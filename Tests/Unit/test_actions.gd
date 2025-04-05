@@ -64,6 +64,20 @@ func _wait_for_resource(store: ResourceStore, group: String, key: String, thresh
 		return store.get_value(group, key) >= threshold
 	assert_true(await wait_until(has_enough, timeout, interval), "Expected %s >= %.2f" % [key, threshold])
 
+# Waits until a specified number of actions of the given type exist in the action list
+func _wait_for_action_type_count(action_list: Control, type_name: String, count: int, timeout := 5.0, interval := 0.2, on_interval_callback: Callable = Callable()) -> void:
+	var has_enough = func():
+		if on_interval_callback.is_valid():
+			print_debug("calling interval")
+			on_interval_callback.call()
+		var match_count := 0
+		for action_ui in action_list.get_children():
+			if action_ui.story_action.get_type() == type_name:
+				match_count += 1
+		return match_count == count
+
+	assert_true(await wait_until(has_enough, timeout, interval), "Expected %d actions of type '%s'" % [count, type_name])
+
 # Open an area and verify it
 func _open_area(area_list: Control, index: int, expected_name: String) -> void:
 	var area_ui: Control = area_list.get_children()[index]
@@ -145,14 +159,27 @@ func test_incremental_chronicles():
 	# -- VILLAGE --
 	_open_area(area_list, 2, "Village")
 	await get_tree().process_frame
-	assert_eq(action_list.get_children().size(), 10, "There should be 10 visible actions in Village.")
-	_press_actions_of_type(action_list, "free", 14)
+	assert_eq(action_list.get_children().size(), 15, "There should be 15 visible actions in Village.")
+	
+	_press_actions_of_type(action_list, "free", 18)
 	await get_tree().process_frame
-	assert_true(await wait_until(num_children.bind(0), 2, 0.5), "Expected 0 children to remain")
+	assert_true(await wait_until(num_children.bind(3), 2, 0.5), "Expected 3 children to remain")
 
+	# Loop to generate turnips
+	loop_action = action_list.get_first_action_of_type("loop")
+	assert_true(loop_action != null, "Expected a loop action.")
+	loop_action.story_action.cooldown = 0.1
+	loop_action.action_instance._on_action_button_pressed()
+	_wait_for_resource(resources, "visible", "Turnips", 10.0)
+	
 	# We have 50 story points after village
 	assert_eq(test_instance.helper.resource_manager.get_resource("visible","Story points"), 50.0, "There should be 50 story points.")
 
+	# Wait for 2 free actions to be visible (one appears as we collect tulips)
+	# Then wait for one action to remain while we press the free action
+	await _wait_for_action_type_count(action_list, "free", 2, 15, 0.2)
+	await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2, _press_actions_of_type.bind(action_list, "free", 1))
+	
 	# -- HOLLOW GROVE --
 	_open_area(area_list, 3, "Hollow Grove")
 	await get_tree().process_frame
@@ -167,10 +194,10 @@ func test_incremental_chronicles():
 	# Return to the village
 	_open_area(area_list, 2, "Village")
 	await get_tree().process_frame
-	assert_eq(action_list.get_children().size(), 2, "There should be 2 visible actions in Village.")
+	assert_eq(action_list.get_children().size(), 4, "There should be 4 visible actions in Village.")
 	_press_actions_of_type(action_list, "free", 3) # One extra action reveals itself
 	await get_tree().process_frame # All actions pressed
-	assert_true(await wait_until(num_children.bind(0), 2, 0.5), "Expected 0 child to remain")
+	assert_true(await wait_until(num_children.bind(2), 2, 0.5), "Expected 2 child to remain")
 	
 	# -- TEMPLE --
 	# The grove is gone now, so index 3 is forgotten temple
@@ -184,14 +211,14 @@ func test_incremental_chronicles():
 	# Return to the village
 	_open_area(area_list, 2, "Village")
 	await get_tree().process_frame
-	assert_eq(action_list.get_children().size(), 1, "There should be 1 visible actions in Village.")
+	assert_eq(action_list.get_children().size(), 3, "There should be 3 visible actions in Village.")
 	_press_actions_of_type(action_list, "free", 2) # One extra action reveals itself
-	await get_tree().process_frame # All actions pressed
-	# Since the village is gone now, we return to tunnel which has 1 action
-	assert_true(await wait_until(num_children.bind(1), 2, 0.5), "Expected 1 child to remain")
+	await get_tree().process_frame
+	# Two actions remain in the village
+	assert_true(await wait_until(num_children.bind(2), 2, 0.5), "Expected 2 child to remain")
 	
-	# The village is gone now, so index 2 is forgotten temple
-	_open_area(area_list, 2, "Forgotten Temple")
+	# Index 3 is forgotten temple
+	_open_area(area_list, 3, "Forgotten Temple")
 	await get_tree().process_frame
 	assert_eq(action_list.get_children().size(), 2, "There should be 2 actions in Temple.")
 	_press_actions_of_type(action_list, "free", 1)

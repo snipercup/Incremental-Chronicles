@@ -13,15 +13,10 @@ extends VBoxContainer
 
 # Example JSON from story_action.get_requirements():
 #	  "requirements": {
-#		"hidden": {
-#			"hidden_rat_reward": {"type": "appear", "min": 1.0}
-#       },
-#		"visible": {
-#		  "Resolve": {"type": "consume", "amount": 1.0}
-#		},
-#		"permanent": {
-#		  "Echoes of the Past": {"type": "consume","amount": 1.0}
-#		}
+#		"visible": { "Resolve": {"consume": 20.0} },
+#		"hidden": { "path_obstructed": {"appear":{"min": 1.0}} },
+#		"permanent": { "Intelligence": {"amount": 1.0} },
+#		"sum": { "Strength": {"amount": 1.0} }
 #	  }
 
 
@@ -61,11 +56,10 @@ func _clear_existing_labels() -> void:
 		child.queue_free()
 
 # Display requirements and return true if any are shown
-# Display requirements for both "visible" and "permanent" groups
-# Display requirements and return true if any are shown
-# Now handles requirements using the new format: {"consume": 1.0} or {"appear": {"min": 1.0}}
+# Now handles "consume", "appear", and "amount" types
+# Also adds support for the "sum" requirement group
 func _display_requirements() -> bool:
-	var requirement_groups := ["visible", "permanent"]
+	var requirement_groups := ["visible", "permanent", "sum"]
 	var resource_manager: Node = get_resource_manager()
 	if not resource_manager:
 		return false
@@ -81,16 +75,33 @@ func _display_requirements() -> bool:
 
 			var requirement_met := false
 			var label_text := ""
-			var current: float = resource_manager.get_resource(group, key)
-			var max_value: float = resource_manager.get_resource_max(group, key)
+			var current: float
+			var max_value: float = 0.0
 
-			# Handle "consume" format: { "consume": 1.0 }
+			# Special handling for "sum" group — adds across all groups
+			if group == "sum":
+				current = (
+					resource_manager.get_resource("visible", key) +
+					resource_manager.get_resource("hidden", key) +
+					resource_manager.get_resource("permanent", key)
+				)
+			else:
+				current = resource_manager.get_resource(group, key)
+				max_value = resource_manager.get_resource_max(group, key)
+
+			# Check "consume"
 			if req_data.has("consume"):
 				var needed: float = req_data["consume"]
 				requirement_met = current >= needed
 				label_text = _format_requirement_text(key, needed, current, max_value)
 
-			# Handle "appear" format: { "appear": { "min": 1.0, "max": 5.0 } }
+			# Check "amount"
+			elif req_data.has("amount"):
+				var needed: float = req_data["amount"]
+				requirement_met = current >= needed
+				label_text = _format_requirement_text(key, needed, current, max_value)
+
+			# Check "appear"
 			elif req_data.has("appear"):
 				var appear_range: Dictionary = req_data["appear"]
 				var min_val: float = appear_range.get("min", 0.0)
@@ -112,7 +123,6 @@ func _display_requirements() -> bool:
 			has_content = true
 
 	return has_content
-
 
 # Display rewards and return true if any are shown
 func _display_rewards() -> bool:

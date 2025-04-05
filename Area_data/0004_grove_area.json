@@ -3,18 +3,8 @@
   "name": "Hollow Grove",
   "tier": 1.0,
   "requirements": {
-	"visible": {
-	  "Story points": {
-		"consume": 50.0
-	  }
-	},
-	"hidden": {
-	  "grove_access": {
-		"appear": {
-		  "min": 1.0
-		}
-	  }
-	}
+	"visible": { "Story points": { "consume": 50.0 } },
+	"hidden": { "grove_access": { "appear": { "min": 1.0 } } }
   },
   "story_actions": [
 	{
@@ -141,11 +131,7 @@
 	  "action_type": "free",
 	  "requirements": {
 		"hidden": {
-		  "grove_final_clue": {
-			"appear": {
-			  "min": 1.0
-			}
-		  }
+		  "grove_final_clue": { "appear": { "min": 1.0 } }
 		}
 	  },
 	  "rewards": {
