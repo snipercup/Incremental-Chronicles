@@ -2,90 +2,52 @@
   "description": "A dusty road stretches ahead, disappearing into the horizon. Its destination is unknown, but the journey beckons.",
   "name": "Road",
   "tier": 1.0,
-  "requirements": {
-	"visible": {
-	  "Story points": {
-		"consume": 50.0
-	  }
-	}
+  "requirements": { "visible": { "Story points": { "consume": 50.0 } }
   },
   "story_actions": [
 	{
 	  "action_type": "free",
-	  "rewards": {
-		"visible": {
-		  "Story points": 5.0
-		}
-	  },
-	  "story_text": "Walk along the road."
+	  "story_text": "Walk along the road.",
+	  "requirements": { "visible": { "Focus": { "consume": 1.0 } } },
+	  "rewards": { "visible": { "Story points": 5.0 } }
 	},
 	{
 	  "action_type": "free",
-	  "rewards": {
-		"visible": {
-		  "Story points": 5.0
-		}
-	  },
-	  "story_text": "Avoid a pothole."
+	  "story_text": "Avoid a pothole.",
+	  "requirements": { "visible": { "Focus": { "consume": 1.0 } } },
+	  "rewards": { "visible": { "Story points": 5.0 } }
 	},
 	{
 	  "action_type": "free",
-	  "rewards": {
-		"visible": {
-		  "Story points": 5.0
-		}
-	  },
-	  "story_text": "Observe the side of the road."
+	  "story_text": "Observe the side of the road.",
+	  "requirements": { "visible": { "Focus": { "consume": 1.0 } } },
+	  "rewards": { "visible": { "Story points": 5.0 } }
 	},
 	{
 	  "action_type": "free",
-	  "rewards": {
-		"visible": {
-		  "Story points": 5.0
-		}
-	  },
-	  "story_text": "Enjoy the weather."
+	  "story_text": "Enjoy the weather.",
+	  "rewards": { "visible": { "Story points": 5.0, "Focus": 1 } }
 	},
 	{
 	  "action_type": "free",
-	  "rewards": {
-		"visible": {
-		  "Story points": 5.0
-		}
-	  },
-	  "story_text": "Look ahead toward the horizon."
+	  "story_text": "Look ahead toward the horizon.",
+	  "rewards": { "visible": { "Story points": 5.0, "Focus": 1 } }
 	},
 	{
 	  "action_type": "loop",
+	  "story_text": "Keep walking down the road.",
 	  "cooldown": 2.0,
 	  "max_loops": 10.0,
-	  "rewards": {
-		"hidden": {
-		  "Miles": 1.0
-		}
-	  },
-	  "story_text": "Keep walking down the road."
+	  "rewards": { "hidden": { "Miles": 1.0 } }
 	},
 	{
 	  "action_type": "free",
-	  "requirements": {
-		"hidden": {
-		  "Miles": {
-			"appear": {
-			  "min": 10.0
-			}
-		  }
-		}
-	  },
+	  "story_text": "A village appears in the distance — small homes and the sound of voices greet you. You've reached the end of the road.",
+	  "requirements": { "hidden": { "Miles": { "appear": { "min": 10.0 } } } },
 	  "rewards": {
-		"visible": {
-		  "Story points": 25.0
-		},
-		"hidden": {
-		  "village_access": 1.0
-		}
-	  },
-	  "story_text": "A village appears in the distance — small homes and the sound of voices greet you. You've reached the end of the road."
+		"visible": { "Story points": 25.0 },
+		"hidden": { "village_access": 1.0 }
+	  }
 	}
   ]
 }
