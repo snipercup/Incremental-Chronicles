@@ -28,7 +28,7 @@
 	  },
 	  "rewards": {
 		"visible": {
-		  "Story points": 4.0
+		  "Story points": 2.0
 		},
 		"hidden": {
 		  "npc_intro_2": 1.0
@@ -49,7 +49,7 @@
 	  },
 	  "rewards": {
 		"visible": {
-		  "Story points": 6.0
+		  "Story points": 3.0
 		},
 		"hidden": {
 		  "npc_intro_3": 1.0
@@ -70,7 +70,7 @@
 	  },
 	  "rewards": {
 		"visible": {
-		  "Story points": 7.0
+		  "Story points": 6.0
 		},
 		"hidden": {
 		  "npc_quest_active": 1.0
@@ -91,7 +91,7 @@
 	  },
 	  "rewards": {
 		"visible": {
-		  "Story points": 10.0
+		  "Story points": 8.0
 		},
 		"hidden": {
 		  "grove_access": 1.0
@@ -247,7 +247,7 @@
 	  "story_text": "Help harvest turnips in the outer fields.",
 	  "cooldown": 1.0,
 	  "max_loops": 10,
-	  "rewards": { "visible": {"Story points": 4.0, "Turnips": 1.0} }
+	  "rewards": { "visible": {"Turnips": 1.0} }
 	},
 	{
 	  "action_type": "free",
