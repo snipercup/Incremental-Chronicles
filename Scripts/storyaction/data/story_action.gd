@@ -31,8 +31,7 @@ func _init(data: Dictionary = {}, myarea: StoryArea = null) -> void:
 	area = myarea
 
 	state = State.VISIBLE if _has_no_appear_requirements() else State.HIDDEN
-
-	SignalBroker.resources_updated.connect(_on_resources_updated)
+	SignalBroker.area_pressed.connect(_on_area_pressed)
 
 
 # === REQUIREMENTS ===
@@ -114,7 +113,7 @@ func _on_resources_updated(resource_store: Label) -> void:
 func _has_no_appear_requirements() -> bool:
 	for key in requirements:
 		var req: ResourceRequirement = requirements[key]
-		if _has_appear_requirement(req):
+		if req.has_appear_requirements():
 			return false
 	return true
 
@@ -123,19 +122,13 @@ func _can_fulfill_appear_requirements(store: Label) -> bool:
 	for key in requirements: # Example: "Resolve" or "Story points"
 		var req: ResourceRequirement = requirements[key]
 		# If it has a requirement before the action will appear, we test it here
-		if _has_appear_requirement(req):
+		if req.has_appear_requirements():
 			if not store.has_resource(key):
-				continue
+				return false
 			var resource: ResourceData = store.get_resource(key)
-			if not req.can_fulfill(resource):
+			if not req.does_appear_requirements_pass(resource):
 				return false
 	return true
-
-# Determines if a requirement contains any appear rule
-func _has_appear_requirement(req: ResourceRequirement) -> bool:
-	return req.appear_min_visible != -INF or req.appear_max_visible != INF \
-		or req.appear_min_hidden != -INF or req.appear_max_hidden != INF \
-		or req.appear_min_permanent != -INF or req.appear_max_permanent != INF
 
 
 # === META ===
@@ -153,3 +146,17 @@ func get_properties() -> Dictionary:
 		"rewards": rewards,
 		"state": state
 	}
+
+# Called when any area is pressed; check if it's this action's area and is unlocked
+# We only listen for resource updates if this action's area is unlocked and pressed
+func _on_area_pressed(myarea: StoryArea) -> void:
+	var is_match := myarea == area
+	var is_unlocked := myarea.get_state() != StoryArea.State.LOCKED
+	var should_listen := is_match and is_unlocked
+
+	if should_listen:
+		if not SignalBroker.resources_updated.is_connected(_on_resources_updated):
+			SignalBroker.resources_updated.connect(_on_resources_updated)
+	else:
+		if SignalBroker.resources_updated.is_connected(_on_resources_updated):
+			SignalBroker.resources_updated.disconnect(_on_resources_updated)

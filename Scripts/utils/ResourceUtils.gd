@@ -108,7 +108,7 @@ static func format_requirement_label(
 ) -> String:
 	var icon := ""
 	match group:
-		"visible": icon = "🕒"
+		"visible": icon = "⏳"
 		"permanent": icon = "♾️"
 		"hidden": icon = "🫥"
 		_: icon = ""
@@ -131,7 +131,7 @@ static func format_requirement_label(
 static func format_reward_label(resource_name: String, amount: float, group: String = "visible") -> String:
 	var icon := ""
 	match group:
-		"visible": icon = "🕒"
+		"visible": icon = "⏳"
 		"permanent": icon = "♾️"
 		"hidden": icon = "🫥"
 		"regeneration": icon = "⏫"

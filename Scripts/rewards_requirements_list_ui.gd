@@ -70,7 +70,7 @@ func _display_requirements() -> bool:
 		var resource: ResourceData = resource_manager.get_resource(key)
 
 		if resource == null:
-			resource = ResourceData.new()
+			resource = ResourceData.new("")
 
 		var segments := []
 		var requirement_met := true
@@ -112,21 +112,7 @@ func _display_requirements() -> bool:
 				requirement_met = false
 
 		# === APPEAR checks ===
-		if req.appear_min_visible > -INF or req.appear_max_visible < INF:
-			var current = resource.get_visible()
-			segments.append(ResourceUtils.format_requirement_label(
-				key, req.appear_min_visible, current, req.appear_max_visible, "visible", "appear"
-			))
-			if current < req.appear_min_visible or current > req.appear_max_visible:
-				requirement_met = false
-
-		if req.appear_min_permanent > -INF or req.appear_max_permanent < INF:
-			var current = resource.get_permanent()
-			segments.append(ResourceUtils.format_requirement_label(
-				key, req.appear_min_permanent, current, req.appear_max_permanent, "permanent", "appear"
-			))
-			if current < req.appear_min_permanent or current > req.appear_max_permanent:
-				requirement_met = false
+		# appear checks are excluded from display
 
 		# === SUM checks ===
 		if req.required_total_sum > 0.0:

@@ -25,12 +25,12 @@ func set_area(value: StoryArea) -> void:
 	if area and area.action_added.is_connected(_on_action_added):
 		area.action_added.disconnect(_on_action_added)
 	area = value
-	
+
 	# Set header label text based on description
 	if header_label:
 		var description = area.get_description() if area else ""
 		header_label.text = description if description else "Actions:"
-	
+
 	# Connect to the action_added signal
 	if area and not area.action_added.is_connected(_on_action_added):
 		area.action_added.connect(_on_action_added)

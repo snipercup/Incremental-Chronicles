@@ -8,8 +8,13 @@ var hidden: float = 0.0         # Internal/hidden counters
 var permanent: float = 0.0      # Carries across resets
 var regeneration: float = 0.0   # Per-second visible gain
 var capacity: float = 0.0       # Max cap applies to VISIBLE ONLY
+var name: String = ""  # Optional display name for this resource (used in tooltip)
 signal resource_updated(myresource: ResourceData)
 
+
+func _init(myname: String, cap: float = 0.0):
+	name = myname
+	capacity = cap
 
 # === VALUE GETTERS ===
 
@@ -141,6 +146,8 @@ func from_dict(data: Dictionary) -> void:
 	permanent = data.get("permanent", 0.0)
 	regeneration = data.get("regeneration", 0.0)
 	capacity = data.get("capacity", 0.0)
+	name = data.get("name", name)
+
 
 # Applies a reward dictionary to this resource.
 # Example:
@@ -164,14 +171,14 @@ func apply_reward(data: Dictionary) -> void:
 		capacity += data["capacity"]
 	_enforce_capacity()
 
-# Returns a single-line tooltip showing temporary and permanent values with icons.
-# Example: "🕒 10 / 100  ♾️ 5"
+# Returns a single-line tooltip showing resource name, temporary and permanent values with icons.
+# Example: "Story points: 🕒 10 / 100  ♾️ 5"
 func get_tooltip() -> String:
 	var parts: Array = []
 
-	# 🕒 Temporary (visible)
+	# ⏳ Temporary (visible)
 	if visible > 0.0 or capacity > 0.0:
-		var tmp_text := "🕒 %d" % int(visible)
+		var tmp_text := "⏳ %d" % int(visible)
 		if capacity > 0.0:
 			tmp_text += " / %d" % int(capacity)
 		parts.append(tmp_text)
@@ -180,4 +187,5 @@ func get_tooltip() -> String:
 	if permanent > 0.0:
 		parts.append("♾️ %d" % int(permanent))
 
-	return "  ".join(parts)
+	var body := "  ".join(parts)
+	return name + ":" + body if name != "" and not body.is_empty() else body

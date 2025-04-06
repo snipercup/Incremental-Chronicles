@@ -113,12 +113,14 @@
 	  "rewards": {
 		"Story points": {
 		  "visible": 2.0
-		}
+		},
+		"Focus": { "visible": 1 }
 	  },
 	  "story_text": "Pet a friendly village dog."
 	},
 	{
 	  "action_type": "free",
+	  "requirements": { "Focus": { "consume": { "visible": 1.0 } } },
 	  "rewards": {
 		"Story points": {
 		  "visible": 2.0
@@ -128,6 +130,7 @@
 	},
 	{
 	  "action_type": "free",
+	  "requirements": { "Focus": { "consume": { "visible": 1.0 } } },
 	  "rewards": {
 		"Story points": {
 		  "visible": 2.0
@@ -246,7 +249,8 @@
 	  "rewards": {
 		"Story points": {
 		  "visible": 2.0
-		}
+		},
+		"Focus": { "visible": 1 }
 	  }
 	},
 	{
@@ -266,28 +270,15 @@
 	  "story_text": "Help harvest turnips in the outer fields.",
 	  "cooldown": 1.0,
 	  "max_loops": 10,
-	  "rewards": {
-		"Story points": {
-		  "visible": 4.0
-		},
-		"Turnips": {
-		  "visible": 1.0
-		}
-	  }
+	  "rewards": { "Turnips": { "visible": 1.0 } }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Trade your turnips for lantern oil at the market.",
 	  "requirements": {
 		"Turnips": {
-		  "consume": {
-			"visible": 10.0
-		  },
-		  "appear": {
-			"visible": {
-			  "min": 5.0
-			}
-		  }
+		  "consume": { "visible": 10.0 },
+		  "appear": { "visible": { "min": 5.0 } }
 		}
 	  },
 	  "rewards": {
@@ -310,6 +301,7 @@
 	{
 	  "action_type": "free",
 	  "story_text": "Visit the smithy and watch sparks fly as iron meets anvil.",
+	  "requirements": { "Focus": { "consume": { "visible": 1.0 } } },
 	  "rewards": {
 		"Story points": {
 		  "visible": 2.0
@@ -357,6 +349,7 @@
 	{
 	  "action_type": "free",
 	  "story_text": "Read the public noticeboard \u2014 faded ink, fresh concerns.",
+	  "requirements": { "Focus": { "consume": { "visible": 1.0 } } },
 	  "rewards": {
 		"Story points": {
 		  "visible": 2.0

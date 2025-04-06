@@ -7,13 +7,7 @@
 	{
 	  "action_type": "free",
 	  "story_text": "Walk along the road.",
-	  "requirements": {
-		"Focus": {
-		  "consume": {
-			"visible": 1.0
-		  }
-		}
-	  },
+	  "requirements": { "Focus": { "consume": { "visible": 1.0 } } },
 	  "rewards": {
 		"Story points": {
 		  "visible": 5.0
@@ -71,9 +65,7 @@
 		"Story points": {
 		  "visible": 5.0
 		},
-		"Focus": {
-		  "visible": 1
-		}
+		"Focus": { "visible": 1 }
 	  }
 	},
 	{

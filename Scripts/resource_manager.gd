@@ -192,7 +192,7 @@ func are_all_at_capacity(resource_keys: Array) -> bool:
 # Ensures a resource exists and returns it
 func _get_or_create_resource(key: String) -> ResourceData:
 	if not resources.has(key):
-		resources[key] = ResourceData.new()
+		resources[key] = ResourceData.new(key, resource_caps_data.get("visible",{}).get(key, 0.0))
 	return resources[key]
 
 # Removes unused resources with 0 total

@@ -29,8 +29,8 @@ func _ready():
 # Get the player's strength from the resource manager
 func get_player_strength() -> float:
 	var resource_manager: Node = parent.get_resource_manager()
-	var temporary_strength: float = resource_manager.get_resource("visible","Strength")
-	var permanent_strength: float = resource_manager.get_resource("permanent","Strength")
+	var temporary_strength: float = resource_manager.get_value("Strength", "visible")
+	var permanent_strength: float = resource_manager.get_value("Strength", "permanent")
 	return temporary_strength+permanent_strength
 
 

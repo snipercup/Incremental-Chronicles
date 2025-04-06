@@ -54,13 +54,7 @@ func _add_area_to_ui(area: StoryArea) -> void:
 		var area_ui = story_area_ui_scene.instantiate()
 		if area_ui.has_method("set_story_area"):
 			area_ui.set_story_area(area)
-		if area_ui.has_signal("area_pressed"):
-			area_ui.area_pressed.connect(_on_area_pressed)
 		add_child(area_ui)
-
-# Handle area pressed signal
-func _on_area_pressed(control: Control) -> void:
-	action_list.set_area(control.get_area())
 
 # When reincarnation starts, reveal the special areas panel
 func _on_reincarnation_started(_action: StoryAction) -> void:
