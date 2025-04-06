@@ -64,7 +64,6 @@ func can_fulfill(resource: ResourceData) -> bool:
 
 	return true
 
-
 # Subtracts the defined consume values from the resource
 func consume_from(resource: ResourceData) -> void:
 	resource.remove_visible(consume_visible)

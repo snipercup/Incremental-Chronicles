@@ -65,10 +65,16 @@ func apply_requirements(requirements: Dictionary) -> bool:
 	for key in requirements: # Example: "Resolve" or "Story points"
 		var req: ResourceRequirement = requirements[key]
 		if not get_resource_manager().has_resource(key):
-			continue
+			return false
 		var resource: ResourceData = get_resource_manager().get_resource(key)
 		if not req.can_fulfill(resource):
 			return false
+	# If we reached this point, we are able to fulfill the requirements
+	# Consume the requirements if applicable
+	for key in requirements: # Example: "Resolve" or "Story points"
+		var req: ResourceRequirement = requirements[key]
+		var resource: ResourceData = get_resource_manager().get_resource(key)
+		req.consume_from(resource)
 	return true
 
 # Handle action_removed from the instantiated action scene

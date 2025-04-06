@@ -59,7 +59,9 @@ func _update_story_actions() -> void:
 			add_child(action_ui)
 
 # Handle action state changes
-func _on_action_state_changed(_action: StoryAction) -> void:
+func _on_action_state_changed(action: StoryAction) -> void:
+	if not area.has_action(action):
+		return # We do not need to refresh if it was an action outside of the current area
 	# When the action state changes, refresh the action list
 	_update_story_actions()
 

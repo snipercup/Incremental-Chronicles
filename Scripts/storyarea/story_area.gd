@@ -229,13 +229,19 @@ func _on_resources_updated(resource_store: Label) -> void:
 	if get_visibility_state() == VisibilityState.VISIBLE:
 		return
 
-	# Check each requirement using only "appear" conditions
 	var all_met := true
+
 	for key in requirements.keys():
 		var req: ResourceRequirement = requirements[key]
 		var resource: ResourceData = resource_store.get_resource(key)
-		if not req.does_appear_requirements_pass(resource):
+
+		# If the resource does not exist, treat it as failing the requirement
+		if resource == null or not req.does_appear_requirements_pass(resource):
 			all_met = false
 			break
 
 	set_visibility_state(VisibilityState.VISIBLE if all_met else VisibilityState.HIDDEN)
+
+# Returns true if the action is in this area
+func has_action(myaction: StoryAction) -> bool:
+	return myaction in story_actions
