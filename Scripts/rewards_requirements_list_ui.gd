@@ -58,92 +58,127 @@ func _clear_existing_labels() -> void:
 # Display requirements and return true if any are shown
 # Now handles "consume", "appear", and "amount" types
 # Also adds support for the "sum" requirement group
+# Display requirements using ResourceRequirement class and format via ResourceUtils
 func _display_requirements() -> bool:
-	var requirement_groups := ["visible", "permanent", "sum"]
+	var has_content := false
 	var resource_manager: Node = get_resource_manager()
 	if not resource_manager:
 		return false
 
-	var has_content := false
+	for key in story_action.get_requirements().keys():
+		var req: ResourceRequirement = story_action.get_requirements()[key]
+		var resource: ResourceData = resource_manager.get_resource(key)
 
-	for group in requirement_groups:
-		var group_requirements: Dictionary = story_action.get_requirements().get(group, {})
-		for key in group_requirements.keys():
-			var req_data: Dictionary = group_requirements[key]
-			if typeof(req_data) != TYPE_DICTIONARY:
-				continue
+		if resource == null:
+			resource = ResourceData.new()
 
-			var requirement_met := false
-			var label_text := ""
-			var current: float
-			var max_value: float = 0.0
+		var segments := []
+		var requirement_met := true
 
-			# Special handling for "sum" group — adds across all groups
-			if group == "sum":
-				current = (
-					resource_manager.get_resource("visible", key) +
-					resource_manager.get_resource("hidden", key) +
-					resource_manager.get_resource("permanent", key)
-				)
-			else:
-				current = resource_manager.get_resource(group, key)
-				max_value = resource_manager.get_resource_max(group, key)
+		# === AMOUNT checks ===
+		if req.required_amount_visible > 0.0:
+			var current = resource.get_visible()
+			var max_val = resource.capacity
+			segments.append(ResourceUtils.format_requirement_label(
+				key, req.required_amount_visible, current, max_val, "visible", "amount"
+			))
+			if current < req.required_amount_visible:
+				requirement_met = false
 
-			# Check "consume"
-			if req_data.has("consume"):
-				var needed: float = req_data["consume"]
-				requirement_met = current >= needed
-				label_text = _format_requirement_text(key, needed, current, max_value)
+		if req.required_amount_permanent > 0.0:
+			var current = resource.get_permanent()
+			segments.append(ResourceUtils.format_requirement_label(
+				key, req.required_amount_permanent, current, -1, "permanent", "amount"
+			))
+			if current < req.required_amount_permanent:
+				requirement_met = false
 
-			# Check "amount"
-			elif req_data.has("amount"):
-				var needed: float = req_data["amount"]
-				requirement_met = current >= needed
-				label_text = _format_requirement_text(key, needed, current, max_value)
+		# === CONSUME checks ===
+		if req.consume_visible > 0.0:
+			var current = resource.get_visible()
+			var max_val = resource.capacity
+			segments.append(ResourceUtils.format_requirement_label(
+				key, req.consume_visible, current, max_val, "visible", "consume"
+			))
+			if current < req.consume_visible:
+				requirement_met = false
 
-			# Check "appear"
-			elif req_data.has("appear"):
-				var appear_range: Dictionary = req_data["appear"]
-				var min_val: float = appear_range.get("min", 0.0)
-				var max_val: float = appear_range.get("max", INF)
-				requirement_met = current >= min_val and current <= max_val
+		if req.consume_permanent > 0.0:
+			var current = resource.get_permanent()
+			segments.append(ResourceUtils.format_requirement_label(
+				key, req.consume_permanent, current, -1, "permanent", "consume"
+			))
+			if current < req.consume_permanent:
+				requirement_met = false
 
-				if max_val < INF:
-					label_text = "[%s–%s] %s (%d)" % [min_val, max_val, key, current]
-				else:
-					label_text = "[%s+] %s (%d)" % [min_val, key, current]
+		# === APPEAR checks ===
+		if req.appear_min_visible > -INF or req.appear_max_visible < INF:
+			var current = resource.get_visible()
+			segments.append(ResourceUtils.format_requirement_label(
+				key, req.appear_min_visible, current, req.appear_max_visible, "visible", "appear"
+			))
+			if current < req.appear_min_visible or current > req.appear_max_visible:
+				requirement_met = false
 
-			else:
-				continue  # Skip unrecognized rule
+		if req.appear_min_permanent > -INF or req.appear_max_permanent < INF:
+			var current = resource.get_permanent()
+			segments.append(ResourceUtils.format_requirement_label(
+				key, req.appear_min_permanent, current, req.appear_max_permanent, "permanent", "appear"
+			))
+			if current < req.appear_min_permanent or current > req.appear_max_permanent:
+				requirement_met = false
 
-			# Display result
+		# === SUM checks ===
+		if req.required_total_sum > 0.0:
+			var current = resource.get_total()
+			segments.append(ResourceUtils.format_requirement_label(
+				key, req.required_total_sum, current, -1, "sum", "sum"
+			))
+			if current < req.required_total_sum:
+				requirement_met = false
+
+		# === Display label ===
+		if not segments.is_empty():
 			var label_color := Color(0.2, 0.6, 1) if requirement_met else Color(1, 0, 0)
 			var prefix := "✔️ " if requirement_met else "❌ "
-			_create_label(prefix + label_text, label_color)
+			_create_label(prefix + " | ".join(segments), label_color)
 			has_content = true
 
 	return has_content
 
-# Display rewards and return true if any are shown
+
+# Display rewards and return true if any are shown, using ResourceUtils formatting
 func _display_rewards() -> bool:
-	var reward_groups := ["visible", "permanent"]
 	var has_content := false
+	var rewards: Dictionary = story_action.get_rewards()
 
-	for group in reward_groups:
-		var rewards: Dictionary = story_action.get_rewards().get(group, {})
-		for key in rewards.keys():
-			var amount: float = rewards[key]
-			var label_text := "%s: %d" % [key, amount]
-			_create_label(label_text, Color(0, 1, 0))  # Green for rewards
+	for key in rewards.keys():
+		var reward: ResourceReward = rewards[key]
+
+		if reward.visible > 0.0:
+			var text := ResourceUtils.format_reward_label(key, reward.visible, "visible")
+			_create_label(text, Color(0, 1, 0))
 			has_content = true
+
+		if reward.permanent > 0.0:
+			var text := ResourceUtils.format_reward_label(key, reward.permanent, "permanent")
+			_create_label(text, Color(0, 1, 0))
+			has_content = true
+
+		# Hidden rewards are excluded from display
+
+		if reward.regeneration > 0.0:
+			var text := ResourceUtils.format_reward_label(key, reward.regeneration, "regeneration")
+			_create_label(text, Color(0, 1, 0))
+			has_content = true
+
+		if reward.capacity > 0.0:
+			var text := ResourceUtils.format_reward_label(key, reward.capacity, "capacity")
+			_create_label(text, Color(0, 1, 0))
+			has_content = true
+
 	return has_content
 
-# Format requirement text based on availability
-func _format_requirement_text(key: String, needed: float, current: float, max_value: float) -> String:
-	if max_value > 0:
-		return "[%d] %s (%d/%d)" % [needed, key, current, max_value]
-	else:
-		return "[%d] %s" % [needed, key]
 
 # Create and add label to the container
 func _create_label(text: String, color: Color) -> void:
@@ -170,6 +205,6 @@ func _handle_right_click() -> void:
 		get_tree().get_first_node_in_group("helper").on_rewards_requirments_right_clicked(self)
 
 # When visible resources is updated
-func _on_resources_updated(_myresources: ResourceStore) -> void:
+func _on_resources_updated(_myresources: Label) -> void:
 	_update_rewards_and_requirements()
 	

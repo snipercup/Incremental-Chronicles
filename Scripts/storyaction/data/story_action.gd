@@ -1,83 +1,81 @@
 class_name StoryAction
 extends RefCounted
 
-#Example json:
-#	{
-#	  "action_type": "combat",
-#	  "requirements": {
-#		"visible": { "Resolve": {"consume": 20.0} },
-#		"hidden": { "path_obstructed": {"appear":{"min": 1.0}} },
-#		"permanent": { "Intelligence": {"amount": 1.0} },
-#		"sum": { "Strength": {"amount": 1.0} }
-#	  },
-#	  "rewards": {
-#		"visible": {
-#		  "Story points": 15.0
-#		},
-#		"hidden": {
-#		  "hidden_rat_reward": 1.0
-#		}
-#	  },
-#	  "story_text": "A rat scurries toward you, teeth bared and eyes gleaming in the dim light. You prepare to defend yourself.",
-#	  "enemy": {
-#		"name": "Rat",
-#		"strength": 1.0
-#	  }
-#	},
-#	{
-#	  "action_type": "free",
-#	  "requirements": {
-#		"hidden": {
-#			"hidden_rat_reward": {"type": "appear", "min": 1.0}
-#		}
-#	  },
-#	  "rewards": {
-#		"visible": {
-#		  "Story points": 5.0
-#		}
-#	  },
-#	  "story_text": "Examine the defeated rat."
-#	}
-
-# Properties with default values
-var rewards: Dictionary = {} : set = set_rewards, get = get_rewards
-var story_text: String = "" : set = set_story_text, get = get_story_text
-var requirements: Dictionary = {} : set = set_requirements, get = get_requirements
-
-# New state enum for action visibility
+# === ENUM ===
 enum State { VISIBLE, HIDDEN }
 
-# State variable with default state
+# === PROPERTIES ===
+
+# Requirements per resource:
+# {
+#   "Story points": ResourceRequirement.new()
+# }
+var requirements: Dictionary = {} : set = set_requirements, get = get_requirements
+# Exaple rewards:
+# visible and hidden will be properties of ResourceReward
+# "rewards": { "Story points": ResourceReward.new({ "visible": 25.0, "hidden": 2.0 }) }
+var rewards: Dictionary[String,ResourceReward] = {}  # Hold visible/hidden/permanent rewards
+
+
+var story_text: String = "" : set = set_story_text, get = get_story_text
 var state: State = State.HIDDEN : set = set_state, get = get_state
 var area: StoryArea
 
-# Initialize from a dictionary
+
+# === INIT ===
+
 func _init(data: Dictionary = {}, myarea: StoryArea = null) -> void:
 	set_story_text(data.get("story_text", ""))
 	set_requirements(data.get("requirements", {}))
-	set_rewards(data.get("rewards", {}))  # Already includes hidden rewards inside
+	set_rewards(data.get("rewards", {}))
 	area = myarea
 
-	# If there are appear requirements, the action is hidden
-	var appear_requirements := ResourceUtils.filter_requirements_by_type(requirements, "appear")
-	state = State.VISIBLE if appear_requirements.is_empty() else State.HIDDEN
+	state = State.VISIBLE if _has_no_appear_requirements() else State.HIDDEN
+
 	SignalBroker.resources_updated.connect(_on_resources_updated)
 
-# Setter for requirements (ensure valid data)
-func set_requirements(value: Dictionary) -> void:
-	requirements = value.duplicate(true)
 
-# Getter for requirements
+# === REQUIREMENTS ===
+
+# Expects the new format:
+# {
+#   "Resolve": {
+#     "consume": { "visible": 10 },
+#     "amount": { "visible": 15 },
+#     "appear": { "visible": { "min": 1 } },
+#     "sum": 30
+#   }
+# }
+func set_requirements(value: Dictionary) -> void:
+	requirements.clear()
+
+	for res_name in value:
+		var req := ResourceRequirement.new()
+		req.from_dict(value[res_name])
+		requirements[res_name] = req
+
+
 func get_requirements() -> Dictionary:
 	return requirements
 
-# Setter for rewards (ensure valid data)
-func set_rewards(value: Dictionary) -> void:
-	rewards = value.duplicate(true)
 
-# Getter for rewards
+# === REWARDS ===
+
+func set_rewards(value: Dictionary) -> void:
+	rewards.clear()
+
+	for key in value:
+		var reward_data = value[key]
+		var reward := ResourceReward.new()
+		reward.from_dict(reward_data)
+		rewards[key] = reward
+
+
 func get_rewards() -> Dictionary:
 	return rewards
+
+
+# === STORY TEXT ===
 
 func set_story_text(value: String) -> void:
 	story_text = value
@@ -85,18 +83,69 @@ func set_story_text(value: String) -> void:
 func get_story_text() -> String:
 	return story_text
 
-# Setter for state
+
+# === STATE ===
+
 func set_state(value: State) -> void:
 	if state != value:
 		state = value
-		# Emit signal when the state changes
 		SignalBroker.action_state_changed.emit(self)
 
-# Getter for state
 func get_state() -> State:
 	return state
 
-# Update get_properties to include the new state
+
+# === RESOURCE MONITORING ===
+
+# Called on resource change; evaluates if action should be revealed
+func _on_resources_updated(resource_store: Label) -> void:
+	if get_state() == State.VISIBLE:
+		return
+
+	if _can_fulfill_appear_requirements(resource_store):
+		set_state(State.VISIBLE)
+	else:
+		set_state(State.HIDDEN)
+
+
+# === APPEAR REQUIREMENTS ===
+
+# Checks if any appear requirements exist
+func _has_no_appear_requirements() -> bool:
+	for key in requirements:
+		var req: ResourceRequirement = requirements[key]
+		if _has_appear_requirement(req):
+			return false
+	return true
+
+# Checks if all appear requirements are fulfilled in the given store
+func _can_fulfill_appear_requirements(store: Label) -> bool:
+	for key in requirements: # Example: "Resolve" or "Story points"
+		var req: ResourceRequirement = requirements[key]
+		# If it has a requirement before the action will appear, we test it here
+		if _has_appear_requirement(req):
+			if not store.has_resource(key):
+				continue
+			var resource: ResourceData = store.get_resource(key)
+			if not req.can_fulfill(resource):
+				return false
+	return true
+
+# Determines if a requirement contains any appear rule
+func _has_appear_requirement(req: ResourceRequirement) -> bool:
+	return req.appear_min_visible != -INF or req.appear_max_visible != INF \
+		or req.appear_min_hidden != -INF or req.appear_max_hidden != INF \
+		or req.appear_min_permanent != -INF or req.appear_max_permanent != INF
+
+
+# === META ===
+
+func get_hidden_rewards() -> Dictionary:
+	return rewards.get("hidden", {})
+
+func get_type() -> String:
+	return "action"
+
 func get_properties() -> Dictionary:
 	return {
 		"story_text": story_text,
@@ -104,26 +153,3 @@ func get_properties() -> Dictionary:
 		"rewards": rewards,
 		"state": state
 	}
-
-# Called when resources are updated
-func _on_resources_updated(resource_store: ResourceStore) -> void:
-	if get_state() == State.VISIBLE:
-		return
-
-	var appear_requirements := ResourceUtils.filter_requirements_by_type(requirements, "appear")
-	if appear_requirements.is_empty():
-		set_state(State.VISIBLE)
-		return
-
-	if resource_store.can_fulfill_requirements(appear_requirements):
-		set_state(State.VISIBLE)
-	else:
-		set_state(State.HIDDEN)
-
-func get_hidden_rewards() -> Dictionary:
-	return rewards.get("hidden", {})
-
-# Returns the type of action. For the base class, this will be "action"
-# For other classes, it will be "combat", "free", "loop" etc. as they override this function
-func get_type() -> String:
-	return "action"

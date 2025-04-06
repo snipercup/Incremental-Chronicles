@@ -3,14 +3,14 @@
   "name": "Forgotten Temple",
   "tier": 1.0,
   "requirements": {
-	"visible": {
-	  "Story points": {
-		"consume": 50.0
+	"Story points": {
+	  "consume": {
+		"visible": 50.0
 	  }
 	},
-	"hidden": {
-	  "temple_access": {
-		"appear": {
+	"temple_access": {
+	  "appear": {
+		"hidden": {
 		  "min": 1.0
 		}
 	  }
@@ -20,8 +20,8 @@
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"visible": {
-		  "Story points": 3.0
+		"Story points": {
+		  "visible": 3.0
 		}
 	  },
 	  "story_text": "Enter the temple through a cracked stone archway."
@@ -29,8 +29,8 @@
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"visible": {
-		  "Story points": 3.0
+		"Story points": {
+		  "visible": 3.0
 		}
 	  },
 	  "story_text": "Touch a faded mural depicting souls rising in a spiral of light."
@@ -38,11 +38,11 @@
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"visible": {
-		  "Story points": 3.0
+		"Story points": {
+		  "visible": 3.0
 		},
-		"hidden": {
-		  "reincarnation_ready": 3.0
+		"reincarnation_ready": {
+		  "hidden": 3.0
 		}
 	  },
 	  "story_text": "Study an inscription: 'To rise again, the soul must shed its tether to the past.'"
@@ -50,47 +50,49 @@
 	{
 	  "action_type": "free",
 	  "requirements": {
-		"hidden": {
-		  "reincarnation_ready": {
-			"appear": {
+		"Soul Vessel": {
+		  "consume": {
+			"visible": 1.0
+		  }
+		},
+		"reincarnation_ready": {
+		  "appear": {
+			"hidden": {
 			  "min": 1.0
 			}
 		  }
-		},
-		"visible": {
-		  "Soul Vessel": {
-			"consume": 1.0
-		  }
 		}
 	  },
-	  "story_text": "You kneel before the altar, prepared for rebirth — but the ritual falters. Something’s missing."
+	  "story_text": "You kneel before the altar, prepared for rebirth \u2014 but the ritual falters. Something\u2019s missing."
 	},
 	{
 	  "action_type": "reincarnation",
 	  "requirements": {
-		"hidden": {
-		  "reincarnation_ready": {
-			"appear": {
+		"reincarnation_ready": {
+		  "appear": {
+			"hidden": {
 			  "min": 1.0
 			}
-		  },
-		  "has_soul_vessel": {
-			"appear": {
+		  }
+		},
+		"has_soul_vessel": {
+		  "appear": {
+			"hidden": {
 			  "min": 1.0
 			}
 		  }
 		}
 	  },
 	  "rewards": {
-		"visible": {
-		  "Story points": 10.0,
-		  "Reincarnation": 1.0
+		"Story points": {
+		  "visible": 10.0
 		},
-		"hidden": {
-		  "reincarnation_started": 0.0
-		}
+		"Reincarnation": {
+		  "visible": 1.0
+		},
+		"reincarnation_started": {}
 	  },
-	  "story_text": "The soul vessel glows. Light floods your vision as your form dissolves. You are reborn — stronger, wiser, and bound to a greater cycle."
+	  "story_text": "The soul vessel glows. Light floods your vision as your form dissolves. You are reborn \u2014 stronger, wiser, and bound to a greater cycle."
 	}
   ]
 }

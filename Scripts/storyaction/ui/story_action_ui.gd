@@ -62,10 +62,14 @@ func get_helper() -> Node:
 
 # Attempt to subtract resources based on the provided requirements
 func apply_requirements(requirements: Dictionary) -> bool:
-	if get_resource_manager().resources.can_fulfill_requirements(requirements):
-		if get_resource_manager().resources.consume(requirements):
-			return true
-	return false
+	for key in requirements: # Example: "Resolve" or "Story points"
+		var req: ResourceRequirement = requirements[key]
+		if not get_resource_manager().has_resource(key):
+			continue
+		var resource: ResourceData = get_resource_manager().get_resource(key)
+		if not req.can_fulfill(resource):
+			return false
+	return true
 
 # Handle action_removed from the instantiated action scene
 func _on_action_instance_removed(myaction: StoryAction) -> void:
