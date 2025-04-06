@@ -106,6 +106,10 @@ func _on_resources_updated(resource_store: Label) -> void:
 	else:
 		set_state(State.HIDDEN)
 
+# Force resource update in case SignalBroker.resources_updated is disconnected
+func force_resources_update(resource_store: Label) -> void:
+	_on_resources_updated(resource_store)
+
 
 # === APPEAR REQUIREMENTS ===
 

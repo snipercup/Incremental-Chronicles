@@ -3,17 +3,8 @@
   "name": "Forgotten Temple",
   "tier": 1.0,
   "requirements": {
-	"Story points": {
-	  "consume": {
-		"visible": 50.0
-	  }
-	},
-	"temple_access": {
-	  "appear": {
-		"hidden": {
-		  "min": 1.0
-		}
-	  }
+	"Story points": { "consume": { "visible": 50.0 } },
+	"temple_access": { "appear": { "hidden": { "min": 1.0 } }
 	}
   },
   "story_actions": [

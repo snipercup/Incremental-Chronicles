@@ -177,21 +177,11 @@
 	  "action_type": "free",
 	  "story_text": "As you prepare to leave, a warmth floods your senses. For a moment, time bends \u2014 a vision of a sunlit altar flashes in your mind.",
 	  "requirements": {
-		"grove_final_clue": {
-		  "appear": {
-			"hidden": {
-			  "min": 1.0
-			}
-		  }
-		}
+		"grove_final_clue": { "appear": { "hidden": { "min": 1.0 } } }
 	  },
 	  "rewards": {
-		"Story points": {
-		  "visible": 1.0
-		},
-		"temple_intro_1": {
-		  "hidden": 1.0
-		}
+		"Story points": { "visible": 1.0 },
+		"temple_intro_1": { "hidden": 1.0 }
 	  }
 	}
   ]

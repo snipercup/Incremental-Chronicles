@@ -147,21 +147,21 @@ func test_incremental_chronicles():
 	# Loop to generate Miles
 	loop_action = action_list.get_first_action_of_type("loop")
 	assert_true(loop_action != null, "Expected a loop action.")
-	loop_action.story_action.cooldown = 0.1
+	loop_action.story_action.cooldown = 0.01
 	loop_action.action_instance._on_action_button_pressed()
-	_wait_for_resource(resources, "hidden", "Miles", 1.0)
+	_wait_for_resource(resources, "hidden", "Miles", 10.0)
+	await wait_seconds(100, "Wait 10 seconds to see the result")
 
-	# Force Miles to 10 to trigger new action
-	resources.apply_rewards({"Miles": { "hidden": 10 }})
 	await get_tree().process_frame
 	var post_mile_action: Control = action_list.get_first_action_of_type("free")
 	assert_true(post_mile_action != null, "Expected new free action.")
 	post_mile_action.action_instance._on_action_button_pressed()
 	await get_tree().process_frame
-	assert_eq(action_list.get_children().size(), 1, "Only one action should remain in Road.")
+	# Since road is done now, we return to tunnel, which has 1 action
+	assert_eq(action_list.get_children().size(), 1, "Only one action should remain in Tunnel.")
 
 	# -- VILLAGE --
-	_open_area(area_list, 2, "Village")
+	_open_area(area_list, 1, "Village")
 	await get_tree().process_frame
 	assert_eq(action_list.get_children().size(), 15, "There should be 15 visible actions in Village.")
 	#
@@ -178,41 +178,41 @@ func test_incremental_chronicles():
 	#
 	## We have 50 story points after village
 	#assert_eq(test_instance.helper.resource_manager.get_value("Story points", "visible"), 50.0, "There should be 50 story points.")
-
-	await wait_seconds(100, "Wait 10 seconds to see the result")
+#
 	## Wait for 2 free actions to be visible (one appears as we collect tulips)
 	## Then wait for one action to remain while we press the free action
 	#await _wait_for_action_type_count(action_list, "free", 2, 15, 0.2)
 	#await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2, _press_actions_of_type.bind(action_list, "free", 1))
 	#
 	## -- HOLLOW GROVE --
-	#_open_area(area_list, 3, "Hollow Grove")
+	#_open_area(area_list, 2, "Hollow Grove")
 	#await get_tree().process_frame
-	#assert_eq(test_instance.helper.resource_manager.get_resource("visible","Story points"), 0.0, "Story points should be spent. 0 remaining.")
+	#assert_eq(test_instance.helper.resource_manager.get_value("Story points", "visible"), 0.0, "Story points should be spent. 0 remaining.")
 	#
 	## We press all the grove actions
 	#assert_eq(action_list.get_children().size(), 6, "There should be 6 actions in grove.")
+	#resources.apply_rewards({"Focus": { "visible": 10 }})
 	#_press_actions_of_type(action_list, "free", 10)
 	#await get_tree().process_frame # All actions pressed, grove disappears and we return to tunnel
 	#assert_true(await wait_until(num_children.bind(1), 2, 0.5), "Expected 1 child to remain")
 	#
 	## Return to the village
-	#_open_area(area_list, 2, "Village")
+	#_open_area(area_list, 1, "Village")
 	#await get_tree().process_frame
-	#assert_eq(action_list.get_children().size(), 4, "There should be 4 visible actions in Village.")
+	#assert_eq(action_list.get_children().size(), 2, "There should be 2 visible actions in Village.")
 	#_press_actions_of_type(action_list, "free", 3) # One extra action reveals itself
 	#await get_tree().process_frame # All actions pressed
 	#assert_true(await wait_until(num_children.bind(2), 2, 0.5), "Expected 2 child to remain")
 	#
 	## -- TEMPLE --
 	## The grove is gone now, so index 3 is forgotten temple
-	#_open_area(area_list, 3, "Forgotten Temple")
+	#_open_area(area_list, 1, "Forgotten Temple")
 	#await get_tree().process_frame
 	#assert_eq(action_list.get_children().size(), 3, "There should be 3 actions in Temple.")
 	#_press_actions_of_type(action_list, "free", 3)
 	#assert_true(await wait_until(num_children.bind(1), 2, 0.5), "Expected 1 child to remain")
-#
-#
+
+
 	## Return to the village
 	#_open_area(area_list, 2, "Village")
 	#await get_tree().process_frame
@@ -240,4 +240,4 @@ func test_incremental_chronicles():
 	## We have entered the special reincarnation area, which holds 4 actions
 	#assert_true(await wait_until(num_children.bind(5), 2, 0.5), "Expected 5 children to remain")
 	
-	await wait_seconds(100, "Wait 10 seconds to see the result")
+	await wait_seconds(1000, "Wait 10 seconds to see the result")

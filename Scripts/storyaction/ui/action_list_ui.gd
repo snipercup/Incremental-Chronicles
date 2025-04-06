@@ -34,6 +34,9 @@ func set_area(value: StoryArea) -> void:
 	# Connect to the action_added signal
 	if area and not area.action_added.is_connected(_on_action_added):
 		area.action_added.connect(_on_action_added)
+	var resource_manager: Label = get_resource_manager()
+	for action in area.get_story_actions():
+		action.force_resources_update(resource_manager)
 	_update_story_actions()
 
 
@@ -99,3 +102,13 @@ func get_first_action_of_type(action_type: String) -> Control:
 			if action and action.has_method("get_type") and action.get_type() == action_type:
 				return child
 	return null # No matching action found
+
+
+
+# The resource manager will handle rewards
+func get_resource_manager() -> Node:
+	return get_helper().resource_manager
+	
+# Return the helper
+func get_helper() -> Node:
+	return get_tree().get_first_node_in_group("helper")
