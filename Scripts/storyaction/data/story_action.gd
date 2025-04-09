@@ -1,83 +1,80 @@
 class_name StoryAction
 extends RefCounted
 
-#Example json:
-#	{
-#	  "action_type": "combat",
-#	  "requirements": {
-#		"visible": { "Resolve": {"consume": 20.0} },
-#		"hidden": { "path_obstructed": {"appear":{"min": 1.0}} },
-#		"permanent": { "Intelligence": {"amount": 1.0} },
-#		"sum": { "Strength": {"amount": 1.0} }
-#	  },
-#	  "rewards": {
-#		"visible": {
-#		  "Story points": 15.0
-#		},
-#		"hidden": {
-#		  "hidden_rat_reward": 1.0
-#		}
-#	  },
-#	  "story_text": "A rat scurries toward you, teeth bared and eyes gleaming in the dim light. You prepare to defend yourself.",
-#	  "enemy": {
-#		"name": "Rat",
-#		"strength": 1.0
-#	  }
-#	},
-#	{
-#	  "action_type": "free",
-#	  "requirements": {
-#		"hidden": {
-#			"hidden_rat_reward": {"type": "appear", "min": 1.0}
-#		}
-#	  },
-#	  "rewards": {
-#		"visible": {
-#		  "Story points": 5.0
-#		}
-#	  },
-#	  "story_text": "Examine the defeated rat."
-#	}
-
-# Properties with default values
-var rewards: Dictionary = {} : set = set_rewards, get = get_rewards
-var story_text: String = "" : set = set_story_text, get = get_story_text
-var requirements: Dictionary = {} : set = set_requirements, get = get_requirements
-
-# New state enum for action visibility
+# === ENUM ===
 enum State { VISIBLE, HIDDEN }
 
-# State variable with default state
+# === PROPERTIES ===
+
+# Requirements per resource:
+# {
+#   "Story points": ResourceRequirement.new()
+# }
+var requirements: Dictionary = {} : set = set_requirements, get = get_requirements
+# Exaple rewards:
+# visible and hidden will be properties of ResourceReward
+# "rewards": { "Story points": ResourceReward.new({ "visible": 25.0, "hidden": 2.0 }) }
+var rewards: Dictionary[String,ResourceReward] = {}  # Hold visible/hidden/permanent rewards
+
+
+var story_text: String = "" : set = set_story_text, get = get_story_text
 var state: State = State.HIDDEN : set = set_state, get = get_state
 var area: StoryArea
 
-# Initialize from a dictionary
+
+# === INIT ===
+
 func _init(data: Dictionary = {}, myarea: StoryArea = null) -> void:
 	set_story_text(data.get("story_text", ""))
 	set_requirements(data.get("requirements", {}))
-	set_rewards(data.get("rewards", {}))  # Already includes hidden rewards inside
+	set_rewards(data.get("rewards", {}))
 	area = myarea
 
-	# If there are appear requirements, the action is hidden
-	var appear_requirements := ResourceUtils.filter_requirements_by_type(requirements, "appear")
-	state = State.VISIBLE if appear_requirements.is_empty() else State.HIDDEN
-	SignalBroker.resources_updated.connect(_on_resources_updated)
+	state = State.VISIBLE if _has_no_appear_requirements() else State.HIDDEN
+	SignalBroker.area_pressed.connect(_on_area_pressed)
 
-# Setter for requirements (ensure valid data)
+
+# === REQUIREMENTS ===
+
+# Expects the new format:
+# {
+#   "Resolve": {
+#     "consume": { "visible": 10 },
+#     "amount": { "visible": 15 },
+#     "appear": { "visible": { "min": 1 } },
+#     "sum": 30
+#   }
+# }
 func set_requirements(value: Dictionary) -> void:
-	requirements = value.duplicate(true)
+	requirements.clear()
 
-# Getter for requirements
+	for res_name in value:
+		var req := ResourceRequirement.new()
+		req.from_dict(value[res_name])
+		requirements[res_name] = req
+
+
 func get_requirements() -> Dictionary:
 	return requirements
 
-# Setter for rewards (ensure valid data)
-func set_rewards(value: Dictionary) -> void:
-	rewards = value.duplicate(true)
 
-# Getter for rewards
+# === REWARDS ===
+
+func set_rewards(value: Dictionary) -> void:
+	rewards.clear()
+
+	for key in value:
+		var reward_data = value[key]
+		var reward := ResourceReward.new()
+		reward.from_dict(reward_data)
+		rewards[key] = reward
+
+
 func get_rewards() -> Dictionary:
 	return rewards
+
+
+# === STORY TEXT ===
 
 func set_story_text(value: String) -> void:
 	story_text = value
@@ -85,18 +82,68 @@ func set_story_text(value: String) -> void:
 func get_story_text() -> String:
 	return story_text
 
-# Setter for state
+
+# === STATE ===
+
 func set_state(value: State) -> void:
 	if state != value:
 		state = value
-		# Emit signal when the state changes
 		SignalBroker.action_state_changed.emit(self)
 
-# Getter for state
 func get_state() -> State:
 	return state
 
-# Update get_properties to include the new state
+
+# === RESOURCE MONITORING ===
+
+# Called on resource change; evaluates if action should be revealed
+func _on_resources_updated(resource_store: Label) -> void:
+	if get_state() == State.VISIBLE:
+		return
+
+	if _can_fulfill_appear_requirements(resource_store):
+		set_state(State.VISIBLE)
+	else:
+		set_state(State.HIDDEN)
+
+# Force resource update in case SignalBroker.resources_updated is disconnected
+func force_resources_update(resource_store: Label) -> void:
+	_on_resources_updated(resource_store)
+
+# Force area update in order to enforce the correct connection to resource updates
+func force_area_update(myarea: StoryArea) -> void:
+	_on_area_pressed(myarea)
+
+
+# === APPEAR REQUIREMENTS ===
+
+# Checks if any appear requirements exist
+func _has_no_appear_requirements() -> bool:
+	for key in requirements:
+		var req: ResourceRequirement = requirements[key]
+		if req.has_appear_requirements():
+			return false
+	return true
+
+# Checks if all appear requirements are fulfilled in the given store
+func _can_fulfill_appear_requirements(store: Label) -> bool:
+	for key in requirements: # Example: "Resolve" or "Story points"
+		var req: ResourceRequirement = requirements[key]
+		# If it has a requirement before the action will appear, we test it here
+		if req.has_appear_requirements():
+			if not store.has_resource(key):
+				return false
+			var resource: ResourceData = store.get_resource(key)
+			if not req.does_appear_requirements_pass(resource):
+				return false
+	return true
+
+
+# === META ===
+
+func get_type() -> String:
+	return "action"
+
 func get_properties() -> Dictionary:
 	return {
 		"story_text": story_text,
@@ -105,25 +152,16 @@ func get_properties() -> Dictionary:
 		"state": state
 	}
 
-# Called when resources are updated
-func _on_resources_updated(resource_store: ResourceStore) -> void:
-	if get_state() == State.VISIBLE:
-		return
+# Called when any area is pressed; check if it's this action's area and is unlocked
+# We only listen for resource updates if this action's area is unlocked and pressed
+func _on_area_pressed(myarea: StoryArea) -> void:
+	var is_match: bool = myarea == area
+	var is_unlocked: bool = myarea.get_state() != StoryArea.State.LOCKED
+	var should_listen: bool = is_match and is_unlocked
 
-	var appear_requirements := ResourceUtils.filter_requirements_by_type(requirements, "appear")
-	if appear_requirements.is_empty():
-		set_state(State.VISIBLE)
-		return
-
-	if resource_store.can_fulfill_requirements(appear_requirements):
-		set_state(State.VISIBLE)
+	if should_listen:
+		if not SignalBroker.resources_updated.is_connected(_on_resources_updated):
+			SignalBroker.resources_updated.connect(_on_resources_updated)
 	else:
-		set_state(State.HIDDEN)
-
-func get_hidden_rewards() -> Dictionary:
-	return rewards.get("hidden", {})
-
-# Returns the type of action. For the base class, this will be "action"
-# For other classes, it will be "combat", "free", "loop" etc. as they override this function
-func get_type() -> String:
-	return "action"
+		if SignalBroker.resources_updated.is_connected(_on_resources_updated):
+			SignalBroker.resources_updated.disconnect(_on_resources_updated)

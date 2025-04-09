@@ -3,9 +3,9 @@
   "description": "A quiet plane of rippling light, where past lives echo and future potential awaits. Time is suspended here — only decisions remain.",
   "tier": 0,
   "requirements": {
-	"visible": {
-	  "Reincarnation": {
-		"appear": {
+	"Reincarnation": {
+	  "appear": {
+		"visible": {
 		  "min": 1.0
 		}
 	  }
@@ -16,8 +16,8 @@
 	  "action_type": "free",
 	  "story_text": "You awaken in the mirror-world. Your reflection watches silently.",
 	  "rewards": {
-		"permanent": {
-		  "Echoes of the Past": 1
+		"Echoes of the Past": {
+		  "permanent": 1
 		}
 	  }
 	},
@@ -25,15 +25,15 @@
 	  "action_type": "spend_echoes",
 	  "story_text": "Engrave your memory into the fabric of the world. (Increase Max Story Points)",
 	  "requirements": {
-		"permanent": {
-		  "Echoes of the Past": {
-			"consume": 1.0
+		"Echoes of the Past": {
+		  "consume": {
+			"permanent": 1.0
 		  }
 		}
 	  },
 	  "rewards": {
-		"permanent": {
-		  "Max Story Points": 10
+		"Max Story Points": {
+		  "permanent": 10
 		}
 	  }
 	},
@@ -41,15 +41,15 @@
 	  "action_type": "spend_echoes",
 	  "story_text": "Strengthen your foundation. (Increase Base Strength by 1)",
 	  "requirements": {
-		"permanent": {
-		  "Echoes of the Past": {
-			"consume": 1.0
+		"Echoes of the Past": {
+		  "consume": {
+			"permanent": 1.0
 		  }
 		}
 	  },
 	  "rewards": {
-		"permanent": {
-		  "Strength": 1
+		"Strength": {
+		  "permanent": 1
 		}
 	  }
 	},
@@ -57,25 +57,35 @@
 	  "action_type": "spend_echoes",
 	  "story_text": "Sharpen your insight. (Increase Perception by 1)",
 	  "requirements": {
-		"permanent": {
-		  "Echoes of the Past": {
-			"consume": 1.0
+		"Echoes of the Past": {
+		  "consume": {
+			"permanent": 1.0
 		  }
 		}
 	  },
 	  "rewards": {
-		"permanent": {
-		  "Perception": 1
+		"Perception": {
+		  "permanent": 1
 		}
 	  }
 	},
 	{
-	  "action_type": "reincarnation",
-	  "story_text": "You step forward. The mirror ripples, then steadies — your new self reflected clearly. The cycle is complete. You are ready to begin again.",
-	  "rewards": {
-		"hidden": {
-		  "reincarnation_finished": 0.0
+	  "action_type": "spend_echoes",
+	  "story_text": "Attune to the flow of thought. (Regenerate Focus over time)",
+	  "requirements": {
+		"Echoes of the Past": {
+		  "consume": {
+			"permanent": 1.0
+		  }
 		}
+	  },
+	  "rewards": { "Focus": { "regeneration": 0.1 }}
+	},
+	{
+	  "action_type": "reincarnation",
+	  "story_text": "You step forward. The mirror ripples, then steadies \u2014 your new self reflected clearly. The cycle is complete. You are ready to begin again.",
+	  "rewards": {
+		"reincarnation_finished": {}
 	  }
 	}
   ]

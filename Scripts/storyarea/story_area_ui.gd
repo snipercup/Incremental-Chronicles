@@ -33,52 +33,55 @@ func set_area_button_text(value: String) -> void:
 # Set story area and update controls
 func set_story_area(value: StoryArea) -> void:
 	story_area = value
-	if story_area:
-		print_debug("creating story area in area list. Name = " + story_area.get_name() + ", tier = " + str(story_area.get_tier()))
+	if story_area == null:
+		return
 
-		var requirements: Dictionary = story_area.get_requirements()
-		var requirements_text: Array[String] = []
+	print_debug("Creating story area in area list. Name = %s, tier = %s" % [story_area.get_name(), str(story_area.get_tier())])
 
-		var requirement_groups := ["visible", "sum"]
+	var requirements: Dictionary = story_area.get_requirements()
+	var requirements_text: Array[String] = []
 
-		for group in requirement_groups:
-			if not requirements.has(group):
-				continue
+	# Iterate through all ResourceRequirement entries (already parsed)
+	for key in requirements:
+		var req: ResourceRequirement = requirements[key]
+		var parts := []
 
-			for key in requirements[group].keys():
-				var rule = requirements[group][key]
+		# Add visible amount
+		if req.required_amount_visible > 0.0:
+			parts.append("🕒%s" % int(req.required_amount_visible))
 
-				if typeof(rule) == TYPE_DICTIONARY:
-					if rule.has("consume"):
-						var amount = rule["consume"]
-						requirements_text.append("[%s] %s" % [amount, key])
-					elif rule.has("amount"):
-						var amount = rule["amount"]
-						requirements_text.append("[%s] %s" % [amount, key])
-					elif rule.has("appear"):
-						var min_val = rule["appear"].get("min", 0.0)
-						var max_val = rule["appear"].get("max", INF)
-						if max_val < INF:
-							requirements_text.append("[%s–%s] %s" % [min_val, max_val, key])
-						else:
-							requirements_text.append("[%s+] %s" % [min_val, key])
-				else:
-					# Legacy fallback: plain value
-					requirements_text.append("[%s] %s" % [rule, key])
+		# Add consume
+		if req.consume_visible > 0.0:
+			parts.append("%s" % int(req.consume_visible))
 
-		# Update UI labels
-		set_story_point_requirement_label("%s" % ", ".join(requirements_text))
-		set_stars_label("★".repeat(story_area.get_tier()))
-		set_area_button_text(story_area.get_name())
+		# Add appear min/max
+		if req.appear_min_visible > -INF or req.appear_max_visible < INF:
+			if req.appear_max_visible < INF:
+				parts.append("%s–%s" % [int(req.appear_min_visible), int(req.appear_max_visible)])
+			else:
+				parts.append("%s+" % int(req.appear_min_visible))
 
-		# Show/hide labels based on locked state
-		var is_locked = story_area.get_state() == StoryArea.State.LOCKED
-		if stars_label:
-			stars_label.visible = is_locked
-		if story_point_requirement_label:
-			story_point_requirement_label.visible = is_locked
-		if area_button and is_locked:
-			set_area_button_text("Locked")
+		# Add sum requirement
+		if req.required_total_sum > 0.0:
+			parts.append("Σ%s" % int(req.required_total_sum))
+
+		if not parts.is_empty():
+			requirements_text.append("[%s] %s" % [", ".join(parts), key])
+
+	# === UI Updates ===
+	set_story_point_requirement_label("%s" % ", ".join(requirements_text))
+	set_stars_label("★".repeat(story_area.get_tier()))
+	set_area_button_text(story_area.get_name())
+
+	# Show/hide locked indicators
+	var is_locked := story_area.get_state() == StoryArea.State.LOCKED
+	if stars_label:
+		stars_label.visible = is_locked
+	if story_point_requirement_label:
+		story_point_requirement_label.visible = is_locked
+	if area_button and is_locked:
+		set_area_button_text("Locked")
+
 
 
 func _on_area_button_pressed() -> void:

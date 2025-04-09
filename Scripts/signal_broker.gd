@@ -38,7 +38,7 @@ signal area_visibility_changed(area: StoryArea)
 
 # Signal to emit when resources are updated
 @warning_ignore("unused_signal")
-signal resources_updated(resource_store: ResourceStore)
+signal resources_updated(resource_store: Label)
 
 # Signal to emit when the game is started
 @warning_ignore("unused_signal")

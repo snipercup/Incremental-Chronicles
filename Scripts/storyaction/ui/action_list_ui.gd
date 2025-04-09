@@ -25,15 +25,19 @@ func set_area(value: StoryArea) -> void:
 	if area and area.action_added.is_connected(_on_action_added):
 		area.action_added.disconnect(_on_action_added)
 	area = value
-	
+
 	# Set header label text based on description
 	if header_label:
 		var description = area.get_description() if area else ""
 		header_label.text = description if description else "Actions:"
-	
+
 	# Connect to the action_added signal
 	if area and not area.action_added.is_connected(_on_action_added):
 		area.action_added.connect(_on_action_added)
+	var resource_manager: Label = get_resource_manager()
+	for action in area.get_story_actions():
+		action.force_resources_update(resource_manager)
+		action.force_area_update(area)
 	_update_story_actions()
 
 
@@ -59,7 +63,9 @@ func _update_story_actions() -> void:
 			add_child(action_ui)
 
 # Handle action state changes
-func _on_action_state_changed(_action: StoryAction) -> void:
+func _on_action_state_changed(action: StoryAction) -> void:
+	if not area.has_action(action):
+		return # We do not need to refresh if it was an action outside of the current area
 	# When the action state changes, refresh the action list
 	_update_story_actions()
 
@@ -97,3 +103,13 @@ func get_first_action_of_type(action_type: String) -> Control:
 			if action and action.has_method("get_type") and action.get_type() == action_type:
 				return child
 	return null # No matching action found
+
+
+
+# The resource manager will handle rewards
+func get_resource_manager() -> Node:
+	return get_helper().resource_manager
+	
+# Return the helper
+func get_helper() -> Node:
+	return get_tree().get_first_node_in_group("helper")

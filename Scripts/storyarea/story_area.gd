@@ -3,27 +3,27 @@ extends RefCounted
 
 # Example data:
 #{
-#	"description": "A weathered tunnel opens to rugged plains, golden grasses swaying beneath a breeze. Ruins and hidden paths await discovery.",
+#  "description": "You arrive in a quaint village nestled at the edge of the wilds. Cobblestone paths, wooden homes, and distant laughter fill the air. Something about this place feels safe... but not without mystery.",
 #  "name": "Village",
 #  "tier": 1.0,
-#	"requirements": {
-#	  "visible": { "Resolve": {"consume": 20.0} },
-#	  "hidden": { "path_obstructed": {"appear":{"min": 1.0}} },
-#	  "permanent": { "Intelligence": {"amount": 1.0} },
-#	  "sum": { "Strength": {"amount": 1.0} }
+#  "requirements": {
+#	"visible": {
+#	  "Story points": { "consume": 50.0 }
+#	},
+#	"hidden": {
+#	  "village_access": { "appear": { "min": 1.0 } }
 #	}
+#  },
 #  "story_actions": [
 #	{
 #	  "action_type": "free",
 #	  "rewards": {
-#		"visible": {
-#		  "Story points": 5.0,
-#		  "Strength": 1.0
-#		}
+#		"Story points": { "visible": 4.0 },
+#		"npc_intro_1": { "hidden": 1.0 }
 #	  },
-#	  "story_text": "Lift a stone."
+#	  "story_text": "A hooded villager steps forward. You... don't look like you're from here."
 #	}
-#	]
+#  ]
 #}
 
 
@@ -44,14 +44,9 @@ var visibility_state: VisibilityState = VisibilityState.HIDDEN : set = set_visib
 @warning_ignore("unused_signal")
 signal action_added(myarea: StoryArea)
 
-# The requirements to unlock this area. Example
-#	  "requirements": {
-#		"visible": { "Resolve": {"consume": 20.0} },
-#		"hidden": { "path_obstructed": {"appear":{"min": 1.0}} },
-#		"permanent": { "Intelligence": {"amount": 1.0} },
-#		"sum": { "Strength": {"amount": 1.0} }
-#	  }
-var requirements: Dictionary = {} : set = set_requirements, get = get_requirements
+# The requirements to unlock this area.
+var requirements: Dictionary[String, ResourceRequirement] = {} : set = set_requirements, get = get_requirements
+# Format: { "Resource Name": ResourceRequirement }
 
 # Initialize from a dictionary
 func _init(data: Dictionary = {}) -> void:
@@ -67,13 +62,17 @@ func _init(data: Dictionary = {}) -> void:
 			var new_action: StoryAction = create_action(action_data)
 			story_actions.append(new_action)
 	SignalBroker.action_removed.connect(remove_story_action)
+	
+	var has_any_appear := false
+	for req in requirements.values():
+		if req.has_appear_requirements():
+			has_any_appear = true
+			break
 
-	# If there are appear requirements, the action is hidden
-	var appear_requirements := ResourceUtils.filter_requirements_by_type(requirements, "appear")
-	if appear_requirements.is_empty():
+	if not has_any_appear:
 		set_visibility_state(VisibilityState.VISIBLE)
-	else:
-		set_visibility_state(VisibilityState.HIDDEN)
+		return
+
 	# Listen for hidden resource updates
 	SignalBroker.resources_updated.connect(_on_resources_updated)
 
@@ -111,10 +110,23 @@ func get_description() -> String:
 
 # Setters and Getters
 func set_requirements(value: Dictionary) -> void:
-	requirements = value.duplicate(true)
-	var consume_requirements := ResourceUtils.filter_requirements_by_type(requirements, "consume")
-	if consume_requirements.is_empty():
+	requirements.clear()
+	for key in value.keys():
+		var raw_req: Dictionary = value[key]
+		var req := ResourceRequirement.new()
+		req.from_dict(raw_req)
+		requirements[key] = req
+
+	# Check if it should be unlocked immediately
+	var any_consume := false
+	for req in requirements.values():
+		if req.consume_visible > 0.0 or req.consume_permanent > 0.0 or req.consume_hidden > 0.0:
+			any_consume = true
+			break
+
+	if not any_consume:
 		set_state(State.UNLOCKED)
+
 
 func get_requirements() -> Dictionary:
 	return requirements
@@ -146,23 +158,23 @@ func get_properties() -> Dictionary:
 func remove_story_action(action: StoryAction) -> void:
 	if action in story_actions:
 		story_actions.erase(action)
-		print_debug("Removed story action:", action.get_story_text())
-		
 		# Emit area_removed if no more actions remain
 		if story_actions.is_empty():
 			SignalBroker.area_removed.emit(self)
-	else:
-		print_debug("Action not found in list:", action.get_story_text())
 
 
 #Example data:
-#{
-  #"rewards": {
-	#"Story Point": 1.0
-  #},
-  #"story_text": "Search for hidden objects or tracks.",
-  #"action_type": "free"
-#}
+#	{
+#	  "action_type": "free",
+#	  "story_text": "Deliver the lantern oil to the chapel keeper for the dusk lighting.",
+#	  "requirements": {
+#		"Lantern Oil": {
+#		  "consume": { "visible": 1.0 },
+#		  "appear": { "visible": { "min": 1.0 } }
+#		}
+#	  },
+#	  "rewards": { "Resolve": { "visible": 10.0 } }
+#	}
 func create_action(data: Dictionary) -> StoryAction:
 	var action_type = data.get("action_type", "free").to_lower()
 	var story_text = data.get("story_text", "").to_lower()
@@ -209,19 +221,23 @@ func get_visibility_state() -> VisibilityState:
 	return visibility_state
 
 # When the Resource Manager updates the hidden resources, we update the visibility
-func _on_resources_updated(resource_store: ResourceStore) -> void:
+func _on_resources_updated(resource_store: Label) -> void:
 	if get_visibility_state() == VisibilityState.VISIBLE:
 		return
 
-	# Build a new appear_requirements dictionary based on new format
-	var appear_requirements := ResourceUtils.filter_requirements_by_type(requirements, "appear")
-	# No appear requirements = always visible
-	if appear_requirements.is_empty():
-		set_visibility_state(VisibilityState.VISIBLE)
-		return
+	var all_met := true
 
-	# Check if appear requirements are met
-	if resource_store.can_fulfill_requirements(appear_requirements):
-		set_visibility_state(VisibilityState.VISIBLE)
-	else:
-		set_visibility_state(VisibilityState.HIDDEN)
+	for key in requirements.keys():
+		var req: ResourceRequirement = requirements[key]
+		var resource: ResourceData = resource_store.get_resource(key)
+
+		# If the resource does not exist, treat it as failing the requirement
+		if resource == null or not req.does_appear_requirements_pass(resource):
+			all_met = false
+			break
+
+	set_visibility_state(VisibilityState.VISIBLE if all_met else VisibilityState.HIDDEN)
+
+# Returns true if the action is in this area
+func has_action(myaction: StoryAction) -> bool:
+	return myaction in story_actions

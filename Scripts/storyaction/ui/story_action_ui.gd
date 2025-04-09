@@ -5,16 +5,12 @@ extends PanelContainer
 # This script will signal when the user presses the action_button
 
 #Example json:
-#{
-	# "requirements": {
-		#"Story Point": 1,
-		#"Persistence": 1
-	#},
-	#"rewards": {
-		#"Story Point": 1
-	#},
-	#"story_text": "Pick wildflowers."
-#}
+#	{
+#	  "action_type": "free",
+#	  "story_text": "Examine the defeated rat.",
+#	  "requirements": { "hidden_rat_reward": { "appear": { "hidden": { "min": 1.0 } } } },
+#	  "rewards": { "Story points": { "visible": 5.0 } }
+#	}
 
 @export var rewards_requirements: VBoxContainer = null
 @export var action_container: HBoxContainer = null
@@ -62,10 +58,20 @@ func get_helper() -> Node:
 
 # Attempt to subtract resources based on the provided requirements
 func apply_requirements(requirements: Dictionary) -> bool:
-	if get_resource_manager().resources.can_fulfill_requirements(requirements):
-		if get_resource_manager().resources.consume(requirements):
-			return true
-	return false
+	for key in requirements: # Example: "Resolve" or "Story points"
+		var req: ResourceRequirement = requirements[key]
+		if not get_resource_manager().has_resource(key):
+			return false
+		var resource: ResourceData = get_resource_manager().get_resource(key)
+		if not req.can_fulfill(resource):
+			return false
+	# If we reached this point, we are able to fulfill the requirements
+	# Consume the requirements if applicable
+	for key in requirements: # Example: "Resolve" or "Story points"
+		var req: ResourceRequirement = requirements[key]
+		var resource: ResourceData = get_resource_manager().get_resource(key)
+		req.consume_from(resource)
+	return true
 
 # Handle action_removed from the instantiated action scene
 func _on_action_instance_removed(myaction: StoryAction) -> void:

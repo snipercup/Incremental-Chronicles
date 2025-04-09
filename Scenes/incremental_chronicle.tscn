@@ -54,13 +54,15 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.2
 
-[node name="ResourceManager" type="Label" parent="MainWindow/PlayerStats" node_paths=PackedStringArray("action_list")]
+[node name="ResourceManager" type="Label" parent="MainWindow/PlayerStats"]
 layout_mode = 2
 tooltip_text = "Story points: 0"
 mouse_filter = 0
 text = "Story points: 0/100"
 script = ExtResource("3_67ln1")
-action_list = NodePath("../../ActionsPanelContainer/ActionsVBoxContainer/ScrollContainer/ActionList")
+
+[node name="OneSecondTimer" type="Timer" parent="MainWindow/PlayerStats/ResourceManager"]
+autostart = true
 
 [node name="RequirementsPinList" type="VBoxContainer" parent="MainWindow/PlayerStats"]
 layout_mode = 2

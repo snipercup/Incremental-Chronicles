@@ -45,7 +45,7 @@ func process_loop(delta: float, active_action: StoryAction, resource_manager: No
 		elapsed_time = 0.0
 
 		# Stop if at capacity
-		if resource_manager.are_all_at_capacity(get_rewards()):
+		if resource_manager.are_all_at_capacity(get_rewards().keys()):
 			is_looping = false
 			return false
 
