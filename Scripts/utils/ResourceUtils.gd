@@ -113,7 +113,6 @@ static func format_requirement_label(
 		"hidden": icon = "🫥"
 		_: icon = ""
 
-	var prefix := ""
 	if type == "appear":
 		if max_value > 0 and max_value < INF:
 			return "[%s %d–%d] %s (%d)" % [icon, int(needed), int(max_value), resource_name, int(current)]

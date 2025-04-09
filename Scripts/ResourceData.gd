@@ -110,22 +110,33 @@ func _enforce_capacity() -> void:
 # === REGENERATION ===
 
 # Apply per-second visible resource regeneration
-func apply_regeneration(delta: float) -> void:
-	if regeneration > 0.0:
-		add_visible(regeneration * delta)
+# Returns true if regeneration changed the visible value
+func apply_regeneration(delta: float) -> bool:
+	if regeneration <= 0.0:
+		return false
+
+	var before := visible
+	add_visible(regeneration * delta)
+	return visible != before
 
 
 # === UTILITIES ===
 
 # Reset visible and hidden; optionally preserve permanent
-func reset(exclude_permanent: bool = false) -> void:
+# Returns true if all values (visible, hidden, permanent, regeneration) are 0.0 after reset
+func reset(include_permanent: bool = false) -> bool:
 	visible = 0.0
 	hidden = 0.0
-	if not exclude_permanent:
+
+	if include_permanent:
 		permanent = 0.0
 		regeneration = 0.0
-	resource_updated.emit(self)
 
+	resource_updated.emit(self)
+	return is_empty()
+
+func is_empty() -> bool:
+	return visible == 0.0 and hidden == 0.0 and permanent == 0.0 and regeneration == 0.0
 
 # === SERIALIZATION ===
 

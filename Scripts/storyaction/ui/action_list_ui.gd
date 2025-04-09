@@ -37,6 +37,7 @@ func set_area(value: StoryArea) -> void:
 	var resource_manager: Label = get_resource_manager()
 	for action in area.get_story_actions():
 		action.force_resources_update(resource_manager)
+		action.force_area_update(area)
 	_update_story_actions()
 
 

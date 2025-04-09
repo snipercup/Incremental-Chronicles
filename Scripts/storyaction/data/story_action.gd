@@ -110,6 +110,10 @@ func _on_resources_updated(resource_store: Label) -> void:
 func force_resources_update(resource_store: Label) -> void:
 	_on_resources_updated(resource_store)
 
+# Force area update in order to enforce the correct connection to resource updates
+func force_area_update(myarea: StoryArea) -> void:
+	_on_area_pressed(myarea)
+
 
 # === APPEAR REQUIREMENTS ===
 
@@ -137,9 +141,6 @@ func _can_fulfill_appear_requirements(store: Label) -> bool:
 
 # === META ===
 
-func get_hidden_rewards() -> Dictionary:
-	return rewards.get("hidden", {})
-
 func get_type() -> String:
 	return "action"
 
@@ -154,9 +155,9 @@ func get_properties() -> Dictionary:
 # Called when any area is pressed; check if it's this action's area and is unlocked
 # We only listen for resource updates if this action's area is unlocked and pressed
 func _on_area_pressed(myarea: StoryArea) -> void:
-	var is_match := myarea == area
-	var is_unlocked := myarea.get_state() != StoryArea.State.LOCKED
-	var should_listen := is_match and is_unlocked
+	var is_match: bool = myarea == area
+	var is_unlocked: bool = myarea.get_state() != StoryArea.State.LOCKED
+	var should_listen: bool = is_match and is_unlocked
 
 	if should_listen:
 		if not SignalBroker.resources_updated.is_connected(_on_resources_updated):

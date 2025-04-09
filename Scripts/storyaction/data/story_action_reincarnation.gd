@@ -37,12 +37,9 @@ func perform_action() -> void:
 	SignalBroker.action_activated.emit(self)
 	SignalBroker.action_rewarded.emit(self)
 
-	# Check for reincarnation signals in hidden rewards
-	var hidden: Dictionary = get_hidden_rewards()
-
-	if hidden.has("reincarnation_started"):
+	if rewards.has("reincarnation_started"):
 		SignalBroker.reincarnation_started.emit(self)
-	elif hidden.has("reincarnation_finished"):
+	elif rewards.has("reincarnation_finished"):
 		SignalBroker.reincarnation_finished.emit(self)
 
 	SignalBroker.action_removed.emit(self)

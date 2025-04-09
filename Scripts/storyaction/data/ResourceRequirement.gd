@@ -94,17 +94,17 @@ func from_dict(data: Dictionary) -> void:
 	if data.has("appear"):
 		var appear = data["appear"]
 		if appear.has("visible"):
-			var range = appear["visible"]
-			appear_min_visible = range.get("min", -INF)
-			appear_max_visible = range.get("max", INF)
+			var myrange = appear["visible"]
+			appear_min_visible = myrange.get("min", -INF)
+			appear_max_visible = myrange.get("max", INF)
 		if appear.has("hidden"):
-			var range = appear["hidden"]
-			appear_min_hidden = range.get("min", -INF)
-			appear_max_hidden = range.get("max", INF)
+			var myrange = appear["hidden"]
+			appear_min_hidden = myrange.get("min", -INF)
+			appear_max_hidden = myrange.get("max", INF)
 		if appear.has("permanent"):
-			var range = appear["permanent"]
-			appear_min_permanent = range.get("min", -INF)
-			appear_max_permanent = range.get("max", INF)
+			var myrange = appear["permanent"]
+			appear_min_permanent = myrange.get("min", -INF)
+			appear_max_permanent = myrange.get("max", INF)
 
 	if data.has("sum"):
 		required_total_sum = data["sum"]

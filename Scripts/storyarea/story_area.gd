@@ -158,13 +158,9 @@ func get_properties() -> Dictionary:
 func remove_story_action(action: StoryAction) -> void:
 	if action in story_actions:
 		story_actions.erase(action)
-		print_debug("Removed story action:", action.get_story_text())
-		
 		# Emit area_removed if no more actions remain
 		if story_actions.is_empty():
 			SignalBroker.area_removed.emit(self)
-	else:
-		print_debug("Action not found in list:", action.get_story_text())
 
 
 #Example data:

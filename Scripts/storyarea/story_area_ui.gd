@@ -52,7 +52,7 @@ func set_story_area(value: StoryArea) -> void:
 
 		# Add consume
 		if req.consume_visible > 0.0:
-			parts.append("–%s" % int(req.consume_visible))
+			parts.append("%s" % int(req.consume_visible))
 
 		# Add appear min/max
 		if req.appear_min_visible > -INF or req.appear_max_visible < INF:

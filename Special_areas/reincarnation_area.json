@@ -79,7 +79,7 @@
 		  }
 		}
 	  },
-	  "rewards": { "Focus": { "regeneration": 1.0 }}
+	  "rewards": { "Focus": { "regeneration": 0.1 }}
 	},
 	{
 	  "action_type": "reincarnation",

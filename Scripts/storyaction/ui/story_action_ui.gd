@@ -5,16 +5,12 @@ extends PanelContainer
 # This script will signal when the user presses the action_button
 
 #Example json:
-#{
-	# "requirements": {
-		#"Story Point": 1,
-		#"Persistence": 1
-	#},
-	#"rewards": {
-		#"Story Point": 1
-	#},
-	#"story_text": "Pick wildflowers."
-#}
+#	{
+#	  "action_type": "free",
+#	  "story_text": "Examine the defeated rat.",
+#	  "requirements": { "hidden_rat_reward": { "appear": { "hidden": { "min": 1.0 } } } },
+#	  "rewards": { "Story points": { "visible": 5.0 } }
+#	}
 
 @export var rewards_requirements: VBoxContainer = null
 @export var action_container: HBoxContainer = null

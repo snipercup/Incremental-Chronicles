@@ -19,6 +19,7 @@ var resource_caps_data: Dictionary = {}
 
 # Reference to the label node this script is attached to
 @onready var story_point_label := self
+@onready var generation_timer: Timer = $OneSecondTimer
 
 
 # === ENGINE HOOK ===
@@ -30,6 +31,7 @@ func _ready():
 	SignalBroker.resources_updated.connect(_on_resources_updated)
 	SignalBroker.action_rewarded.connect(_on_action_rewarded)
 	SignalBroker.area_pressed.connect(_on_area_pressed)
+	generation_timer.timeout.connect(_on_generation_timer_timeout)
 
 
 # === EVENT HANDLERS ===
@@ -58,6 +60,11 @@ func _on_area_pressed(myarea: StoryArea) -> void:
 	if consume(requirements):
 		myarea.unlock()
 
+# Called when a ResourceData emits its resource_updated signal.
+func _on_resource_data_updated(_resource: ResourceData) -> void:
+	# Re-emit the global update signal.
+	SignalBroker.resources_updated.emit(self)
+
 
 # === UI DISPLAY ===
 
@@ -77,7 +84,10 @@ func _update_tooltip() -> void:
 	var max_items: int = 20
 	for key in resources.keys():
 		var res: ResourceData = resources[key]
-		lines.append(res.get_tooltip())
+		var restooltip: String = res.get_tooltip()
+		if restooltip.length() < 4:
+			continue
+		lines.append(restooltip)
 		added += 1
 		if added >= max_items:
 			break
@@ -111,15 +121,14 @@ func add_generation(key: String, data: Dictionary) -> void:
 	var temporary = data.get("temporary", 0.0)
 	generation_data[key] = { "permanent": permanent, "temporary": temporary }
 
-# Updates all resources that have regeneration values
+# Applies regeneration to all resources and emits update signal only if something changed
 func update_generation(delta: float) -> void:
-	for key in generation_data:
-		var gen = generation_data[key]
-		var rate = gen.get("permanent", 0.0) + gen.get("temporary", 0.0)
-		if rate > 0.0:
-			_get_or_create_resource(key).add_visible(rate * delta)
-
-	SignalBroker.resources_updated.emit(self)
+	var changed := false
+	for res in resources.values():
+		if res.apply_regeneration(delta):
+			changed = true
+	if changed:
+		SignalBroker.resources_updated.emit(self)
 
 
 # === REQUIREMENTS ===
@@ -192,7 +201,11 @@ func are_all_at_capacity(resource_keys: Array) -> bool:
 # Ensures a resource exists and returns it
 func _get_or_create_resource(key: String) -> ResourceData:
 	if not resources.has(key):
-		resources[key] = ResourceData.new(key, resource_caps_data.get("visible",{}).get(key, 0.0))
+		# Create the ResourceData instance
+		var new_resource = ResourceData.new(key, resource_caps_data.get("visible", {}).get(key, 0.0))
+		# Connect the resource_updated signal to our callback
+		new_resource.resource_updated.connect(_on_resource_data_updated)
+		resources[key] = new_resource
 	return resources[key]
 
 # Removes unused resources with 0 total
@@ -201,11 +214,12 @@ func _prune_zeros() -> void:
 	for key in resources:
 		var res: ResourceData = resources[key]
 		if res.get_total() == 0.0:
+			# Disconnect the resource_updated signal before removing the resource
+			if res.resource_updated.is_connected(_on_resource_data_updated):
+				res.resource_updated.disconnect(_on_resource_data_updated)
 			to_remove.append(key)
-
 	for key in to_remove:
 		resources.erase(key)
-
 
 # === LOADERS ===
 
@@ -221,3 +235,20 @@ func _load_resource_caps() -> void:
 			print_debug("Failed to parse resource_caps.json")
 	else:
 		print_debug("Failed to load resource_caps.json")
+
+# Called once per second by the GenerationTimer
+func _on_generation_timer_timeout() -> void:
+	update_generation(1.0)
+
+# Resets all resources and removes any that become empty (all values = 0.0)
+func reset_all_resources(include_permanent: bool = false) -> void:
+	var to_remove: Array[String] = []
+
+	for key in resources.keys():
+		var res: ResourceData = resources[key]
+		if res.reset(include_permanent):
+			to_remove.append(key) # reset returned true, so all values are empty, remove it
+
+	for key in to_remove:
+		resources.erase(key)
+	SignalBroker.resources_updated.emit(self)

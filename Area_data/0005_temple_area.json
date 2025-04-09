@@ -41,18 +41,8 @@
 	{
 	  "action_type": "free",
 	  "requirements": {
-		"Soul Vessel": {
-		  "consume": {
-			"visible": 1.0
-		  }
-		},
-		"reincarnation_ready": {
-		  "appear": {
-			"hidden": {
-			  "min": 1.0
-			}
-		  }
-		}
+		"Soul Vessel": { "consume": { "visible": 1.0 } },
+		"reincarnation_ready": { "appear": { "hidden": { "min": 1.0 } } }
 	  },
 	  "story_text": "You kneel before the altar, prepared for rebirth \u2014 but the ritual falters. Something\u2019s missing."
 	},
@@ -81,7 +71,7 @@
 		"Reincarnation": {
 		  "visible": 1.0
 		},
-		"reincarnation_started": {}
+		"reincarnation_started": { "hidden": 0.0 }
 	  },
 	  "story_text": "The soul vessel glows. Light floods your vision as your form dissolves. You are reborn \u2014 stronger, wiser, and bound to a greater cycle."
 	}
