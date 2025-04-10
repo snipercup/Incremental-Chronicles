@@ -48,16 +48,8 @@
 	{
 	  "action_type": "reincarnation",
 	  "requirements": {
-		"h_reincarnation_ready": {
-		  "appear": {
-			"min": 1.0
-		  }
-		},
-		"h_has_soul_vessel": {
-		  "appear": {
-			"min": 1.0
-		  }
-		}
+		"h_reincarnation_ready": { "appear": { "min": 1.0 } },
+		"h_has_soul_vessel": { "appear": { "min": 1.0 } }
 	  },
 	  "rewards": {
 		"Story points": 10.0,

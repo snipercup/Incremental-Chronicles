@@ -7,20 +7,13 @@ extends RefCounted
 #  "name": "Village",
 #  "tier": 1.0,
 #  "requirements": {
-#	"visible": {
-#	  "Story points": { "consume": 50.0 }
-#	},
-#	"hidden": {
-#	  "village_access": { "appear": { "min": 1.0 } }
-#	}
+#	"Story points": {"consume":50.0},
+#	"h_village_access": { "appear": { "min": 1.0 } }
 #  },
 #  "story_actions": [
 #	{
 #	  "action_type": "free",
-#	  "rewards": {
-#		"Story points": { "visible": 4.0 },
-#		"npc_intro_1": { "hidden": 1.0 }
-#	  },
+#	  "rewards": { "Story points": 4.0, "h_npc_intro_1": 1.0 },
 #	  "story_text": "A hooded villager steps forward. You... don't look like you're from here."
 #	}
 #  ]
@@ -111,18 +104,13 @@ func get_description() -> String:
 # Setters and Getters
 func set_requirements(value: Dictionary) -> void:
 	requirements.clear()
+	var any_consume := false
 	for key in value.keys():
 		var raw_req: Dictionary = value[key]
 		var req := ResourceRequirement.new()
 		req.from_dict(raw_req)
 		requirements[key] = req
-
-	# Check if it should be unlocked immediately
-	var any_consume := false
-	for req in requirements.values():
-		if req.consume_visible > 0.0 or req.consume_permanent > 0.0 or req.consume_hidden > 0.0:
-			any_consume = true
-			break
+		any_consume = true # At least one key is present
 
 	if not any_consume:
 		set_state(State.UNLOCKED)
@@ -167,14 +155,9 @@ func remove_story_action(action: StoryAction) -> void:
 #	{
 #	  "action_type": "free",
 #	  "story_text": "Deliver the lantern oil to the chapel keeper for the dusk lighting.",
-#	  "requirements": {
-#		"Lantern Oil": {
-#		  "consume": { "visible": 1.0 },
-#		  "appear": { "visible": { "min": 1.0 } }
-#		}
-#	  },
-#	  "rewards": { "Resolve": { "visible": 10.0 } }
-#	}
+#	  "requirements": { "Lantern Oil": { "appear": { "min": 1.0 } } },
+#	  "rewards": { "Resolve": 10.0 }
+#	},
 func create_action(data: Dictionary) -> StoryAction:
 	var action_type = data.get("action_type", "free").to_lower()
 	var story_text = data.get("story_text", "").to_lower()

@@ -8,8 +8,8 @@ extends PanelContainer
 #	{
 #	  "action_type": "free",
 #	  "story_text": "Examine the defeated rat.",
-#	  "requirements": { "hidden_rat_reward": { "appear": { "hidden": { "min": 1.0 } } } },
-#	  "rewards": { "Story points": { "visible": 5.0 } }
+#	  "requirements": { "h_hidden_rat_reward": { "appear": { "min": 1.0 } } },
+#	  "rewards": { "Story points": 5.0 }
 #	}
 
 @export var rewards_requirements: VBoxContainer = null

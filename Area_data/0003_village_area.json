@@ -4,17 +4,12 @@
   "tier": 1.0,
   "requirements": {
 	"Story points": {"consume":50.0},
-	"h_village_access": {
-	  "appear": { "min": 1.0 }
-	}
+	"h_village_access": { "appear": { "min": 1.0 } }
   },
   "story_actions": [
 	{
 	  "action_type": "free",
-	  "rewards": {
-		"Story points": 4.0,
-		"h_npc_intro_1": 1.0
-	  },
+	  "rewards": { "Story points": 4.0, "h_npc_intro_1": 1.0 },
 	  "story_text": "A hooded villager steps forward. You... don't look like you're from here."
 	},
 	{
@@ -115,11 +110,7 @@
 	{
 	  "action_type": "free",
 	  "requirements": {
-		"h_grove_report_complete": {
-		  "appear": {
-			"min": 1.0
-		  }
-		}
+		"h_grove_report_complete": { "appear": { "min": 1.0 } }
 	  },
 	  "rewards": {
 		"Story points": 5.0
@@ -229,12 +220,8 @@
 	{
 	  "action_type": "free",
 	  "story_text": "Deliver the lantern oil to the chapel keeper for the dusk lighting.",
-	  "requirements": {
-		"Lantern Oil": { "appear": { "min": 1.0 } }
-	  },
-	  "rewards": {
-		"Resolve": 10.0
-	  }
+	  "requirements": { "Lantern Oil": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Resolve": 10.0 }
 	},
 	{
 	  "action_type": "free",

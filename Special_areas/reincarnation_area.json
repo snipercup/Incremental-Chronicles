@@ -9,7 +9,7 @@
 	{
 	  "action_type": "free",
 	  "story_text": "You awaken in the mirror-world. Your reflection watches silently.",
-	  "rewards": { "Echoes of the Past": 1, "permanent": true }
+	  "rewards": { "Echoes of the Past": { "permanent": 1 } }
 	},
 	{
 	  "action_type": "free",

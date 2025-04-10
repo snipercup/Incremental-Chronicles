@@ -102,29 +102,15 @@
 	{
 	  "action_type": "combat",
 	  "story_text": "A rat scurries toward you, teeth bared and eyes gleaming in the dim light. You prepare to defend yourself.",
-	  "enemy": {
-		"name": "Rat",
-		"strength": 1.0
-	  },
-	  "requirements": {
-		"Resolve": {
-		  "consume": 1.0
-		}
-	  },
-	  "rewards": {
-		"Story points": 15.0,
-		"h_hidden_rat_reward": 1.0
-	  }
+	  "enemy": { "name": "Rat", "strength": 1.0 },
+	  "requirements": { "Resolve": { "consume": 1.0 } },
+	  "rewards": { "Story points": 15.0, "h_hidden_rat_reward": 1.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Examine the defeated rat.",
-	  "requirements": {
-		"h_hidden_rat_reward": { "appear": { "min": 1.0 } }
-	  },
-	  "rewards": {
-		"Story points": 5.0
-	  }
+	  "requirements": { "h_hidden_rat_reward": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 5.0 }
 	}
   ]
 }

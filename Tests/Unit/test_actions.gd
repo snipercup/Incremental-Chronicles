@@ -59,9 +59,9 @@ func _press_actions_of_type(action_list: Control, type_name: String, times: int)
 		await get_tree().process_frame
 
 # Wait until a resource reaches a given threshold
-func _wait_for_resource(store: Label, group: String, key: String, threshold: float, timeout := 2.0, interval := 1.0) -> void:
+func _wait_for_resource(store: Label, permanent: bool, key: String, threshold: float, timeout := 2.0, interval := 1.0) -> void:
 	var has_enough = func():
-		return store.get_value(key,group) >= threshold
+		return store.get_value(key,permanent) >= threshold
 	assert_true(await wait_until(has_enough, timeout, interval), "Expected %s >= %.2f" % [key, threshold])
 
 # Waits until a specified number of actions of the given type exist in the action list
@@ -97,26 +97,26 @@ func test_incremental_chronicles():
 	# -- TUNNEL --
 	_open_area(area_list, 0, "Tunnel")
 	assert_eq(action_list.get_children().size(), 10, "There should be 10 visible actions in Tunnel.")
-	resources.apply_rewards({"Focus": { "visible": 10 }})
+	resources.apply_rewards({"Focus": 10})
 	
 	await _wait_for_action_type_count(action_list, "free", 0, 15, 0.2, _press_actions_of_type.bind(action_list, "free", 1))
 	
 	var num_children := func(expected: int) -> bool:
 		return action_list.get_children().size() == expected
 	assert_true(await wait_until(num_children.bind(2), 2, 0.5), "Expected 2 children to remain")
-	assert_eq(test_instance.helper.resource_manager.get_value("Story points","visible"), 30.0, "There should be 30 story points.")
+	assert_eq(test_instance.helper.resource_manager.get_value("Story points"), 30.0, "There should be 30 story points.")
 
 	# Loop to generate Resolve
 	var loop_action: Control = action_list.get_first_action_of_type("loop")
 	assert_true(loop_action != null, "Expected a loop action.")
 	loop_action.story_action.cooldown = 0.1
 	loop_action.action_instance._on_action_button_pressed()
-	_wait_for_resource(resources, "visible", "Resolve", 1.0)
+	_wait_for_resource(resources, false, "Resolve", 1.0)
 
 	# Force Resolve to 10 to proceed
-	resources.apply_rewards({"Resolve": { "visible": 10 }})
-	_wait_for_resource(resources, "visible", "Resolve", 10.0)
-	assert_eq(resources.get_value("Resolve", "visible"), 10.0, "Expected 10 Resolve")
+	resources.apply_rewards({"Resolve": 10})
+	_wait_for_resource(resources, false, "Resolve", 10.0)
+	assert_eq(resources.get_value("Resolve"), 10.0, "Expected 10 Resolve")
 
 	# -- COMBAT --
 	var combat_action: Control = action_list.get_first_action_of_type("combat")
@@ -138,7 +138,7 @@ func test_incremental_chronicles():
 	# -- ROAD --
 	_open_area(area_list, 1, "Road")
 	# We have 0 story points after entering road
-	assert_eq(test_instance.helper.resource_manager.get_value("Story points","visible"), 0.0, "There should be 0 story points.")
+	assert_eq(test_instance.helper.resource_manager.get_value("Story points"), 0.0, "There should be 0 story points.")
 	await get_tree().process_frame
 	assert_eq(action_list.get_children().size(), 6, "There should be 6 actions in Road.")
 	_press_actions_of_type(action_list, "free", 5)
@@ -149,7 +149,7 @@ func test_incremental_chronicles():
 	assert_true(loop_action != null, "Expected a loop action.")
 	loop_action.story_action.cooldown = 0.01
 	loop_action.action_instance._on_action_button_pressed()
-	_wait_for_resource(resources, "hidden", "Miles", 10.0)
+	_wait_for_resource(resources, false, "Miles", 10.0)
 	await wait_seconds(100, "Wait 10 seconds to see the result")
 
 	await get_tree().process_frame
@@ -174,10 +174,10 @@ func test_incremental_chronicles():
 	assert_true(loop_action != null, "Expected a loop action.")
 	loop_action.story_action.cooldown = 0.1
 	loop_action.action_instance._on_action_button_pressed()
-	_wait_for_resource(resources, "visible", "Turnips", 10.0)
+	_wait_for_resource(resources, false, "Turnips", 10.0)
 	
 	# We have 50 story points after village
-	assert_eq(test_instance.helper.resource_manager.get_value("Story points", "visible"), 50.0, "There should be 50 story points.")
+	assert_eq(test_instance.helper.resource_manager.get_value("Story points"), 50.0, "There should be 50 story points.")
 
 	# Wait for 2 free actions to be visible (one appears as we collect tulips)
 	# Then wait for one action to remain while we press the free action
@@ -187,11 +187,11 @@ func test_incremental_chronicles():
 	# -- HOLLOW GROVE --
 	_open_area(area_list, 2, "Hollow Grove")
 	await get_tree().process_frame
-	assert_eq(test_instance.helper.resource_manager.get_value("Story points", "visible"), 0.0, "Story points should be spent. 0 remaining.")
+	assert_eq(test_instance.helper.resource_manager.get_value("Story points"), 0.0, "Story points should be spent. 0 remaining.")
 	
 	# We press all the grove actions
 	assert_eq(action_list.get_children().size(), 6, "There should be 6 actions in grove.")
-	resources.apply_rewards({"Focus": { "visible": 10 }})
+	resources.apply_rewards({"Focus": 10})
 	_press_actions_of_type(action_list, "free", 10)
 	await get_tree().process_frame # All actions pressed, grove disappears and we return to tunnel
 	assert_true(await wait_until(num_children.bind(1), 2, 0.5), "Expected 1 child to remain")

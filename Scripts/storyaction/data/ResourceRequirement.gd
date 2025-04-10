@@ -58,7 +58,7 @@ func from_dict(data: Variant) -> void:
 	if data.has("consume"):
 		var consume_data = data["consume"]
 		var amount = float(consume_data)
-		var is_permanent = consume_data.get("permanent", false)
+		var is_permanent = data.get("permanent", false)
 		if is_permanent:
 			consume_permanent = amount
 		else:

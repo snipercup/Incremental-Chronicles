@@ -8,6 +8,15 @@ var permanent: float = 0.0
 var regeneration: float = 0.0
 var capacity: float = 0.0
 
+# Example rewards json:
+#	  "rewards": {
+#		"Story points": 15.0, //Adds temporary points
+#		"Focus": {"regeneration": 0.1}, //Adds to regeneration amount
+#		"Perception": {"permanent": 1}, //Adds to permanent amount
+#		"Perception": {"temporary": 1}, //Adds to temporary amount
+#		"Story Points": {"capacity": 10}, //adds to max capacity
+#		"h_hidden_rat_reward": 1.0 //Adds to temporary amount
+#	  }
 
 
 # === CONSTRUCTOR ===
@@ -18,7 +27,6 @@ func from_dict(data: Dictionary) -> void:
 	permanent = data.get("permanent", 0.0)
 	regeneration = data.get("regeneration", 0.0)
 	capacity = data.get("capacity", 0.0)
-
 
 
 # === MANIPULATION ===

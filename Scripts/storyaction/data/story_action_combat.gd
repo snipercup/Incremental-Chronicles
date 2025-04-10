@@ -4,19 +4,11 @@ extends StoryAction
 # Example combat step:
 #	{
 #	  "action_type": "combat",
-#	  "requirements": {
-#		"visible": { "Resolve": {"consume": 20.0} },
-#		"hidden": { "path_obstructed": {"appear":{"min": 1.0}} },
-#		"permanent": { "Intelligence": {"amount": 1.0} },
-#		"sum": { "Strength": {"amount": 1.0} }
-#	  },
-#	  "rewards": {
-#		"visible": {"Story points": 15.0},
-#		"hidden": {"hidden_rat_reward": 1.0}
-#	  },
 #	  "story_text": "A rat scurries toward you, teeth bared and eyes gleaming in the dim light. You prepare to defend yourself.",
-#	  "enemy": { "name": "Rat", "strength": 1.0 }
-#	}
+#	  "enemy": { "name": "Rat", "strength": 1.0 },
+#	  "requirements": { "Resolve": { "consume": 1.0 } },
+#	  "rewards": { "Story points": 15.0, "h_hidden_rat_reward": 1.0 }
+#	},
 
 var ui_scene: PackedScene = preload("res://Scenes/action/story_action_combat_ui.tscn")
 var enemy: Dictionary = {}
