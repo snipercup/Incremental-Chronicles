@@ -5,21 +5,15 @@
   "story_actions": [
 	{
 	  "action_type": "free",
-	  "story_text": "Lift a stone. Your muscles strain against the weight \u2014 it moves, just barely.",
+	  "story_text": "Lift a stone. Your muscles strain against the weight — it moves, just barely.",
 	  "requirements": {
 		"Focus": {
-		  "consume": {
-			"visible": 1.0
-		  }
+		  "consume": 1.0
 		}
 	  },
 	  "rewards": {
-		"Story points": {
-		  "visible": 5.0
-		},
-		"Strength": {
-		  "visible": 1.0
-		}
+		"Story points": 5.0,
+		"Strength": 1.0
 	  }
 	},
 	{
@@ -27,27 +21,19 @@
 	  "story_text": "Smell the air.",
 	  "requirements": {
 		"Focus": {
-		  "consume": {
-			"visible": 1.0
-		  }
+		  "consume": 1.0
 		}
 	  },
 	  "rewards": {
-		"Story points": {
-		  "visible": 3.0
-		}
+		"Story points": 3.0
 	  }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Touch the rough bark of a nearby gnarled oak tree.",
 	  "rewards": {
-		"Story points": {
-		  "visible": 3.0
-		},
-		"Focus": {
-		  "visible": 2
-		}
+		"Story points": 3.0,
+		"Focus": 2
 	  }
 	},
 	{
@@ -55,15 +41,11 @@
 	  "story_text": "Observe small creatures darting through the tall grass.",
 	  "requirements": {
 		"Focus": {
-		  "consume": {
-			"visible": 1.0
-		  }
+		  "consume": 1.0
 		}
 	  },
 	  "rewards": {
-		"Story points": {
-		  "visible": 4.0
-		}
+		"Story points": 4.0
 	  }
 	},
 	{
@@ -71,43 +53,29 @@
 	  "story_text": "Step ten paces east.",
 	  "requirements": {
 		"Focus": {
-		  "consume": {
-			"visible": 1.0
-		  }
+		  "consume": 1.0
 		}
 	  },
 	  "rewards": {
-		"Story points": {
-		  "visible": 4.0
-		}
+		"Story points": 4.0
 	  }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Examine the weathered stone remnants.",
 	  "requirements": {
-		"Focus": {
-		  "consume": {
-			"visible": 1.0
-		  }
-		}
+		"Focus": { "consume": 1.0 }
 	  },
 	  "rewards": {
-		"Story points": {
-		  "visible": 4.0
-		}
+		"Story points": 4.0
 	  }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Rest beneath the shade of the oak trees.",
 	  "rewards": {
-		"Story points": {
-		  "visible": 4.0
-		},
-		"Focus": {
-		  "visible": 2
-		}
+		"Story points": 4.0,
+		"Focus": 2
 	  }
 	},
 	{
@@ -115,15 +83,11 @@
 	  "story_text": "Search for hidden objects or tracks.",
 	  "requirements": {
 		"Focus": {
-		  "consume": {
-			"visible": 1.0
-		  }
+		  "consume": 1.0
 		}
 	  },
 	  "rewards": {
-		"Story points": {
-		  "visible": 3.0
-		}
+		"Story points": 3.0
 	  }
 	},
 	{
@@ -131,54 +95,22 @@
 	  "cooldown": 2.0,
 	  "story_text": "Meditate under the ancient oak tree.",
 	  "rewards": {
-		"Resolve": {
-		  "visible": 1.0
-		},
-		"Focus": {
-		  "visible": 1.0
-		}
+		"Resolve": 1.0,
+		"Focus": 1.0
 	  }
 	},
 	{
 	  "action_type": "combat",
 	  "story_text": "A rat scurries toward you, teeth bared and eyes gleaming in the dim light. You prepare to defend yourself.",
-	  "enemy": {
-		"name": "Rat",
-		"strength": 1.0
-	  },
-	  "requirements": {
-		"Resolve": {
-		  "consume": {
-			"visible": 1.0
-		  }
-		}
-	  },
-	  "rewards": {
-		"Story points": {
-		  "visible": 15.0
-		},
-		"hidden_rat_reward": {
-		  "hidden": 1.0
-		}
-	  }
+	  "enemy": { "name": "Rat", "strength": 1.0 },
+	  "requirements": { "Resolve": { "consume": 1.0 } },
+	  "rewards": { "Story points": 15.0, "h_hidden_rat_reward": 1.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Examine the defeated rat.",
-	  "requirements": {
-		"hidden_rat_reward": {
-		  "appear": {
-			"hidden": {
-			  "min": 1.0
-			}
-		  }
-		}
-	  },
-	  "rewards": {
-		"Story points": {
-		  "visible": 5.0
-		}
-	  }
+	  "requirements": { "h_hidden_rat_reward": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 5.0 }
 	}
   ]
 }

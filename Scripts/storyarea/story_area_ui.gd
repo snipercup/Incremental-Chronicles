@@ -41,32 +41,23 @@ func set_story_area(value: StoryArea) -> void:
 	var requirements: Dictionary = story_area.get_requirements()
 	var requirements_text: Array[String] = []
 
-	# Iterate through all ResourceRequirement entries (already parsed)
+	# Iterate through all ResourceRequirement entries
 	for key in requirements:
 		var req: ResourceRequirement = requirements[key]
 		var parts := []
 
-		# Add visible amount
-		if req.required_amount_visible > 0.0:
-			parts.append("🕒%s" % int(req.required_amount_visible))
+		if req.required_amount > 0.0:
+			parts.append("🕒%d" % int(req.required_amount))
 
-		# Add consume
-		if req.consume_visible > 0.0:
-			parts.append("%s" % int(req.consume_visible))
+		if req.consume_temporary > 0.0:
+			parts.append("⏳%d" % int(req.consume_temporary))
 
-		# Add appear min/max
-		if req.appear_min_visible > -INF or req.appear_max_visible < INF:
-			if req.appear_max_visible < INF:
-				parts.append("%s–%s" % [int(req.appear_min_visible), int(req.appear_max_visible)])
-			else:
-				parts.append("%s+" % int(req.appear_min_visible))
-
-		# Add sum requirement
-		if req.required_total_sum > 0.0:
-			parts.append("Σ%s" % int(req.required_total_sum))
+		if req.consume_permanent > 0.0:
+			parts.append("♾️%d" % int(req.consume_permanent))
 
 		if not parts.is_empty():
 			requirements_text.append("[%s] %s" % [", ".join(parts), key])
+
 
 	# === UI Updates ===
 	set_story_point_requirement_label("%s" % ", ".join(requirements_text))
@@ -81,7 +72,6 @@ func set_story_area(value: StoryArea) -> void:
 		story_point_requirement_label.visible = is_locked
 	if area_button and is_locked:
 		set_area_button_text("Locked")
-
 
 
 func _on_area_button_pressed() -> void:

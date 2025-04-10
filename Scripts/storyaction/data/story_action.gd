@@ -12,8 +12,14 @@ enum State { VISIBLE, HIDDEN }
 # }
 var requirements: Dictionary = {} : set = set_requirements, get = get_requirements
 # Exaple rewards:
-# visible and hidden will be properties of ResourceReward
-# "rewards": { "Story points": ResourceReward.new({ "visible": 25.0, "hidden": 2.0 }) }
+#	  "rewards": {
+#		"Story points": 15.0, //Adds temporary points
+#		"Focus": {"regeneration": 0.1}, //Adds to regeneration amount
+#		"Perception": {"permanent": 1}, //Adds to permanent amount
+#		"Perception": {"temporary": 1}, //Adds to temporary amount
+#		"Story Points": {"capacity": 10}, //adds to max capacity
+#		"h_hidden_rat_reward": 1.0 //Adds to temporary amount
+#	  }
 var rewards: Dictionary[String,ResourceReward] = {}  # Hold visible/hidden/permanent rewards
 
 
@@ -36,13 +42,13 @@ func _init(data: Dictionary = {}, myarea: StoryArea = null) -> void:
 
 # === REQUIREMENTS ===
 
-# Expects the new format:
+# Expects the format:
 # {
 #   "Resolve": {
-#     "consume": { "visible": 10 },
-#     "amount": { "visible": 15 },
-#     "appear": { "visible": { "min": 1 } },
-#     "sum": 30
+#		"consume": 1.0, //Consume temporary
+#		"consume": 1.0, "permanent": true //Consume permanent
+#		"appear": { "min": 1.0, "max": 2.0 }, // Appear requirement, no consumption
+#		20.0, // Just a number. Player needs at least 20 total, but nothing is consumed
 #   }
 # }
 func set_requirements(value: Dictionary) -> void:
@@ -66,7 +72,11 @@ func set_rewards(value: Dictionary) -> void:
 	for key in value:
 		var reward_data = value[key]
 		var reward := ResourceReward.new()
-		reward.from_dict(reward_data)
+		# Test if it is just a number. In that case, we add it as temporary
+		if typeof(reward_data) == TYPE_FLOAT or typeof(reward_data) == TYPE_INT:
+			reward.from_dict({"temporary": float(reward_data)})
+		else:
+			reward.from_dict(reward_data)
 		rewards[key] = reward
 
 

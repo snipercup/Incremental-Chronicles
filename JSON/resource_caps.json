@@ -1,7 +1,4 @@
 {
-	"visible":
-		{
-			"Resolve": 10.0,
-			"Focus": 10.0
-		}
+	"Resolve": 10.0,
+	"Focus": 10.0
 }

@@ -73,7 +73,7 @@ func process_loop(delta: float, active_action: StoryAction, resource_manager: No
 func start_loop() -> void:
 	elapsed_time = 0.0
 	is_looping = true
-	current_loops = 0
+	#current_loops = 0
 
 # Called to manually cancel the loop (e.g., another action selected)
 func cancel_loop() -> void:

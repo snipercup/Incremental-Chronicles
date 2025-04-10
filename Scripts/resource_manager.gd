@@ -43,8 +43,6 @@ func _on_action_rewarded(myaction: StoryAction):
 		var resource := _get_or_create_resource(key)
 		reward.apply_to(resource)
 
-	SignalBroker.resources_updated.emit(self)
-
 
 # Called when an area is pressed — checks and consumes unlock requirements
 func _on_area_pressed(myarea: StoryArea) -> void:
@@ -73,7 +71,7 @@ func _on_resources_updated(_data = null) -> void:
 	_update_display()
 
 func _update_display() -> void:
-	var story_points := get_value("Story points", "visible")
+	var story_points := get_value("Story points")
 	text = "Story points: %d/100" % int(story_points)
 	_update_tooltip()
 
@@ -83,6 +81,8 @@ func _update_tooltip() -> void:
 	var added: int = 0
 	var max_items: int = 20
 	for key in resources.keys():
+		if key.begins_with("h_"):
+			continue # Don't display hidden resources
 		var res: ResourceData = resources[key]
 		var restooltip: String = res.get_tooltip()
 		if restooltip.length() < 4:
@@ -99,14 +99,19 @@ func _update_tooltip() -> void:
 # Applies a dictionary of raw reward data (e.g., from JSON or external input)
 # Example:
 # {
-#   "Story points": { "visible": 5, "capacity": 100 },
+#   "Story points": { "amount": 5, "capacity": 100 },
 #   "Focus": { "regeneration": 0.5 }
 # }
 func apply_rewards(rewards: Dictionary) -> bool:
 	var success := false
 	for key in rewards:
 		var reward := ResourceReward.new()
-		reward.from_dict(rewards[key])
+		var reward_data = rewards[key]
+		# Test if it is just a number. In that case, we add it as temporary
+		if typeof(reward_data) == TYPE_FLOAT or typeof(reward_data) == TYPE_INT:
+			reward.from_dict({"temporary": float(reward_data)})
+		else:
+			reward.from_dict(reward_data)
 		var resource := _get_or_create_resource(key)
 		reward.apply_to(resource)
 		success = true
@@ -159,16 +164,18 @@ func consume(reqs: Dictionary) -> bool:
 # === VALUE ACCESS ===
 
 # Gets the value of a specific resource group
-# Example: get_value("Resolve", "visible")
-func get_value(key: String, group: String) -> float:
+# Example: get_value("Resolve", true)
+func get_value(key: String, permanent: bool = false) -> float:
 	if not resources.has(key):
 		return 0.0
+	return resources[key].get_permanent() if permanent else resources[key].get_temporary()
 
-	match group:
-		"visible": return resources[key].get_visible()
-		"hidden": return resources[key].get_hidden()
-		"permanent": return resources[key].get_permanent()
-		_: return 0.0
+
+# Get the total value of the given key
+func get_total_value(key: String) -> float:
+	var temporary_value: float = get_value(key)
+	var permanent_value: float = get_value(key, true)
+	return temporary_value+permanent_value
 
 # Gets the resource of a specific key, for example "Resolve" or "Story points"
 func get_resource(key: String) -> ResourceData:
@@ -202,7 +209,7 @@ func are_all_at_capacity(resource_keys: Array) -> bool:
 func _get_or_create_resource(key: String) -> ResourceData:
 	if not resources.has(key):
 		# Create the ResourceData instance
-		var new_resource = ResourceData.new(key, resource_caps_data.get("visible", {}).get(key, 0.0))
+		var new_resource = ResourceData.new(key, resource_caps_data.get(key, 0.0))
 		# Connect the resource_updated signal to our callback
 		new_resource.resource_updated.connect(_on_resource_data_updated)
 		resources[key] = new_resource

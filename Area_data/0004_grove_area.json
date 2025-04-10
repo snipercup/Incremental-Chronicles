@@ -3,185 +3,129 @@
   "name": "Hollow Grove",
   "tier": 1.0,
   "requirements": {
-	"Story points": {
-	  "consume": {
-		"visible": 50.0
-	  }
-	},
-	"grove_access": { "appear": { "hidden": { "min": 1.0 } } }
+	"Story points": {"consume":50.0},
+	"h_grove_access": { "appear": { "min": 1.0 } }
   },
   "story_actions": [
 	{
 	  "action_type": "free",
 	  "story_text": "Step between the towering trees and feel the air grow heavy.",
 	  "requirements": {
-		"Focus": {
-		  "consume": {
-			"visible": 1.0
-		  }
-		}
+		"Focus": {"consume":1.0}
 	  },
 	  "rewards": {
-		"Story points": {
-		  "visible": 3.0
-		}
+		"Story points": 3.0
 	  }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Inspect a deep claw mark on a mossy tree trunk.",
 	  "requirements": {
-		"Focus": {
-		  "consume": {
-			"visible": 1.0
-		  }
-		}
+		"Focus": {"consume":1.0}
 	  },
 	  "rewards": {
-		"Story points": {
-		  "visible": 3.0
-		}
+		"Story points": 3.0
 	  }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Notice strange footprints in the mud, too large to be human.",
 	  "requirements": {
-		"Focus": {
-		  "consume": {
-			"visible": 1.0
-		  }
-		}
+		"Focus": {"consume":1.0}
 	  },
 	  "rewards": {
-		"Story points": {
-		  "visible": 3.0
-		}
+		"Story points": 3.0
 	  }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Listen closely \u2014 faint whispers echo through the leaves.",
 	  "requirements": {
-		"Focus": {
-		  "consume": {
-			"visible": 1.0
-		  }
-		}
+		"Focus": {"consume":1.0}
 	  },
 	  "rewards": {
-		"Story points": {
-		  "visible": 3.0
-		}
+		"Story points": 3.0
 	  }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Discover a torn piece of cloth tangled in a bramble.",
 	  "requirements": {
-		"Focus": {
-		  "consume": {
-			"visible": 1.0
-		  }
-		}
+		"Focus": {"consume":1.0}
 	  },
 	  "rewards": {
-		"Story points": {
-		  "visible": 3.0
-		}
+		"Story points": 3.0
 	  }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "You find a boot lying beside a fallen log \u2014 worn, and stained with mud.",
 	  "requirements": {
-		"Focus": {
-		  "consume": {
-			"visible": 1.0
-		  }
-		}
+		"Focus": {"consume":1.0}
 	  },
 	  "rewards": {
-		"Story points": {
-		  "visible": 1.0
-		},
-		"grove_clue_1": {
-		  "hidden": 1.0
-		}
+		"Story points": 1.0,
+		"h_grove_clue_1": 1.0
 	  }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Nearby, a shattered wooden charm \u2014 the same design worn by the villager in town.",
 	  "requirements": {
-		"grove_clue_1": {
+		"h_grove_clue_1": {
 		  "appear": {
-			"hidden": {
-			  "min": 1.0
-			}
+			"min": 1.0
 		  }
 		}
 	  },
 	  "rewards": {
-		"Story points": {
-		  "visible": 1.0
-		},
-		"grove_clue_2": {
-		  "hidden": 1.0
-		}
+		"Story points": 1.0,
+		"h_grove_clue_2": 1.0
 	  }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "At the base of a tree, you uncover a journal \u2014 pages torn, but the name is clear: Aldric.",
 	  "requirements": {
-		"grove_clue_2": {
+		"h_grove_clue_2": {
 		  "appear": {
-			"hidden": {
-			  "min": 1.0
-			}
+			"min": 1.0
 		  }
 		}
 	  },
 	  "rewards": {
-		"Story points": {
-		  "visible": 2.0
-		},
-		"grove_final_clue": {
-		  "hidden": 2.0
-		}
+		"Story points": 2.0,
+		"h_grove_final_clue": 2.0
 	  }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "You gather what you\u2019ve found and prepare to return to the village with news of Aldric.",
 	  "requirements": {
-		"grove_final_clue": {
+		"h_grove_final_clue": {
 		  "appear": {
-			"hidden": {
-			  "min": 1.0
-			}
+			"min": 1.0
 		  }
 		}
 	  },
 	  "rewards": {
-		"Story points": {
-		  "visible": 5.0
-		},
-		"grove_report_complete": {
-		  "hidden": 1.0
-		}
+		"Story points": 5.0,
+		"h_grove_report_complete": 1.0
 	  }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "As you prepare to leave, a warmth floods your senses. For a moment, time bends \u2014 a vision of a sunlit altar flashes in your mind.",
 	  "requirements": {
-		"grove_final_clue": { "appear": { "hidden": { "min": 1.0 } } }
+		"h_grove_final_clue": {
+		  "appear": {
+			"min": 1.0
+		  }
+		}
 	  },
 	  "rewards": {
-		"Story points": { "visible": 1.0 },
-		"temple_intro_1": { "hidden": 1.0 }
+		"Story points": 1.0,
+		"h_temple_intro_1": 1.0
 	  }
 	}
   ]
