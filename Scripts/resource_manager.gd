@@ -43,8 +43,6 @@ func _on_action_rewarded(myaction: StoryAction):
 		var resource := _get_or_create_resource(key)
 		reward.apply_to(resource)
 
-	SignalBroker.resources_updated.emit(self)
-
 
 # Called when an area is pressed — checks and consumes unlock requirements
 func _on_area_pressed(myarea: StoryArea) -> void:
@@ -108,7 +106,12 @@ func apply_rewards(rewards: Dictionary) -> bool:
 	var success := false
 	for key in rewards:
 		var reward := ResourceReward.new()
-		reward.from_dict(rewards[key])
+		var reward_data = rewards[key]
+		# Test if it is just a number. In that case, we add it as temporary
+		if typeof(reward_data) == TYPE_FLOAT or typeof(reward_data) == TYPE_INT:
+			reward.from_dict({"temporary": float(reward_data)})
+		else:
+			reward.from_dict(reward_data)
 		var resource := _get_or_create_resource(key)
 		reward.apply_to(resource)
 		success = true

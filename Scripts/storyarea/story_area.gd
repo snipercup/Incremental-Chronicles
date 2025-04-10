@@ -110,7 +110,8 @@ func set_requirements(value: Dictionary) -> void:
 		var req := ResourceRequirement.new()
 		req.from_dict(raw_req)
 		requirements[key] = req
-		any_consume = true # At least one key is present
+		if req.has_resource_requirements():
+			any_consume = true # At least one resource key is present
 
 	if not any_consume:
 		set_state(State.UNLOCKED)
@@ -206,7 +207,7 @@ func get_visibility_state() -> VisibilityState:
 # When the Resource Manager updates the hidden resources, we update the visibility
 func _on_resources_updated(resource_store: Label) -> void:
 	if get_visibility_state() == VisibilityState.VISIBLE:
-		return
+		return # Already visible, no point in continuing
 
 	var all_met := true
 

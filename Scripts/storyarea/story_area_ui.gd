@@ -74,7 +74,6 @@ func set_story_area(value: StoryArea) -> void:
 		set_area_button_text("Locked")
 
 
-
 func _on_area_button_pressed() -> void:
 	# Emit the signal, passing this control as a parameter
 	SignalBroker.area_pressed.emit(story_area)

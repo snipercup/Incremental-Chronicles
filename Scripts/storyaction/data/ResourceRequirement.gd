@@ -82,3 +82,7 @@ func does_appear_requirements_pass(resource: ResourceData) -> bool:
 # Returns true if any appear requirement is active
 func has_appear_requirements() -> bool:
 	return appear_min_total > -INF or appear_max_total < INF
+
+# Returns true if any requirement other then appear is active
+func has_resource_requirements() -> bool:
+	return required_amount > 0 or consume_temporary > 0 or consume_permanent > 0

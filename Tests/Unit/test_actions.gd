@@ -149,10 +149,10 @@ func test_incremental_chronicles():
 	assert_true(loop_action != null, "Expected a loop action.")
 	loop_action.story_action.cooldown = 0.01
 	loop_action.action_instance._on_action_button_pressed()
-	_wait_for_resource(resources, false, "Miles", 10.0)
-	await wait_seconds(100, "Wait 10 seconds to see the result")
+	_wait_for_resource(resources, false, "h_miles", 10.0)
 
 	await get_tree().process_frame
+	await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2)
 	var post_mile_action: Control = action_list.get_first_action_of_type("free")
 	assert_true(post_mile_action != null, "Expected new free action.")
 	post_mile_action.action_instance._on_action_button_pressed()
