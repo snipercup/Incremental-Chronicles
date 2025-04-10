@@ -1,0 +1,91 @@
+{
+  "name": "Hillstead Outpost",
+  "description": "A rugged village perched on wind-swept hills. Stone watchtowers overlook golden meadows. The people here are wary, their eyes fixed on the treeline \u2014 something is out there.",
+  "tier": 2.0,
+  "requirements": {
+	"Story points": { "consume":100.0 },
+	"hillstead_access": {"appear": { "min": 1.0 } }
+  },
+  "story_actions": [
+	{
+	  "action_type": "free",
+	  "story_text": "Speak with the village hunter sharpening a blade by firelight.",
+	  "rewards": {
+		"Story points": 5.0,
+		"h_hunter_conversed": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Listen to the herbalist's warnings about broken pacts and restless beasts.",
+	  "rewards": {
+		"Story points": 5.0,
+		"h_herbalist_conversed": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Visit the chapel ruins. The priest speaks of divine punishment and repentance.",
+	  "rewards": {
+		"Story points": 5.0,
+		"h_priest_conversed": 1.0
+	  }
+	},
+	{
+	  "action_type": "loop",
+	  "story_text": "Patrol the outer perimeter with guards.",
+	  "cooldown": 2.0,
+	  "max_loops": 5,
+	  "rewards": {
+		"Story points": 3.0,
+		"Instinct": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Track the missing livestock down the western slope.",
+	  "requirements": {
+		"Perception": { "amount": 2.0 }
+	  },
+	  "rewards": {
+		"Story points": 10.0,
+		"h_wolf_tracks_found": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Discover strange runes carved into a tree near the meadow.",
+	  "requirements": {
+		"h_wolf_tracks_found": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"Story points": 10.0,
+		"h_rune_site_discovered": 1.0
+	  }
+	},
+	{
+	  "action_type": "puzzle",
+	  "story_text": "Interpret the runes using what you\u2019ve learned from the herbalist and priest.",
+	  "requirements": {
+		"Wisdom": 3.0,
+		"h_rune_site_discovered": { "appear": { "min": 1.0 } },
+		"h_herbalist_conversed": { "appear": { "min": 1.0 } },
+		"h_priest_conversed": { "appear": { "min": 1.0 } },
+	  },
+	  "rewards": {
+		"Story points": 20.0,
+		"h_gorge_access": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Climb the watchtower and gaze toward the dark gorge beyond the trees. A low howl drifts on the wind.",
+	  "requirements": {
+		"h_gorge_access": { "appear": { "min": 1.0 } },
+	  },
+	  "rewards": {
+		"Story points": 10.0
+	  }
+	}
+  ]
+}

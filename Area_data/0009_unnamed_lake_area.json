@@ -1,0 +1,109 @@
+{
+  "name": "The Unnamed Lake",
+  "description": "Still waters lap at the edges of flooded grasslands. The lake should not be here \u2014 its birth was sudden, and its silence is unnatural. Beneath the surface, ruined stone and flickering shapes hint at deeper truths.",
+  "tier": 2.0,
+  "requirements": {
+	"Story points": { "consume":220.0 },
+	"lake_access": { "appear": { "min": 1.0 } }
+  },
+  "story_actions": [
+	{
+	  "action_type": "free",
+	  "story_text": "Speak with a farmer standing at the edge of the flood, mourning their ruined fields.",
+	  "rewards": {
+		"Story points": 5.0,
+		"h_farmer_grieved": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Help a fisher haul in nets from the murky water. Something struggles in the catch...",
+	  "rewards": {
+		"Story points": 6.0,
+		"h_fishers_trust": 1.0
+	  }
+	},
+	{
+	  "action_type": "loop",
+	  "story_text": "Scavenge broken pottery and carved stone from the shallows.",
+	  "cooldown": 2.0,
+	  "max_loops": 5,
+	  "rewards": {
+		"Ancient Debris": 1.0,
+		"Story points": 3.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Dive into the lake's depths to explore a submerged ruin.",
+	  "requirements": {
+		"Resolve": {
+		  "consume": 5.0
+		},
+		"Perception": {
+		  "amount": 3.0
+		}
+	  },
+	  "rewards": {
+		"Story points": 15.0,
+		"h_sunken_gate_found": 1.0
+	  }
+	},
+	{
+	  "action_type": "puzzle",
+	  "story_text": "Study a stone valve system beneath the water \u2014 it may control the lake's level.",
+	  "requirements": {
+		"Intelligence": {
+		  "amount": 4.0
+		},
+		"h_sunken_gate_found": {
+		  "appear": {
+			"min": 1.0
+		  }
+		}
+	  },
+	  "rewards": {
+		"Story points": 20.0,
+		"h_lake_lowered": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Confront the fisher cultists performing a midnight water rite.",
+	  "requirements": {
+		"h_fishers_trust": {
+		  "appear": {
+			"min": 1.0
+		  }
+		}
+	  },
+	  "rewards": {
+		"Story points": 10.0,
+		"h_cult_ritual_seen": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Speak with a hermit who claims the lake is a memory \u2014 not of water, but of something forgotten.",
+	  "rewards": {
+		"Story points": 5.0,
+		"h_memory_theory_learned": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Follow exposed stone paths revealed by the lowered lake, leading toward a cliffside quarry.",
+	  "requirements": {
+		"h_lake_lowered": {
+		  "appear": {
+			"min": 1.0
+		  }
+		}
+	  },
+	  "rewards": {
+		"Story points": 15.0,
+		"h_quarry_access": 1.0
+	  }
+	}
+  ]
+}

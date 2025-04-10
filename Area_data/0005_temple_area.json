@@ -4,11 +4,7 @@
   "tier": 1.0,
   "requirements": {
 	"Story points": {"consume":50.0},
-	"h_temple_access": {
-	  "appear": {
-		"min": 1.0
-	  }
-	}
+	"h_temple_access": { "appear": { "min": 1.0 } }
   },
   "story_actions": [
 	{

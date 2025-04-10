@@ -222,20 +222,8 @@
 	{
 	  "action_type": "free",
 	  "story_text": "Visit the smithy and watch sparks fly as iron meets anvil.",
-	  "requirements": {
-		"Focus": {"consume":1.0}
-	  },
-	  "rewards": {
-		"Story points": 2.0
-	  }
-	},
-	{
-	  "action_type": "loop",
-	  "story_text": "Assist the blacksmith in forging nails.",
-	  "cooldown": 1.5,
-	  "rewards": {
-		"Iron Nails": 1.0
-	  }
+	  "requirements": { "Focus": { "consume":1.0 } },
+	  "rewards": { "Story points": 2.0 }
 	},
 	{
 	  "action_type": "free",
@@ -301,7 +289,7 @@
 	  },
 	  "rewards": {
 		"Story points": 25.0,
-		"h_grove_access": 1.0
+		"h_flooded_crossing_access": 1.0
 	  }
 	}
   ]
