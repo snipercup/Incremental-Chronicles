@@ -165,11 +165,7 @@
 	{
 	  "action_type": "free",
 	  "requirements": {
-		"h_chapel_search": {
-		  "appear": {
-			"min": 1.0
-		  }
-		}
+		"h_chapel_search": { "appear": { "min": 1.0 } }
 	  },
 	  "rewards": {
 		"Story points": 1.0,
@@ -199,19 +195,15 @@
 	  "story_text": "Help harvest turnips in the outer fields.",
 	  "cooldown": 1.0,
 	  "max_loops": 10,
-	  "rewards": {
-		"Turnips": 1.0
-	  }
+	  "rewards": { "Turnips": 1.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Trade your turnips for lantern oil at the market.",
-	  "requirements": {
-		"Turnips": {
-		  "appear": {
-			"min": 5.0
-		  }
-		}
+	  "requirements": { "Turnips": { 
+		"appear": { "min": 5.0 },
+		"consume": 10
+		} 
 	  },
 	  "rewards": {
 		"Lantern Oil": 1.0
@@ -220,7 +212,11 @@
 	{
 	  "action_type": "free",
 	  "story_text": "Deliver the lantern oil to the chapel keeper for the dusk lighting.",
-	  "requirements": { "Lantern Oil": { "appear": { "min": 1.0 } } },
+	  "requirements": { "Lantern Oil": { 
+		"appear": { "min": 1.0 },
+		"consume": 1.0
+		},
+	  },
 	  "rewards": { "Resolve": 10.0 }
 	},
 	{

@@ -14,20 +14,6 @@ const REINCARNATION_AREA = preload("res://Special_areas/reincarnation_area.json"
 var area_list: Array[StoryArea] # The data for each area
 
 func _ready() -> void:
-	# Load the reincarnation area at startup
-	var file = FileAccess.open("res://Special_areas/reincarnation_area.json", FileAccess.READ)
-	if file:
-		var content = file.get_as_text()
-		var reincarnation_data = JSON.parse_string(content)
-		if reincarnation_data is Dictionary:
-			var area = StoryArea.new(reincarnation_data)
-			area_list = [area]
-			_refresh_area_list()
-		else:
-			print_debug("Failed to parse reincarnation area JSON.")
-		file.close()
-	else:
-		print_debug("Failed to open reincarnation area file.")
 	# Connect to reincarnation_started signal
 	SignalBroker.reincarnation_started.connect(_on_reincarnation_started)
 	SignalBroker.reincarnation_finished.connect(_on_reincarnation_finished)
@@ -66,3 +52,20 @@ func _on_reincarnation_started(_action: StoryAction) -> void:
 func _on_reincarnation_finished(_action: StoryAction) -> void:
 	if special_areas_panel_container:
 		special_areas_panel_container.visible = false
+
+# Resets the area list by reloading the default reincarnation area from JSON
+func reset_to_reincarnation_area() -> void:
+	var file = FileAccess.open("res://Special_areas/reincarnation_area.json", FileAccess.READ)
+	if file:
+		var content := file.get_as_text()
+		var parsed = JSON.parse_string(content)
+		if parsed is Dictionary:
+			var area := StoryArea.new(parsed)
+			area_list = [area]
+			_refresh_area_list()
+			print_debug("Reincarnation area list successfully reset.")
+		else:
+			print_debug("Failed to parse reincarnation area JSON.")
+		file.close()
+	else:
+		print_debug("Failed to open reincarnation area file.")

@@ -24,4 +24,3 @@ text = "X"
 
 [node name="RewardsRequirements" parent="ActionContainer" instance=ExtResource("2_e83s4")]
 layout_mode = 2
-display_mode = 2

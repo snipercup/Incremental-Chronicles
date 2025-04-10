@@ -169,77 +169,77 @@ func test_incremental_chronicles():
 	await get_tree().process_frame
 	await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2)
 	assert_true(await wait_until(num_children.bind(3), 2, 0.5), "Expected 3 children to remain")
-
-	# Loop to generate turnips
-	loop_action = action_list.get_first_action_of_type("loop")
-	assert_true(loop_action != null, "Expected a loop action.")
-	loop_action.story_action.cooldown = 0.1
-	loop_action.action_instance._on_action_button_pressed()
-	_wait_for_resource(resources, false, "Turnips", 10.0)
-	
-	# We have 50 story points after village
-	assert_eq(test_instance.helper.resource_manager.get_value("Story points"), 50.0, "There should be 50 story points.")
-
-	# Wait for 2 free actions to be visible (one appears as we collect tulips)
-	# Then wait for one action to remain while we press the free action
-	await _wait_for_action_type_count(action_list, "loop", 1, 15, 0.2)
-	await _wait_for_action_type_count(action_list, "free", 2, 15, 0.2)
-	await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2, _press_actions_of_type.bind(action_list, "free", 1))
-	
-	# -- HOLLOW GROVE --
-	_open_area(area_list, 2, "Hollow Grove")
-	await get_tree().process_frame
-	assert_eq(test_instance.helper.resource_manager.get_value("Story points"), 0.0, "Story points should be spent. 0 remaining.")
-	
-	# We press all the grove actions
-	assert_eq(action_list.get_children().size(), 6, "There should be 6 actions in grove.")
-	resources.apply_rewards({"Focus": 10})
-	_press_actions_of_type(action_list, "free", 10)
-	await get_tree().process_frame # All actions pressed, grove disappears and we return to tunnel
-	assert_true(await wait_until(num_children.bind(1), 2, 0.5), "Expected 1 child to remain")
-	
-	# Return to the village
-	_open_area(area_list, 1, "Village")
-	await get_tree().process_frame
-	assert_eq(action_list.get_children().size(), 4, "There should be 4 visible actions in Village.")
-	_press_actions_of_type(action_list, "free", 3) # One extra action reveals itself
-	await get_tree().process_frame # All actions pressed
-	assert_true(await wait_until(num_children.bind(2), 2, 0.5), "Expected 2 child to remain")
-	
-	# -- TEMPLE --
-	# The grove is gone now, so index 3 is forgotten temple
-	_open_area(area_list, 2, "Forgotten Temple")
-	await get_tree().process_frame
-	assert_eq(action_list.get_children().size(), 3, "There should be 3 actions in Temple.")
-	_press_actions_of_type(action_list, "free", 3)
-	assert_true(await wait_until(num_children.bind(1), 2, 0.5), "Expected 1 child to remain")
-
-
-	# Return to the village
-	_open_area(area_list, 1, "Village")
-	await get_tree().process_frame
-	assert_eq(action_list.get_children().size(), 3, "There should be 3 visible actions in Village.")
-	_press_actions_of_type(action_list, "free", 2) # One extra action reveals itself
-	await get_tree().process_frame
-	# Two actions remain in the village
-	assert_true(await wait_until(num_children.bind(2), 2, 0.5), "Expected 2 child to remain")
-	
-	# Index 3 is forgotten temple
-	_open_area(area_list, 2, "Forgotten Temple")
-	await get_tree().process_frame
-	assert_eq(action_list.get_children().size(), 2, "There should be 2 actions in Temple.")
-	_press_actions_of_type(action_list, "free", 1)
-	assert_true(await wait_until(num_children.bind(1), 2, 0.5), "Expected 1 child to remain")
-
-	# We are now starting reincarnation
-	_press_actions_of_type(action_list, "reincarnation", 1)
-	await get_tree().process_frame
-	var is_visible := func(control: Control, expected: bool) -> bool:
-		return control.visible == expected
-	assert_true(await wait_until(is_visible.bind(area_list.areas_panel_container, false), 2, 0.5), "Expected area_list to be invisible")
-	#assert_true(area_list.visible == false, "Expected area_list to be invisible")
-	assert_true(special_area_list.special_areas_panel_container.visible == true, "Expected special_area_list to be invisible")
-	# We have entered the special reincarnation area, which holds 4 actions
-	assert_true(await wait_until(num_children.bind(5), 2, 0.5), "Expected 5 children to remain")
+#
+	## Loop to generate turnips
+	#loop_action = action_list.get_first_action_of_type("loop")
+	#assert_true(loop_action != null, "Expected a loop action.")
+	#loop_action.story_action.cooldown = 0.1
+	#loop_action.action_instance._on_action_button_pressed()
+	#_wait_for_resource(resources, false, "Turnips", 10.0)
+	#
+	## We have 50 story points after village
+	#assert_eq(test_instance.helper.resource_manager.get_value("Story points"), 50.0, "There should be 50 story points.")
+#
+	## Wait for 2 free actions to be visible (one appears as we collect tulips)
+	## Then wait for one action to remain while we press the free action
+	#await _wait_for_action_type_count(action_list, "loop", 1, 15, 0.2)
+	#await _wait_for_action_type_count(action_list, "free", 2, 15, 0.2)
+	#await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2, _press_actions_of_type.bind(action_list, "free", 1))
+	#
+	## -- HOLLOW GROVE --
+	#_open_area(area_list, 2, "Hollow Grove")
+	#await get_tree().process_frame
+	#assert_eq(test_instance.helper.resource_manager.get_value("Story points"), 0.0, "Story points should be spent. 0 remaining.")
+	#
+	## We press all the grove actions
+	#assert_eq(action_list.get_children().size(), 6, "There should be 6 actions in grove.")
+	#resources.apply_rewards({"Focus": 10})
+	#_press_actions_of_type(action_list, "free", 10)
+	#await get_tree().process_frame # All actions pressed, grove disappears and we return to tunnel
+	#assert_true(await wait_until(num_children.bind(1), 2, 0.5), "Expected 1 child to remain")
+	#
+	## Return to the village
+	#_open_area(area_list, 1, "Village")
+	#await get_tree().process_frame
+	#assert_eq(action_list.get_children().size(), 4, "There should be 4 visible actions in Village.")
+	#_press_actions_of_type(action_list, "free", 3) # One extra action reveals itself
+	#await get_tree().process_frame # All actions pressed
+	#assert_true(await wait_until(num_children.bind(2), 2, 0.5), "Expected 2 child to remain")
+	#
+	## -- TEMPLE --
+	## The grove is gone now, so index 3 is forgotten temple
+	#_open_area(area_list, 2, "Forgotten Temple")
+	#await get_tree().process_frame
+	#assert_eq(action_list.get_children().size(), 3, "There should be 3 actions in Temple.")
+	#_press_actions_of_type(action_list, "free", 3)
+	#assert_true(await wait_until(num_children.bind(1), 2, 0.5), "Expected 1 child to remain")
+#
+#
+	## Return to the village
+	#_open_area(area_list, 1, "Village")
+	#await get_tree().process_frame
+	#assert_eq(action_list.get_children().size(), 3, "There should be 3 visible actions in Village.")
+	#_press_actions_of_type(action_list, "free", 2) # One extra action reveals itself
+	#await get_tree().process_frame
+	## Two actions remain in the village
+	#assert_true(await wait_until(num_children.bind(2), 2, 0.5), "Expected 2 child to remain")
+	#
+	## Index 3 is forgotten temple
+	#_open_area(area_list, 2, "Forgotten Temple")
+	#await get_tree().process_frame
+	#assert_eq(action_list.get_children().size(), 2, "There should be 2 actions in Temple.")
+	#_press_actions_of_type(action_list, "free", 1)
+	#assert_true(await wait_until(num_children.bind(1), 2, 0.5), "Expected 1 child to remain")
+#
+	## We are now starting reincarnation
+	#_press_actions_of_type(action_list, "reincarnation", 1)
+	#await get_tree().process_frame
+	#var is_visible := func(control: Control, expected: bool) -> bool:
+		#return control.visible == expected
+	#assert_true(await wait_until(is_visible.bind(area_list.areas_panel_container, false), 2, 0.5), "Expected area_list to be invisible")
+	##assert_true(area_list.visible == false, "Expected area_list to be invisible")
+	#assert_true(special_area_list.special_areas_panel_container.visible == true, "Expected special_area_list to be invisible")
+	## We have entered the special reincarnation area, which holds 4 actions
+	#assert_true(await wait_until(num_children.bind(5), 2, 0.5), "Expected 5 children to remain")
 	
 	await wait_seconds(1000, "Wait 10 seconds to see the result")

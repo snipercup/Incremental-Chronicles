@@ -2,6 +2,7 @@ extends Node
 
 var loaded_areas: Dictionary = {}
 @export var area_list: VBoxContainer = null
+@export var special_area_list: VBoxContainer = null
 @export var requirements_pin_list: VBoxContainer = null
 @export var resource_manager: Label = null
 @export var action_list: VBoxContainer = null
@@ -12,6 +13,7 @@ func _ready() -> void:
 
 func initialize():
 	loaded_areas = load_json_files_from_path("res://Area_data/")
+	special_area_list.reset_to_reincarnation_area()
 	create_story_areas()
 
 # Function to load all JSON resource files from a directory into a dictionary
