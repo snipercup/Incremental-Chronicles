@@ -64,9 +64,7 @@
 	  "action_type": "free",
 	  "story_text": "Examine the weathered stone remnants.",
 	  "requirements": {
-		"Focus": {
-		  "consume": 1.0
-		}
+		"Focus": { "consume": 1.0 }
 	  },
 	  "rewards": {
 		"Story points": 4.0
@@ -122,11 +120,7 @@
 	  "action_type": "free",
 	  "story_text": "Examine the defeated rat.",
 	  "requirements": {
-		"h_hidden_rat_reward": {
-		  "appear": {
-			"min": 1.0
-		  }
-		}
+		"h_hidden_rat_reward": { "appear": { "min": 1.0 } }
 	  },
 	  "rewards": {
 		"Story points": 5.0

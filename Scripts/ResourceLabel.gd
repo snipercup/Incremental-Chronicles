@@ -38,7 +38,7 @@ func _update_text() -> void:
 		match show_mode:
 			"reward":
 				# Show the reward amount even if the resource doesn't yet exist
-				text = ResourceUtils.format_reward_label(resource_key, reward_amount, group)
+				text = format_reward_label(resource_key, reward_amount, group)
 				modulate = color_default
 				return
 			"requirement", "value_only":
@@ -59,17 +59,59 @@ func _update_text() -> void:
 
 	match show_mode:
 		"value_only":
-			text = ResourceUtils.format_requirement_label(
+			text = format_requirement_label(
 				resource_key, value, value, max_value, group, "consume"
 			)
 			modulate = color_default
 
 		"reward":
-			text = ResourceUtils.format_reward_label(resource_key, reward_amount, group)
+			text = format_reward_label(resource_key, reward_amount, group)
 			modulate = color_default
 
 		"requirement":
-			text = ResourceUtils.format_requirement_label(
+			text = format_requirement_label(
 				resource_key, required_amount, value, max_value, group, requirement_type
 			)
 			modulate = color_met if value >= required_amount else color_unmet
+
+# ✅ Returns a formatted label string for a requirement with optional current/max values
+static func format_requirement_label(
+	resource_name: String,
+	needed: float,
+	current: float = -1,
+	max_value: float = -1,
+	group: String = "visible",
+	type: String = "consume"
+) -> String:
+	var icon := ""
+	match group:
+		"visible": icon = "⏳"
+		"permanent": icon = "♾️"
+		"hidden": icon = "🫥"
+		_: icon = ""
+
+	if type == "appear":
+		if max_value > 0 and max_value < INF:
+			return "[%s %d–%d] %s (%d)" % [icon, int(needed), int(max_value), resource_name, int(current)]
+		else:
+			return "[%s %d+] %s (%d)" % [icon, int(needed), resource_name, int(current)]
+
+	if max_value > 0:
+		return "[%s %d] %s (%d/%d)" % [icon, int(needed), resource_name, int(current), int(max_value)]
+	elif current >= 0:
+		return "[%s %d] %s (%d)" % [icon, int(needed), resource_name, int(current)]
+	else:
+		return "[%s %d] %s" % [icon, int(needed), resource_name]
+
+# ✅ Returns a formatted label string for a reward
+static func format_reward_label(resource_name: String, amount: float, group: String = "visible") -> String:
+	var icon := ""
+	match group:
+		"visible": icon = "⏳"
+		"permanent": icon = "♾️"
+		"hidden": icon = "🫥"
+		"regeneration": icon = "⏫"
+		"capacity": icon = "📈"
+		_: ""
+
+	return "%s %s: %d" % [icon, resource_name, int(amount)]

@@ -3,8 +3,7 @@ class_name ResourceData
 extends RefCounted
 
 # === RESOURCE STATE ===
-var visible: float = 0.0        # Shown to the player
-var hidden: float = 0.0         # Internal/hidden counters
+var temporary: float = 0.0  # Resets on reincarnation
 var permanent: float = 0.0      # Carries across resets
 var regeneration: float = 0.0   # Per-second visible gain
 var capacity: float = 0.0       # Max cap applies to VISIBLE ONLY
@@ -20,59 +19,37 @@ func _init(myname: String, cap: float = 0.0):
 
 # Total value (not used in capacity checks)
 func get_total() -> float:
-	return visible + hidden + permanent
+	return temporary + permanent
 
 # Returns true if visible group is at or above capacity
 func is_at_capacity() -> bool:
 	if capacity <= 0.0:
 		return false
-	return visible >= capacity
+	return temporary >= capacity
 
 
 # === VISIBLE METHODS ===
 
-func add_visible(amount: float) -> void:
+func add_temporary(amount: float) -> void:
 	if amount == 0.0:
 		return
-	visible += amount
+	temporary += amount
 	_enforce_capacity()
 	resource_updated.emit(self)
 
-func remove_visible(amount: float) -> void:
+func remove_temporary(amount: float) -> void:
 	if amount == 0.0:
 		return
-	visible = max(visible - amount, 0.0)
+	temporary = max(temporary - amount, 0.0)
 	resource_updated.emit(self)
 
-func set_visible(amount: float) -> void:
-	visible = max(amount, 0.0)
+func set_temporary(amount: float) -> void:
+	temporary = max(amount, 0.0)
 	_enforce_capacity()
 	resource_updated.emit(self)
 
-func get_visible() -> float:
-	return visible
-
-
-# === HIDDEN METHODS ===
-
-func add_hidden(amount: float) -> void:
-	if amount == 0.0:
-		return
-	hidden += amount
-	resource_updated.emit(self)
-
-func remove_hidden(amount: float) -> void:
-	if amount == 0.0:
-		return
-	hidden = max(hidden - amount, 0.0)
-	resource_updated.emit(self)
-
-func set_hidden(amount: float) -> void:
-	hidden = max(amount, 0.0)
-	resource_updated.emit(self)
-
-func get_hidden() -> float:
-	return hidden
+func get_temporary() -> float:
+	return temporary
 
 
 # === PERMANENT METHODS ===
@@ -103,8 +80,8 @@ func get_permanent() -> float:
 func _enforce_capacity() -> void:
 	if capacity <= 0.0:
 		return
-	if visible > capacity:
-		visible = capacity
+	if temporary > capacity:
+		temporary = capacity
 
 
 # === REGENERATION ===
@@ -115,9 +92,9 @@ func apply_regeneration(delta: float) -> bool:
 	if regeneration <= 0.0:
 		return false
 
-	var before := visible
-	add_visible(regeneration * delta)
-	return visible != before
+	var before := temporary
+	add_temporary(regeneration * delta)
+	return temporary != before
 
 
 # === UTILITIES ===
@@ -125,35 +102,29 @@ func apply_regeneration(delta: float) -> bool:
 # Reset visible and hidden; optionally preserve permanent
 # Returns true if all values (visible, hidden, permanent, regeneration) are 0.0 after reset
 func reset(include_permanent: bool = false) -> bool:
-	visible = 0.0
-	hidden = 0.0
-
+	temporary = 0.0
 	if include_permanent:
 		permanent = 0.0
 		regeneration = 0.0
-
 	resource_updated.emit(self)
 	return is_empty()
 
 func is_empty() -> bool:
-	return visible == 0.0 and hidden == 0.0 and permanent == 0.0 and regeneration == 0.0
+	return temporary == 0.0 and permanent == 0.0 and regeneration == 0.0
 
 # === SERIALIZATION ===
 
 # Convert to dictionary for saving
 func to_dict() -> Dictionary:
 	return {
-		"visible": visible,
-		"hidden": hidden,
+		"temporary": temporary,
 		"permanent": permanent,
 		"regeneration": regeneration,
 		"capacity": capacity
 	}
 
-# Load from dictionary
 func from_dict(data: Dictionary) -> void:
-	visible = data.get("visible", 0.0)
-	hidden = data.get("hidden", 0.0)
+	temporary = data.get("temporary", 0.0)
 	permanent = data.get("permanent", 0.0)
 	regeneration = data.get("regeneration", 0.0)
 	capacity = data.get("capacity", 0.0)
@@ -162,18 +133,19 @@ func from_dict(data: Dictionary) -> void:
 
 # Applies a reward dictionary to this resource.
 # Example:
-# {
-#   "visible": 5,
-#   "hidden": 2,
-#   "permanent": 1,
-#   "regeneration": 0.5,
-#   "capacity": 10
-# }
-func apply_reward(data: Dictionary) -> void:
-	if data.has("visible"):
-		add_visible(data["visible"])
-	if data.has("hidden"):
-		add_hidden(data["hidden"])
+# only a number: 15.0, in this case we add only temporary value
+# A dictionary for temporary: {"temporary": 1}
+# A dictionary for permanent: {"permanent": 1}
+# A dictionary for regeneration: {"regeneration": 0.1}
+# A dictionary for capacity: {"capacity": 10}
+# A dictionary combination: {"capacity": 10, "regeneration": 0.1}
+func apply_reward(data: Variant) -> void:
+	if typeof(data) == TYPE_FLOAT or typeof(data) == TYPE_INT:
+		add_temporary(data)
+		return
+
+	if data.has("temporary"):
+		add_temporary(data["temporary"])
 	if data.has("permanent"):
 		add_permanent(data["permanent"])
 	if data.has("regeneration"):
@@ -182,14 +154,16 @@ func apply_reward(data: Dictionary) -> void:
 		capacity += data["capacity"]
 	_enforce_capacity()
 
+
 # Returns a single-line tooltip showing resource name, temporary and permanent values with icons.
+# If the resource name starts with h_ it is hidden, so no tooltip
 # Example: "Story points: 🕒 10 / 100  ♾️ 5"
 func get_tooltip() -> String:
 	var parts: Array = []
 
-	# ⏳ Temporary (visible)
-	if visible > 0.0 or capacity > 0.0:
-		var tmp_text := "⏳ %d" % int(visible)
+	# ⏳ Temporary
+	if temporary > 0.0 or capacity > 0.0:
+		var tmp_text := "⏳ %d" % int(temporary)
 		if capacity > 0.0:
 			tmp_text += " / %d" % int(capacity)
 		parts.append(tmp_text)
