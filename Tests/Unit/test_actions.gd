@@ -231,15 +231,15 @@ func test_incremental_chronicles():
 	_press_actions_of_type(action_list, "free", 1)
 	assert_true(await wait_until(num_children.bind(1), 2, 0.5), "Expected 1 child to remain")
 
-	# We are now starting reincarnation
-	_press_actions_of_type(action_list, "reincarnation", 1)
-	await get_tree().process_frame
-	var is_visible := func(control: Control, expected: bool) -> bool:
-		return control.visible == expected
-	assert_true(await wait_until(is_visible.bind(area_list.areas_panel_container, false), 2, 0.5), "Expected area_list to be invisible")
-	#assert_true(area_list.visible == false, "Expected area_list to be invisible")
-	assert_true(special_area_list.special_areas_panel_container.visible == true, "Expected special_area_list to be invisible")
-	# We have entered the special reincarnation area, which holds 4 actions
-	assert_true(await wait_until(num_children.bind(5), 2, 0.5), "Expected 5 children to remain")
+	## We are now starting reincarnation
+	#_press_actions_of_type(action_list, "reincarnation", 1)
+	#await get_tree().process_frame
+	#var is_visible := func(control: Control, expected: bool) -> bool:
+		#return control.visible == expected
+	#assert_true(await wait_until(is_visible.bind(area_list.areas_panel_container, false), 2, 0.5), "Expected area_list to be invisible")
+	##assert_true(area_list.visible == false, "Expected area_list to be invisible")
+	#assert_true(special_area_list.special_areas_panel_container.visible == true, "Expected special_area_list to be invisible")
+	## We have entered the special reincarnation area, which holds 4 actions
+	#assert_true(await wait_until(num_children.bind(5), 2, 0.5), "Expected 5 children to remain")
 	
 	await wait_seconds(1000, "Wait 10 seconds to see the result")

@@ -45,7 +45,8 @@
 	  "action_type": "free",
 	  "story_text": "Attune to the flow of thought. (Regenerate Focus over time)",
 	  "requirements": {
-		"Echoes of the Past": { "consume": 1.0, "permanent": true }
+		"Echoes of the Past": { "consume": 1.0, "permanent": true },
+		"Focus": { "appear": { "regeneration": { "max": 0.0 } } }
 	  },
 	  "rewards": {
 		"Focus": {"regeneration": 0.1}

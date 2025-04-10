@@ -53,7 +53,6 @@ func _init(data: Dictionary = {}, myarea: StoryArea = null) -> void:
 # }
 func set_requirements(value: Dictionary) -> void:
 	requirements.clear()
-
 	for res_name in value:
 		var req := ResourceRequirement.new()
 		req.from_dict(value[res_name])
