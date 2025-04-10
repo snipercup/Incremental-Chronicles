@@ -10,6 +10,8 @@ var required_amount: float = 0.0
 # No longer group-specific — just one total-based check
 var appear_min_total: float = -INF
 var appear_max_total: float = INF
+var appear_min_regeneration: float = -INF
+var appear_max_regeneration: float = INF
 
 # === CONSUME REQUIREMENTS ===
 # Use separate flags for temp vs perm consumption
@@ -50,6 +52,7 @@ func consume_from(resource: ResourceData) -> void:
 # Consume permanent: { "consume": 1.0, "permanent": true }
 # Appear requirement, no consumption: { "appear": { "min": 1.0, "max": 2.0 } }
 # Just a number: 20.0. Player needs at least 20, but nothing is consumed
+# Max regeneration: { "appear": { "regeneration": { "max": 1.0 } } }
 func from_dict(data: Variant) -> void:
 	if typeof(data) == TYPE_FLOAT or typeof(data) == TYPE_INT:
 		required_amount = float(data)
@@ -71,17 +74,37 @@ func from_dict(data: Variant) -> void:
 		var appear_data = data["appear"]
 		appear_min_total = appear_data.get("min", -INF)
 		appear_max_total = appear_data.get("max", INF)
+		if appear_data.has("regeneration"):
+			var regen_data = appear_data["regeneration"]
+			appear_min_regeneration = regen_data.get("min", -INF)
+			appear_max_regeneration = regen_data.get("max", INF)
 
 
 # Returns true if only the "appear" requirements are fulfilled
 func does_appear_requirements_pass(resource: ResourceData) -> bool:
 	var total := resource.get_total()
-	return total >= appear_min_total and total <= appear_max_total
+	var regen := resource.regeneration
+
+	# Check total value bounds
+	if total < appear_min_total or total > appear_max_total:
+		return false
+
+	# Check regeneration bounds
+	if regen < appear_min_regeneration or regen > appear_max_regeneration:
+		return false
+
+	return true
 
 
 # Returns true if any appear requirement is active
 func has_appear_requirements() -> bool:
-	return appear_min_total > -INF or appear_max_total < INF
+	return (
+		appear_min_total > -INF or
+		appear_max_total < INF or
+		appear_min_regeneration > -INF or
+		appear_max_regeneration < INF
+	)
+
 
 # Returns true if any requirement other then appear is active
 func has_resource_requirements() -> bool:

@@ -5,6 +5,36 @@
   "story_actions": [
 	{
 	  "action_type": "free",
+	  "story_text": "You step out from the mirrored tunnel — reborn, but unsteady. Something about the air feels... known. A breeze brushes past.",
+	  "requirements": {
+		"Reincarnation": { "appear": { "min": 1.0, "max": 1.0 } }
+	  },
+	  "rewards": {
+		"h_mirrored_entity_step1": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "A figure appears ahead. Still. Perfect. Your breath catches — not from fear, but reverence. You blink, and the figure is closer. You try to move, but your body disobeys.",
+	  "requirements": {
+		"h_mirrored_entity_step1": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"h_mirrored_entity_step2": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "The figure meets your gaze. No words — only light and silence. A warmth settles in your chest, and then, they vanish.\n\nYou are alone again... but changed.",
+	  "requirements": {
+		"h_mirrored_entity_step2": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"Echoes of the Past": { "permanent": 1 }
+	  }
+	},
+	{
+	  "action_type": "free",
 	  "story_text": "Lift a stone. Your muscles strain against the weight — it moves, just barely.",
 	  "requirements": {
 		"Focus": {

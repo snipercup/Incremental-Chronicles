@@ -40,6 +40,8 @@ func _display_requirements() -> bool:
 		if key.begins_with("h_"):
 			continue # Don't display hidden requirements
 		var req: ResourceRequirement = story_requirements[key]
+		if not req.has_resource_requirements():
+			continue # If only appear requirements, we don't display it
 		_create_requirement_label(key, req)
 		has_content = true
 
