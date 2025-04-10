@@ -50,11 +50,8 @@ func _update_text() -> void:
 	elif requirement.consume_permanent > 0.0:
 		displayed_amount = requirement.consume_permanent
 		requirement_type = "consume"
-	elif requirement.has_appear_requirements():
-		displayed_amount = requirement.appear_min_total
-		requirement_type = "appear"
 
-	text = format_requirement_label(resource_key, displayed_amount, total, max_val, requirement_type)
+	text = format_requirement_label(resource_key, displayed_amount, total, max_val)
 	# If the resource doesn't exist, the requirement can't be fulfilled
 	modulate = color_met if res and requirement.can_fulfill(res) else color_unmet
 
@@ -63,21 +60,14 @@ static func format_requirement_label(
 	resource_name: String,
 	needed: float,
 	current: float = -1,
-	max_value: float = -1,
-	type: String = "consume"
+	max_value: float = -1
 ) -> String:
 	if resource_name.begins_with("h_"):
 		return ""
 
-	if type == "appear":
-		if max_value > 0 and max_value < INF:
-			return "[%d–%d] %s (%d)" % [int(needed), int(max_value), resource_name, int(current)]
-		else:
-			return "[%d+] %s (%d)" % [int(needed), resource_name, int(current)]
-
 	if max_value > 0:
-		return "⏳♾️ [%d] %s (%d/%d)" % [int(needed), resource_name, int(current), int(max_value)]
+		return "⏳ [%d] %s (%d/%d)" % [int(needed), resource_name, int(current), int(max_value)]
 	elif current >= 0:
-		return "⏳♾️ [%d] %s (%d)" % [int(needed), resource_name, int(current)]
+		return "⏳ [%d] %s (%d)" % [int(needed), resource_name, int(current)]
 	else:
-		return "⏳♾️ [%d] %s" % [int(needed), resource_name]
+		return "⏳ [%d] %s" % [int(needed), resource_name]

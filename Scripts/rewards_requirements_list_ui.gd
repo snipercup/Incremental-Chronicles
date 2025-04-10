@@ -37,6 +37,8 @@ func _display_requirements() -> bool:
 
 	var story_requirements: Dictionary = story_action.get_requirements()
 	for key in story_requirements.keys():
+		if key.begins_with("h_"):
+			continue # Don't display hidden requirements
 		var req: ResourceRequirement = story_requirements[key]
 		_create_requirement_label(key, req)
 		has_content = true
@@ -48,6 +50,8 @@ func _display_rewards() -> bool:
 	var rewards: Dictionary = story_action.get_rewards()
 
 	for key in rewards.keys():
+		if key.begins_with("h_"):
+			continue # Don't display hidden rewards
 		var reward: ResourceReward = rewards[key]
 		_create_reward_label(key, reward)
 		has_content = true

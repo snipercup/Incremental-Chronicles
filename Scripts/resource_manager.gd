@@ -83,6 +83,8 @@ func _update_tooltip() -> void:
 	var added: int = 0
 	var max_items: int = 20
 	for key in resources.keys():
+		if key.begins_with("h_"):
+			continue # Don't display hidden resources
 		var res: ResourceData = resources[key]
 		var restooltip: String = res.get_tooltip()
 		if restooltip.length() < 4:

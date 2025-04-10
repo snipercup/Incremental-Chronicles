@@ -55,12 +55,6 @@ func set_story_area(value: StoryArea) -> void:
 		if req.consume_permanent > 0.0:
 			parts.append("♾️%d" % int(req.consume_permanent))
 
-		if req.appear_min_total > -INF or req.appear_max_total < INF:
-			if req.appear_max_total < INF:
-				parts.append("🔍%d–%d" % [int(req.appear_min_total), int(req.appear_max_total)])
-			else:
-				parts.append("🔍%d+" % int(req.appear_min_total))
-
 		if not parts.is_empty():
 			requirements_text.append("[%s] %s" % [", ".join(parts), key])
 

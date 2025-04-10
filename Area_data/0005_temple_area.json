@@ -53,7 +53,7 @@
 	  },
 	  "rewards": {
 		"Story points": 10.0,
-		"Reincarnation": 1.0,
+		"Reincarnation": {"permanent": 1.0},
 		"h_reincarnation_started": 0.0
 	  },
 	  "story_text": "The soul vessel glows. Light floods your vision as your form dissolves. You are reborn \u2014 stronger, wiser, and bound to a greater cycle."

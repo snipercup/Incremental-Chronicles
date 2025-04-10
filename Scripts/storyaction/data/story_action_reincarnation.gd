@@ -31,9 +31,9 @@ func perform_action() -> void:
 	SignalBroker.action_activated.emit(self)
 	SignalBroker.action_rewarded.emit(self)
 
-	if rewards.has("reincarnation_started"):
+	if rewards.has("h_reincarnation_started"):
 		SignalBroker.reincarnation_started.emit(self)
-	elif rewards.has("reincarnation_finished"):
+	elif rewards.has("h_reincarnation_finished"):
 		SignalBroker.reincarnation_finished.emit(self)
 
 	SignalBroker.action_removed.emit(self)
