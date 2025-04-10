@@ -2,70 +2,54 @@
   "description": "A dusty road stretches ahead, disappearing into the horizon. Its destination is unknown, but the journey beckons.",
   "name": "Road",
   "tier": 1.0,
-  "requirements": { "Story points": { "consume": { "visible": 50.0 } } },
+  "requirements": {
+	"Story points": {"consume":50.0}
+  },
   "story_actions": [
 	{
 	  "action_type": "free",
 	  "story_text": "Walk along the road.",
-	  "requirements": { "Focus": { "consume": { "visible": 1.0 } } },
+	  "requirements": {
+		"Focus": {"consume":1.0}
+	  },
 	  "rewards": {
-		"Story points": {
-		  "visible": 5.0
-		}
+		"Story points": 5.0
 	  }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Avoid a pothole.",
 	  "requirements": {
-		"Focus": {
-		  "consume": {
-			"visible": 1.0
-		  }
-		}
+		"Focus": {"consume":1.0}
 	  },
 	  "rewards": {
-		"Story points": {
-		  "visible": 5.0
-		}
+		"Story points": 5.0
 	  }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Observe the side of the road.",
 	  "requirements": {
-		"Focus": {
-		  "consume": {
-			"visible": 1.0
-		  }
-		}
+		"Focus": {"consume":1.0}
 	  },
 	  "rewards": {
-		"Story points": {
-		  "visible": 5.0
-		}
+		"Story points": 5.0
 	  }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Enjoy the weather.",
 	  "rewards": {
-		"Story points": {
-		  "visible": 5.0
-		},
-		"Focus": {
-		  "visible": 1
-		}
+		"Story points": 5.0,
+		"Focus": 1
 	  }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Look ahead toward the horizon.",
 	  "rewards": {
-		"Story points": {
-		  "visible": 5.0
-		},
-		"Focus": { "visible": 1 }
+		"Story points": 5.0,
+		"Focus": 1
 	  }
 	},
 	{
@@ -74,30 +58,18 @@
 	  "cooldown": 2.0,
 	  "max_loops": 10.0,
 	  "rewards": {
-		"Miles": {
-		  "hidden": 1.0
-		}
+		"h_miles": 1.0
 	  }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "A village appears in the distance \u2014 small homes and the sound of voices greet you. You've reached the end of the road.",
 	  "requirements": {
-		"Miles": {
-		  "appear": {
-			"hidden": {
-			  "min": 10.0
-			}
-		  }
-		}
+		"h_miles": { "appear": { "min": 10.0 } }
 	  },
 	  "rewards": {
-		"Story points": {
-		  "visible": 25.0
-		},
-		"village_access": {
-		  "hidden": 1.0
-		}
+		"Story points": 25.0,
+		"h_village_access": 1.0
 	  }
 	}
   ]

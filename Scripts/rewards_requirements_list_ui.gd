@@ -57,9 +57,8 @@ func _clear_existing_labels() -> void:
 
 
 # Display requirements and return true if any are shown
-# Now handles "consume", "appear", and "amount" types
-# Also adds support for the "sum" requirement group
-# Display requirements using ResourceRequirement class and format via ResourceUtils
+# Handles "consume", "appear", and "amount", "sum" types
+# Display requirements using ResourceRequirement class
 func _display_requirements() -> bool:
 	var has_content := false
 	var resource_manager: Node = get_resource_manager()
@@ -104,7 +103,7 @@ func _display_requirements() -> bool:
 
 
 
-# Display rewards and return true if any are shown, using ResourceUtils formatting
+# Display rewards and return true if any are shown
 func _display_rewards() -> bool:
 	var has_content := false
 	var rewards: Dictionary = story_action.get_rewards()
