@@ -6,8 +6,12 @@ extends PanelContainer
 
 @export var story_point_requirement_label: Label = null
 @export var stars_label: Label = null
+@export var stats_container: HBoxContainer = null
 @export var area_button: Button = null
+
 var story_area: StoryArea
+var is_active: bool = false
+
 
 # Handle area button press
 func _ready():
@@ -169,3 +173,40 @@ func _on_resources_updated(_resource_store: Label) -> void:
 	var requirements := story_area.get_requirements()
 	set_story_point_requirement_label(_format_requirement_progress(requirements))
 	_update_progress_visuals()
+
+
+# Highlights the area button if this area is currently active (unlocked only)
+func set_is_active(value: bool) -> void:
+	is_active = value
+	_update_active_button_style()
+
+func _update_active_button_style() -> void:
+	if story_area == null or area_button == null:
+		return
+
+	var is_unlocked := story_area.get_state() == StoryArea.State.UNLOCKED
+
+	# Only highlight if this area is unlocked and currently selected
+	if is_unlocked and is_active:
+		stats_container.visible = false
+		# === Normal style (selected) ===
+		var normal_box := area_button.get_theme_stylebox("normal").duplicate()
+		normal_box.border_width_top = 1
+		normal_box.border_width_bottom = 1
+		normal_box.border_width_left = 1
+		normal_box.border_width_right = 1
+		normal_box.border_color = Color(1.0, 0.84, 0.0) # Gold
+		area_button.add_theme_stylebox_override("normal", normal_box)
+
+		# === Hover style (selected + hovered) ===
+		var hover_box := area_button.get_theme_stylebox("hover").duplicate()
+		hover_box.border_width_top = 1
+		hover_box.border_width_bottom = 1
+		hover_box.border_width_left = 1
+		hover_box.border_width_right = 1
+		hover_box.border_color = Color(0.8, 0.6, 0.0) # Darker gold
+		area_button.add_theme_stylebox_override("hover", hover_box)
+	else:
+		# Remove highlight when not active
+		area_button.remove_theme_stylebox_override("normal")
+		area_button.remove_theme_stylebox_override("hover")
