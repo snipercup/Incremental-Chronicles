@@ -35,7 +35,7 @@ func _update_text() -> void:
 	var temp := res.get_temporary() if res else 0.0
 	var perm := res.get_permanent() if res else 0.0
 	var total := temp + perm
-	var max_val := res.capacity if res and max_value_override <= 0 else max_value_override
+	var max_val := res.get_capacity() if res and max_value_override <= 0 else max_value_override
 
 	# Determine the main condition for this requirement
 	var displayed_amount := 0.0

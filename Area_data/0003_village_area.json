@@ -222,32 +222,53 @@
 	},
 	{
 	  "action_type": "loop",
-	  "story_text": "Help harvest turnips in the outer fields.",
+	  "story_text": "Help harvest turnips in the outer fields. Each root adds to the village’s store for the winter ahead.",
 	  "cooldown": 1.0,
 	  "max_loops": 10,
-	  "rewards": { "Turnips": 1.0 }
-	},
-	{
-	  "action_type": "free",
-	  "story_text": "Trade your turnips for lantern oil at the market.",
-	  "requirements": { "Turnips": { 
-		"appear": { "min": 5.0 },
-		"consume": 10
-		} 
-	  },
 	  "rewards": {
-		"Lantern Oil": 1.0
+		"Turnips": 1.0,
+		"h_village_resilience": 0.2
 	  }
 	},
 	{
 	  "action_type": "free",
-	  "story_text": "Deliver the lantern oil to the chapel keeper for the dusk lighting.",
-	  "requirements": { "Lantern Oil": { 
-		"appear": { "min": 1.0 },
-		"consume": 1.0
-		},
+	  "story_text": "Trade your bundle of turnips for lantern oil — a resource more precious now as the nights grow longer.",
+	  "requirements": {
+		"Turnips": {
+		  "appear": { "min": 5.0 },
+		  "consume": 10
+		}
 	  },
-	  "rewards": { "Resolve": 10.0 }
+	  "rewards": {
+		"Lantern Oil": 1.0,
+		"h_village_resilience": 0.2
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Deliver the lantern oil to the chapel keeper. With your help, the dusk lighting ceremony will continue.",
+	  "requirements": {
+		"Lantern Oil": {
+		  "appear": { "min": 1.0 },
+		  "consume": 1.0
+		}
+	  },
+	  "rewards": {
+		"Resolve": 10.0,
+		"h_village_resilience": 0.3
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "The village elder notices your steady contributions. 'You’ve done much for this place. It remembers.'",
+	  "requirements": {
+		"h_village_resilience": { "appear": { "min": 3.0 } }
+	  },
+	  "rewards": {
+		"Story points": 10.0,
+		"Resolve": { "temporary_capacity": 5.0 },
+		"h_community_respected": 1.0
+	  }
 	},
 	{
 	  "action_type": "free",
@@ -270,7 +291,8 @@
 		"Herbs": {"consume":1.0}
 	  },
 	  "rewards": {
-		"Resolve": 10.0
+		"Resolve": 10.0,
+		"h_village_resilience": 0.5
 	  }
 	},
 	{

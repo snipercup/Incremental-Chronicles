@@ -53,6 +53,17 @@
 	  }
 	},
 	{
+	  "action_type": "free",
+	  "story_text": "Steel your spirit. (Increase max Resolve permanently)",
+	  "requirements": {
+		"Echoes of the Past": { "consume": 1.0, "permanent": true },
+		"Resolve": { "appear": { "permanent_capacity": { "max": 10.0 } } }
+	  },
+	  "rewards": {
+		"Resolve": { "permanent_capacity": 5.0 }
+	  }
+	},
+	{
 	  "action_type": "reincarnation",
 	  "story_text": "You step forward. The mirror ripples, then steadies \u2014 your new self reflected clearly. The cycle is complete. You are ready to begin again.",
 	  "rewards": {"h_reincarnation_finished": 0.0}

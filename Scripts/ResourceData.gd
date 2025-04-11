@@ -126,8 +126,10 @@ func apply_regeneration(delta: float) -> bool:
 # Returns true if all values (visible, hidden, permanent, regeneration) are 0.0 after reset
 func reset(include_permanent: bool = false) -> bool:
 	temporary = 0.0
+	temporary_capacity = 0.0
 	if include_permanent:
 		permanent = 0.0
+		permanent_capacity = 0.0
 		regeneration = 0.0
 	resource_updated.emit(self)
 	return is_empty()

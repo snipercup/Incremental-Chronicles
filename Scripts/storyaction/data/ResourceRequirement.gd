@@ -12,6 +12,10 @@ var appear_min_total: float = -INF
 var appear_max_total: float = INF
 var appear_min_regeneration: float = -INF
 var appear_max_regeneration: float = INF
+var appear_min_permanent_capacity: float = -INF
+var appear_max_permanent_capacity: float = INF
+var appear_min_temporary_capacity: float = -INF
+var appear_max_temporary_capacity: float = INF
 
 # === CONSUME REQUIREMENTS ===
 # Use separate flags for temp vs perm consumption
@@ -78,19 +82,37 @@ func from_dict(data: Variant) -> void:
 			var regen_data = appear_data["regeneration"]
 			appear_min_regeneration = regen_data.get("min", -INF)
 			appear_max_regeneration = regen_data.get("max", INF)
+		if appear_data.has("permanent_capacity"):
+			var regen_data = appear_data["permanent_capacity"]
+			appear_min_permanent_capacity = regen_data.get("min", -INF)
+			appear_max_permanent_capacity = regen_data.get("max", INF)
+		if appear_data.has("temporary_capacity"):
+			var regen_data = appear_data["temporary_capacity"]
+			appear_min_temporary_capacity = regen_data.get("min", -INF)
+			appear_max_temporary_capacity = regen_data.get("max", INF)
 
 
 # Returns true if only the "appear" requirements are fulfilled
 func does_appear_requirements_pass(resource: ResourceData) -> bool:
 	var total := resource.get_total()
 	var regen := resource.regeneration
-
+	var temporary_capacity := resource.temporary_capacity
+	var permanent_capacity := resource.permanent_capacity
+	
 	# Check total value bounds
 	if total < appear_min_total or total > appear_max_total:
 		return false
 
 	# Check regeneration bounds
 	if regen < appear_min_regeneration or regen > appear_max_regeneration:
+		return false
+
+	# Check temporary_capacity bounds
+	if temporary_capacity < appear_min_temporary_capacity or temporary_capacity > appear_max_temporary_capacity:
+		return false
+
+	# Check permanent_capacity bounds
+	if permanent_capacity < appear_min_permanent_capacity or permanent_capacity > appear_max_permanent_capacity:
 		return false
 
 	return true
@@ -101,6 +123,10 @@ func has_appear_requirements() -> bool:
 	return (
 		appear_min_total > -INF or
 		appear_max_total < INF or
+		appear_min_temporary_capacity > -INF or
+		appear_max_temporary_capacity < INF or
+		appear_min_permanent_capacity > -INF or
+		appear_max_permanent_capacity < INF or
 		appear_min_regeneration > -INF or
 		appear_max_regeneration < INF
 	)

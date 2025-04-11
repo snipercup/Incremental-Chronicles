@@ -48,6 +48,8 @@ func _init(data: Dictionary = {}, myarea: StoryArea = null) -> void:
 #		"consume": 1.0, //Consume temporary
 #		"consume": 1.0, "permanent": true //Consume permanent
 #		"appear": { "min": 1.0, "max": 2.0 }, // Appear requirement, no consumption
+#		"appear": { "regeneration": { "max": 0.0 } } // appear requirement for max generation
+#		"appear": { "permanent_capacity": { "max": 0.0 } } // appear requirement for permanent max capacity
 #		20.0, // Just a number. Player needs at least 20 total, but nothing is consumed
 #   }
 # }
