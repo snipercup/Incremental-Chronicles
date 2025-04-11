@@ -230,16 +230,8 @@ func _on_generation_timer_timeout() -> void:
 
 # Resets all resources and removes any that become empty (all values = 0.0)
 func reset_all_resources(include_permanent: bool = false) -> void:
-	var to_remove: Array[String] = []
-
 	for key in resources.keys():
-		var res: ResourceData = resources[key]
-		if res.reset(include_permanent):
-			to_remove.append(key) # reset returned true, so all values are empty, remove it
-
-	for key in to_remove:
-		resources.erase(key)
-	SignalBroker.resources_updated.emit(self)
+		resources[key].reset(include_permanent)
 
 # Connects to the resource_updated signal of a resource using a Callable.
 # If the resource doesn't exist yet, it is created.
