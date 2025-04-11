@@ -18,7 +18,7 @@
 		"Echoes of the Past": { "consume": 1.0, "permanent": true }
 	  },
 	  "rewards": {
-		"Story points": { "capacity": 10 }
+		"Story points": { "permanent_capacity": 10 }
 	  }
 	},
 	{
@@ -50,6 +50,17 @@
 	  },
 	  "rewards": {
 		"Focus": {"regeneration": 0.1}
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Steel your spirit. (Increase max Resolve permanently)",
+	  "requirements": {
+		"Echoes of the Past": { "consume": 1.0, "permanent": true },
+		"Resolve": { "appear": { "permanent_capacity": { "max": 10.0 } } }
+	  },
+	  "rewards": {
+		"Resolve": { "permanent_capacity": 5.0 }
 	  }
 	},
 	{

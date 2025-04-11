@@ -6,14 +6,15 @@ extends RefCounted
 var temporary: float = 0.0  # Resets on reincarnation
 var permanent: float = 0.0      # Carries across resets
 var regeneration: float = 0.0   # Per-second visible gain
-var capacity: float = 0.0       # Max cap applies to VISIBLE ONLY
+var temporary_capacity: float = 0.0  # Max temporary cap, resets on reset()
+var permanent_capacity: float = 0.0  # Max permanent cap, does not reset
 var name: String = ""  # Optional display name for this resource (used in tooltip)
 signal resource_updated(myresource: ResourceData)
 
 
 func _init(myname: String, cap: float = 0.0):
 	name = myname
-	capacity = cap
+	permanent_capacity = cap
 
 # === VALUE GETTERS ===
 
@@ -21,25 +22,35 @@ func _init(myname: String, cap: float = 0.0):
 func get_total() -> float:
 	return temporary + permanent
 
-# Returns the current capacity
+# Returns the total capacity (temporary + permanent capacity)
 func get_capacity() -> float:
-	return capacity
+	return temporary_capacity + permanent_capacity
 
-# Returns true if visible group is at or above capacity
+# Returns true if temporary is at or above total capacity
 func is_at_capacity() -> bool:
-	if capacity <= 0.0:
+	var total_capacity := get_capacity()
+	if total_capacity <= 0.0:
 		return false
-	return temporary >= capacity
+	return temporary >= total_capacity
 
 
 # === VISIBLE METHODS ===
 
-func add_capacity(amount: float) -> void:
+# Adds to the temporary (visible) capacity
+func add_temporary_capacity(amount: float) -> void:
 	if amount == 0.0:
 		return
-	capacity += amount
+	temporary_capacity += amount
 	_enforce_capacity()
 	resource_updated.emit(self)
+
+# Adds to the permanent capacity
+func add_permanent_capacity(amount: float) -> void:
+	if amount == 0.0:
+		return
+	permanent_capacity += amount
+	resource_updated.emit(self)
+
 
 func add_temporary(amount: float) -> void:
 	if amount == 0.0:
@@ -87,12 +98,13 @@ func get_permanent() -> float:
 
 # === CAPACITY ENFORCEMENT ===
 
-# Clamp visible value to capacity
+# Clamp temporary value to total capacity
 func _enforce_capacity() -> void:
-	if capacity <= 0.0:
+	var total_capacity := get_capacity()
+	if total_capacity <= 0.0:
 		return
-	if temporary > capacity:
-		temporary = capacity
+	if temporary > total_capacity:
+		temporary = total_capacity
 
 
 # === REGENERATION ===
@@ -114,8 +126,10 @@ func apply_regeneration(delta: float) -> bool:
 # Returns true if all values (visible, hidden, permanent, regeneration) are 0.0 after reset
 func reset(include_permanent: bool = false) -> bool:
 	temporary = 0.0
+	temporary_capacity = 0.0
 	if include_permanent:
 		permanent = 0.0
+		permanent_capacity = 0.0
 		regeneration = 0.0
 	resource_updated.emit(self)
 	return is_empty()
@@ -131,14 +145,16 @@ func to_dict() -> Dictionary:
 		"temporary": temporary,
 		"permanent": permanent,
 		"regeneration": regeneration,
-		"capacity": capacity
+		"temporary_capacity": temporary_capacity,
+		"permanent_capacity": permanent_capacity,
 	}
 
 func from_dict(data: Dictionary) -> void:
 	temporary = data.get("temporary", 0.0)
 	permanent = data.get("permanent", 0.0)
 	regeneration = data.get("regeneration", 0.0)
-	capacity = data.get("capacity", 0.0)
+	temporary_capacity = data.get("temporary_capacity", 0.0)
+	permanent_capacity = data.get("permanent_capacity", 0.0)
 	name = data.get("name", name)
 
 
@@ -148,8 +164,9 @@ func from_dict(data: Dictionary) -> void:
 # A dictionary for temporary: {"temporary": 1}
 # A dictionary for permanent: {"permanent": 1}
 # A dictionary for regeneration: {"regeneration": 0.1}
-# A dictionary for capacity: {"capacity": 10}
-# A dictionary combination: {"capacity": 10, "regeneration": 0.1}
+# A dictionary for permanent capacity: { "permanent_capacity": 10 }
+# A dictionary for temporary capacity: { "temporary_capacity": 10 }
+# A dictionary combination: {"temporary_capacity": 10, "regeneration": 0.1}
 func apply_reward(data: Variant) -> void:
 	if typeof(data) == TYPE_FLOAT or typeof(data) == TYPE_INT:
 		add_temporary(data)
@@ -161,8 +178,10 @@ func apply_reward(data: Variant) -> void:
 		add_permanent(data["permanent"])
 	if data.has("regeneration"):
 		regeneration += data["regeneration"]
-	if data.has("capacity"):
-		capacity += data["capacity"]
+	if data.has("temporary_capacity"):
+		temporary_capacity += data["temporary_capacity"]
+	if data.has("permanent_capacity"):
+		permanent_capacity += data["permanent_capacity"]
 	_enforce_capacity()
 
 
@@ -173,10 +192,11 @@ func get_tooltip() -> String:
 	var parts: Array = []
 
 	# ⏳ Temporary
-	if temporary > 0.0 or capacity > 0.0:
+	var total_cap := get_capacity()
+	if temporary > 0.0 or total_cap > 0.0:
 		var tmp_text := "⏳ %d" % int(temporary)
-		if capacity > 0.0:
-			tmp_text += " / %d" % int(capacity)
+		if total_cap > 0.0:
+			tmp_text += " / %d" % int(total_cap)
 		parts.append(tmp_text)
 
 	# ♾️ Permanent

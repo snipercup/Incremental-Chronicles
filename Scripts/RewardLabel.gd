@@ -33,8 +33,12 @@ func _update_text() -> void:
 	if reward.regeneration != 0.0:
 		lines.append("⏫ %s: +%.2f/s" % [resource_key, reward.regeneration])
 
-	if reward.capacity != 0.0:
-		lines.append("📈 %s Max: +%d" % [resource_key, int(reward.capacity)])
+	if reward.temporary_capacity != 0.0:
+		lines.append("📈 %s Temp Max: +%d" % [resource_key, int(reward.temporary_capacity)])
+
+	if reward.permanent_capacity != 0.0:
+		lines.append("🪙 %s Perm Max: +%d" % [resource_key, int(reward.permanent_capacity)])
+
 
 	text = "\n".join(lines)
 	modulate = color_default
