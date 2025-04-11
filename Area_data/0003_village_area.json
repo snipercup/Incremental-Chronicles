@@ -75,14 +75,14 @@
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story points": 1.0
+		"Story points": 2.0
 	  },
 	  "story_text": "Talk to the old blacksmith sharpening a blade."
 	},
 	{
 	  "action_type": "free",
 	  "rewards": {
-		"Story points": 1.0,
+		"Story points": 2.0,
 		"Focus": 1
 	  },
 	  "story_text": "Pet a friendly village dog."
@@ -93,7 +93,7 @@
 		"Focus": {"consume":1.0}
 	  },
 	  "rewards": {
-		"Story points": 1.0
+		"Story points": 2.0
 	  },
 	  "story_text": "Read the weathered notice board near the inn."
 	},
@@ -147,49 +147,95 @@
 	  },
 	  "story_text": "Some say it teaches the path of rebirth. But few return from the temple unchanged."
 	},
-	{
-	  "action_type": "free",
-	  "requirements": {
-		"h_reincarnation_ready": {
-		  "appear": {
-			"min": 1.0
-		  }
+	  {
+		"action_type": "free",
+		"story_text": "You speak of the temple — how the ritual failed, how something was missing.\n\nThe Elder frowns. 'Long ago, there was something... left behind. Sealed away, perhaps. It’s only a shadow in my mind now.'\n\nHe gestures vaguely toward the outskirts of the village. 'Old places sometimes remember what people forget.'",
+		"requirements": {
+		  "h_visited_temple": { "appear": { "min": 1.0 } }
+		},
+		"rewards": {
+		  "h_vault_search_hint": 1.0
 		}
 	  },
-	  "rewards": {
-		"Story points": 1.0,
-		"h_chapel_search": 1.0
+	  {
+		"action_type": "loop",
+		"cooldown": 2.0,
+		"max_loops": 5,
+		"story_text": "You begin exploring the overgrown outskirts of the village. The land is quiet, half-swallowed by nature. Something feels near, but you’ll need more time.",
+		"requirements": {
+		  "h_vault_search_hint": { "appear": { "min": 1.0 } }
+		},
+		"rewards": {
+		  "Story points": 2.0,
+		  "h_outskirts_explored": 1.0
+		}
 	  },
-	  "story_text": "Someone mentions the chapel keeper once spoke of soul rituals long ago."
-	},
-	{
-	  "action_type": "free",
-	  "requirements": {
-		"h_chapel_search": { "appear": { "min": 1.0 } }
+	  {
+		"action_type": "free",
+		"story_text": "After searching and subtle signs, the foliage parts. You find it: a sealed stone structure, covered in moss and memory. You sense its importance immediately.",
+		"requirements": {
+		  "h_outskirts_explored": { "appear": { "min": 5.0 } }
+		},
+		"rewards": {
+		  "h_vault_discovered": 1.0
+		}
 	  },
-	  "rewards": {
-		"Story points": 1.0,
-		"Soul Vessel": 1.0,
-		"h_has_soul_vessel": 1.0
+	  {
+		"action_type": "free",
+		"story_text": "You brace against the sealed vault door. You are ready. The stone creaks under the pressure — and shifts.",
+		"requirements": {
+		  "h_vault_discovered": { "appear": { "min": 1.0 } },
+		  "Strength": 2.0
+		},
+		"rewards": {
+		  "Soul Vessel": 1.0,
+		  "h_soul_vessel_obtained": 1.0
+		}
 	  },
-	  "story_text": "You lift a loose stone behind the altar. Beneath it rests a shimmering vessel \u2014 cold to the touch."
-	},
-	{
-	  "action_type": "free",
-	  "story_text": "Stroll through the village square. Merchants greet you with nods and warm smiles.",
-	  "rewards": {
-		"Story points": 1.0,
-		"Focus": 1
-	  }
-	},
-	{
-	  "action_type": "free",
-	  "story_text": "Speak with the reeve mediating a land dispute.",
-	  "rewards": {
-		"Story points": 2.0,
-		"Diplomacy": 1.0
-	  }
-	},
+	  {
+		"action_type": "free",
+		"story_text": "You fit the key into the rusted lock. A sharp click echoes from deep within the vault. It’s open.",
+		"requirements": {
+		  "h_vault_discovered": { "appear": { "min": 1.0 } },
+		  "Vault Key": { "consume": 1.0 }
+		},
+		"rewards": {
+		  "Soul Vessel": 1.0,
+		  "h_soul_vessel_obtained": 1.0
+		}
+	  },
+	  {
+		"action_type": "free",
+		"story_text": "'You found it,' the Elder murmurs, eyes wide. 'The old place... I hadn’t dared believe.'\n\nHe touches your arm gently. 'There were keys once. Or great effort. But I’m too old to recall more.'",
+		"requirements": {
+		  "h_vault_discovered": { "appear": { "min": 1.0 } }
+		},
+		"rewards": {
+		  "h_vault_known": 1.0,
+		  "h_vault_quest_started": 1.0
+		}
+	  },
+	  {
+		"action_type": "free",
+		"story_text": "You assist the Forager gathering supplies along the southern trail. She says little, but gives you a knowing look as you finish.",
+		"requirements": {
+		  "h_vault_quest_started": { "appear": { "min": 1.0 } },
+		  "Resolve": { "consume": 5.0 }
+		},
+		"rewards": {
+		  "h_helped_forager": 1.0
+		}
+	  },
+	  {
+		"action_type": "free",
+		"story_text": "'The Forager spoke of your kindness,' the merchant says. 'This key… it’s old, but it’s yours now. May it open more than stone.'",
+		"requirements": {
+		  "h_helped_forager": { "appear": { "min": 1.0 } }
+		},
+		"rewards": {
+		  "Vault Key": 1.0
+		}
+	  },
 	{
 	  "action_type": "loop",
 	  "story_text": "Help harvest turnips in the outer fields.",

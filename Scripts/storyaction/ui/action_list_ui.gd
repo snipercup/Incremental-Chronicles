@@ -104,6 +104,17 @@ func get_first_action_of_type(action_type: String) -> Control:
 				return child
 	return null # No matching action found
 
+# Returns all child action_ui nodes that match the specified action type
+func get_all_actions_of_type(action_type: String) -> Array[Control]:
+	var matching_actions: Array[Control] = []
+
+	for child in get_children():
+		if child.has_method("get_story_action"):
+			var action = child.get_story_action()
+			if action and action.has_method("get_type") and action.get_type() == action_type:
+				matching_actions.append(child)
+
+	return matching_actions
 
 
 # The resource manager will handle rewards
