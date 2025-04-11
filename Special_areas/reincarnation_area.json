@@ -18,7 +18,7 @@
 		"Echoes of the Past": { "consume": 1.0, "permanent": true }
 	  },
 	  "rewards": {
-		"Story Points": {"capacity": 10}
+		"Story points": { "capacity": 10 }
 	  }
 	},
 	{
@@ -38,7 +38,7 @@
 		"Echoes of the Past": { "consume": 1.0, "permanent": true }
 	  },
 	  "rewards": {
-		"Perception": {"permanent": 1}
+		"Perception": { "permanent": 1 }
 	  }
 	},
 	{

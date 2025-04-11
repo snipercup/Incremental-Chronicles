@@ -28,7 +28,7 @@ func _ready():
 	_load_resource_caps()
 
 	# Connect event signals
-	SignalBroker.resources_updated.connect(_on_resources_updated)
+	connect_resource_updated("Story points", _on_story_points_updated)
 	SignalBroker.action_rewarded.connect(_on_action_rewarded)
 	SignalBroker.area_pressed.connect(_on_area_pressed)
 	generation_timer.timeout.connect(_on_generation_timer_timeout)
@@ -66,13 +66,9 @@ func _on_resource_data_updated(_resource: ResourceData) -> void:
 
 # === UI DISPLAY ===
 
-# Updates the story point display label
-func _on_resources_updated(_data = null) -> void:
-	_update_display()
-
-func _update_display() -> void:
-	var story_points := get_value("Story points")
-	text = "Story points: %d/100" % int(story_points)
+# Called only when the "Story points" resource is updated
+func _on_story_points_updated(resource: ResourceData) -> void:
+	text = "Story points: %d/%d" % [int(resource.get_temporary()), int(resource.get_capacity())]
 	_update_tooltip()
 
 # Rebuilds the tooltip with visible + permanent resources
@@ -156,10 +152,8 @@ func consume(reqs: Dictionary) -> bool:
 	for key in reqs:
 		reqs[key].consume_from(resources[key])
 
-	_prune_zeros()
 	SignalBroker.resources_updated.emit(self)
 	return true
-
 
 # === VALUE ACCESS ===
 
@@ -215,19 +209,6 @@ func _get_or_create_resource(key: String) -> ResourceData:
 		resources[key] = new_resource
 	return resources[key]
 
-# Removes unused resources with 0 total
-func _prune_zeros() -> void:
-	var to_remove := []
-	for key in resources:
-		var res: ResourceData = resources[key]
-		if res.get_total() == 0.0:
-			# Disconnect the resource_updated signal before removing the resource
-			if res.resource_updated.is_connected(_on_resource_data_updated):
-				res.resource_updated.disconnect(_on_resource_data_updated)
-			to_remove.append(key)
-	for key in to_remove:
-		resources.erase(key)
-
 # === LOADERS ===
 
 # Loads display-only max values from JSON (UI only)
@@ -259,3 +240,10 @@ func reset_all_resources(include_permanent: bool = false) -> void:
 	for key in to_remove:
 		resources.erase(key)
 	SignalBroker.resources_updated.emit(self)
+
+# Connects to the resource_updated signal of a resource using a Callable.
+# If the resource doesn't exist yet, it is created.
+func connect_resource_updated(key: String, callback: Callable) -> void:
+	var resource: ResourceData = _get_or_create_resource(key)
+	if not resource.resource_updated.is_connected(callback):
+		resource.resource_updated.connect(callback)

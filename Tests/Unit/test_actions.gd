@@ -104,7 +104,7 @@ func test_incremental_chronicles():
 
 	# -- TUNNEL --
 	_open_area(area_list, 0, "Tunnel")
-	assert_eq(action_list.get_children().size(), 10, "There should be 10 visible actions in Tunnel.")
+	assert_eq(action_list.get_children().size(), 9, "There should be 9 visible actions in Tunnel.")
 	resources.apply_rewards({"Focus": 10})
 	
 	await _wait_for_action_type_count(action_list, "free", 0, 15, 0.2, _press_actions_of_type.bind(action_list, "free", 1))
@@ -200,7 +200,7 @@ func test_incremental_chronicles():
 	assert_eq(test_instance.helper.resource_manager.get_value("Story points"), 0.0, "Story points should be spent. 0 remaining.")
 	
 	# We press all the grove actions
-	assert_eq(action_list.get_children().size(), 6, "There should be 6 actions in grove.")
+	assert_eq(action_list.get_children().size(), 5, "There should be 5 actions in grove.")
 	resources.apply_rewards({"Focus": 10})
 	_press_actions_of_type(action_list, "free", 10)
 	await get_tree().process_frame # All actions pressed, grove disappears and we return to tunnel

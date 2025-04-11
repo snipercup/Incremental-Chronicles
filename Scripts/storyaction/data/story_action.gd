@@ -14,10 +14,10 @@ var requirements: Dictionary = {} : set = set_requirements, get = get_requiremen
 # Exaple rewards:
 #	  "rewards": {
 #		"Story points": 15.0, //Adds temporary points
-#		"Focus": {"regeneration": 0.1}, //Adds to regeneration amount
-#		"Perception": {"permanent": 1}, //Adds to permanent amount
-#		"Perception": {"temporary": 1}, //Adds to temporary amount
-#		"Story Points": {"capacity": 10}, //adds to max capacity
+#		"Focus": { "regeneration": 0.1 }, //Adds to regeneration amount
+#		"Perception": { "permanent": 1 }, //Adds to permanent amount
+#		"Perception": { "temporary": 1 }, //Adds to temporary amount
+#		"Story Points": { "capacity": 10 }, //adds to max capacity
 #		"h_hidden_rat_reward": 1.0 //Adds to temporary amount
 #	  }
 var rewards: Dictionary[String,ResourceReward] = {}  # Hold visible/hidden/permanent rewards
