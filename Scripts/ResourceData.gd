@@ -21,6 +21,10 @@ func _init(myname: String, cap: float = 0.0):
 func get_total() -> float:
 	return temporary + permanent
 
+# Returns the current capacity
+func get_capacity() -> float:
+	return capacity
+
 # Returns true if visible group is at or above capacity
 func is_at_capacity() -> bool:
 	if capacity <= 0.0:
@@ -29,6 +33,13 @@ func is_at_capacity() -> bool:
 
 
 # === VISIBLE METHODS ===
+
+func add_capacity(amount: float) -> void:
+	if amount == 0.0:
+		return
+	capacity += amount
+	_enforce_capacity()
+	resource_updated.emit(self)
 
 func add_temporary(amount: float) -> void:
 	if amount == 0.0:

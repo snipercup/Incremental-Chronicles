@@ -1,0 +1,63 @@
+{
+  "name": "Flooded Crossing",
+  "description": "A ruined road ends in a waterlogged field. What used to be a shallow ford is now a wide, sluggish river. Stranded wagons, frayed ropes, and anxious traders dot the shoreline.",
+  "tier": 2.0,
+  "requirements": {
+	"Story points": { "consume": 150.0 },
+	"h_flooded_crossing_access": {"appear": { "min": 1.0 } }
+  },
+  "story_actions": [
+	{
+	  "action_type": "free",
+	  "story_text": "Speak with a merchant stranded beside a half-submerged wagon.",
+	  "requirements": { "Focus": { "consume": 1.0 } },
+	  "rewards": { "Story points": 5.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Inspect the remains of the broken bridge.",
+	  "requirements": { "Focus": { "consume": 1.0 } },
+	  "rewards": { "Story points": 5.0 }
+	},
+	{
+	  "action_type": "loop",
+	  "story_text": "Scavenge wood and nails from abandoned wagons.",
+	  "cooldown": 2.0,
+	  "max_loops": 5,
+	  "requirements": { "Focus": { "consume": 1.0 } },
+	  "rewards": { "Iron Nails": 1.0, "Wood Planks": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Assist a builder in laying makeshift planks.",
+	  "requirements": {
+		"Iron Nails": { "consume": 3.0 },
+		"Wood Planks": { "consume": 3.0 }
+	  },
+	  "rewards": { "Story points": 20.0, "h_planks_installed": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Attempt to negotiate a resource share between rival caravans.",
+	  "rewards": { "Diplomacy": 1.0, "Story points": 10.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Reroute a nearby stream to slow the flooding.",
+	  "requirements": { "Wisdom": 2.0 },
+	  "rewards": { "Story points": 15.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "A young boy mentions an old path behind the willows that stays dry even now...",
+	  "requirements": { "h_planks_installed": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 5.0, "h_dry_path_hint": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Scout the path behind the willows, finding stable footing through the reeds.",
+	  "requirements": { "h_dry_path_hint": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 15.0, "h_hillstead_access": 1.0 }
+	}
+  ]
+}

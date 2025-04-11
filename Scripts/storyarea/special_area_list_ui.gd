@@ -38,9 +38,9 @@ func _refresh_area_list() -> void:
 func _add_area_to_ui(area: StoryArea) -> void:
 	if story_area_ui_scene:
 		var area_ui = story_area_ui_scene.instantiate()
+		add_child(area_ui)
 		if area_ui.has_method("set_story_area"):
 			area_ui.set_story_area(area)
-		add_child(area_ui)
 
 # When reincarnation starts, reveal the special areas panel
 func _on_reincarnation_started(_action: StoryAction) -> void:

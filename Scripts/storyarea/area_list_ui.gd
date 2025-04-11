@@ -11,6 +11,7 @@ extends VBoxContainer
 
 
 var area_list: Array[StoryArea] # The data for each area
+var selected_story_area: StoryArea = null # The currently active/selected area
 
 func _ready() -> void:
 	_connect_default_signals()
@@ -40,18 +41,28 @@ func _refresh_area_list() -> void:
 func _add_area_to_ui(area: StoryArea) -> void:
 	if story_area_ui_scene:
 		var area_ui = story_area_ui_scene.instantiate()
+		add_child(area_ui)
+
 		if area_ui.has_method("set_story_area"):
 			area_ui.set_story_area(area)
-		add_child(area_ui)
+
+		if area_ui.has_method("set_is_active"):
+			area_ui.set_is_active(area == selected_story_area)
+
 
 # Handle area pressed signal
 func _on_area_pressed(myarea: StoryArea) -> void:
 	if myarea.get_state() == StoryArea.State.LOCKED:
 		return
+
+	selected_story_area = myarea
 	action_list.set_area(myarea)
+	_refresh_area_list() # Refresh visual selection states
+
 
 # Handle area unlocked signal
 func _on_area_unlocked(myarea: StoryArea) -> void:
+	selected_story_area = myarea
 	_refresh_area_list()
 	action_list.set_area(myarea)
 
@@ -66,9 +77,13 @@ func _on_area_removed(removed_area: StoryArea) -> void:
 	if removed_area in area_list:
 		area_list.erase(removed_area)
 		_refresh_area_list()
-		# Set the first area again if one remains
+		# Set the first area as selected if any remain
 		if area_list.size() > 0:
-			action_list.set_area(area_list[0])
+			var first := area_list[0]
+			selected_story_area = first
+			action_list.set_area(first)
+			_refresh_area_list()
+
 
 # Called when an area is removed from the game
 func _on_area_visibility_changed(visible_area: StoryArea) -> void:
@@ -86,9 +101,13 @@ func _on_reincarnation_finished(_action: StoryAction) -> void:
 	if areas_panel_container:
 		areas_panel_container.visible = true
 	_connect_default_signals()
-	# Set the first area again if one remains
+	# Set the first area as selected if any remain
 	if area_list.size() > 0:
-		action_list.set_area(area_list[0])
+		var first := area_list[0]
+		selected_story_area = first
+		action_list.set_area(first)
+		_refresh_area_list()
+
 
 # Helper to (re)connect all default signals
 func _connect_default_signals() -> void:

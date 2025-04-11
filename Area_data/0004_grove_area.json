@@ -34,17 +34,7 @@
 		"Focus": {"consume":1.0}
 	  },
 	  "rewards": {
-		"Story points": 3.0
-	  }
-	},
-	{
-	  "action_type": "free",
-	  "story_text": "Listen closely \u2014 faint whispers echo through the leaves.",
-	  "requirements": {
-		"Focus": {"consume":1.0}
-	  },
-	  "rewards": {
-		"Story points": 3.0
+		"Story points": 6.0
 	  }
 	},
 	{

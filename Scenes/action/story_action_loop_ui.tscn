@@ -21,6 +21,7 @@ progress_bar = NodePath("ProgressBar")
 layout_mode = 2
 size_flags_vertical = 3
 text = "Walk trough the forest"
+autowrap_mode = 3
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 layout_mode = 2

@@ -11,10 +11,10 @@ var capacity: float = 0.0
 # Example rewards json:
 #	  "rewards": {
 #		"Story points": 15.0, //Adds temporary points
-#		"Focus": {"regeneration": 0.1}, //Adds to regeneration amount
-#		"Perception": {"permanent": 1}, //Adds to permanent amount
-#		"Perception": {"temporary": 1}, //Adds to temporary amount
-#		"Story Points": {"capacity": 10}, //adds to max capacity
+#		"Focus": { "regeneration": 0.1 }, //Adds to regeneration amount
+#		"Perception": { "permanent": 1 }, //Adds to permanent amount
+#		"Perception": { "temporary": 1 }, //Adds to temporary amount
+#		"Story Points": { "capacity": 10 }, //adds to max capacity
 #		"h_hidden_rat_reward": 1.0 //Adds to temporary amount
 #	  }
 
@@ -49,8 +49,7 @@ func apply_to(resource: ResourceData) -> void:
 	resource.add_temporary(temporary)
 	resource.add_permanent(permanent)
 	resource.regeneration += regeneration
-	resource.capacity += capacity
-
+	resource.add_capacity(capacity)
 
 
 # === SERIALIZATION ===

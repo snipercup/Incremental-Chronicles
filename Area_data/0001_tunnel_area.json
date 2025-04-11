@@ -75,19 +75,7 @@
 		}
 	  },
 	  "rewards": {
-		"Story points": 4.0
-	  }
-	},
-	{
-	  "action_type": "free",
-	  "story_text": "Step ten paces east.",
-	  "requirements": {
-		"Focus": {
-		  "consume": 1.0
-		}
-	  },
-	  "rewards": {
-		"Story points": 4.0
+		"Story points": 6.0
 	  }
 	},
 	{
@@ -97,7 +85,7 @@
 		"Focus": { "consume": 1.0 }
 	  },
 	  "rewards": {
-		"Story points": 4.0
+		"Story points": 6.0
 	  }
 	},
 	{
