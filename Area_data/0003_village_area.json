@@ -52,7 +52,7 @@
 		}
 	  },
 	  "rewards": {
-		"Story points": 7.0,
+		"Story points": 10.0,
 		"h_npc_quest_active": 1.0
 	  },
 	  "story_text": "I saw his trail. It led into the hollow grove. Will you look for him?"
@@ -211,36 +211,14 @@
 		}
 	},
 	{
-		"action_type": "free",
-		"story_text": "'You found it,' the Elder murmurs, eyes wide. 'The old place... I hadn’t dared believe.'\n\nHe touches your arm gently. 'There were keys once. Or great effort. But I’m too old to recall more.'",
-		"requirements": {
-		  "h_vault_discovered": { "appear": { "min": 1.0 } }
-		},
-		"rewards": {
-		  "h_vault_known": 1.0,
-		  "h_vault_quest_started": 1.0
-		}
-	},
-	{
-		"action_type": "free",
-		"story_text": "You assist the Forager gathering supplies along the southern trail. She says little, but gives you a knowing look as you finish.",
-		"requirements": {
-		  "h_vault_quest_started": { "appear": { "min": 1.0 } },
-		  "Resolve": { "consume": 5.0 }
-		},
-		"rewards": {
-		  "h_helped_forager": 1.0
-		}
-	},
-	{
-		"action_type": "free",
-		"story_text": "'The Forager spoke of your kindness,' the merchant says. 'This key… it’s old, but it’s yours now. May it open more than stone.'",
-		"requirements": {
-		  "h_helped_forager": { "appear": { "min": 1.0 } }
-		},
-		"rewards": {
-		  "Vault Key": 1.0
-		}
+	  "action_type": "free",
+	  "story_text": "The Elder calls to you quietly. 'You found it, didn’t you? The stone place. I dreamt of it again. There was a key. I gave it away — to someone I trusted. A quiet girl, always among the herbs.'",
+	  "requirements": {
+		"h_vault_discovered": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"h_vault_key_rumor": 1.0
+	  }
 	},
 	{
 	  "action_type": "loop",
@@ -307,14 +285,6 @@
 	},
 	{
 	  "action_type": "free",
-	  "story_text": "A child speaks of a ghost light in the hills beyond the field.",
-	  "rewards": {
-		"Story points": 3.0,
-		"h_grove_rumor": 1.0
-	  }
-	},
-	{
-	  "action_type": "free",
 	  "story_text": "You meet Elder Branna near the well. She tells you of a massive landslide that has buried the forest path to the east. 'It fell after a quake some winters ago. We've sent for help, but none came. That path must be cleared. There are people waiting.'",
 	  "rewards": {
 		"Story points": 3.0,
@@ -342,6 +312,72 @@
 	  "rewards": {
 		"Story points": 25.0,
 		"h_flooded_crossing_access": 1.0
+	  }
+	},
+	
+	{
+	  "action_type": "free",
+	  "story_text": "You see a woman sorting herbs near the well. She nods as you approach but says little.\n\nA nearby villager whispers, 'That's Lyra. Brings herbs to the chapel every dusk. She doesn't speak much, but she listens.'",
+	  "rewards": {
+		"Story points": 2.0,
+		"h_lyra_intro": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "The chapel priest frowns. 'Lyra’s late. She never misses dusk rites. If you’re heading that way, could you check on her? She gathers herbs near the southern trail.'",
+	  "requirements": {
+		"h_lyra_intro": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"Story points": 2.0,
+		"h_lyra_help_prompt": 1.0
+	  }
+	},
+	{
+	  "action_type": "loop",
+	  "story_text": "You find Lyra crouched beside the trail, carefully bundling herbs. She glances up, surprised. 'I... didn’t expect help.'\n\nYou gather beside her in silence, working until her basket is full.",
+	  "requirements": {
+		"h_lyra_help_prompt": { "appear": { "min": 1.0 } }
+	  },
+	  "cooldown": 1.0,
+	  "max_loops": 5,
+	  "rewards": {
+		"h_helped_lyra": 1.0,
+		"Herbs": 2.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You speak to Lyra of the vault — of the old stone and the silence within. Her expression shifts, almost imperceptibly. She nods once, then returns to her gathering.",
+	  "requirements": {
+		"h_vault_key_rumor": { "appear": { "min": 1.0 } },
+		"h_helped_lyra": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"h_lyra_knows_your_goal": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Lyra presses something into your hand. A rusted key. Her eyes don’t meet yours. 'The old place… you’ll understand when you see it.'",
+	  "requirements": {
+		"h_lyra_knows_your_goal": { "appear": { "min": 1.0 } },
+		"h_helped_lyra": { "appear": { "min": 5.0 } }
+	  },
+	  "rewards": {
+		"Vault Key": 1.0,
+		"h_lyra_gave_key": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You glimpse Lyra placing herbs gently on the chapel steps. She doesn't enter, but her gaze lingers on the altar.\n\nA soft voice reaches your ear: 'Some burdens don’t need words.'",
+	  "requirements": {
+		"h_lyra_gave_key": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"Resolve": 5.0
 	  }
 	}
   ]
