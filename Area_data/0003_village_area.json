@@ -119,18 +119,24 @@
 	},
 	{
 	  "action_type": "free",
+	  "story_text": "You return to the village. The air feels heavier, your steps slower. The grove has left its mark on you.",
 	  "requirements": {
-		"h_temple_intro_1": {
-		  "appear": {
-			"min": 1.0
-		  }
-		}
+		"h_temple_intro_1": { "appear": { "min": 1.0 } }
 	  },
 	  "rewards": {
-		"Story points": 1.0,
-		"h_temple_intro_2": 1.0
+		"h_returned_from_grove": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "The elder watches you from afar. As you pass, he stops you. 'You saw it, didn’t you? The grove has stirred — it hasn’t spoken in years.'\n\nHe lowers his voice. 'There was another place, once. Older. Stone and silence. Some say it reshaped those who entered.'",
+	  "requirements": {
+		"h_returned_from_grove": { "appear": { "min": 1.0 } }
 	  },
-	  "story_text": "The elder leans in. There\u2019s a place they don\u2019t speak of \u2014 carved in stone, hidden from the sun."
+	  "rewards": {
+		"Story points": 2.0,
+		"h_temple_intro_2": 1.0
+	  }
 	},
 	{
 	  "action_type": "free",
@@ -147,7 +153,7 @@
 	  },
 	  "story_text": "Some say it teaches the path of rebirth. But few return from the temple unchanged."
 	},
-	  {
+	{
 		"action_type": "free",
 		"story_text": "You speak of the temple — how the ritual failed, how something was missing.\n\nThe Elder frowns. 'Long ago, there was something... left behind. Sealed away, perhaps. It’s only a shadow in my mind now.'\n\nHe gestures vaguely toward the outskirts of the village. 'Old places sometimes remember what people forget.'",
 		"requirements": {
@@ -156,8 +162,8 @@
 		"rewards": {
 		  "h_vault_search_hint": 1.0
 		}
-	  },
-	  {
+	},
+	{
 		"action_type": "loop",
 		"cooldown": 2.0,
 		"max_loops": 5,
@@ -169,8 +175,8 @@
 		  "Story points": 2.0,
 		  "h_outskirts_explored": 1.0
 		}
-	  },
-	  {
+	},
+	{
 		"action_type": "free",
 		"story_text": "After searching and subtle signs, the foliage parts. You find it: a sealed stone structure, covered in moss and memory. You sense its importance immediately.",
 		"requirements": {
@@ -179,8 +185,8 @@
 		"rewards": {
 		  "h_vault_discovered": 1.0
 		}
-	  },
-	  {
+	},
+	{
 		"action_type": "free",
 		"story_text": "You brace against the sealed vault door. You are ready. The stone creaks under the pressure — and shifts.",
 		"requirements": {
@@ -191,8 +197,8 @@
 		  "Soul Vessel": 1.0,
 		  "h_soul_vessel_obtained": 1.0
 		}
-	  },
-	  {
+	},
+	{
 		"action_type": "free",
 		"story_text": "You fit the key into the rusted lock. A sharp click echoes from deep within the vault. It’s open.",
 		"requirements": {
@@ -203,8 +209,8 @@
 		  "Soul Vessel": 1.0,
 		  "h_soul_vessel_obtained": 1.0
 		}
-	  },
-	  {
+	},
+	{
 		"action_type": "free",
 		"story_text": "'You found it,' the Elder murmurs, eyes wide. 'The old place... I hadn’t dared believe.'\n\nHe touches your arm gently. 'There were keys once. Or great effort. But I’m too old to recall more.'",
 		"requirements": {
@@ -214,8 +220,8 @@
 		  "h_vault_known": 1.0,
 		  "h_vault_quest_started": 1.0
 		}
-	  },
-	  {
+	},
+	{
 		"action_type": "free",
 		"story_text": "You assist the Forager gathering supplies along the southern trail. She says little, but gives you a knowing look as you finish.",
 		"requirements": {
@@ -225,8 +231,8 @@
 		"rewards": {
 		  "h_helped_forager": 1.0
 		}
-	  },
-	  {
+	},
+	{
 		"action_type": "free",
 		"story_text": "'The Forager spoke of your kindness,' the merchant says. 'This key… it’s old, but it’s yours now. May it open more than stone.'",
 		"requirements": {
@@ -235,7 +241,7 @@
 		"rewards": {
 		  "Vault Key": 1.0
 		}
-	  },
+	},
 	{
 	  "action_type": "loop",
 	  "story_text": "Help harvest turnips in the outer fields.",
