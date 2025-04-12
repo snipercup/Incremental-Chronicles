@@ -15,6 +15,28 @@ extends GutTest
 var test_instance: Control
 const INCREMENTAL_CHRONICLE = preload("res://Scenes/incremental_chronicle.tscn")
 
+
+# Used for filtering story actions based on specific criteria
+class ActionQuery:
+	# Filter by action type (e.g., "free", "loop", "combat")
+	var type_name: String = ""
+	
+	# Partial or full story text match
+	var story_text: String = ""
+	
+	# Requires this key in requirements
+	var required_key: String = ""
+	
+	# Requires this key in rewards
+	var reward_key: String = ""
+
+	func _init(_type := "", _story_text := "", _required_key := "", _reward_key := ""):
+		type_name = _type
+		story_text = _story_text
+		required_key = _required_key
+		reward_key = _reward_key
+
+
 # Runs before all tests.
 #func before_all():
 	#await get_tree().process_frame
@@ -66,10 +88,14 @@ func _press_all_actions_of_type(action_list: Control, type_name: String) -> void
 			action_ui.action_instance._on_action_button_pressed()
 			await get_tree().process_frame
 
-# Returns a list of actions matching optional filters (any null/empty filters are ignored)
-func _get_actions_by_filters(action_list: Control, type := "", story_text := "", required_key := "", reward_key := "") -> Array:
-	return action_list.get_actions_by_filters(type, story_text, required_key, reward_key)
-
+# Returns a list of actions that match the given query filters
+func _get_actions_by_filters(action_list: Control, query: ActionQuery) -> Array:
+	return action_list.get_actions_by_filters(
+		query.type_name,
+		query.story_text,
+		query.required_key,
+		query.reward_key
+	)
 
 # Wait until a resource reaches a given threshold
 func _wait_for_resource(store: Label, permanent: bool, key: String, threshold: float, timeout := 2.0, interval := 1.0) -> void:
@@ -123,6 +149,23 @@ func _run_test_sequence(
 			return true
 	return false
 
+# Finds and runs a loop action until the specified resource reaches a threshold
+func _run_loop_until_resource(
+	query: ActionQuery,
+	threshold: float,
+	permanent: bool = false
+) -> void:
+	var action_list: Control = test_instance.action_list
+	var resources: Label = test_instance.helper.resource_manager
+	var resource_name: String = query.reward_key
+	
+	var actions := _get_actions_by_filters(action_list, query)
+	assert_true(actions.size() > 0, "No matching loop action found.")
+	var loop_action: Control = actions[0]
+	loop_action.story_action.cooldown = 0.1
+	loop_action.action_instance._on_action_button_pressed()
+	await _wait_for_resource(resources, permanent, resource_name, threshold)
+
 
 func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 	var action_list: Control = test_instance.action_list
@@ -144,12 +187,9 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 	assert_eq(test_instance.helper.resource_manager.get_value("Story points"), 30.0, "There should be 30 story points.")
 
 	# Loop to generate Resolve
-	var loop_action: Control = action_list.get_first_action_of_type("loop")
-	assert_true(loop_action != null, "Expected a loop action.")
-	loop_action.story_action.cooldown = 0.1
-	loop_action.action_instance._on_action_button_pressed()
-	_wait_for_resource(resources, false, "Resolve", 1.0)
-
+	var myactionquery: ActionQuery = ActionQuery.new("loop","","","Resolve")
+	await _run_loop_until_resource(myactionquery,1.0)
+	
 	# Force Resolve to 10 to proceed
 	resources.apply_rewards({"Resolve": 10})
 	_wait_for_resource(resources, false, "Resolve", 10.0)
@@ -182,11 +222,8 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 	assert_true(await wait_until(num_children.bind(1), 2, 0.5), "Expected 1 child to remain")
 
 	# Loop to generate Miles
-	loop_action = action_list.get_first_action_of_type("loop")
-	assert_true(loop_action != null, "Expected a loop action.")
-	loop_action.story_action.cooldown = 0.01
-	loop_action.action_instance._on_action_button_pressed()
-	_wait_for_resource(resources, false, "h_miles", 10.0)
+	myactionquery.reward_key = "h_miles"
+	await _run_loop_until_resource(myactionquery,10.0)
 
 	await get_tree().process_frame
 	await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2)
@@ -206,11 +243,9 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 	
 
 	# Loop to generate turnips
-	loop_action = action_list.get_first_action_of_type("loop")
-	assert_true(loop_action != null, "Expected a loop action.")
-	loop_action.story_action.cooldown = 0.1
-	loop_action.action_instance._on_action_button_pressed()
-	_wait_for_resource(resources, false, "Turnips", 10.0)
+	myactionquery.reward_key = "Turnips"
+	await _run_loop_until_resource(myactionquery,10.0)
+	
 	
 	# Wait for 2 free actions to be visible (one appears as we collect tulips)
 	# Then wait for one action to remain while we press the free action
@@ -249,23 +284,17 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 	await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
 
 	
-	# Explore the village outskirts until 1 loop action remains
-	loop_action = action_list.get_first_action_of_type("loop")
-	assert_true(loop_action != null, "Expected a loop action.")
-	loop_action.story_action.cooldown = 0.1
-	loop_action.action_instance._on_action_button_pressed()
-	await _wait_for_action_type_count(action_list, "loop", 1, 15, 0.2)
+	# Explore the village outskirts
+	myactionquery.reward_key = "h_outskirts_explored"
+	await _run_loop_until_resource(myactionquery,5.0)
 	
 	_press_actions_of_type(action_list, "free", 1)
 	# Keep pressing free actions until 3 remains
 	await _wait_for_action_type_count(action_list, "free", 3, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
 	
 	# collect herbs with lyra
-	loop_action = action_list.get_first_action_of_type("loop")
-	assert_true(loop_action != null, "Expected a loop action.")
-	loop_action.story_action.cooldown = 0.1
-	loop_action.action_instance._on_action_button_pressed()
-	await _wait_for_action_type_count(action_list, "loop", 0, 15, 0.2)
+	myactionquery.reward_key = "Herbs"
+	await _run_loop_until_resource(myactionquery,10.0)
 	
 	# Keep pressing free actions until 3 remains
 	await _wait_for_action_type_count(action_list, "free", 2, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
