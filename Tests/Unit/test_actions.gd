@@ -214,7 +214,7 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 	# Loop to generate Miles
 	myactionquery.reward_key = "h_miles"
 	await _wait_for_action_query_match(action_list,myactionquery)
-	await _run_loop_until_resource(myactionquery,10.0)
+	await _run_loop_until_resource(myactionquery,8.0)
 	
 	# Keep pressing free actions. Once they are all gone, we return to tunnel, which has 1 loop action
 	await _wait_for_action_type_count(action_list, "loop", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))

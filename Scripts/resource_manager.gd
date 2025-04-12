@@ -42,6 +42,7 @@ func _on_action_rewarded(myaction: StoryAction):
 		var reward: ResourceReward = myaction.get_rewards()[key]
 		var resource := _get_or_create_resource(key)
 		reward.apply_to(resource)
+	_update_tooltip()
 
 
 # Called when an area is pressed — checks and consumes unlock requirements

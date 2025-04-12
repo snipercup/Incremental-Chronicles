@@ -56,7 +56,7 @@
 	  "action_type": "loop",
 	  "story_text": "Keep walking down the road.",
 	  "cooldown": 2.0,
-	  "max_loops": 10.0,
+	  "max_loops": 8.0,
 	  "rewards": {
 		"h_miles": 1.0
 	  }
@@ -65,7 +65,7 @@
 	  "action_type": "free",
 	  "story_text": "A village appears in the distance \u2014 small homes and the sound of voices greet you. You've reached the end of the road.",
 	  "requirements": {
-		"h_miles": { "appear": { "min": 10.0 } }
+		"h_miles": { "appear": { "min": 8.0 } }
 	  },
 	  "rewards": {
 		"Story points": 25.0,

@@ -327,7 +327,7 @@
 	  "action_type": "free",
 	  "story_text": "Attempt to clear the landslide blocking the eastern path.",
 	  "requirements": {
-		"Strength": 5.0,
+		"Strength": 4.0,
 		"Resolve": 20.0,
 		"h_path_obstructed": { "appear": { "min": 1.0 } }
 	  },
