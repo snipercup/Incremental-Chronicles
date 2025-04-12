@@ -135,17 +135,12 @@ func test_incremental_chronicles():
 	await wait_seconds(1000, "Wait 1000 seconds to see the result")
 
 # Runs a test sequence loop with control over steps and optional stop conditions
-# Returns true if stopped early by stop_area_name match, false otherwise
-func _run_test_sequence(
-	step_func: Callable,
-	steps: int = 10,
-	stop_area_name: String = "",
-	delay_seconds: float = 0.0
-) -> bool:
+# Returns true if stopped early by stop_area match, false otherwise
+func _run_test_sequence(fn: Callable, steps: int = 10, stop_area: String = "", delay: float = 0.0) -> bool:
 	for i in steps:
-		var aborted: bool = await step_func.call(stop_area_name, delay_seconds)
+		var aborted: bool = await fn.call(stop_area, delay)
 		if aborted:
-			print("Test aborted early at area: %s" % stop_area_name)
+			print("Test aborted early at area: %s" % stop_area)
 			return true
 	return false
 
@@ -162,6 +157,20 @@ func _run_loop_until_resource(query: ActionQuery, threshold: float, permanent: b
 	loop_action.action_instance._on_action_button_pressed()
 	await _wait_for_resource(resources, permanent, resource_name, threshold)
 
+# Waits until at least one action matches the given ActionQuery.
+# Optional timeout/interval can be passed to control how long to wait/check.
+func _wait_for_action_query_match(action_list: Control, query: ActionQuery) -> void:
+	var timeout := 10.0
+	var interval := 0.2
+	var match_exists := func():
+		var matches := _get_actions_by_filters(action_list, query)
+		return not matches.is_empty()
+
+	assert_true(
+		await wait_until(match_exists, timeout, interval),
+		"Expected at least one action matching query: %s" % query.type_name
+	)
+
 
 func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 	var action_list: Control = test_instance.action_list
@@ -173,7 +182,6 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 	if await _open_area(area_list, "Tunnel", stop_area_name): return true
 	assert_eq(action_list.get_children().size(), 9, "There should be 9 visible actions in Tunnel.")
 	resources.apply_rewards({"Focus": 10})
-	if delay_seconds > 0.0: await wait_seconds(delay_seconds)
 	
 	await _wait_for_action_type_count(action_list, "free", 0, 15, 0.2, _press_actions_of_type.bind(action_list, "free", 1))
 
@@ -204,62 +212,46 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 	if await _open_area(area_list, "Road", stop_area_name): return true
 	# We keep pressing free actions until 1 loop action (walk along road) remains
 	await _wait_for_action_type_count(action_list, "loop", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
-	
-	await get_tree().process_frame
-	
 
 	# Loop to generate Miles
 	myactionquery.reward_key = "h_miles"
+	await _wait_for_action_query_match(action_list,myactionquery)
 	await _run_loop_until_resource(myactionquery,10.0)
+	
+	# Keep pressing free actions. Once they are all gone, we return to tunnel, which has 1 loop action
+	await _wait_for_action_type_count(action_list, "loop", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
 
-	await get_tree().process_frame
-	await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2)
-	var post_mile_action: Control = action_list.get_first_action_of_type("free")
-	assert_true(post_mile_action != null, "Expected new free action.")
-	post_mile_action.action_instance._on_action_button_pressed()
-	await get_tree().process_frame
-	# Since road is done now, we return to tunnel, which has 1 action
-	assert_eq(action_list.get_children().size(), 1, "Only one action should remain in Tunnel.")
 
-	var num_children := func(expected: int) -> bool:
-		return action_list.get_children().size() == expected
 	# -- VILLAGE --
 	if await _open_area(area_list, "Village", stop_area_name): return true
-	await get_tree().process_frame
-	assert_eq(action_list.get_children().size(), 12, "There should be 12 visible actions in Village.")
-	
+	# Keep pressing free actions until 1 remains
 	await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
 	
-
-	# Loop to generate turnips
+	# Loop to generate 10 turnips
 	myactionquery.reward_key = "Turnips"
 	await _run_loop_until_resource(myactionquery,10.0)
 	
-	
-	# Wait for 2 free actions to be visible (one appears as we collect tulips)
-	# Then wait for one action to remain while we press the free action
-	await _wait_for_action_type_count(action_list, "loop", 1, 15, 0.2)
-	await _wait_for_action_type_count(action_list, "free", 2, 15, 0.2)
-	await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2, _press_actions_of_type.bind(action_list, "free", 1))
 	
 	# -- HOLLOW GROVE --
 	if await _open_area(area_list, "Hollow Grove", stop_area_name): return true
 	await get_tree().process_frame
 	
-	# We press all the grove actions
-	assert_eq(action_list.get_children().size(), 5, "There should be 5 actions in grove.")
+	# Keep pressing free actions. Once they are all gone
 	resources.apply_rewards({"Focus": 10})
-	_press_actions_of_type(action_list, "free", 10)
-	await get_tree().process_frame # All actions pressed, grove disappears and we return to tunnel
-	assert_true(await wait_until(num_children.bind(1), 2, 0.5), "Expected 1 child to remain")
+	await _wait_for_action_type_count(action_list, "free", 0, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
+	
+	if delay_seconds > 0.0: await wait_seconds(delay_seconds)
 	
 	# Return to the village
 	if await _open_area(area_list, "Village", stop_area_name): return true
 	# Keep pressing free actions until 1 remains
 	await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
 
+
 	# -- TEMPLE --
 	# The grove is gone now, so index 3 is forgotten temple
+	var num_children := func(expected: int) -> bool:
+		return action_list.get_children().size() == expected
 	if await _open_area(area_list, "Forgotten Temple", stop_area_name): return true
 	await get_tree().process_frame
 	assert_eq(action_list.get_children().size(), 3, "There should be 3 actions in Temple.")

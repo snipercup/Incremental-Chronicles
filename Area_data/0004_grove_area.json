@@ -122,7 +122,8 @@
 	  "action_type": "loop",
 	  "story_text": "In the deep of the Hollow Grove, you find twisted, knotted trees — their roots tangled like memory. With care, you extract timber that resists the damp.",
 	  "requirements": {
-		"Focus": { "consume": 1.0 }
+		"Focus": { "consume": 1.0 },
+		"h_bridge_phase_2_active": { "appear": { "min": 1.0 } }
 	  },
 	  "cooldown": 2.0,
 	  "max_loops": 3,
