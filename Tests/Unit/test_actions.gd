@@ -92,13 +92,15 @@ func _wait_for_action_type_count(action_list: Control, type_name: String, count:
 	assert_true(await wait_until(has_enough, timeout, interval), "Expected %d actions of type '%s'" % [count, type_name])
 
 
-# Opens an area by name (instead of index) and verifies it
-func _open_area(area_list: Control, area_name: String) -> void:
+# Opens an area by name, returns true if it's the stop_area_name
+func _open_area(area_list: Control, area_name: String, stop_area_name := "") -> bool:
 	var area_ui = area_list.get_area_by_name(area_name)
 	if area_ui:
 		area_ui._on_area_button_pressed()
 		await get_tree().process_frame
-		return
+		if stop_area_name != "" and area_name == stop_area_name:
+			return true  # We reached the stop area
+	return false
 
 
 # Test if the game initializes correctly.
@@ -107,26 +109,31 @@ func test_incremental_chronicles():
 	await wait_seconds(1000, "Wait 10 seconds to see the result")
 
 # Runs a test sequence loop with control over steps and optional stop conditions
+# Returns true if stopped early by stop_area_name match, false otherwise
 func _run_test_sequence(
 	step_func: Callable,
 	steps: int = 10,
 	stop_area_name: String = "",
 	delay_seconds: float = 0.0
-) -> void:
+) -> bool:
 	for i in steps:
-		await step_func.call()
+		var aborted: bool = await step_func.call(stop_area_name)
+		if aborted:
+			print("Test aborted early at area: %s" % stop_area_name)
+			return true
 		if delay_seconds > 0.0:
 			await wait_seconds(delay_seconds)
+	return false
 
 
-func my_test_sequence():
+func my_test_sequence(stop_area_name := "") -> bool:
 	var action_list: Control = test_instance.action_list
 	var area_list: Control = test_instance.area_list
 	var special_area_list: Control = test_instance.special_area_list
 	var resources: Label = test_instance.helper.resource_manager
 
 	# -- TUNNEL --
-	_open_area(area_list, "Tunnel")
+	if await _open_area(area_list, "Tunnel", stop_area_name): return true
 	assert_eq(action_list.get_children().size(), 9, "There should be 9 visible actions in Tunnel.")
 	resources.apply_rewards({"Focus": 10})
 	
@@ -167,7 +174,7 @@ func my_test_sequence():
 	assert_eq(action_list.get_children().size(), 1, "Only the loop action should remain.")
 
 	# -- ROAD --
-	_open_area(area_list, "Road")
+	if await _open_area(area_list, "Road", stop_area_name): return true
 	# We have 0 story points after entering road
 	assert_eq(test_instance.helper.resource_manager.get_value("Story points"), 0.0, "There should be 0 story points.")
 	await get_tree().process_frame
@@ -192,7 +199,7 @@ func my_test_sequence():
 	assert_eq(action_list.get_children().size(), 1, "Only one action should remain in Tunnel.")
 
 	# -- VILLAGE --
-	_open_area(area_list, "Village")
+	if await _open_area(area_list, "Village", stop_area_name): return true
 	await get_tree().process_frame
 	assert_eq(action_list.get_children().size(), 12, "There should be 12 visible actions in Village.")
 	
@@ -213,7 +220,7 @@ func my_test_sequence():
 	await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2, _press_actions_of_type.bind(action_list, "free", 1))
 	
 	# -- HOLLOW GROVE --
-	_open_area(area_list, "Hollow Grove")
+	if await _open_area(area_list, "Hollow Grove", stop_area_name): return true
 	await get_tree().process_frame
 	
 	# We press all the grove actions
@@ -224,13 +231,13 @@ func my_test_sequence():
 	assert_true(await wait_until(num_children.bind(1), 2, 0.5), "Expected 1 child to remain")
 	
 	# Return to the village
-	_open_area(area_list, "Village")
+	if await _open_area(area_list, "Village", stop_area_name): return true
 	# Keep pressing free actions until 1 remains
 	await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
 
 	# -- TEMPLE --
 	# The grove is gone now, so index 3 is forgotten temple
-	_open_area(area_list, "Forgotten Temple")
+	if await _open_area(area_list, "Forgotten Temple", stop_area_name): return true
 	await get_tree().process_frame
 	assert_eq(action_list.get_children().size(), 3, "There should be 3 actions in Temple.")
 	_press_actions_of_type(action_list, "free", 3)
@@ -238,7 +245,7 @@ func my_test_sequence():
 
 
 	# Return to the village
-	_open_area(area_list, "Village")
+	if await _open_area(area_list, "Village", stop_area_name): return true
 	# Keep pressing free actions until 1 remains
 	await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
 
@@ -266,7 +273,7 @@ func my_test_sequence():
 	
 	 #-- TEMPLE --
 	 #Index 3 is forgotten temple
-	_open_area(area_list, "Forgotten Temple")
+	if await _open_area(area_list, "Forgotten Temple", stop_area_name): return true
 	await get_tree().process_frame
 	_press_actions_of_type(action_list, "free", 1)
 	assert_true(await wait_until(num_children.bind(1), 2, 0.5), "Expected 1 child to remain")
@@ -281,4 +288,4 @@ func my_test_sequence():
 	assert_true(special_area_list.special_areas_panel_container.visible == true, "Expected special_area_list to be invisible")
 	# We have entered the special reincarnation area, which holds 4 actions
 	assert_true(await wait_until(num_children.bind(5), 2, 0.5), "Expected 5 children to remain")
-	
+	return false
