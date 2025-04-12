@@ -105,8 +105,8 @@ func _open_area(area_list: Control, area_name: String, stop_area_name := "") -> 
 
 # Test if the game initializes correctly.
 func test_incremental_chronicles():
-	await _run_test_sequence(my_test_sequence,1,"",0)
-	await wait_seconds(1000, "Wait 10 seconds to see the result")
+	await _run_test_sequence(my_test_sequence,1,"",0.0)
+	await wait_seconds(1000, "Wait 1000 seconds to see the result")
 
 # Runs a test sequence loop with control over steps and optional stop conditions
 # Returns true if stopped early by stop_area_name match, false otherwise
@@ -117,16 +117,14 @@ func _run_test_sequence(
 	delay_seconds: float = 0.0
 ) -> bool:
 	for i in steps:
-		var aborted: bool = await step_func.call(stop_area_name)
+		var aborted: bool = await step_func.call(stop_area_name, delay_seconds)
 		if aborted:
 			print("Test aborted early at area: %s" % stop_area_name)
 			return true
-		if delay_seconds > 0.0:
-			await wait_seconds(delay_seconds)
 	return false
 
 
-func my_test_sequence(stop_area_name := "") -> bool:
+func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 	var action_list: Control = test_instance.action_list
 	var area_list: Control = test_instance.area_list
 	var special_area_list: Control = test_instance.special_area_list
@@ -136,6 +134,7 @@ func my_test_sequence(stop_area_name := "") -> bool:
 	if await _open_area(area_list, "Tunnel", stop_area_name): return true
 	assert_eq(action_list.get_children().size(), 9, "There should be 9 visible actions in Tunnel.")
 	resources.apply_rewards({"Focus": 10})
+	if delay_seconds > 0.0: await wait_seconds(delay_seconds)
 	
 	await _wait_for_action_type_count(action_list, "free", 0, 15, 0.2, _press_actions_of_type.bind(action_list, "free", 1))
 	
