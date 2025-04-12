@@ -66,6 +66,11 @@ func _press_all_actions_of_type(action_list: Control, type_name: String) -> void
 			action_ui.action_instance._on_action_button_pressed()
 			await get_tree().process_frame
 
+# Returns a list of actions matching optional filters (any null/empty filters are ignored)
+func _get_actions_by_filters(action_list: Control, type := "", story_text := "", required_key := "", reward_key := "") -> Array:
+	return action_list.get_actions_by_filters(type, story_text, required_key, reward_key)
+
+
 # Wait until a resource reaches a given threshold
 func _wait_for_resource(store: Label, permanent: bool, key: String, threshold: float, timeout := 2.0, interval := 1.0) -> void:
 	var has_enough = func():
@@ -98,6 +103,23 @@ func _open_area(area_list: Control, area_name: String) -> void:
 
 # Test if the game initializes correctly.
 func test_incremental_chronicles():
+	await _run_test_sequence(my_test_sequence,1,"",0)
+	await wait_seconds(1000, "Wait 10 seconds to see the result")
+
+# Runs a test sequence loop with control over steps and optional stop conditions
+func _run_test_sequence(
+	step_func: Callable,
+	steps: int = 10,
+	stop_area_name: String = "",
+	delay_seconds: float = 0.0
+) -> void:
+	for i in steps:
+		await step_func.call()
+		if delay_seconds > 0.0:
+			await wait_seconds(delay_seconds)
+
+
+func my_test_sequence():
 	var action_list: Control = test_instance.action_list
 	var area_list: Control = test_instance.area_list
 	var special_area_list: Control = test_instance.special_area_list
@@ -260,4 +282,3 @@ func test_incremental_chronicles():
 	# We have entered the special reincarnation area, which holds 4 actions
 	assert_true(await wait_until(num_children.bind(5), 2, 0.5), "Expected 5 children to remain")
 	
-	await wait_seconds(1000, "Wait 10 seconds to see the result")

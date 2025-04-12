@@ -116,6 +116,22 @@ func get_all_actions_of_type(action_type: String) -> Array[Control]:
 
 	return matching_actions
 
+# Returns a list of actions matching optional filters (any null/empty filters are ignored)
+func get_actions_by_filters(type := "", story_text := "", required_key := "", reward_key := "") -> Array:
+	var matches := []
+	for action_ui: Control in get_children():
+		var action: StoryAction = action_ui.story_action
+		if type != "" and action.get_type() != type:
+			continue
+		if story_text != "" and action.get_story_text() != story_text:
+			continue
+		if required_key != "" and not action.get_requirements().has(required_key):
+			continue
+		if reward_key != "" and not action.get_rewards().has(reward_key):
+			continue
+		matches.append(action_ui)
+	return matches
+
 
 # The resource manager will handle rewards
 func get_resource_manager() -> Node:
