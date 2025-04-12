@@ -301,7 +301,7 @@
 	  "action_type": "free",
 	  "story_text": "Read the public noticeboard \u2014 faded ink, fresh concerns.",
 	  "requirements": {
-		"Focus": {"consume":1.0}
+		"Focus": { "consume":1.0 }
 	  },
 	  "rewards": {
 		"Story points": 2.0

@@ -3,7 +3,7 @@
   "description": "A ruined road ends in a waterlogged field. What used to be a shallow ford is now a wide, sluggish river. Stranded wagons, frayed ropes, and anxious traders dot the shoreline.",
   "tier": 2.0,
   "requirements": {
-	"Story points": { "consume": 150.0 },
+	"Story points": { "consume": 50.0 },
 	"h_flooded_crossing_access": {"appear": { "min": 1.0 } }
   },
   "story_actions": [
