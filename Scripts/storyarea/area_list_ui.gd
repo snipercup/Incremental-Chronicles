@@ -126,3 +126,10 @@ func _disconnect_default_signals() -> void:
 		SignalBroker.area_unlocked.disconnect(_on_area_unlocked)
 	if SignalBroker.area_visibility_changed.is_connected(_on_area_visibility_changed):
 		SignalBroker.area_visibility_changed.disconnect(_on_area_visibility_changed)
+
+# return an area ui by area name
+func get_area_by_name(area_name: String) -> Control:
+	for area_ui: Control in get_children():
+		if area_ui.story_area.name == area_name:
+			return area_ui
+	return null
