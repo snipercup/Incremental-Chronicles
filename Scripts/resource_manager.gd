@@ -42,6 +42,7 @@ func _on_action_rewarded(myaction: StoryAction):
 		var reward: ResourceReward = myaction.get_rewards()[key]
 		var resource := _get_or_create_resource(key)
 		reward.apply_to(resource)
+	_update_tooltip()
 
 
 # Called when an area is pressed — checks and consumes unlock requirements
@@ -173,7 +174,7 @@ func get_total_value(key: String) -> float:
 
 # Gets the resource of a specific key, for example "Resolve" or "Story points"
 func get_resource(key: String) -> ResourceData:
-	return resources.get(key, null)
+	return _get_or_create_resource(key)
 
 # Returns true if the resource exists
 func has_resource(key: String) -> bool:

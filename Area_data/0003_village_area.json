@@ -191,6 +191,7 @@
 		"story_text": "You brace against the sealed vault door. You are ready. The stone creaks under the pressure — and shifts.",
 		"requirements": {
 		  "h_vault_discovered": { "appear": { "min": 1.0 } },
+		  "h_soul_vessel_obtained": { "appear": { "max": 0.0 } },
 		  "Strength": 2.0
 		},
 		"rewards": {
@@ -203,6 +204,7 @@
 		"story_text": "You fit the key into the rusted lock. A sharp click echoes from deep within the vault. It’s open.",
 		"requirements": {
 		  "h_vault_discovered": { "appear": { "min": 1.0 } },
+		  "h_soul_vessel_obtained": { "appear": { "max": 0.0 } },
 		  "Vault Key": { "consume": 1.0 }
 		},
 		"rewards": {
@@ -299,7 +301,7 @@
 	  "action_type": "free",
 	  "story_text": "Read the public noticeboard \u2014 faded ink, fresh concerns.",
 	  "requirements": {
-		"Focus": {"consume":1.0}
+		"Focus": { "consume":1.0 }
 	  },
 	  "rewards": {
 		"Story points": 2.0
@@ -327,7 +329,7 @@
 	  "action_type": "free",
 	  "story_text": "Attempt to clear the landslide blocking the eastern path.",
 	  "requirements": {
-		"Strength": 5.0,
+		"Strength": 4.0,
 		"Resolve": 20.0,
 		"h_path_obstructed": { "appear": { "min": 1.0 } }
 	  },
@@ -399,6 +401,71 @@
 	  },
 	  "rewards": {
 		"Resolve": 5.0
+	  }
+	},
+	{
+	  "action_type": "loop",
+	  "story_text": "You return to the moss-covered ruins near the Vault. Old stone supports crumble beneath your tools — but from their remains, you carve dowels shaped by forgotten hands.",
+	  "requirements": {
+		"h_bridge_phase_2_active": { "appear": { "min": 1.0 } },
+		"h_outskirts_explored": { "appear": { "min": 1.0 } },
+		"Focus": { "consume": 1.0 }
+	  },
+	  "cooldown": 2.0,
+	  "max_loops": 3,
+	  "rewards": {
+		"Stone Dowels": 1.0,
+		"Story points": 4.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You ask the smith if he has any braces strong enough for bridge work. He snorts. 'You’re building something that matters, huh? Earn it. Fire’s hot. Hammer’s ready.'",
+	  "requirements": {
+		"h_bridge_phase_2_active": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"Story points": 2.0,
+		"h_smith_request_accepted": 1.0
+	  }
+	},
+	{
+	  "action_type": "loop",
+	  "story_text": "You take your place at the forge. Each strike brings shape to molten iron. The smith says little, but nods once after every brace.",
+	  "requirements": {
+		"h_smith_request_accepted": { "appear": { "min": 1.0 } },
+		"Focus": { "consume": 1.0 }
+	  },
+	  "cooldown": 2.0,
+	  "max_loops": 2,
+	  "rewards": {
+		"Iron Braces": 1.0,
+		"Story points": 4.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "As you prepare to leave, the smith wipes his hands on a rag. 'You worked harder than most would've.' He pauses, then nods toward the cooling braces. 'That bridge — it’ll hold. Because you held.'",
+	  "requirements": {
+		"Iron Braces": { "appear": { "min": 2.0 } },
+		"h_smith_request_accepted": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"Resolve": 5.0,
+		"Story points": 5.0,
+		"h_smith_respect_earned": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "The smith sees you returning from the east. He doesn't ask — just watches you with a steady look.\n\n'They say the bridge holds.' He sets down his tools. 'Didn’t think anyone would pull it off. But you… you remind me of how things used to be built — slow, solid, earned.'",
+	  "requirements": {
+		"h_bridge_complete": { "appear": { "min": 1.0 } },
+		"h_smith_respect_earned": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"Story points": 10.0,
+		"Resolve": 10.0
 	  }
 	}
   ]

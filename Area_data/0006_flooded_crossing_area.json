@@ -3,7 +3,7 @@
   "description": "A ruined road ends in a waterlogged field. What used to be a shallow ford is now a wide, sluggish river. Stranded wagons, frayed ropes, and anxious traders dot the shoreline.",
   "tier": 2.0,
   "requirements": {
-	"Story points": { "consume": 150.0 },
+	"Story points": { "consume": 50.0 },
 	"h_flooded_crossing_access": {"appear": { "min": 1.0 } }
   },
   "story_actions": [
@@ -17,7 +17,7 @@
 	  "action_type": "free",
 	  "story_text": "Inspect the remains of the broken bridge.",
 	  "requirements": { "Focus": { "consume": 1.0 } },
-	  "rewards": { "Story points": 5.0 }
+	  "rewards": { "Story points": 5.0, "h_mirella_meet": 1.0 }
 	},
 	{
 	  "action_type": "loop",
@@ -38,6 +38,127 @@
 	},
 	{
 	  "action_type": "free",
+	  "story_text": "Mirella eyes you warily. 'The bridge is more than wood. It’s memory. But if you want to help, start by clearing the wreckage.'",
+	  "requirements": {
+		"h_mirella_meet": {"appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"Story points": 5.0,
+		"h_mirella_intro": 1.0
+	  }
+	},
+	{
+	  "action_type": "loop",
+	  "story_text": "Drag broken beams from the water. Mirella marks salvageable pieces with chalk. The weight is heavier than it should be.",
+	  "cooldown": 2.0,
+	  "max_loops": 3,
+	  "requirements": {
+		"h_mirella_intro": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"Story points": 3.0,
+		"h_bridge_cleanup": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You pile the last beam aside. Mirella nods. 'It’s worse than I thought. If we’re rebuilding, we’ll need stronger materials — and help from beyond this swamp.'",
+	  "requirements": {
+		"h_bridge_cleanup": { "appear": { "min": 3.0 } }
+	  },
+	  "rewards": {
+		"Story points": 10.0,
+		"h_bridge_phase_1_complete": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Mirella kneels and runs her fingers along the old supports. 'If we’re doing this right, I’ll need knotroot timber, stone dowels, and solid braces. Scavenge if you must — or trade. I’ll wait.'",
+	  "requirements": {
+		"h_bridge_phase_1_complete": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"Story points": 5.0,
+		"h_bridge_phase_2_active": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You set the knotted timber down near the ruins. Mirella runs her hand along one piece. 'Grove-grown? Resilient stuff. That’s a good start.'",
+	  "requirements": {
+		"Knotroot Timber": { "consume": 3.0 },
+		"h_bridge_phase_2_active": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"Story points": 6.0,
+		"h_knotroot_delivered": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "The carved dowels thud onto the ground. Mirella squints at them. 'Ancient joins… clever. We’ll carve the old into the new.'",
+	  "requirements": {
+		"Stone Dowels": { "consume": 3.0 },
+		"h_bridge_phase_2_active": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"Story points": 6.0,
+		"h_dowels_delivered": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You lay the braces beside the planks. Mirella picks one up, testing its weight and shape. 'Solid. These will anchor the weight just fine.'",
+	  "requirements": {
+		"Iron Braces": { "consume": 2.0 },
+		"h_bridge_phase_2_active": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"Story points": 6.0,
+		"h_braces_delivered": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Mirella inspects each material in silence, then finally says, 'This might hold.'",
+	  "requirements": {
+		"h_knotroot_delivered": { "appear": { "min": 1.0 } },
+		"h_dowels_delivered": { "appear": { "min": 1.0 } },
+		"h_braces_delivered": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"Story points": 20.0,
+		"h_bridge_phase_2_complete": 1.0
+	  }
+	},
+	{
+	  "action_type": "loop",
+	  "story_text": "Hammer, lift, set, repeat. Mirella works beside you. The sound of progress cuts through the murk like a hymn.",
+	  "cooldown": 1.0,
+	  "max_loops": 10,
+	  "requirements": {
+		"h_bridge_phase_2_complete": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"Story points": 4.0,
+		"h_bridge_construction": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Mirella places the final beam. Her hands tremble, but not from the weight. 'It’s done. We’ve stitched the land back together. Cross it, if you’re ready.'",
+	  "requirements": {
+		"h_bridge_construction": { "appear": { "min": 10.0 } }
+	  },
+	  "rewards": {
+		"Story points": 25.0,
+		"Resolve": 10.0,
+		"h_hillstead_access": 1.0,
+		"h_bridge_complete": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
 	  "story_text": "Attempt to negotiate a resource share between rival caravans.",
 	  "rewards": { "Diplomacy": 1.0, "Story points": 10.0 }
 	},
@@ -55,9 +176,31 @@
 	},
 	{
 	  "action_type": "free",
-	  "story_text": "Scout the path behind the willows, finding stable footing through the reeds.",
-	  "requirements": { "h_dry_path_hint": { "appear": { "min": 1.0 } } },
-	  "rewards": { "Story points": 15.0, "h_hillstead_access": 1.0 }
+	  "story_text": "You scout the willow path. It’s passable — just barely. But a ripple moves across the surface. Something waits beneath.",
+	  "requirements": {
+		"h_dry_path_hint": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"Story points": 10.0,
+		"h_marshbeast_triggered": 1.0
+	  }
+	},
+	{
+	  "action_type": "combat",
+	  "story_text": "The reeds part — a massive serpent lunges from the water, all sinew and fangs. You barely have time to react.",
+	  "requirements": {
+		"h_marshbeast_triggered": { "appear": { "min": 1.0 } },
+		"Strength": { "amount": 5.0 }
+	  },
+	  "enemy": {
+		"name": "Marshbeast Lurker",
+		"strength": 10.0
+	  },
+	  "rewards": {
+		"Story points": 30.0,
+		"h_hillstead_access": 1.0,
+		"Marsh Fang": 1.0
+	  }
 	}
   ]
 }
