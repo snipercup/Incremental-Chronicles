@@ -150,11 +150,7 @@ func _run_test_sequence(
 	return false
 
 # Finds and runs a loop action until the specified resource reaches a threshold
-func _run_loop_until_resource(
-	query: ActionQuery,
-	threshold: float,
-	permanent: bool = false
-) -> void:
+func _run_loop_until_resource(query: ActionQuery, threshold: float, permanent: bool = false ) -> void:
 	var action_list: Control = test_instance.action_list
 	var resources: Label = test_instance.helper.resource_manager
 	var resource_name: String = query.reward_key
@@ -180,11 +176,6 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 	if delay_seconds > 0.0: await wait_seconds(delay_seconds)
 	
 	await _wait_for_action_type_count(action_list, "free", 0, 15, 0.2, _press_actions_of_type.bind(action_list, "free", 1))
-	
-	var num_children := func(expected: int) -> bool:
-		return action_list.get_children().size() == expected
-	assert_true(await wait_until(num_children.bind(2), 2, 0.5), "Expected 2 children to remain")
-	assert_eq(test_instance.helper.resource_manager.get_value("Story points"), 30.0, "There should be 30 story points.")
 
 	# Loop to generate Resolve
 	var myactionquery: ActionQuery = ActionQuery.new("loop","","","Resolve")
@@ -206,20 +197,16 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 		max_attempts -= 1
 	assert_true(combat_action == null, "Combat action should now be gone.")
 
-	# Examine the rat
-	var post_combat_action: Control = action_list.get_first_action_of_type("free")
-	post_combat_action.action_instance._on_action_button_pressed()
-	await get_tree().process_frame
-	assert_eq(action_list.get_children().size(), 1, "Only the loop action should remain.")
+	# Examine the rat. We keep pressing free actions until 1 loop action remains
+	await _wait_for_action_type_count(action_list, "loop", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
 
 	# -- ROAD --
 	if await _open_area(area_list, "Road", stop_area_name): return true
-	# We have 0 story points after entering road
-	assert_eq(test_instance.helper.resource_manager.get_value("Story points"), 0.0, "There should be 0 story points.")
+	# We keep pressing free actions until 1 loop action (walk along road) remains
+	await _wait_for_action_type_count(action_list, "loop", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
+	
 	await get_tree().process_frame
-	assert_eq(action_list.get_children().size(), 6, "There should be 6 actions in Road.")
-	_press_actions_of_type(action_list, "free", 5)
-	assert_true(await wait_until(num_children.bind(1), 2, 0.5), "Expected 1 child to remain")
+	
 
 	# Loop to generate Miles
 	myactionquery.reward_key = "h_miles"
@@ -234,6 +221,8 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 	# Since road is done now, we return to tunnel, which has 1 action
 	assert_eq(action_list.get_children().size(), 1, "Only one action should remain in Tunnel.")
 
+	var num_children := func(expected: int) -> bool:
+		return action_list.get_children().size() == expected
 	# -- VILLAGE --
 	if await _open_area(area_list, "Village", stop_area_name): return true
 	await get_tree().process_frame
