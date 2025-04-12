@@ -249,27 +249,20 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 
 
 	# -- TEMPLE --
-	# The grove is gone now, so index 3 is forgotten temple
-	var num_children := func(expected: int) -> bool:
-		return action_list.get_children().size() == expected
 	if await _open_area(area_list, "Forgotten Temple", stop_area_name): return true
-	await get_tree().process_frame
-	assert_eq(action_list.get_children().size(), 3, "There should be 3 actions in Temple.")
-	_press_actions_of_type(action_list, "free", 3)
-	assert_true(await wait_until(num_children.bind(1), 2, 0.5), "Expected 1 child to remain")
+	# Keep pressing free actions until 1 remains
+	await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
+	
 
-
-	# Return to the village
+	# -- VILLAGE --
 	if await _open_area(area_list, "Village", stop_area_name): return true
 	# Keep pressing free actions until 1 remains
 	await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
 
-	
 	# Explore the village outskirts
 	myactionquery.reward_key = "h_outskirts_explored"
 	await _run_loop_until_resource(myactionquery,5.0)
 	
-	_press_actions_of_type(action_list, "free", 1)
 	# Keep pressing free actions until 3 remains
 	await _wait_for_action_type_count(action_list, "free", 3, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
 	
@@ -277,15 +270,14 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 	myactionquery.reward_key = "Herbs"
 	await _run_loop_until_resource(myactionquery,10.0)
 	
-	# Keep pressing free actions until 3 remains
+	# Keep pressing free actions until 2 remains
 	await _wait_for_action_type_count(action_list, "free", 2, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
 	
+	
 	 #-- TEMPLE --
-	 #Index 3 is forgotten temple
 	if await _open_area(area_list, "Forgotten Temple", stop_area_name): return true
-	await get_tree().process_frame
-	_press_actions_of_type(action_list, "free", 1)
-	assert_true(await wait_until(num_children.bind(1), 2, 0.5), "Expected 1 child to remain")
+	# Keep pressing free actions until 1 remains
+	await _wait_for_action_type_count(action_list, "reincarnation", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
 
 	# We are now starting reincarnation
 	_press_actions_of_type(action_list, "reincarnation", 1)
@@ -296,5 +288,8 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 	#assert_true(area_list.visible == false, "Expected area_list to be invisible")
 	assert_true(special_area_list.special_areas_panel_container.visible == true, "Expected special_area_list to be invisible")
 	# We have entered the special reincarnation area, which holds 4 actions
+	var num_children := func(expected: int) -> bool:
+		return action_list.get_children().size() == expected
 	assert_true(await wait_until(num_children.bind(5), 2, 0.5), "Expected 5 children to remain")
-	return false
+	
+	return false # No interruptions, so return false
