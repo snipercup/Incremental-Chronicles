@@ -174,7 +174,7 @@ func get_total_value(key: String) -> float:
 
 # Gets the resource of a specific key, for example "Resolve" or "Story points"
 func get_resource(key: String) -> ResourceData:
-	return resources.get(key, null)
+	return _get_or_create_resource(key)
 
 # Returns true if the resource exists
 func has_resource(key: String) -> bool:

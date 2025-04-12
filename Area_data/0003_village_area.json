@@ -191,6 +191,7 @@
 		"story_text": "You brace against the sealed vault door. You are ready. The stone creaks under the pressure — and shifts.",
 		"requirements": {
 		  "h_vault_discovered": { "appear": { "min": 1.0 } },
+		  "h_soul_vessel_obtained": { "appear": { "max": 0.0 } },
 		  "Strength": 2.0
 		},
 		"rewards": {
@@ -203,6 +204,7 @@
 		"story_text": "You fit the key into the rusted lock. A sharp click echoes from deep within the vault. It’s open.",
 		"requirements": {
 		  "h_vault_discovered": { "appear": { "min": 1.0 } },
+		  "h_soul_vessel_obtained": { "appear": { "max": 0.0 } },
 		  "Vault Key": { "consume": 1.0 }
 		},
 		"rewards": {

@@ -10,7 +10,7 @@ enum State { VISIBLE, HIDDEN }
 # {
 #   "Story points": ResourceRequirement.new()
 # }
-var requirements: Dictionary = {} : set = set_requirements, get = get_requirements
+var requirements: Dictionary[String,ResourceRequirement] = {} : set = set_requirements, get = get_requirements
 # Exaple rewards:
 #	  "rewards": {
 #		"Story points": 15.0, //Adds temporary points
@@ -109,9 +109,6 @@ func get_state() -> State:
 
 # Called on resource change; evaluates if action should be revealed
 func _on_resources_updated(resource_store: Label) -> void:
-	if get_state() == State.VISIBLE:
-		return
-
 	if _can_fulfill_appear_requirements(resource_store):
 		set_state(State.VISIBLE)
 	else:
@@ -142,8 +139,6 @@ func _can_fulfill_appear_requirements(store: Label) -> bool:
 		var req: ResourceRequirement = requirements[key]
 		# If it has a requirement before the action will appear, we test it here
 		if req.has_appear_requirements():
-			if not store.has_resource(key):
-				return false
 			var resource: ResourceData = store.get_resource(key)
 			if not req.does_appear_requirements_pass(resource):
 				return false
