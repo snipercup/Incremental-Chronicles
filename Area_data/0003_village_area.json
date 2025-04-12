@@ -408,6 +408,7 @@
 	  "story_text": "You return to the moss-covered ruins near the Vault. Old stone supports crumble beneath your tools — but from their remains, you carve dowels shaped by forgotten hands.",
 	  "requirements": {
 		"h_bridge_phase_2_active": { "appear": { "min": 1.0 } },
+		"h_outskirts_explored": { "appear": { "min": 1.0 } },
 		"Focus": { "consume": 1.0 }
 	  },
 	  "cooldown": 2.0,
