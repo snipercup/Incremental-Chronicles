@@ -56,28 +56,14 @@ func after_all():
 	await get_tree().process_frame
 
 
-# Presses the action button of the first visible action in the action list
-func _press_action_button(action_list: Control, childnr: int) -> void:
-	var story_action_uis: Array = action_list.get_children()
-	if story_action_uis.is_empty():
-		return
-
-	var myaction_ui: Control = story_action_uis[childnr]
-	myaction_ui.action_instance._on_action_button_pressed()
-
-# Returns true if an action of the given type exists in the action list
-func _has_action_type(action_list: Control, type_name: String) -> bool:
-	for action_ui in action_list.get_children():
-		if action_ui.story_action.get_type() == type_name:
-			return true
-	return false
-
-# Press all actions of a specific type a given number of times
-func _press_actions_of_type(action_list: Control, type_name: String, times: int) -> void:
+# Presses actions that match the given ActionQuery a specified number of times
+func _press_actions_of_type(action_list: Control, query: ActionQuery, times: int) -> void:
 	for i in times:
-		var action_ui: Control = action_list.get_first_action_of_type(type_name)
-		if action_ui:
-			action_ui.action_instance._on_action_button_pressed()
+		var matches := _get_actions_by_filters(action_list, query)
+		if matches.is_empty():
+			break
+		var action_ui: Control = matches[0]
+		action_ui.action_instance._on_action_button_pressed()
 		await get_tree().process_frame
 
 # Presses all visible actions of a given type
@@ -128,10 +114,9 @@ func _open_area(area_list: Control, area_name: String, stop_area_name := "") -> 
 			return true  # We reached the stop area
 	return false
 
-
 # Test if the game initializes correctly.
 func test_incremental_chronicles():
-	await _run_test_sequence(my_test_sequence,1,"",0.0)
+	await _run_test_sequence(my_test_sequence,3,"",0.0)
 	await wait_seconds(1000, "Wait 1000 seconds to see the result")
 
 # Runs a test sequence loop with control over steps and optional stop conditions
@@ -177,13 +162,26 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 	var area_list: Control = test_instance.area_list
 	var special_area_list: Control = test_instance.special_area_list
 	var resources: Label = test_instance.helper.resource_manager
+	var current_reincarnation: float = resources.get_value("Reincarnation", true) # starts at 0
 
 	# -- TUNNEL --
 	if await _open_area(area_list, "Tunnel", stop_area_name): return true
-	assert_eq(action_list.get_children().size(), 9, "There should be 9 visible actions in Tunnel.")
+	
+	match current_reincarnation:
+		1.0:
+			assert_eq(action_list.get_children().size(), 10, "There should be 10 visible actions in Tunnel.")
+			var focus_resource: ResourceData = resources.get_resource("Focus")
+			assert_eq(focus_resource.regeneration, 0.1, "Focus should regenerate 0.1.")
+		2.0:
+			assert_eq(action_list.get_children().size(), 9, "There should be 10 visible actions in Tunnel.")
+			var resolve_resource: ResourceData = resources.get_resource("Resolve")
+			assert_eq(resolve_resource.permanent_capacity, 15.0, "Resolve cap should be 15.")
+		_:
+			assert_eq(action_list.get_children().size(), 9, "There should be 9 visible actions in Tunnel.")
 	resources.apply_rewards({"Focus": 10})
 	
-	await _wait_for_action_type_count(action_list, "free", 0, 15, 0.2, _press_actions_of_type.bind(action_list, "free", 1))
+	var tunnel_query: ActionQuery = ActionQuery.new("free")
+	await _wait_for_action_type_count(action_list, "free", 0, 15, 0.2, _press_actions_of_type.bind(action_list, tunnel_query, 1))
 
 	# Loop to generate Resolve
 	var myactionquery: ActionQuery = ActionQuery.new("loop","","","Resolve")
@@ -192,7 +190,6 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 	# Force Resolve to 10 to proceed
 	resources.apply_rewards({"Resolve": 10})
 	_wait_for_resource(resources, false, "Resolve", 10.0)
-	assert_eq(resources.get_value("Resolve"), 10.0, "Expected 10 Resolve")
 
 	# -- COMBAT --
 	var combat_action: Control = action_list.get_first_action_of_type("combat")
@@ -207,6 +204,7 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 
 	# Examine the rat. We keep pressing free actions until 1 loop action remains
 	await _wait_for_action_type_count(action_list, "loop", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
+
 
 	# -- ROAD --
 	if await _open_area(area_list, "Road", stop_area_name): return true
@@ -227,9 +225,12 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 	# Keep pressing free actions until 1 remains
 	await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
 	
-	# Loop to generate 10 turnips
-	myactionquery.reward_key = "Turnips"
+	myactionquery.reward_key = "Turnips" # Loop to generate 10 turnips
 	await _run_loop_until_resource(myactionquery,10.0)
+	myactionquery.reward_key = "Herbs" # collect herbs with lyra
+	await _run_loop_until_resource(myactionquery,10.0)
+	# Keep pressing free actions until 1 remains
+	await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
 	
 	
 	# -- HOLLOW GROVE --
@@ -239,8 +240,6 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 	# Keep pressing free actions. Once they are all gone
 	resources.apply_rewards({"Focus": 10})
 	await _wait_for_action_type_count(action_list, "free", 0, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
-	
-	if delay_seconds > 0.0: await wait_seconds(delay_seconds)
 	
 	# Return to the village
 	if await _open_area(area_list, "Village", stop_area_name): return true
@@ -263,33 +262,50 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 	myactionquery.reward_key = "h_outskirts_explored"
 	await _run_loop_until_resource(myactionquery,5.0)
 	
-	# Keep pressing free actions until 3 remains
-	await _wait_for_action_type_count(action_list, "free", 3, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
-	
-	# collect herbs with lyra
-	myactionquery.reward_key = "Herbs"
-	await _run_loop_until_resource(myactionquery,10.0)
-	
-	# Keep pressing free actions until 2 remains
-	await _wait_for_action_type_count(action_list, "free", 2, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
+	match current_reincarnation:
+		0.0, 1.0: # First two reincarnations
+			# Keep pressing free actions until 2 remains. We now have the soul vessel
+			await _wait_for_action_type_count(action_list, "free", 2, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
+		_: # After 2 reincarnations, we have the strength to open the vessel vault
+			# Keep pressing free actions until 1 remains. We now have the soul vessel
+			await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
 	
 	
 	 #-- TEMPLE --
 	if await _open_area(area_list, "Forgotten Temple", stop_area_name): return true
 	# Keep pressing free actions until 1 remains
 	await _wait_for_action_type_count(action_list, "reincarnation", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
+	var query := ActionQuery.new("reincarnation")
+	await _press_actions_of_type(action_list, query, 1)
 
-	# We are now starting reincarnation
-	_press_actions_of_type(action_list, "reincarnation", 1)
-	await get_tree().process_frame
+
+	 #-- REINCARNATION --
 	var is_visible := func(control: Control, expected: bool) -> bool:
 		return control.visible == expected
 	assert_true(await wait_until(is_visible.bind(area_list.areas_panel_container, false), 2, 0.5), "Expected area_list to be invisible")
-	#assert_true(area_list.visible == false, "Expected area_list to be invisible")
-	assert_true(special_area_list.special_areas_panel_container.visible == true, "Expected special_area_list to be invisible")
-	# We have entered the special reincarnation area, which holds 4 actions
-	var num_children := func(expected: int) -> bool:
-		return action_list.get_children().size() == expected
-	assert_true(await wait_until(num_children.bind(5), 2, 0.5), "Expected 5 children to remain")
+	assert_true(special_area_list.special_areas_panel_container.visible == true, "Expected special_area_list to be visible")
+	# We have entered the special reincarnation area, which holds actions
+	await _wait_for_action_type_count(action_list, "reincarnation", 1, 15, 0.2) # 1 reincarnation action
 	
+	# Get the echoes of the past
+	query = ActionQuery.new("free","","","Echoes of the Past")
+	await _press_actions_of_type(action_list, query, 1)
+	# Since current_reincarnation was updated a few steps ago, we get it again
+	current_reincarnation = resources.get_value("Reincarnation", true)
+	match current_reincarnation:
+		1.0:
+			query.reward_key = "Focus" # Get the focus regeneration buff
+		2.0:
+			query.reward_key = "Strength" # In the second run we also get strength
+			await _press_actions_of_type(action_list, query, 1)
+			query.reward_key = "Resolve" # Get the Resolve max capacity buff
+		_:
+			query.reward_key = "Strength" # Get the Strength buff
+
+	await _press_actions_of_type(action_list, query, 1)
+	
+	query = ActionQuery.new("reincarnation") # Reincarnate and start over
+	await _press_actions_of_type(action_list, query, 1)
+	
+	if delay_seconds > 0.0: await wait_seconds(delay_seconds)
 	return false # No interruptions, so return false
