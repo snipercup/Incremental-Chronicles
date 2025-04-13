@@ -35,6 +35,17 @@
 	},
 	{
 	  "action_type": "free",
+	  "story_text": "You emerge once more into wind and golden grass. But this time, the presence you remember — the still figure of light — is nowhere to be found. You wait. Nothing.\n\nYou wonder: will it return? Or was it never truly there?",
+	  "requirements": {
+		"Reincarnation": { "appear": { "min": 2.0, "max": 2.0 } }
+	  },
+	  "rewards": {
+		"Story points": 5.0,
+		"h_mirrored_entity_absent": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
 	  "story_text": "Lift a stone. Your muscles strain against the weight — it moves, just barely.",
 	  "requirements": {
 		"Focus": {

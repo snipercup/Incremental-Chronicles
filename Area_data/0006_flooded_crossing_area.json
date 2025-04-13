@@ -9,38 +9,48 @@
   "story_actions": [
 	{
 	  "action_type": "free",
-	  "story_text": "Speak with a merchant stranded beside a half-submerged wagon.",
-	  "requirements": { "Focus": { "consume": 1.0 } },
-	  "rewards": { "Story points": 5.0 }
-	},
-	{
-	  "action_type": "free",
 	  "story_text": "Inspect the remains of the broken bridge.",
 	  "requirements": { "Focus": { "consume": 1.0 } },
-	  "rewards": { "Story points": 5.0, "h_mirella_meet": 1.0 }
-	},
-	{
-	  "action_type": "loop",
-	  "story_text": "Scavenge wood and nails from abandoned wagons.",
-	  "cooldown": 2.0,
-	  "max_loops": 5,
-	  "requirements": { "Focus": { "consume": 1.0 } },
-	  "rewards": { "Iron Nails": 1.0, "Wood Planks": 1.0 }
+	  "rewards": { "Story points": 5.0, "h_broken_bridge_inspect": 1.0 }
 	},
 	{
 	  "action_type": "free",
-	  "story_text": "Assist a builder in laying makeshift planks.",
+	  "story_text": "You find a woman sitting on a silk-wrapped crate, trying to shield it from the drizzle. She looks up. 'The noble’s name is Seralis. If the silks don’t arrive... they’ll think we failed them. Again.'",
 	  "requirements": {
-		"Iron Nails": { "consume": 3.0 },
-		"Wood Planks": { "consume": 3.0 }
+		"h_broken_bridge_inspect": { "appear": { "min": 1.0 } }
 	  },
-	  "rewards": { "Story points": 20.0, "h_planks_installed": 1.0 }
+	  "rewards": {
+		"Story points": 5.0,
+		"h_elandra_met": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "A grizzled woman stands beside a half-open crate of armor pieces. 'Iron, leather, steel — and not a buyer in sight. If that bridge stays broken, I start selling to fish.'",
+	  "requirements": {
+		"h_broken_bridge_inspect": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"Story points": 5.0,
+		"h_brena_met": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You overhear two siblings arguing by a tilted cart. 'You rushed the load!' — 'And you packed it wrong!' Their crates leak flour and tension.\n\nJoryn scowls. 'If this goes bad, the whole village fasts for winter.' Vel snaps, 'Then maybe don’t put your trust in roads.'",
+	  "requirements": {
+		"h_broken_bridge_inspect": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"Story points": 5.0,
+		"h_joryn_vel_met": 1.0
+	  }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Mirella eyes you warily. 'The bridge is more than wood. It’s memory. But if you want to help, start by clearing the wreckage.'",
 	  "requirements": {
-		"h_mirella_meet": {"appear": { "min": 1.0 } }
+		"h_broken_bridge_inspect": {"appear": { "min": 1.0 } }
 	  },
 	  "rewards": {
 		"Story points": 5.0,
@@ -58,6 +68,20 @@
 	  "rewards": {
 		"Story points": 3.0,
 		"h_bridge_cleanup": 1.0
+	  }
+	},
+	{
+	  "action_type": "loop",
+	  "story_text": "Scavenge wood and nails from abandoned wagons. Mirella glances over occasionally, pointing out what’s still usable.",
+	  "cooldown": 2.0,
+	  "max_loops": 5,
+	  "requirements": {
+		"h_mirella_intro": { "appear": { "min": 1.0 } },
+		"Focus": { "consume": 1.0 }
+	  },
+	  "rewards": {
+		"Iron Nails": 1.0,
+		"Wood Planks": 1.0
 	  }
 	},
 	{
@@ -108,6 +132,19 @@
 	},
 	{
 	  "action_type": "free",
+	  "story_text": "You deliver the scavenged planks and nails. Mirella checks their weight and grain. 'We’ll reinforce the seams with these. Should keep the frame steady.'",
+	  "requirements": {
+		"Wood Planks": { "consume": 5.0 },
+		"Iron Nails": { "consume": 5.0 },
+		"h_bridge_phase_2_active": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"Story points": 6.0,
+		"h_core_materials_delivered": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
 	  "story_text": "You lay the braces beside the planks. Mirella picks one up, testing its weight and shape. 'Solid. These will anchor the weight just fine.'",
 	  "requirements": {
 		"Iron Braces": { "consume": 2.0 },
@@ -124,7 +161,8 @@
 	  "requirements": {
 		"h_knotroot_delivered": { "appear": { "min": 1.0 } },
 		"h_dowels_delivered": { "appear": { "min": 1.0 } },
-		"h_braces_delivered": { "appear": { "min": 1.0 } }
+		"h_braces_delivered": { "appear": { "min": 1.0 } },
+  		"h_core_materials_delivered": { "appear": { "min": 1.0 } }
 	  },
 	  "rewards": {
 		"Story points": 20.0,
@@ -159,20 +197,27 @@
 	},
 	{
 	  "action_type": "free",
-	  "story_text": "Attempt to negotiate a resource share between rival caravans.",
-	  "rewards": { "Diplomacy": 1.0, "Story points": 10.0 }
+	  "story_text": "You trace the path of the flood with your eyes. Trees half-drowned. Soil turned to silt. A child's toy drifting near a ruined cart.\n\nYou imagine rerouting the current — changing its course — but your thoughts feel small against the weight of water.\n\nMaybe... in another life.",
+	  "requirements": {
+		"Focus": { "consume": 2.0 }
+	  },
+	  "rewards": {
+		"Story points": 15.0,
+		"h_flood_reflection": 1.0
+	  }
 	},
 	{
 	  "action_type": "free",
-	  "story_text": "Reroute a nearby stream to slow the flooding.",
-	  "requirements": { "Wisdom": 2.0 },
-	  "rewards": { "Story points": 15.0 }
-	},
-	{
-	  "action_type": "free",
-	  "story_text": "A young boy mentions an old path behind the willows that stays dry even now...",
-	  "requirements": { "h_planks_installed": { "appear": { "min": 1.0 } } },
-	  "rewards": { "Story points": 5.0, "h_dry_path_hint": 1.0 }
+	  "story_text": "A boy named Talen tugs your sleeve. 'There’s a place the water doesn’t touch. Behind the willows. I go there when the yelling starts.'",
+	  "requirements": {
+		"Focus": { "consume": 1.0 },
+		"h_mirella_intro": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"Story points": 5.0,
+		"h_dry_path_hint": 1.0,
+		"h_talen_met": 1.0
+	  }
 	},
 	{
 	  "action_type": "free",
@@ -200,6 +245,20 @@
 		"Story points": 30.0,
 		"h_hillstead_access": 1.0,
 		"Marsh Fang": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You find Talen watching the river. He doesn’t look at you, but speaks. 'You took it, didn’t you? The dry way. I used to go there with my brother… before the water came.'",
+	  "requirements": {
+		"h_dry_path_hint": { "appear": { "min": 1.0 } },
+		"h_hillstead_access": { "appear": { "min": 1.0 } },
+		"h_talen_met": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"Story points": 10.0,
+		"Resolve": 5.0,
+		"h_talen_backstory_unlocked": 1.0
 	  }
 	}
   ]
