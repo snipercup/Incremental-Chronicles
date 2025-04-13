@@ -17,7 +17,8 @@
 	  "action_type": "free",
 	  "story_text": "You find a woman sitting on a silk-wrapped crate, trying to shield it from the drizzle. She looks up. 'The noble’s name is Seralis. If the silks don’t arrive... they’ll think we failed them. Again.'",
 	  "requirements": {
-		"h_broken_bridge_inspect": { "appear": { "min": 1.0 } }
+		"h_broken_bridge_inspect": { "appear": { "min": 1.0 } },
+		"Focus": {"consume":1.0}
 	  },
 	  "rewards": {
 		"Story points": 5.0,
@@ -28,7 +29,8 @@
 	  "action_type": "free",
 	  "story_text": "A grizzled woman stands beside a half-open crate of armor pieces. 'Iron, leather, steel — and not a buyer in sight. If that bridge stays broken, I start selling to fish.'",
 	  "requirements": {
-		"h_broken_bridge_inspect": { "appear": { "min": 1.0 } }
+		"h_broken_bridge_inspect": { "appear": { "min": 1.0 } },
+		"Focus": {"consume":1.0}
 	  },
 	  "rewards": {
 		"Story points": 5.0,
@@ -39,7 +41,8 @@
 	  "action_type": "free",
 	  "story_text": "You overhear two siblings arguing by a tilted cart. 'You rushed the load!' — 'And you packed it wrong!' Their crates leak flour and tension.\n\nJoryn scowls. 'If this goes bad, the whole village fasts for winter.' Vel snaps, 'Then maybe don’t put your trust in roads.'",
 	  "requirements": {
-		"h_broken_bridge_inspect": { "appear": { "min": 1.0 } }
+		"h_broken_bridge_inspect": { "appear": { "min": 1.0 } },
+		"Focus": {"consume":1.0}
 	  },
 	  "rewards": {
 		"Story points": 5.0,
@@ -199,7 +202,8 @@
 	  "action_type": "free",
 	  "story_text": "You trace the path of the flood with your eyes. Trees half-drowned. Soil turned to silt. A child's toy drifting near a ruined cart.\n\nYou imagine rerouting the current — changing its course — but your thoughts feel small against the weight of water.\n\nMaybe... in another life.",
 	  "requirements": {
-		"Focus": { "consume": 2.0 }
+		"Focus": { "consume": 2.0 },
+		"h_broken_bridge_inspect": { "appear": { "min": 1.0 } }
 	  },
 	  "rewards": {
 		"Story points": 15.0,
@@ -244,6 +248,7 @@
 	  "rewards": {
 		"Story points": 30.0,
 		"h_hillstead_access": 1.0,
+		"h_marshbeast_defeated": 1.0,
 		"Marsh Fang": 1.0
 	  }
 	},
@@ -253,6 +258,7 @@
 	  "requirements": {
 		"h_dry_path_hint": { "appear": { "min": 1.0 } },
 		"h_hillstead_access": { "appear": { "min": 1.0 } },
+		"h_marshbeast_defeated": { "appear": { "min": 1.0 } },
 		"h_talen_met": { "appear": { "min": 1.0 } }
 	  },
 	  "rewards": {
