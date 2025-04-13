@@ -126,7 +126,7 @@
 		"h_bridge_phase_2_active": { "appear": { "min": 1.0 } }
 	  },
 	  "cooldown": 2.0,
-	  "max_loops": 3,
+	  "max_loops": 6,
 	  "rewards": {
 		"Knotroot Timber": 1.0,
 		"Story points": 4.0

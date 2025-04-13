@@ -49,6 +49,11 @@ func process_loop(delta: float, active_action: StoryAction, resource_manager: No
 			is_looping = false
 			return false
 
+		# ✅ Check and consume requirements
+		if not resource_manager.apply_requirements(get_requirements()):
+			is_looping = false
+			return false
+
 		# Reward and update signals
 		SignalBroker.action_rewarded.emit(self)
 
@@ -57,6 +62,11 @@ func process_loop(delta: float, active_action: StoryAction, resource_manager: No
 		if get_max_loops() > -1 and current_loops >= get_max_loops():
 			is_looping = false
 			SignalBroker.action_removed.emit(self)
+			return false
+		
+		# The requirements have been consumed a few lines above. Stop looping if we can't do more
+		if not resource_manager.can_fulfill_requirements(requirements):
+			is_looping = false
 			return false
 
 		# Stop looping if user changed active action

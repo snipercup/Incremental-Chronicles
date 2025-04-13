@@ -31,6 +31,8 @@ func set_parent(newparent: Control) -> void:
 
 # Start the cooldown process and fill progress bar
 func _on_action_button_pressed() -> void:
+	if not parent.can_fulfill_requirements(story_action.requirements):
+		return
 	SignalBroker.action_activated.emit(story_action)
 	if story_action is LoopAction and not is_at_capacity():
 		story_action.start_loop()

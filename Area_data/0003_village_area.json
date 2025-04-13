@@ -412,10 +412,10 @@
 		"Focus": { "consume": 1.0 }
 	  },
 	  "cooldown": 2.0,
-	  "max_loops": 3,
+	  "max_loops": 6,
 	  "rewards": {
 		"Stone Dowels": 1.0,
-		"Story points": 4.0
+		"Story points": 1.0
 	  }
 	},
 	{
@@ -437,10 +437,10 @@
 		"Focus": { "consume": 1.0 }
 	  },
 	  "cooldown": 2.0,
-	  "max_loops": 2,
+	  "max_loops": 4,
 	  "rewards": {
 		"Iron Braces": 1.0,
-		"Story points": 4.0
+		"Story points": 1.0
 	  }
 	},
 	{

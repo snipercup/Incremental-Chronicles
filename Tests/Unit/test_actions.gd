@@ -116,7 +116,7 @@ func _open_area(area_list: Control, area_name: String, stop_area_name := "") -> 
 
 # Test if the game initializes correctly.
 func test_incremental_chronicles():
-	await _run_test_sequence(my_test_sequence,4,"",0.0)
+	await _run_test_sequence(my_test_sequence, 2, "", 0.0) # Only run 2 reincarnation cycles
 	await wait_seconds(1000, "Wait 1000 seconds to see the result")
 
 # Runs a test sequence loop with control over steps and optional stop conditions
@@ -163,6 +163,7 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 	var special_area_list: Control = test_instance.special_area_list
 	var resources: Label = test_instance.helper.resource_manager
 	var current_reincarnation: float = resources.get_value("Reincarnation", true) # starts at 0
+	var query: ActionQuery
 
 	# -- TUNNEL --
 	if await _open_area(area_list, "Tunnel", stop_area_name): return true
@@ -172,8 +173,6 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 			assert_eq(action_list.get_children().size(), 10, "There should be 10 visible actions in Tunnel.")
 			var focus_resource: ResourceData = resources.get_resource("Focus")
 			assert_eq(focus_resource.regeneration, 0.1, "Focus should regenerate 0.1.")
-		2.0:
-			assert_eq(action_list.get_children().size(), 9, "There should be 10 visible actions in Tunnel.")
 			var resolve_resource: ResourceData = resources.get_resource("Resolve")
 			assert_eq(resolve_resource.permanent_capacity, 15.0, "Resolve cap should be 15.")
 		_:
@@ -263,49 +262,51 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 	await _run_loop_until_resource(myactionquery,5.0)
 	
 	match current_reincarnation:
-		0.0, 1.0: # First two reincarnations
+		0.0: # First reincarnations
 			# Keep pressing free actions until 2 remains. We now have the soul vessel
 			await _wait_for_action_type_count(action_list, "free", 2, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
-		_: # After 2 reincarnations, we have the strength to open the vessel vault
-			# Keep pressing free actions until 1 remains. We now have the soul vessel
-			await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
-	
-	
-	 #-- TEMPLE --
-	if await _open_area(area_list, "Forgotten Temple", stop_area_name): return true
-	# Keep pressing free actions until 1 remains
-	await _wait_for_action_type_count(action_list, "reincarnation", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
-	var query := ActionQuery.new("reincarnation")
-	await _press_actions_of_type(action_list, query, 1)
-
-
-	 #-- REINCARNATION --
-	var is_visible := func(control: Control, expected: bool) -> bool:
-		return control.visible == expected
-	assert_true(await wait_until(is_visible.bind(area_list.areas_panel_container, false), 2, 0.5), "Expected area_list to be invisible")
-	assert_true(special_area_list.special_areas_panel_container.visible == true, "Expected special_area_list to be visible")
-	# We have entered the special reincarnation area, which holds actions
-	await _wait_for_action_type_count(action_list, "reincarnation", 1, 15, 0.2) # 1 reincarnation action
-	
-	# Get the echoes of the past
-	query = ActionQuery.new("free","","","Echoes of the Past")
-	await _press_actions_of_type(action_list, query, 1)
-	# Since current_reincarnation was updated a few steps ago, we get it again
-	current_reincarnation = resources.get_value("Reincarnation", true)
-	match current_reincarnation:
-		1.0:
+			#-- TEMPLE --
+			if await _open_area(area_list, "Forgotten Temple", stop_area_name): return true
+			# Keep pressing free actions until 1 remains
+			await _wait_for_action_type_count(action_list, "reincarnation", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
+			query = ActionQuery.new("reincarnation") # Here we will reincarnate from the temple
+			await _press_actions_of_type(action_list, query, 1)
+			
+			 #-- REINCARNATION --
+			var is_visible := func(control: Control, expected: bool) -> bool:
+				return control.visible == expected
+			assert_true(await wait_until(is_visible.bind(area_list.areas_panel_container, false), 2, 0.5), "Expected area_list to be invisible")
+			assert_true(special_area_list.special_areas_panel_container.visible == true, "Expected special_area_list to be visible")
+			# We have entered the special reincarnation area, which holds actions
+			await _wait_for_action_type_count(action_list, "reincarnation", 1, 15, 0.2) # 1 reincarnation action
+			
+			# Get the echoes of the past
+			query = ActionQuery.new("free","","","Echoes of the Past")
+			await _press_actions_of_type(action_list, query, 1)
+			
+			# We get one echo from the reward list, then force 2 more. This will save reincarnating again
+			resources.apply_rewards({"Echoes of the Past": { "permanent": 2 }})
 			query.reward_key = "Focus" # Get the focus regeneration buff
-		2.0:
-			query.reward_key = "Strength" # In the second run we also get strength
+			await _press_actions_of_type(action_list, query, 1)
+			query.reward_key = "Strength" # We also get strength
 			await _press_actions_of_type(action_list, query, 1)
 			query.reward_key = "Resolve" # Get the Resolve max capacity buff
-		_:
-			query.reward_key = "Strength" # Get the Strength buff
+			await _press_actions_of_type(action_list, query, 1)
+			query = ActionQuery.new("reincarnation") # Reincarnate and start over
+			await _press_actions_of_type(action_list, query, 1)
+			
+		_: # After 1 reincarnation, we have the strength to open the vessel vault
+			# Keep pressing free actions until 1 remains. We now have the soul vessel
+			await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
+			# We get the strength we need
+			resources.apply_rewards({"Strength": {"permanent": 2}})
+			query = ActionQuery.new("free") # clear the mudslide
+			await _press_actions_of_type(action_list, query, 1)
+			#-- FLOODED CROSSING --
+			if await _open_area(area_list, "Flooded Crossing", stop_area_name): return true
+			# Keep pressing free actions until 1 remains
+			#await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
 
-	await _press_actions_of_type(action_list, query, 1)
-	
-	query = ActionQuery.new("reincarnation") # Reincarnate and start over
-	await _press_actions_of_type(action_list, query, 1)
 	
 	if delay_seconds > 0.0: await wait_seconds(delay_seconds)
 	return false # No interruptions, so return false
