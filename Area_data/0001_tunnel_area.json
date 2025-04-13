@@ -110,14 +110,8 @@
 	{
 	  "action_type": "free",
 	  "story_text": "Search for hidden objects or tracks.",
-	  "requirements": {
-		"Focus": {
-		  "consume": 1.0
-		}
-	  },
-	  "rewards": {
-		"Story points": 3.0
-	  }
+	  "requirements": { "Focus": { "consume": 1.0 } },
+	  "rewards": { "Story points": 3.0 }
 	},
 	{
 	  "action_type": "loop",

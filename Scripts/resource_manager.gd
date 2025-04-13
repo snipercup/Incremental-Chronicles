@@ -240,3 +240,20 @@ func connect_resource_updated(key: String, callback: Callable) -> void:
 	var resource: ResourceData = _get_or_create_resource(key)
 	if not resource.resource_updated.is_connected(callback):
 		resource.resource_updated.connect(callback)
+
+# Attempt to subtract resources based on the provided requirements
+func apply_requirements(requirements: Dictionary) -> bool:
+	for key in requirements: # Example: "Resolve" or "Story points"
+		var req: ResourceRequirement = requirements[key]
+		if not has_resource(key):
+			return false
+		var resource: ResourceData = get_resource(key)
+		if not req.can_fulfill(resource):
+			return false
+	# If we reached this point, we are able to fulfill the requirements
+	# Consume the requirements if applicable
+	for key in requirements: # Example: "Resolve" or "Story points"
+		var req: ResourceRequirement = requirements[key]
+		var resource: ResourceData = get_resource(key)
+		req.consume_from(resource)
+	return true
