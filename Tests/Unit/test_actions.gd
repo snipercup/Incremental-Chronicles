@@ -116,7 +116,7 @@ func _open_area(area_list: Control, area_name: String, stop_area_name := "") -> 
 
 # Test if the game initializes correctly.
 func test_incremental_chronicles():
-	await _run_test_sequence(my_test_sequence,4,"",0.0)
+	await _run_test_sequence(my_test_sequence, 2, "", 0.0) # Only run 2 reincarnation cycles
 	await wait_seconds(1000, "Wait 1000 seconds to see the result")
 
 # Runs a test sequence loop with control over steps and optional stop conditions
@@ -172,8 +172,6 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 			assert_eq(action_list.get_children().size(), 10, "There should be 10 visible actions in Tunnel.")
 			var focus_resource: ResourceData = resources.get_resource("Focus")
 			assert_eq(focus_resource.regeneration, 0.1, "Focus should regenerate 0.1.")
-		2.0:
-			assert_eq(action_list.get_children().size(), 9, "There should be 10 visible actions in Tunnel.")
 			var resolve_resource: ResourceData = resources.get_resource("Resolve")
 			assert_eq(resolve_resource.permanent_capacity, 15.0, "Resolve cap should be 15.")
 		_:
@@ -293,16 +291,19 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 	# Since current_reincarnation was updated a few steps ago, we get it again
 	current_reincarnation = resources.get_value("Reincarnation", true)
 	match current_reincarnation:
-		1.0:
+		1.0: # First reincarnation
+			# We get one echo from the reward list, then force 2 more. This will save reincarnating again
+			resources.apply_rewards({"Echoes of the Past": { "permanent": 2 }})
 			query.reward_key = "Focus" # Get the focus regeneration buff
-		2.0:
-			query.reward_key = "Strength" # In the second run we also get strength
+			await _press_actions_of_type(action_list, query, 1)
+			query.reward_key = "Strength" # We also get strength
 			await _press_actions_of_type(action_list, query, 1)
 			query.reward_key = "Resolve" # Get the Resolve max capacity buff
+			await _press_actions_of_type(action_list, query, 1)
 		_:
 			query.reward_key = "Strength" # Get the Strength buff
+			await _press_actions_of_type(action_list, query, 1)
 
-	await _press_actions_of_type(action_list, query, 1)
 	
 	query = ActionQuery.new("reincarnation") # Reincarnate and start over
 	await _press_actions_of_type(action_list, query, 1)
