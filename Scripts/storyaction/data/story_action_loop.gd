@@ -63,6 +63,11 @@ func process_loop(delta: float, active_action: StoryAction, resource_manager: No
 			is_looping = false
 			SignalBroker.action_removed.emit(self)
 			return false
+		
+		# The requirements have been consumed a few lines above. Stop looping if we can't do more
+		if not resource_manager.can_fulfill_requirements(requirements):
+			is_looping = false
+			return false
 
 		# Stop looping if user changed active action
 		if active_action != self:
