@@ -69,7 +69,7 @@
 		"h_mirella_intro": { "appear": { "min": 1.0 } }
 	  },
 	  "rewards": {
-		"Story points": 3.0,
+		"Story points": 1.0,
 		"h_bridge_cleanup": 1.0
 	  }
 	},
@@ -113,7 +113,7 @@
 	  "action_type": "free",
 	  "story_text": "You set the knotted timber down near the ruins. Mirella runs her hand along one piece. 'Grove-grown? Resilient stuff. That’s a good start.'",
 	  "requirements": {
-		"Knotroot Timber": { "consume": 3.0 },
+		"Knotroot Timber": { "consume": 6.0 },
 		"h_bridge_phase_2_active": { "appear": { "min": 1.0 } }
 	  },
 	  "rewards": {
@@ -125,7 +125,7 @@
 	  "action_type": "free",
 	  "story_text": "The carved dowels thud onto the ground. Mirella squints at them. 'Ancient joins… clever. We’ll carve the old into the new.'",
 	  "requirements": {
-		"Stone Dowels": { "consume": 3.0 },
+		"Stone Dowels": { "consume": 6.0 },
 		"h_bridge_phase_2_active": { "appear": { "min": 1.0 } }
 	  },
 	  "rewards": {
@@ -150,7 +150,7 @@
 	  "action_type": "free",
 	  "story_text": "You lay the braces beside the planks. Mirella picks one up, testing its weight and shape. 'Solid. These will anchor the weight just fine.'",
 	  "requirements": {
-		"Iron Braces": { "consume": 2.0 },
+		"Iron Braces": { "consume": 4.0 },
 		"h_bridge_phase_2_active": { "appear": { "min": 1.0 } }
 	  },
 	  "rewards": {
@@ -181,7 +181,7 @@
 		"h_bridge_phase_2_complete": { "appear": { "min": 1.0 } }
 	  },
 	  "rewards": {
-		"Story points": 4.0,
+		"Story points": 1.0,
 		"h_bridge_construction": 1.0
 	  }
 	},
