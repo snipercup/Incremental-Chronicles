@@ -8,72 +8,12 @@
   },
   "story_actions": [
 	{
-	  "action_type": "loop",
-	  "story_text": "Patrol the outer perimeter with guards.",
-	  "cooldown": 2.0,
-	  "max_loops": 5,
-	  "rewards": {
-		"Story points": 3.0,
-		"Instinct": 1.0
-	  }
-	},
-	{
-	  "action_type": "free",
-	  "story_text": "Track the missing livestock down the western slope.",
-	  "requirements": {
-		"Perception": { "amount": 2.0 }
-	  },
-	  "rewards": {
-		"Story points": 10.0,
-		"h_wolf_tracks_found": 1.0
-	  }
-	},
-	{
-	  "action_type": "free",
-	  "story_text": "Discover strange runes carved into a tree near the meadow.",
-	  "requirements": {
-		"h_wolf_tracks_found": { "appear": { "min": 1.0 } }
-	  },
-	  "rewards": {
-		"Story points": 10.0,
-		"h_rune_site_discovered": 1.0
-	  }
-	},
-	{
-	  "action_type": "free",
-	  "story_text": "Follow a bent branch and faint pawprints into the hills. They're fresh — and headed toward the gorge.",
-	  "requirements": {
-		"h_hillstead_revealed": { "min": 1.0 },
-		"Instinct": { "amount": 1.0 }
-	  },
-	  "rewards": {
-		"Story points": 10.0,
-		"h_wolf_tracks_found": 1.0
-	  }
-	},
-	{
-	  "action_type": "free",
-	  "story_text": "Climb the watchtower and gaze toward the dark gorge beyond the trees. A low howl drifts on the wind.",
-	  "requirements": {
-		"h_gorge_access": { "appear": { "min": 1.0 } },
-	  },
-	  "rewards": {
-		"Story points": 10.0
-	  }
-	},
-	{
 	  "action_type": "free",
 	  "story_text": "You arrive at Hillstead Outpost and are nearly knocked aside by a running child. A guard shouts, a wolf-horn sounds in the distance, and someone slams a door shut just ahead.\n\nWhispers swirl around your presence. 'They came from the bridge?' — 'But the bridge was broken.' — 'Maybe the wolves followed them.'\n\nNo one has time to greet you properly. The village is in disarray.",
 	  "rewards": {
 		"Story points": 10.0,
 		"h_hillstead_revealed": 1.0
 	  }
-	},
-	{
-	  "action_type": "free",
-	  "story_text": "A bloodied hunter paces near the outpost gates. 'Too many tracks. Too close. We’re being tested — and it’s not hunger.'",
-	  "requirements": { "h_hillstead_revealed": { "appear": { "min": 1.0 } } },
-	  "rewards": { "Story points": 5.0, "h_hunter_conversed": 1.0 }
 	},
 	{
 	  "action_type": "free",
@@ -101,12 +41,6 @@
 	},
 	{
 	  "action_type": "free",
-	  "story_text": "A lone priest rings the chapel bell. No one listens. No one comes. You catch him murmuring prayers for 'the pact' beneath his breath.",
-	  "requirements": { "h_hillstead_revealed": { "min": 1.0 } },
-	  "rewards": { "Story points": 3.0, "h_priest_conversed": 1.0 }
-	},
-	{
-	  "action_type": "free",
 	  "story_text": "You pass a home where someone bakes flatbread over a dying fire. The smell is nostalgic. The mood is anything but.",
 	  "requirements": { "h_hillstead_revealed": { "min": 1.0 } },
 	  "rewards": { "Story points": 3.0 }
@@ -119,6 +53,98 @@
 		"Story points": { "min": 120.0 }
 	  },
 	  "rewards": { "h_lake_access": 1.0 }
-	}
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "A bloodied hunter paces near the outpost gates. 'Too many tracks. Too close. We’re being tested — and it’s not hunger.' He sees your hesitation and shakes his head. 'Go see for yourself.'",
+	  "requirements": { "h_hillstead_revealed": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 5.0, "h_hunter_conversed": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "A lone priest rings the chapel bell. No one listens. No one comes. You catch him murmuring prayers for 'the pact' beneath his breath.",
+	  "requirements": { "h_hillstead_revealed": { "min": 1.0 } },
+	  "rewards": { "Story points": 3.0, "h_priest_conversed": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "The priest lowers his voice. 'Before swords and stone towers, there was an agreement. Spirit for shelter. Blood for balance.'\n\nHe glances toward the forest. 'I fear we've forgotten our part.'",
+	  "requirements": {
+		"h_hunter_conversed": { "min": 1.0 },
+		"h_priest_conversed": { "min": 1.0 }
+	  },
+	  "rewards": {
+		"Story points": 5.0,
+		"h_pact_theory_revealed": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "By the chapel altar, a faded banner hangs. You hadn’t noticed it before — twin wolves flanking a tree, their eyes stitched with golden thread.",
+	  "requirements": {
+		"h_pact_theory_revealed": { "min": 1.0 }
+	  },
+	  "rewards": {
+		"Story points": 5.0,
+		"h_pact_symbol_found": 1.0
+	  }
+	},
+	{
+	  "action_type": "loop",
+	  "story_text": "Patrol the outer perimeter with guards. The wind shifts. Somewhere beyond the treeline, something watches. A farmer says more livestock vanished last night, and no one saw what took them.",
+	  "cooldown": 2.0,
+	  "max_loops": 5,
+	  "rewards": {
+		"Story points": 3.0,
+		"Instinct": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "After a few patrols, the hunter stops you. 'They’re not testing our walls — they’re circling. If you follow the west ridge, you might catch a clearer sign.'",
+	  "requirements": {
+		"h_hunter_conversed": { "min": 1.0 },
+		"Instinct": { "min": 3.0 }
+	  },
+	  "rewards": {
+		"Story points": 5.0,
+		"h_patrol_hint_unlocked": 1.0
+	  }
+	},
+	{    
+	  "action_type": "free",
+	  "story_text": "You venture further into the perimeter — but something calls you off the path. A low growl. A gust. Tracks.\n\nYou follow.",
+	  "requirements": {
+		"Instinct": { "amount": 1.0 },
+		"h_pact_symbol_found": { "min": 1.0 },
+		"h_patrol_hint_unlocked": { "min": 1.0 }
+	  },
+	  "rewards": {
+		"Story points": 10.0,
+		"h_wolf_tracks_found": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You find a tree marked with runes and dried fur. It hums faintly when you approach. You remember the banner from the chapel.",
+	  "requirements": {
+		"h_wolf_tracks_found": { "min": 1.0 }
+	  },
+	  "rewards": {
+		"Story points": 10.0,
+		"h_rune_site_discovered": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "From the watchtower, you see movement between the trees. The air shifts. The gorge calls — not as danger, but as memory.",
+	  "requirements": {
+		"h_rune_site_discovered": { "min": 1.0 }
+	  },
+	  "rewards": {
+		"Story points": 10.0,
+		"h_gorge_access": 1.0
+	  }
+	},
   ]
 }
