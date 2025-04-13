@@ -8,30 +8,6 @@
   },
   "story_actions": [
 	{
-	  "action_type": "free",
-	  "story_text": "Speak with the village hunter sharpening a blade by firelight.",
-	  "rewards": {
-		"Story points": 5.0,
-		"h_hunter_conversed": 1.0
-	  }
-	},
-	{
-	  "action_type": "free",
-	  "story_text": "Listen to the herbalist's warnings about broken pacts and restless beasts.",
-	  "rewards": {
-		"Story points": 5.0,
-		"h_herbalist_conversed": 1.0
-	  }
-	},
-	{
-	  "action_type": "free",
-	  "story_text": "Visit the chapel ruins. The priest speaks of divine punishment and repentance.",
-	  "rewards": {
-		"Story points": 5.0,
-		"h_priest_conversed": 1.0
-	  }
-	},
-	{
 	  "action_type": "loop",
 	  "story_text": "Patrol the outer perimeter with guards.",
 	  "cooldown": 2.0,
@@ -64,17 +40,15 @@
 	  }
 	},
 	{
-	  "action_type": "puzzle",
-	  "story_text": "Interpret the runes using what you\u2019ve learned from the herbalist and priest.",
+	  "action_type": "free",
+	  "story_text": "Follow a bent branch and faint pawprints into the hills. They're fresh — and headed toward the gorge.",
 	  "requirements": {
-		"Wisdom": 3.0,
-		"h_rune_site_discovered": { "appear": { "min": 1.0 } },
-		"h_herbalist_conversed": { "appear": { "min": 1.0 } },
-		"h_priest_conversed": { "appear": { "min": 1.0 } },
+		"h_hillstead_revealed": { "min": 1.0 },
+		"Instinct": { "amount": 1.0 }
 	  },
 	  "rewards": {
-		"Story points": 20.0,
-		"h_gorge_access": 1.0
+		"Story points": 10.0,
+		"h_wolf_tracks_found": 1.0
 	  }
 	},
 	{
@@ -86,6 +60,65 @@
 	  "rewards": {
 		"Story points": 10.0
 	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You arrive at Hillstead Outpost and are nearly knocked aside by a running child. A guard shouts, a wolf-horn sounds in the distance, and someone slams a door shut just ahead.\n\nWhispers swirl around your presence. 'They came from the bridge?' — 'But the bridge was broken.' — 'Maybe the wolves followed them.'\n\nNo one has time to greet you properly. The village is in disarray.",
+	  "rewards": {
+		"Story points": 10.0,
+		"h_hillstead_revealed": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "A bloodied hunter paces near the outpost gates. 'Too many tracks. Too close. We’re being tested — and it’s not hunger.'",
+	  "requirements": { "h_hillstead_revealed": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 5.0, "h_hunter_conversed": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "A large hound lies wounded beneath a porch. A child pets its head while whispering, 'He tried to warn us.'",
+	  "requirements": { "h_hillstead_revealed": { "min": 1.0 } },
+	  "rewards": { "Story points": 5.0, "Resolve": 2.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "A trader curses over a soaked crate. 'The valley’s flooding again. Can’t send grain east. And there’s... shapes in the shallows now.'",
+	  "requirements": { "h_hillstead_revealed": { "min": 1.0 } },
+	  "rewards": { "Story points": 5.0, "h_lake_rumor_heard": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "An elder woman grabs your arm. 'You crossed the bridge? Mirella sent you? Then maybe we’re not abandoned after all…'",
+	  "requirements": { "h_bridge_complete": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 5.0, "h_bridge_news_spread": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You hear shouting. A courier mounts a horse and gallops toward the high road. 'Tell them Hillstead still stands!' someone calls after them.",
+	  "requirements": { "h_bridge_news_spread": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 3.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "A lone priest rings the chapel bell. No one listens. No one comes. You catch him murmuring prayers for 'the pact' beneath his breath.",
+	  "requirements": { "h_hillstead_revealed": { "min": 1.0 } },
+	  "rewards": { "Story points": 3.0, "h_priest_conversed": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You pass a home where someone bakes flatbread over a dying fire. The smell is nostalgic. The mood is anything but.",
+	  "requirements": { "h_hillstead_revealed": { "min": 1.0 } },
+	  "rewards": { "Story points": 3.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Later that night, a traveling tinker tells you the waters have shifted again. A hidden stone path near the lake is visible now — but only barely.",
+	  "requirements": {
+		"h_lake_rumor_heard": { "min": 1.0 },
+		"Story points": { "min": 120.0 }
+	  },
+	  "rewards": { "h_lake_access": 1.0 }
 	}
   ]
 }

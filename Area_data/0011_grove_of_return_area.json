@@ -3,6 +3,7 @@
   "description": "Tucked beyond sight and memory, this small grove feels impossible. No insects buzz. No leaves fall. The ground glows faintly beneath your feet, and a strange fruit pulses at its center \u2014 as if waiting for you to find it, again.",
   "tier": 2.0,
   "requirements": {
+  	"h_alpha_defeated": { "appear": { "min": 1.0 } },
 	"region_arc_complete": {"appear": { "min": 1.0 } }
   },
   "story_actions": [
