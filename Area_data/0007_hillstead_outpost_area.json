@@ -18,13 +18,14 @@
         {
             "action_type": "free",
             "story_text": "A large hound lies wounded beneath a porch. A child pets its head while whispering, 'He tried to warn us.'",
-            "requirements": {
-                "h_hillstead_revealed": { "appear": { "min": 1 } }
-            },
-            "rewards": {
-                "Story points": 5,
-                "Resolve": 2
-            }
+            "requirements": { "h_hillstead_revealed": { "appear": { "min": 1 } } },
+            "rewards": { "Story points": 5, "Resolve": 2, "h_hound_wounded": 1 }
+        },
+        {
+              "action_type": "free",
+              "story_text": "You apply the salve gently. The hound whines, then rests its head on its paws. The child watches in silence. 'He’ll make it. I think.'",
+              "requirements": {  "h_hound_wounded": { "appear": { "min": 1 } }, "Healing Salve": { "consume": 1 } },
+              "rewards": { "Story points": 5, "Spirit Bond": 1, "h_hound_saved": 1 }
         },
         {
             "action_type": "free",
