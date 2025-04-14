@@ -91,19 +91,22 @@
 	},
 	{
 	  "action_type": "loop",
-	  "story_text": "Patrol the outer perimeter with guards. The wind shifts. Somewhere beyond the treeline, something watches. A farmer says more livestock vanished last night, and no one saw what took them.",
+	  "story_text": "Patrol the outer perimeter with hunter. The wind shifts. Somewhere beyond the treeline, something watches. A farmer says more livestock vanished last night, and no one saw what took them.",
+	  "requirements": {
+		"h_hunter_conversed": { "min": 1.0 }
+	  },
 	  "cooldown": 2.0,
 	  "max_loops": 5,
 	  "rewards": {
 		"Story points": 3.0,
-		"Instinct": 1.0
+		"h_patrolled_around_hillstead": 1.0
 	  }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "After a few patrols, the hunter stops you. 'They’re not testing our walls — they’re circling. If you follow the west ridge, you might catch a clearer sign.'",
 	  "requirements": {
-		"h_hunter_conversed": { "min": 1.0 },
+		"h_patrolled_around_hillstead": { "min": 5.0 },
 		"Instinct": { "min": 3.0 }
 	  },
 	  "rewards": {
