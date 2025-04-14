@@ -1,153 +1,215 @@
 {
-  "name": "Hillstead Outpost",
-  "description": "A rugged village perched on wind-swept hills. Stone watchtowers overlook golden meadows. The people here are wary, their eyes fixed on the treeline \u2014 something is out there.",
-  "tier": 2.0,
-  "requirements": {
-	"Story points": { "consume":100.0 },
-	"h_hillstead_access": {"appear": { "min": 1.0 } }
-  },
-  "story_actions": [
-	{
-	  "action_type": "free",
-	  "story_text": "You arrive at Hillstead Outpost and are nearly knocked aside by a running child. A guard shouts, a wolf-horn sounds in the distance, and someone slams a door shut just ahead.\n\nWhispers swirl around your presence. 'They came from the bridge?' — 'But the bridge was broken.' — 'Maybe the wolves followed them.'\n\nNo one has time to greet you properly. The village is in disarray.",
-	  "rewards": {
-		"Story points": 10.0,
-		"h_hillstead_revealed": 1.0
-	  }
-	},
-	{
-	  "action_type": "free",
-	  "story_text": "A large hound lies wounded beneath a porch. A child pets its head while whispering, 'He tried to warn us.'",
-	  "requirements": { "h_hillstead_revealed": { "min": 1.0 } },
-	  "rewards": { "Story points": 5.0, "Resolve": 2.0 }
-	},
-	{
-	  "action_type": "free",
-	  "story_text": "A trader curses over a soaked crate. 'The valley’s flooding again. Can’t send grain east. And there’s... shapes in the shallows now.'",
-	  "requirements": { "h_hillstead_revealed": { "min": 1.0 } },
-	  "rewards": { "Story points": 5.0, "h_lake_rumor_heard": 1.0 }
-	},
-	{
-	  "action_type": "free",
-	  "story_text": "An elder woman grabs your arm. 'You crossed the bridge? Mirella sent you? Then maybe we’re not abandoned after all…'",
-	  "requirements": { "h_bridge_complete": { "appear": { "min": 1.0 } } },
-	  "rewards": { "Story points": 5.0, "h_bridge_news_spread": 1.0 }
-	},
-	{
-	  "action_type": "free",
-	  "story_text": "You hear shouting. A courier mounts a horse and gallops toward the high road. 'Tell them Hillstead still stands!' someone calls after them.",
-	  "requirements": { "h_bridge_news_spread": { "appear": { "min": 1.0 } } },
-	  "rewards": { "Story points": 3.0 }
-	},
-	{
-	  "action_type": "free",
-	  "story_text": "You pass a home where someone bakes flatbread over a dying fire. The smell is nostalgic. The mood is anything but.",
-	  "requirements": { "h_hillstead_revealed": { "min": 1.0 } },
-	  "rewards": { "Story points": 3.0 }
-	},
-	{
-	  "action_type": "free",
-	  "story_text": "Later that night, a traveling tinker tells you the waters have shifted again. A hidden stone path near the lake is visible now — but only barely.",
-	  "requirements": {
-		"h_lake_rumor_heard": { "min": 1.0 },
-		"Story points": { "min": 120.0 }
-	  },
-	  "rewards": { "h_lake_access": 1.0 }
-	},
-	{
-	  "action_type": "free",
-	  "story_text": "A bloodied hunter paces near the outpost gates. 'Too many tracks. Too close. We’re being tested — and it’s not hunger.' He sees your hesitation and shakes his head. 'Go see for yourself.'",
-	  "requirements": { "h_hillstead_revealed": { "appear": { "min": 1.0 } } },
-	  "rewards": { "Story points": 5.0, "h_hunter_conversed": 1.0 }
-	},
-	{
-	  "action_type": "free",
-	  "story_text": "A lone priest rings the chapel bell. No one listens. No one comes. You catch him murmuring prayers for 'the pact' beneath his breath.",
-	  "requirements": { "h_hillstead_revealed": { "min": 1.0 } },
-	  "rewards": { "Story points": 3.0, "h_priest_conversed": 1.0 }
-	},
-	{
-	  "action_type": "free",
-	  "story_text": "The priest lowers his voice. 'Before swords and stone towers, there was an agreement. Spirit for shelter. Blood for balance.'\n\nHe glances toward the forest. 'I fear we've forgotten our part.'",
-	  "requirements": {
-		"h_hunter_conversed": { "min": 1.0 },
-		"h_priest_conversed": { "min": 1.0 }
-	  },
-	  "rewards": {
-		"Story points": 5.0,
-		"h_pact_theory_revealed": 1.0
-	  }
-	},
-	{
-	  "action_type": "free",
-	  "story_text": "By the chapel altar, a faded banner hangs. You hadn’t noticed it before — twin wolves flanking a tree, their eyes stitched with golden thread.",
-	  "requirements": {
-		"h_pact_theory_revealed": { "min": 1.0 }
-	  },
-	  "rewards": {
-		"Story points": 5.0,
-		"h_pact_symbol_found": 1.0
-	  }
-	},
-	{
-	  "action_type": "loop",
-	  "story_text": "Patrol the outer perimeter with hunter. The wind shifts. Somewhere beyond the treeline, something watches. A farmer says more livestock vanished last night, and no one saw what took them.",
-	  "requirements": {
-		"h_hunter_conversed": { "min": 1.0 }
-	  },
-	  "cooldown": 2.0,
-	  "max_loops": 5,
-	  "rewards": {
-		"Story points": 3.0,
-		"h_patrolled_around_hillstead": 1.0
-	  }
-	},
-	{
-	  "action_type": "free",
-	  "story_text": "After a few patrols, the hunter stops you. 'They’re not testing our walls — they’re circling. If you follow the west ridge, you might catch a clearer sign.'",
-	  "requirements": {
-		"h_patrolled_around_hillstead": { "min": 5.0 },
-		"Instinct": { "min": 3.0 }
-	  },
-	  "rewards": {
-		"Story points": 5.0,
-		"h_patrol_hint_unlocked": 1.0
-	  }
-	},
-	{    
-	  "action_type": "free",
-	  "story_text": "You venture further into the perimeter — but something calls you off the path. A low growl. A gust. Tracks.\n\nYou follow.",
-	  "requirements": {
-		"Instinct": { "amount": 1.0 },
-		"h_pact_symbol_found": { "min": 1.0 },
-		"h_patrol_hint_unlocked": { "min": 1.0 }
-	  },
-	  "rewards": {
-		"Story points": 10.0,
-		"h_wolf_tracks_found": 1.0
-	  }
-	},
-	{
-	  "action_type": "free",
-	  "story_text": "You find a tree marked with runes and dried fur. It hums faintly when you approach. You remember the banner from the chapel.",
-	  "requirements": {
-		"h_wolf_tracks_found": { "min": 1.0 }
-	  },
-	  "rewards": {
-		"Story points": 10.0,
-		"h_rune_site_discovered": 1.0
-	  }
-	},
-	{
-	  "action_type": "free",
-	  "story_text": "From the watchtower, you see movement between the trees. The air shifts. The gorge calls — not as danger, but as memory.",
-	  "requirements": {
-		"h_rune_site_discovered": { "min": 1.0 }
-	  },
-	  "rewards": {
-		"Story points": 10.0,
-		"h_gorge_access": 1.0
-	  }
-	},
-  ]
+    "name": "Hillstead Outpost",
+    "description": "A rugged village perched on wind-swept hills. Stone watchtowers overlook golden meadows. The people here are wary, their eyes fixed on the treeline \u2014 something is out there.",
+    "tier": 2,
+    "requirements": {
+        "Story points": { "consume": 100 },
+        "h_hillstead_access": { "appear": { "min": 1 } }
+    },
+    "story_actions": [
+        {
+            "action_type": "free",
+            "story_text": "You arrive at Hillstead Outpost and are nearly knocked aside by a running child. A guard shouts, a wolf-horn sounds in the distance, and someone slams a door shut just ahead.\n\nWhispers swirl around your presence. 'They came from the bridge?' — 'But the bridge was broken.' — 'Maybe the wolves followed them.'\n\nNo one has time to greet you properly. The village is in disarray.",
+            "rewards": {
+                "Story points": 10,
+                "h_hillstead_revealed": 1
+            }
+        },
+        {
+            "action_type": "free",
+            "story_text": "A large hound lies wounded beneath a porch. A child pets its head while whispering, 'He tried to warn us.'",
+            "requirements": {
+                "h_hillstead_revealed": { "appear": { "min": 1 } }
+            },
+            "rewards": {
+                "Story points": 5,
+                "Resolve": 2
+            }
+        },
+        {
+            "action_type": "free",
+            "story_text": "An elder woman grabs your arm. 'You crossed the bridge? Mirella sent you? Then maybe we’re not abandoned after all…'",
+            "requirements": {
+                "h_bridge_complete": { "appear": { "min": 1 } }
+            },
+            "rewards": {
+                "Story points": 5,
+                "h_bridge_news_spread": 1
+            }
+        },
+        {
+            "action_type": "free",
+            "story_text": "You hear shouting. A courier mounts a horse and gallops toward the high road. 'Tell them Hillstead still stands!' someone calls after them.",
+            "requirements": {
+                "h_bridge_news_spread": { "appear": { "min": 1 } }
+            },
+            "rewards": {
+                "Story points": 3
+            }
+        },
+        {
+            "action_type": "free",
+            "story_text": "You pass a home where someone bakes flatbread over a dying fire. The smell is nostalgic. The mood is anything but.",
+            "requirements": {
+                "h_hillstead_revealed": { "appear": { "min": 1 } }
+            },
+            "rewards": {
+                "Story points": 3
+            }
+        },
+        {
+            "action_type": "free",
+            "story_text": "A trader curses over a soaked crate. 'The valley’s flooding again. Can’t send grain east. And there’s... shapes in the shallows now.'",
+            "requirements": {
+                "h_hillstead_revealed": { "appear": { "min": 1 } }
+            },
+            "rewards": {
+                "Story points": 5,
+                "h_lake_rumor_heard": 1
+            }
+        },
+        {
+            "action_type": "free",
+            "story_text": "Later that night, a traveling tinker tells you the waters have shifted again. A hidden stone path near the lake is visible now — but only barely.",
+            "requirements": {
+                "h_lake_rumor_heard": { "appear": { "min": 1 } },
+                "Story points": 120
+            },
+            "rewards": {
+                "h_lake_access": 1
+            }
+        },
+        {
+            "action_type": "free",
+            "story_text": "A bloodied hunter paces near the outpost gates. 'Too many tracks. Too close. We’re being tested — and it’s not hunger.' He sees your hesitation and shakes his head. 'Go see for yourself.'",
+            "requirements": {
+                "h_hillstead_revealed": { "appear": { "min": 1 } }
+            },
+            "rewards": {
+                "Story points": 5,
+                "h_hunter_conversed": 1
+            }
+        },
+        {
+            "action_type": "free",
+            "story_text": "A lone priest rings the chapel bell. No one listens. No one comes. You catch him murmuring prayers for 'the pact' beneath his breath.",
+            "requirements": { "h_hillstead_revealed": { "appear": { "min": 1 } } },
+            "rewards": {
+                "Story points": 3,
+                "h_priest_conversed": 1
+            }
+        },
+        {
+            "action_type": "free",
+            "story_text": "The priest lowers his voice. 'Before swords and stone towers, there was an agreement. Spirit for shelter. Blood for balance.'\n\nHe glances toward the forest. 'I fear we've forgotten our part.'",
+            "requirements": {
+                "h_hunter_conversed": { "appear": { "min": 1 } },
+                "h_priest_conversed": { "appear": { "min": 1 } }
+            },
+            "rewards": {
+                "Story points": 5,
+                "h_pact_theory_revealed": 1
+            }
+        },
+        {
+            "action_type": "free",
+            "story_text": "By the chapel altar, a faded banner hangs. You hadn’t noticed it before — twin wolves flanking a tree, their eyes stitched with golden thread.",
+            "requirements": {
+                "h_pact_theory_revealed": { "appear": { "min": 1 } }
+            },
+            "rewards": {
+                "Story points": 5,
+                "h_pact_symbol_found": 1
+            }
+        },
+        {
+            "action_type": "free",
+            "story_text": "The priest notices your curiosity. 'If you wish to understand the pact, you must read what came before. The chapel still holds fragments — prayers, warnings, agreements.'",
+            "requirements": {
+                "h_pact_symbol_found": { "appear": { "min": 1 } }
+            },
+            "rewards": {
+                "Story points": 4,
+                "h_book_study_unlocked": 1
+            }
+        },
+        {
+            "action_type": "loop",
+            "story_text": "Study weathered tomes and loose pages in the chapel archive. Much is missing — but pieces remain.",
+            "requirements": {
+                "h_book_study_unlocked": { "appear": { "min": 1 } },
+                "Wisdom": 1
+            },
+            "cooldown": 2,
+            "max_loops": 5,
+            "rewards": {
+                "Story points": 1,
+                "h_book_read": 1
+            }
+        },
+        {
+            "action_type": "free",
+            "story_text": "You close the last book. The message is clear now — the pact was not submission, but shared protection. You feel your understanding deepen.",
+            "requirements": {
+                "h_book_read": { "appear": { "min": 1 } }
+            },
+            "rewards": {
+                "Story points": 8,
+                "Wisdom": 2,
+                "h_wisdom_pact_ready": 1
+            }
+        },
+        {
+            "action_type": "loop",
+            "story_text": "Patrol the outer perimeter with hunter. The wind shifts. Somewhere beyond the treeline, something watches. A farmer says more livestock vanished last night, and no one saw what took them.",
+            "requirements": {
+                "h_hunter_conversed": { "appear": { "min": 1 } }
+            },
+            "cooldown": 2,
+            "max_loops": 5,
+            "rewards": { "Story points": 3, "h_patrolled_around_hillstead": 1 }
+        },
+        {
+            "action_type": "free",
+            "story_text": "After a few patrols, the hunter stops you. 'They’re not testing our walls — they’re circling. If you follow the west ridge, you might catch a clearer sign.'",
+            "requirements": {
+                "h_patrolled_around_hillstead": { "appear": { "min": 5 } }
+            },
+            "rewards": { "Story points": 5, "h_patrol_hint_unlocked": 1 }
+        },
+        {
+            "action_type": "free",
+            "story_text": "You venture further into the perimeter — but something calls you off the path. A low growl. A gust. Tracks.\n\nYou follow.",
+            "requirements": {
+                "h_pact_symbol_found": { "appear": { "min": 1 } },
+                "h_patrol_hint_unlocked": { "appear": { "min": 1 } }
+            },
+            "rewards": {
+                "Story points": 10,
+                "h_wolf_tracks_found": 1
+            }
+        },
+        {
+            "action_type": "free",
+            "story_text": "You find a tree marked with runes and dried fur. It hums faintly when you approach. You remember the banner from the chapel. From here, the forest thickens — but the watchtower might give you a clearer view of what lies ahead.",
+            "requirements": {
+                "h_wolf_tracks_found": { "appear": { "min": 1 } }
+            },
+            "rewards": {
+                "Story points": 10,
+                "h_rune_site_discovered": 1
+            }
+        },
+        {
+            "action_type": "free",
+            "story_text": "From the watchtower, you see movement between the trees. The air shifts. The gorge calls — not as danger, but as memory.",
+            "requirements": {
+                "h_rune_site_discovered": { "appear": { "min": 1 } }
+            },
+            "rewards": {
+                "Story points": 10,
+                "h_gorge_access": 1
+            }
+        }
+    ]
 }
