@@ -24,12 +24,6 @@
 	},
 	{
 	  "action_type": "free",
-	  "story_text": "A woman from Hillstead squints at the lake. 'If that valve works, open it. My brother’s crew was trapped at the quarry when the road went under.'",
-	  "requirements": { "h_lowering_prompted": { "appear": { "min": 1 } } },
-	  "rewards": { "Story points": 6.0 }
-	}
-	{
-	  "action_type": "free",
 	  "story_text": "An older man crouches near the lake, wringing water from a ragged coat. 'Crossing gave out beneath me,' he mutters. 'Bridge snapped like straw. One moment dry, the next — swallowed.'",
 	  "rewards": { "Story points": 6.0, "h_refugee_found": 1.0 }
 	},
@@ -44,6 +38,71 @@
 	  "story_text": "He finally meets your eyes. 'This lake… I can’t prove it, but it *moved*. Came from somewhere far off. I felt it, deep in my bones. Like it left something behind to get here.'",
 	  "requirements": { "h_flood_impact_witnessed": { "appear": { "min": 1.0 } } },
 	  "rewards": { "Story points": 7.0, "h_displacement_suspected": 1.0 }
+	}
+	{
+	  "action_type": "free",
+	  "story_text": "You follow the water’s edge toward the cliffs. A gully cuts through the land — or used to. It’s now packed with stone, splintered wood, and twisted brush. The runoff has nowhere to go.",
+	  "rewards": { "Story points": 5.0, "h_gully_blocked": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "The woman from Hillstead catches up to you. 'That path used to drain out toward the quarry. Now it’s a damn wall.' She scans the jammed debris, eyes narrowing. 'My brother’s crew is still out there.'",
+	  "requirements": { "h_gully_blocked": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 6.0, "h_brother_mentioned": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You test the edge of the debris. It shifts underfoot — heavy, waterlogged, unstable. Clearing it would take strength and care.",
+	  "requirements": { "h_brother_mentioned": { "appear": { "min": 1.0 } } },
+	  "rewards": {
+	    "Story points": 3.0,
+	    "h_evaluated_gully_debris": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You shake your head. It’s too much. The woman exhales sharply. 'Then we need help — Hillstead has axes, ropes, people who’ll care. I’ll go. If you reach them first, send word.'",
+	  "requirements": {
+	    "h_evaluated_gully_debris": { "appear": { "min": 1.0 } },
+	    "h_clearance_attempt_started": { "appear": { "max": 0.0 } }
+	  },
+	  "rewards": { "Story points": 4.0, "h_help_needed_from_hillstead": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You crouch beside the blockage and strain against a waterlogged slab. It shifts — just slightly — revealing dark, rushing water below. The woman exhales. 'Maybe we’ve got a chance after all.'",
+	  "requirements": {
+	    "h_evaluated_gully_debris": { "appear": { "min": 1.0 } },
+	    "h_help_needed_from_hillstead": { "appear": { "max": 0.0 } },
+	    "Strength": { "min": 3.0 }
+	  },
+	  "rewards": { "Story points": 4.0, "h_clearance_attempt_started": 1.0 }
+	}
+	{
+	  "action_type": "loop",
+	  "story_text": "You brace your legs and start hauling the worst of the blockage away — stone by stone, log by sodden log. The woman watches, silent, then starts helping too.",
+	  "cooldown": 2.0,
+	  "max_loops": 5,
+	  "requirements": { "h_clearance_attempt_started": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 2.0, "h_debris_cleared": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You return with a small crew from Hillstead — rope coils, shovels, hands hardened by stone and storm. The woman smiles, just barely. 'Told you they'd come.'",
+	  "requirements": {
+	    "h_help_needed_from_hillstead": { "appear": { "min": 1.0 } },
+	    "h_hillstead_assistance_ready": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+	    "Story points": 10.0,
+	    "h_debris_cleared": 5.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "The last beam rolls free with a wet crack. Water rushes forward — not enough to drain the lake, but enough to carve a way east. The woman grips your arm. 'You did it. Let’s find them.'",
+	  "requirements": { "h_debris_cleared": { "appear": { "min": 5.0 } } },
+	  "rewards": { "Story points": 12.0, "h_quarry_access": 1.0 }
 	}
   ]
 }
