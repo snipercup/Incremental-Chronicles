@@ -44,18 +44,6 @@
         },
         {
             "action_type": "free",
-            "story_text": "A trader curses over a soaked crate. 'The valley’s flooding again. Can’t send grain east. And there’s... shapes in the shallows now.'",
-            "requirements": { "h_hillstead_revealed": { "appear": { "min": 1 } } },
-            "rewards": { "Story points": 5, "h_lake_rumor_heard": 1 }
-        },
-        {
-            "action_type": "free",
-            "story_text": "Later that night, a traveling tinker tells you the waters have shifted again. A hidden stone path near the lake is visible now — but only barely.",
-            "requirements": { "h_lake_rumor_heard": { "appear": { "min": 1 } }, "Story points": 120 },
-            "rewards": { "h_lake_access": 1 }
-        },
-        {
-            "action_type": "free",
             "story_text": "A bloodied hunter paces near the outpost gates. 'Too many tracks. Too close. We’re being tested — and it’s not hunger.' He sees your hesitation and shakes his head. 'Go see for yourself.'",
             "requirements": { "h_hillstead_revealed": { "appear": { "min": 1 } } },
             "rewards": { "Story points": 5, "h_hunter_conversed": 1 }
@@ -138,6 +126,24 @@
             "story_text": "From the watchtower, you see movement between the trees. The air shifts. The gorge calls — not as danger, but as memory.",
             "requirements": { "h_rune_site_discovered": { "appear": { "min": 1 } } },
             "rewards": { "Story points": 10, "h_gorge_access": 1 }
+        },
+        {
+            "action_type": "free",
+            "story_text": "An elder sits outside, sharpening a dull knife. 'We heard the river screaming before we saw the water. Came all at once. Took the bridge, the oxen, half a grove. When the panic cleared... there was a lake.'",
+            "requirements": { "h_hillstead_revealed": { "appear": { "min": 1 } } },
+            "rewards": { "Story points": 5.0, "h_flood_memory_shared": 1 }
+        },
+        {
+            "action_type": "free",
+            "story_text": "From the high trail behind the chapel, you can just glimpse the lake’s unnatural shape — too round, too still. No birds fly above it.",
+            "requirements": { "h_flood_memory_shared": { "appear": { "min": 1 } } },
+            "rewards": { "Story points": 6.0, "h_lake_access": 1 }
+        },
+        {
+            "action_type": "free",
+            "story_text": "You trace the memory of the flood — the ruined bridge, the desperate merchants. But now the lake just sits there. Silent. Like it’s waiting.",
+            "requirements": { "h_lake_access": { "appear": { "min": 1 } } },
+            "rewards": { "Story points": 8.0, "Insight": 1.0 }
         }
     ]
 }
