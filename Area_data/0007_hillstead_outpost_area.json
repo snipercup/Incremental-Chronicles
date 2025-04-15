@@ -144,7 +144,7 @@
             "story_text": "You trace the memory of the flood — the ruined bridge, the desperate merchants. But now the lake just sits there. Silent. Like it’s waiting.",
             "requirements": { "h_lake_access": { "appear": { "min": 1 } } },
             "rewards": { "Story points": 8.0, "Insight": 1.0 }
-        }
+        },
         {
             "action_type": "free",
             "story_text": "You ask around for strong arms and tools to help clear a blocked path near the lake. Most glance away. 'Too much to handle here,' one mutters.",
