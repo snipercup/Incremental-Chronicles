@@ -38,7 +38,7 @@
 	  "story_text": "He finally meets your eyes. 'This lake… I can’t prove it, but it *moved*. Came from somewhere far off. I felt it, deep in my bones. Like it left something behind to get here.'",
 	  "requirements": { "h_flood_impact_witnessed": { "appear": { "min": 1.0 } } },
 	  "rewards": { "Story points": 7.0, "h_displacement_suspected": 1.0 }
-	}
+	},
 	{
 	  "action_type": "free",
 	  "story_text": "You follow the water’s edge toward the cliffs. A gully cuts through the land — or used to. It’s now packed with stone, splintered wood, and twisted brush. The runoff has nowhere to go.",
@@ -55,16 +55,16 @@
 	  "story_text": "You test the edge of the debris. It shifts underfoot — heavy, waterlogged, unstable. Clearing it would take strength and care.",
 	  "requirements": { "h_brother_mentioned": { "appear": { "min": 1.0 } } },
 	  "rewards": {
-	    "Story points": 3.0,
-	    "h_evaluated_gully_debris": 1.0
+		"Story points": 3.0,
+		"h_evaluated_gully_debris": 1.0
 	  }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "You shake your head. It’s too much. The woman exhales sharply. 'Then we need help — Hillstead has axes, ropes, people who’ll care. I’ll go. If you reach them first, send word.'",
 	  "requirements": {
-	    "h_evaluated_gully_debris": { "appear": { "min": 1.0 } },
-	    "h_clearance_attempt_started": { "appear": { "max": 0.0 } }
+		"h_evaluated_gully_debris": { "appear": { "min": 1.0 } },
+		"h_clearance_attempt_started": { "appear": { "max": 0.0 } }
 	  },
 	  "rewards": { "Story points": 4.0, "h_help_needed_from_hillstead": 1.0 }
 	},
@@ -72,12 +72,12 @@
 	  "action_type": "free",
 	  "story_text": "You crouch beside the blockage and strain against a waterlogged slab. It shifts — just slightly — revealing dark, rushing water below. The woman exhales. 'Maybe we’ve got a chance after all.'",
 	  "requirements": {
-	    "h_evaluated_gully_debris": { "appear": { "min": 1.0 } },
-	    "h_help_needed_from_hillstead": { "appear": { "max": 0.0 } },
-	    "Strength": { "min": 3.0 }
+		"h_evaluated_gully_debris": { "appear": { "min": 1.0 } },
+		"h_help_needed_from_hillstead": { "appear": { "max": 0.0 } },
+		"Strength": { "min": 3.0 }
 	  },
 	  "rewards": { "Story points": 4.0, "h_clearance_attempt_started": 1.0 }
-	}
+	},
 	{
 	  "action_type": "loop",
 	  "story_text": "You brace your legs and start hauling the worst of the blockage away — stone by stone, log by sodden log. The woman watches, silent, then starts helping too.",
@@ -90,12 +90,12 @@
 	  "action_type": "free",
 	  "story_text": "You return with a small crew from Hillstead — rope coils, shovels, hands hardened by stone and storm. The woman smiles, just barely. 'Told you they'd come.'",
 	  "requirements": {
-	    "h_help_needed_from_hillstead": { "appear": { "min": 1.0 } },
-	    "h_hillstead_assistance_ready": { "appear": { "min": 1.0 } }
+		"h_help_needed_from_hillstead": { "appear": { "min": 1.0 } },
+		"h_hillstead_assistance_ready": { "appear": { "min": 1.0 } }
 	  },
 	  "rewards": {
-	    "Story points": 10.0,
-	    "h_debris_cleared": 5.0
+		"Story points": 10.0,
+		"h_debris_cleared": 5.0
 	  }
 	},
 	{
