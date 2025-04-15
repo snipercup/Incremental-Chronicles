@@ -10,8 +10,9 @@ var required_amount: float = 0.0
 # No longer group-specific — just one total-based check
 var appear_min_total: float = -INF
 var appear_max_total: float = INF
-var appear_min_regeneration: float = -INF
-var appear_max_regeneration: float = INF
+# Action/area will appear if regeneration amounts are met
+var appear_min_regeneration: float = -INF # "Focus": { "appear": { "regeneration": { "min": 1.0 } } }
+var appear_max_regeneration: float = INF # "Focus": { "appear": { "regeneration": { "max": 0.0 } } }
 var appear_min_permanent_capacity: float = -INF
 var appear_max_permanent_capacity: float = INF
 var appear_min_temporary_capacity: float = -INF

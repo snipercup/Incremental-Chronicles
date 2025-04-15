@@ -225,3 +225,11 @@ func _on_resources_updated(resource_store: Label) -> void:
 # Returns true if the action is in this area
 func has_action(myaction: StoryAction) -> bool:
 	return myaction in story_actions
+
+
+# Gets a dictionary of every resource and their requirement/rewards
+func get_resource_summary() -> Dictionary:
+	var summary := {}
+	for action: StoryAction in story_actions:
+		action.get_resource_summary(summary)
+	return summary

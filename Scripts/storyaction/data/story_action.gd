@@ -171,3 +171,40 @@ func _on_area_pressed(myarea: StoryArea) -> void:
 	else:
 		if SignalBroker.resources_updated.is_connected(_on_resources_updated):
 			SignalBroker.resources_updated.disconnect(_on_resources_updated)
+
+
+# Gets a dictionary of every resource and their requirement/rewards
+func get_resource_summary(summary: Dictionary) -> void:
+	for res_name: String in get_requirements().keys():
+		var req: ResourceRequirement = get_requirements()[res_name]
+
+		# Ensure the nested structure exists
+		if not summary.has(res_name):
+			summary[res_name] = {
+				"temporary_consume": 0.0,
+				"appear_min_total": 0.0,
+				"temporary_reward": 0.0
+			}
+
+		# Apply temporary consumption
+		if req.consume_temporary > 0.0:
+			summary[res_name]["temporary_consume"] += req.consume_temporary
+
+		# Apply appear_min_total (if present)
+		if req.appear_min_total > 0.0:
+			summary[res_name]["appear_min_total"] += req.appear_min_total
+
+	for res_name in get_rewards().keys():
+		var reward: ResourceReward = get_rewards()[res_name]
+
+		# Ensure the nested structure exists
+		if not summary.has(res_name):
+			summary[res_name] = {
+				"temporary_consume": 0.0,
+				"appear_min_total": 0.0,
+				"temporary_reward": 0.0
+			}
+
+		# Apply temporary reward
+		if reward.temporary > 0.0:
+			summary[res_name]["temporary_reward"] += reward.temporary
