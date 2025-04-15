@@ -3,49 +3,36 @@
   "name": "Forgotten Temple",
   "tier": 1.0,
   "requirements": {
-	"Story points": {"consume":50.0},
+	"Story points": { "consume": 50.0 },
 	"h_temple_access": { "appear": { "min": 1.0 } }
   },
   "story_actions": [
 	{
 	  "action_type": "free",
-	  "rewards": {
-		"Story points": 3.0
-	  },
+	  "rewards": { "Story points": 3.0 },
 	  "story_text": "Enter the temple through a cracked stone archway."
 	},
 	{
 	  "action_type": "free",
-	  "rewards": {
-		"Story points": 3.0
-	  },
+	  "rewards": { "Story points": 3.0 },
 	  "story_text": "Touch a faded mural depicting souls rising in a spiral of light."
 	},
 	{
 	  "action_type": "free",
-	  "rewards": {
-		"Story points": 3.0,
-		"h_visited_temple": 3.0
-	  },
+	  "rewards": { "Story points": 3.0, "h_visited_temple": 3.0 },
 	  "story_text": "Study an inscription: 'To rise again, the soul must shed its tether to the past.'"
 	},
 	{
 	  "action_type": "free",
 	  "requirements": {
 		"Soul Vessel": {"consume":1.0},
-		"h_visited_temple": {
-		  "appear": {
-			"min": 1.0
-		  }
-		}
+		"h_visited_temple": { "appear": { "min": 1.0 } }
 	  },
 	  "story_text": "You kneel before the altar, prepared for rebirth \u2014 but the ritual falters. Something\u2019s missing."
 	},
 	{
 	  "action_type": "reincarnation",
-	  "requirements": {
-		"h_soul_vessel_obtained": { "appear": { "min": 1.0 } }
-	  },
+	  "requirements": { "h_soul_vessel_obtained": { "appear": { "min": 1.0 } } },
 	  "rewards": {
 		"Story points": 10.0,
 		"Reincarnation": {"permanent": 1.0},

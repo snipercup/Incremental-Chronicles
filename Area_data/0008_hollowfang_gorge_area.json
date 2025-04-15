@@ -1,0 +1,120 @@
+{
+  "name": "Hollowfang Gorge",
+  "description": "The trees twist as they lean inward, forming a shrouded path into the gorge. The deeper you go, the quieter it gets — until silence itself feels like a presence. Shadows flit between the trees, and claw marks line the bark. Something waits.",
+  "tier": 2.0,
+  "requirements": {
+	"Story points": { "consume": 200.0 },
+	"h_gorge_access": { "appear": { "min": 1.0 } }
+  },
+  "story_actions": [
+	{
+	  "action_type": "free",
+	  "story_text": "Examine claw marks on a narrow tree trunk. Fresh. Deep.",
+	  "rewards": {
+		"Story points": 5.0,
+		"h_wolf_presence": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Follow pawprints that vanish and reappear in unnatural patterns.",
+	  "requirements": {
+		"h_wolf_presence": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"Story points": 8.0,
+		"h_glyph_path_found": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Discover an ancient glyph carved into a stone, surrounded by wolf fur.",
+	  "requirements": {
+		"h_glyph_path_found": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"Story points": 10.0,
+		"h_glyphs_observed": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You study the glyphs. The sigil from the chapel flashes in your mind. These are not warnings, but bindings. The shapes begin to align. You understand.",
+	  "requirements": {
+		"Wisdom": { "amount": 4.0 },
+		"Insight": { "amount": 2.0 },
+		"h_glyphs_observed": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"Story points": 10.0,
+		"h_glyphs_understood": 1.0,
+		"h_stone_cave_access": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You stare at the glyphs, but their patterns twist away from understanding. Whatever they once meant, that meaning is lost to you.",
+	  "requirements": {
+		"h_glyphs_observed": { "min": 1.0 }
+	  },
+	  "rewards": {
+		"Story points": 5.0,
+		"h_glyphs_misunderstood": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You approach a narrow cave entrance. Glyphs line the walls. They shimmer slightly as you draw near. The way is open."
+	  ,
+	  "requirements": {
+		"h_stone_cave_access": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"Story points": 10.0,
+		"h_silent_stone_found": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Touch the Silent Stone. Visions flood your mind — wolves circling, ancient fire, your own reflection staring back from another life.",
+	  "requirements": {
+		"Spirit Bond": { "amount": 2.0 },
+		"h_silent_stone_found": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"Story points": 20.0,
+		"h_vision_experienced": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You come to a rise where the trees open slightly. The Pale Alpha emerges — tall, spectral, and quiet. It does not attack. It watches. And waits."
+	  ,
+	  "requirements": {
+		"h_vision_experienced": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"Story points": 25.0,
+		"h_pact_restored": 1.0,
+		"Soul Fang": 1.0
+	  }
+	},
+	{
+	  "action_type": "combat",
+	  "story_text": "You hear a low growl before you see the gleam of fangs. The Pale Alpha lunges from the shadows. There will be no peace. Only survival."
+	  ,
+	  "requirements": {
+		"h_glyphs_misunderstood": { "appear": { "min": 1.0 } }
+	  },
+	  "enemy": {
+		"name": "Pale Alpha",
+		"strength": 10.0
+	  },
+	  "rewards": {
+		"Story points": 25.0,
+		"h_alpha_defeated": 1.0,
+		"Soul Fang": 1.0
+	  }
+	}
+  ]
+}

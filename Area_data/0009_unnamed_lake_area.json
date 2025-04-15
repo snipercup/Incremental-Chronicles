@@ -4,106 +4,105 @@
   "tier": 2.0,
   "requirements": {
 	"Story points": { "consume":220.0 },
-	"lake_access": { "appear": { "min": 1.0 } }
+	"h_lake_access": { "appear": { "min": 1.0 } }
   },
   "story_actions": [
 	{
 	  "action_type": "free",
 	  "story_text": "Speak with a farmer standing at the edge of the flood, mourning their ruined fields.",
+	  "rewards": { "Story points": 5.0, "h_farmer_grieved": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You spot the ribs of a merchant cart poking from the water. A wheel spins slowly in the current. No bones — just broken crates, and a single sealed box.",
+	  "rewards": { "Story points": 4.0, "Resolve": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You wade through shallow water and find the tops of fence posts, a stone wall, and the faint lines of old furrows. This was farmland. Until recently.",
+	  "rewards": { "Story points": 4.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "An older man crouches near the lake, wringing water from a ragged coat. 'Crossing gave out beneath me,' he mutters. 'Bridge snapped like straw. One moment dry, the next — swallowed.'",
+	  "rewards": { "Story points": 6.0, "h_refugee_found": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "He doesn't look up. 'It wasn’t rain. It wasn’t runoff. It hit all at once — roaring, cold, like it had somewhere to be.'",
+	  "requirements": { "h_refugee_found": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 6.0, "h_flood_impact_witnessed": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "He finally meets your eyes. 'This lake… I can’t prove it, but it *moved*. Came from somewhere far off. I felt it, deep in my bones. Like it left something behind to get here.'",
+	  "requirements": { "h_flood_impact_witnessed": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 7.0, "h_displacement_suspected": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You follow the water’s edge toward the cliffs. A gully cuts through the land — or used to. It’s now packed with stone, splintered wood, and twisted brush. The runoff has nowhere to go.",
+	  "rewards": { "Story points": 5.0, "h_gully_blocked": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "The woman from Hillstead catches up to you. 'That path used to drain out toward the quarry. Now it’s a damn wall.' She scans the jammed debris, eyes narrowing. 'My brother’s crew is still out there.'",
+	  "requirements": { "h_gully_blocked": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 6.0, "h_brother_mentioned": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You test the edge of the debris. It shifts underfoot — heavy, waterlogged, unstable. Clearing it would take strength and care.",
+	  "requirements": { "h_brother_mentioned": { "appear": { "min": 1.0 } } },
 	  "rewards": {
-		"Story points": 5.0,
-		"h_farmer_grieved": 1.0
+		"Story points": 3.0,
+		"h_evaluated_gully_debris": 1.0
 	  }
 	},
 	{
 	  "action_type": "free",
-	  "story_text": "Help a fisher haul in nets from the murky water. Something struggles in the catch...",
-	  "rewards": {
-		"Story points": 6.0,
-		"h_fishers_trust": 1.0
-	  }
+	  "story_text": "You shake your head. It’s too much. The woman exhales sharply. 'Then we need help — Hillstead has axes, ropes, people who’ll care. I’ll go. If you reach them first, send word.'",
+	  "requirements": {
+		"h_evaluated_gully_debris": { "appear": { "min": 1.0 } },
+		"h_clearance_attempt_started": { "appear": { "max": 0.0 } }
+	  },
+	  "rewards": { "Story points": 4.0, "h_help_needed_from_hillstead": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You crouch beside the blockage and strain against a waterlogged slab. It shifts — just slightly — revealing dark, rushing water below. The woman exhales. 'Maybe we’ve got a chance after all.'",
+	  "requirements": {
+		"h_evaluated_gully_debris": { "appear": { "min": 1.0 } },
+		"h_help_needed_from_hillstead": { "appear": { "max": 0.0 } },
+		"Strength": { "min": 3.0 }
+	  },
+	  "rewards": { "Story points": 4.0, "h_clearance_attempt_started": 1.0 }
 	},
 	{
 	  "action_type": "loop",
-	  "story_text": "Scavenge broken pottery and carved stone from the shallows.",
+	  "story_text": "You brace your legs and start hauling the worst of the blockage away — stone by stone, log by sodden log. The woman watches, silent, then starts helping too.",
 	  "cooldown": 2.0,
 	  "max_loops": 5,
-	  "rewards": {
-		"Ancient Debris": 1.0,
-		"Story points": 3.0
-	  }
+	  "requirements": { "h_clearance_attempt_started": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 2.0, "h_debris_cleared": 1.0 }
 	},
 	{
 	  "action_type": "free",
-	  "story_text": "Dive into the lake's depths to explore a submerged ruin.",
+	  "story_text": "You return with a small crew from Hillstead — rope coils, shovels, hands hardened by stone and storm. The woman smiles, just barely. 'Told you they'd come.'",
 	  "requirements": {
-		"Resolve": {
-		  "consume": 5.0
-		},
-		"Perception": {
-		  "amount": 3.0
-		}
-	  },
-	  "rewards": {
-		"Story points": 15.0,
-		"h_sunken_gate_found": 1.0
-	  }
-	},
-	{
-	  "action_type": "puzzle",
-	  "story_text": "Study a stone valve system beneath the water \u2014 it may control the lake's level.",
-	  "requirements": {
-		"Intelligence": {
-		  "amount": 4.0
-		},
-		"h_sunken_gate_found": {
-		  "appear": {
-			"min": 1.0
-		  }
-		}
-	  },
-	  "rewards": {
-		"Story points": 20.0,
-		"h_lake_lowered": 1.0
-	  }
-	},
-	{
-	  "action_type": "free",
-	  "story_text": "Confront the fisher cultists performing a midnight water rite.",
-	  "requirements": {
-		"h_fishers_trust": {
-		  "appear": {
-			"min": 1.0
-		  }
-		}
+		"h_help_needed_from_hillstead": { "appear": { "min": 1.0 } },
+		"h_hillstead_assistance_ready": { "appear": { "min": 1.0 } }
 	  },
 	  "rewards": {
 		"Story points": 10.0,
-		"h_cult_ritual_seen": 1.0
+		"h_debris_cleared": 5.0
 	  }
 	},
 	{
 	  "action_type": "free",
-	  "story_text": "Speak with a hermit who claims the lake is a memory \u2014 not of water, but of something forgotten.",
-	  "rewards": {
-		"Story points": 5.0,
-		"h_memory_theory_learned": 1.0
-	  }
-	},
-	{
-	  "action_type": "free",
-	  "story_text": "Follow exposed stone paths revealed by the lowered lake, leading toward a cliffside quarry.",
-	  "requirements": {
-		"h_lake_lowered": {
-		  "appear": {
-			"min": 1.0
-		  }
-		}
-	  },
-	  "rewards": {
-		"Story points": 15.0,
-		"h_quarry_access": 1.0
-	  }
+	  "story_text": "The last beam rolls free with a wet crack. Water rushes forward — not enough to drain the lake, but enough to carve a way east. The woman grips your arm. 'You did it. Let’s find them.'",
+	  "requirements": { "h_debris_cleared": { "appear": { "min": 5.0 } } },
+	  "rewards": { "Story points": 12.0, "h_quarry_access": 1.0 }
 	}
   ]
 }

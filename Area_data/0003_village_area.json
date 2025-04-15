@@ -281,49 +281,30 @@
 	{
 	  "action_type": "free",
 	  "story_text": "Help the herbalist sisters dry bundles of lavender and yarrow.",
-	  "rewards": {
-		"Herbs": 1.0,
-		"Story points": 2.0
-	  }
+	  "rewards": { "Herbs": 1.0, "Story points": 2.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Bring herbs to the chapel to prepare for dusk rites.",
-	  "requirements": {
-		"Herbs": {"consume":1.0}
-	  },
-	  "rewards": {
-		"Resolve": 10.0,
-		"h_village_resilience": 0.5
-	  }
+	  "requirements": { "Herbs": { "consume":1.0 } },
+	  "rewards": { "Resolve": 10.0, "h_village_resilience": 0.5 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Read the public noticeboard \u2014 faded ink, fresh concerns.",
-	  "requirements": {
-		"Focus": { "consume":1.0 }
-	  },
-	  "rewards": {
-		"Story points": 2.0
-	  }
+	  "requirements": { "Focus": { "consume":1.0 } },
+	  "rewards": { "Story points": 2.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "You meet Elder Branna near the well. She tells you of a massive landslide that has buried the forest path to the east. 'It fell after a quake some winters ago. We've sent for help, but none came. That path must be cleared. There are people waiting.'",
-	  "rewards": {
-		"Story points": 3.0,
-		"h_path_obstructed": 1.0
-	  }
+	  "rewards": { "Story points": 3.0, "h_path_obstructed": 1.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "The blacksmith crosses his arms. 'That landslide? It's not just rubble. There's old stone, roots grown thick, and slabs heavier than oxen. You'd need the strength of ten men and something to shift the earth itself.'",
-	  "requirements": {
-		"h_path_obstructed": { "appear": { "min": 1.0 } }
-	  },
-	  "rewards": {
-		"Story points": 2.0
-	  }
+	  "requirements": { "h_path_obstructed": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 2.0 }
 	},
 	{
 	  "action_type": "free",
@@ -333,42 +314,26 @@
 		"Resolve": 20.0,
 		"h_path_obstructed": { "appear": { "min": 1.0 } }
 	  },
-	  "rewards": {
-		"Story points": 25.0,
-		"h_flooded_crossing_access": 1.0
-	  }
+	  "rewards": { "Story points": 25.0, "h_flooded_crossing_access": 1.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "You see a woman sorting herbs near the well. She nods as you approach but says little.\n\nA nearby villager whispers, 'That's Lyra. Brings herbs to the chapel every dusk. She doesn't speak much, but she listens.'",
-	  "rewards": {
-		"Story points": 2.0,
-		"h_lyra_intro": 1.0
-	  }
+	  "rewards": { "Story points": 2.0, "h_lyra_intro": 1.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "The chapel priest frowns. 'Lyra’s late. She never misses dusk rites. If you’re heading that way, could you check on her? She gathers herbs near the southern trail.'",
-	  "requirements": {
-		"h_lyra_intro": { "appear": { "min": 1.0 } }
-	  },
-	  "rewards": {
-		"Story points": 2.0,
-		"h_lyra_help_prompt": 1.0
-	  }
+	  "requirements": { "h_lyra_intro": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 2.0, "h_lyra_help_prompt": 1.0 }
 	},
 	{
 	  "action_type": "loop",
 	  "story_text": "You find Lyra crouched beside the trail, carefully bundling herbs. She glances up, surprised. 'I... didn’t expect help.'\n\nYou gather beside her in silence, working until her basket is full.",
-	  "requirements": {
-		"h_lyra_help_prompt": { "appear": { "min": 1.0 } }
-	  },
+	  "requirements": { "h_lyra_help_prompt": { "appear": { "min": 1.0 } } },
 	  "cooldown": 1.0,
 	  "max_loops": 5,
-	  "rewards": {
-		"h_helped_lyra": 1.0,
-		"Herbs": 2.0
-	  }
+	  "rewards": { "h_helped_lyra": 1.0, "Herbs": 2.0 }
 	},
 	{
 	  "action_type": "free",
@@ -377,9 +342,7 @@
 		"h_vault_key_rumor": { "appear": { "min": 1.0 } },
 		"h_helped_lyra": { "appear": { "min": 1.0 } }
 	  },
-	  "rewards": {
-		"h_lyra_knows_your_goal": 1.0
-	  }
+	  "rewards": { "h_lyra_knows_your_goal": 1.0 }
 	},
 	{
 	  "action_type": "free",
@@ -388,20 +351,13 @@
 		"h_lyra_knows_your_goal": { "appear": { "min": 1.0 } },
 		"h_helped_lyra": { "appear": { "min": 5.0 } }
 	  },
-	  "rewards": {
-		"Vault Key": 1.0,
-		"h_lyra_gave_key": 1.0
-	  }
+	  "rewards": { "Vault Key": 1.0, "h_lyra_gave_key": 1.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "You glimpse Lyra placing herbs gently on the chapel steps. She doesn't enter, but her gaze lingers on the altar.\n\nA soft voice reaches your ear: 'Some burdens don’t need words.'",
-	  "requirements": {
-		"h_lyra_gave_key": { "appear": { "min": 1.0 } }
-	  },
-	  "rewards": {
-		"Resolve": 5.0
-	  }
+	  "requirements": { "h_lyra_gave_key": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Resolve": 5.0 }
 	},
 	{
 	  "action_type": "loop",
@@ -413,21 +369,13 @@
 	  },
 	  "cooldown": 2.0,
 	  "max_loops": 6,
-	  "rewards": {
-		"Stone Dowels": 1.0,
-		"Story points": 1.0
-	  }
+	  "rewards": { "Stone Dowels": 1.0, "Story points": 1.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "You ask the smith if he has any braces strong enough for bridge work. He snorts. 'You’re building something that matters, huh? Earn it. Fire’s hot. Hammer’s ready.'",
-	  "requirements": {
-		"h_bridge_phase_2_active": { "appear": { "min": 1.0 } }
-	  },
-	  "rewards": {
-		"Story points": 2.0,
-		"h_smith_request_accepted": 1.0
-	  }
+	  "requirements": { "h_bridge_phase_2_active": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 2.0, "h_smith_request_accepted": 1.0 }
 	},
 	{
 	  "action_type": "loop",
@@ -438,10 +386,7 @@
 	  },
 	  "cooldown": 2.0,
 	  "max_loops": 4,
-	  "rewards": {
-		"Iron Braces": 1.0,
-		"Story points": 1.0
-	  }
+	  "rewards": { "Iron Braces": 1.0, "Story points": 1.0 }
 	},
 	{
 	  "action_type": "free",
@@ -463,10 +408,13 @@
 		"h_bridge_complete": { "appear": { "min": 1.0 } },
 		"h_smith_respect_earned": { "appear": { "min": 1.0 } }
 	  },
-	  "rewards": {
-		"Story points": 10.0,
-		"Resolve": 10.0
-	  }
+	  "rewards": { "Story points": 10.0, "Resolve": 10.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You mention the wounded hound to the Lyra. She hands you a salve. 'Apply this under the fur, near the ribs. If he lives, he’ll remember you.'",
+	  "requirements": { "h_hound_wounded": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 4, "Healing Salve": 1 }
 	}
   ]
 }
