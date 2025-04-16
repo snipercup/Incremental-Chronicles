@@ -25,9 +25,19 @@
 	},
 	{
 	  "action_type": "free",
-	  "story_text": "Sharpen your insight. (Increase Perception by 1)",
+	  "story_text": "Contemplate forgotten truths. (Increase Wisdom by 1)",
 	  "requirements": { "Echoes of the Past": { "consume": 1.0, "permanent": true } },
-	  "rewards": { "Perception": { "permanent": 1 } }
+	  "rewards": { "Wisdom": { "permanent": 1 } }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Pierce the veil of motives. (Increase Insight by 1)",
+	  "requirements": {
+		"Echoes of the Past": { "consume": 1.0, "permanent": true }
+	  },
+	  "rewards": {
+		"Insight": { "permanent": 1 }
+	  }
 	},
 	{
 	  "action_type": "free",
@@ -52,6 +62,15 @@
 		"Resolve": { "appear": { "permanent_capacity": { "max": 10.0 } } }
 	  },
 	  "rewards": { "Resolve": { "permanent_capacity": 5.0 } }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Glimpse the shape of fate. (Reveal % chances in combat)",
+	  "requirements": {
+		"Echoes of the Past": { "consume": 1.0, "permanent": true },
+		"h_combat_insight": { "appear": { "max": 0.0 } }
+	  },
+	  "rewards": { "h_combat_insight": { "permanent": 1.0 } }
 	},
 	{
 	  "action_type": "reincarnation",

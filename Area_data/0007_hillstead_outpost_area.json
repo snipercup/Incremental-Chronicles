@@ -45,13 +45,19 @@
 		{
 			"action_type": "free",
 			"story_text": "A bloodied hunter paces near the outpost gates. 'Too many tracks. Too close. We’re being tested — and it’s not hunger.' He sees your hesitation and shakes his head. 'Go see for yourself.'",
-			"requirements": { "h_hillstead_revealed": { "appear": { "min": 1 } } },
+			"requirements": { 
+				"h_hillstead_revealed": { "appear": { "min": 1 } }, 
+				"Focus": { "consume":1.0 } 
+			},
 			"rewards": { "Story points": 5, "h_hunter_conversed": 1 }
 		},
 		{
 			"action_type": "free",
 			"story_text": "A lone priest rings the chapel bell. No one listens. No one comes. You catch him murmuring prayers for 'the pact' beneath his breath.",
-			"requirements": { "h_hillstead_revealed": { "appear": { "min": 1 } } },
+			"requirements": { 
+				"h_hillstead_revealed": { "appear": { "min": 1 } }, 
+				"Focus": { "consume":1.0 }
+			},
 			"rewards": { "Story points": 3, "h_priest_conversed": 1 }
 		},
 		{
@@ -59,38 +65,46 @@
 			"story_text": "The priest lowers his voice. 'Before swords and stone towers, there was an agreement. Spirit for shelter. Blood for balance.'\n\nHe glances toward the forest. 'I fear we've forgotten our part.'",
 			"requirements": {
 				"h_hunter_conversed": { "appear": { "min": 1 } },
-				"h_priest_conversed": { "appear": { "min": 1 } }
+				"h_priest_conversed": { "appear": { "min": 1 } }, 
+				"Focus": { "consume": 1.0 } 
 			},
 			"rewards": { "Story points": 5, "h_pact_theory_revealed": 1 }
 		},
 		{
 			"action_type": "free",
 			"story_text": "By the chapel altar, a faded banner hangs. You hadn’t noticed it before — twin wolves flanking a tree, their eyes stitched with golden thread.",
-			"requirements": { "h_pact_theory_revealed": { "appear": { "min": 1 } } },
+			"requirements": { 
+				"h_pact_theory_revealed": { "appear": { "min": 1 } }, 
+				"Focus": { "consume": 1.0 }
+			},
 			"rewards": { "Story points": 5, "h_pact_symbol_found": 1 }
 		},
 		{
 			"action_type": "free",
 			"story_text": "The priest notices your curiosity. 'If you wish to understand the pact, you must read what came before. The chapel still holds fragments — prayers, warnings, agreements.'",
-			"requirements": { "h_pact_symbol_found": { "appear": { "min": 1 } } },
+			"requirements": { 
+				"h_pact_symbol_found": { "appear": { "min": 1 } }, 
+				"Focus": { "consume": 1.0 }
+			},
 			"rewards": { "Story points": 4, "h_book_study_unlocked": 1 }
 		},
 		{
 			"action_type": "loop",
 			"story_text": "Study weathered tomes and loose pages in the chapel archive. Much is missing — but pieces remain.",
-			"requirements": {
-				"h_book_study_unlocked": { "appear": { "min": 1 } },
-				"Wisdom": 1
-			},
 			"cooldown": 2,
 			"max_loops": 5,
+			"requirements": {
+				"h_book_study_unlocked": { "appear": { "min": 1 } }, 
+				"Focus": { "consume": 1.0 },
+				"Wisdom": 1
+			},
 			"rewards": { "Story points": 1, "h_book_read": 1 }
 		},
 		{
 			"action_type": "free",
 			"story_text": "You close the last book. The message is clear now — the pact was not submission, but shared protection. You feel your understanding deepen.",
-			"requirements": { "h_book_read": { "appear": { "min": 1 } } },
-			"rewards": { "Story points": 8, "Wisdom": 2, "h_wisdom_pact_ready": 1 }
+			"requirements": { "h_book_read": { "appear": { "min": 5 } } },
+			"rewards": { "Story points": 8, "Focus": 2, "Wisdom": 2, "h_wisdom_pact_ready": 1 }
 		},
 		{
 			"action_type": "loop",
@@ -103,7 +117,10 @@
 		{
 			"action_type": "free",
 			"story_text": "After a few patrols, the hunter stops you. 'They’re not testing our walls — they’re circling. If you follow the west ridge, you might catch a clearer sign.'",
-			"requirements": { "h_patrolled_around_hillstead": { "appear": { "min": 5 } } },
+			"requirements": { 
+				"h_patrolled_around_hillstead": { "appear": { "min": 5 } }, 
+				"Focus": { "consume": 1.0 }
+			},
 			"rewards": { "Story points": 5, "h_patrol_hint_unlocked": 1 }
 		},
 		{
@@ -111,32 +128,44 @@
 			"story_text": "You venture further into the perimeter — but something calls you off the path. A low growl. A gust. Tracks.\n\nYou follow.",
 			"requirements": {
 				"h_pact_symbol_found": { "appear": { "min": 1 } },
-				"h_patrol_hint_unlocked": { "appear": { "min": 1 } }
+				"h_patrol_hint_unlocked": { "appear": { "min": 1 } }, 
+				"Focus": { "consume": 1.0 }
 			},
 			"rewards": { "Story points": 10, "h_wolf_tracks_found": 1 }
 		},
 		{
 			"action_type": "free",
 			"story_text": "You find a tree marked with runes and dried fur. It hums faintly when you approach. You remember the banner from the chapel. From here, the forest thickens — but the watchtower might give you a clearer view of what lies ahead.",
-			"requirements": { "h_wolf_tracks_found": { "appear": { "min": 1 } } },
+			"requirements": { 
+				"h_wolf_tracks_found": { "appear": { "min": 1 } }, 
+				"Focus": { "consume": 1.0 }
+			},
 			"rewards": { "Story points": 10, "h_rune_site_discovered": 1 }
 		},
 		{
 			"action_type": "free",
 			"story_text": "From the watchtower, you see movement between the trees. The air shifts. The gorge calls — not as danger, but as memory.",
-			"requirements": { "h_rune_site_discovered": { "appear": { "min": 1 } } },
+			"requirements": { 
+				"h_rune_site_discovered": { "appear": { "min": 1 } }, 
+				"Focus": { "consume": 1.0 }
+			},
 			"rewards": { "Story points": 10, "h_gorge_access": 1 }
 		},
 		{
 			"action_type": "free",
 			"story_text": "An elder sits outside, sharpening a dull knife. 'We heard the river screaming before we saw the water. Came all at once. Took the bridge, the oxen, half a grove. When the panic cleared... there was a lake.'",
-			"requirements": { "h_hillstead_revealed": { "appear": { "min": 1 } } },
+			"requirements": {
+				"h_hillstead_revealed": { "appear": { "min": 1 } }, 
+				"Focus": { "consume": 1.0 }
+			},
 			"rewards": { "Story points": 5.0, "h_flood_memory_shared": 1 }
 		},
 		{
 			"action_type": "free",
 			"story_text": "From the high trail behind the chapel, you can just glimpse the lake’s unnatural shape — too round, too still. No birds fly above it.",
-			"requirements": { "h_flood_memory_shared": { "appear": { "min": 1 } } },
+			"requirements": {
+				"h_flood_memory_shared": { "appear": { "min": 1 } }, 
+				"Focus": { "consume": 5.0 } },
 			"rewards": { "Story points": 6.0, "h_lake_access": 1 }
 		},
 		{

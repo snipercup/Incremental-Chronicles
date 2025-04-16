@@ -27,6 +27,12 @@ func _init(data: Dictionary, myarea: StoryArea = null) -> void:
 	print_debug("my class name is: " + get_class())
 
 
+func test_combat_success(player_strength: float) -> bool:
+	var enemy_strength: float = enemy.get("strength", 1.0)
+	var success_chance := calculate_combat_success_chance(player_strength, enemy_strength)
+	return randf() < success_chance
+
+
 # === Combat Success Chance Table (Enemy Strength = 10) ===
 # Player Strength    Enemy Strength    Success Chance
 # 0.0                10                0%
@@ -38,26 +44,25 @@ func _init(data: Dictionary, myarea: StoryArea = null) -> void:
 # 15.0               10                75%
 # 17.5               10                87.5%
 # 20.0               10                100%  # Double strength
-func test_combat_success(player_strength: float) -> bool:
-	var enemy_strength: float = enemy.get("strength", 1.0)
+func calculate_combat_success_chance(player_strength: float, enemy_strength: float) -> float:
 	if player_strength <= 0:
-		return false  # 0 strength = 0% chance
-	
-	# Calculate ratio
+		return 0.0  # 0 strength = 0% chance
+
 	var ratio := player_strength / enemy_strength
 	var success_chance: float
-	
+
 	if ratio < 1.0:
-		# Below enemy strength — scale from 10% to 50%
-		success_chance = lerp(0.1, 0.5, ratio)
+		# Below equal strength — scale from 10% to 50% between 0.5 and 1.0 ratio
+		var scaled := inverse_lerp(0.5, 1.0, ratio)
+		scaled = clamp(scaled, 0.0, 1.0)
+		success_chance = lerp(0.1, 0.5, scaled)
 	elif ratio == 1.0:
 		success_chance = 0.5
 	else:
-		# Above enemy strength — scale from 50% to 100%
-		var overkill = min((ratio - 1.0), 1.0)  # Cap overkill at 2x
+		# Above equal strength — scale from 50% to 100%
+		var overkill = min((ratio - 1.0), 1.0)
 		success_chance = lerp(0.5, 1.0, overkill)
-
-	return randf() < success_chance
+	return success_chance
 
 
 # The icon to use in the UI
@@ -98,3 +103,7 @@ func get_successes() -> int:
 # Returns the type as specified in the json
 func get_type() -> String:
 	return "combat"
+
+# Returns the enemy's strength value from the combat data
+func get_enemy_strength() -> float:
+	return enemy.get("strength", 1.0)  # Default to 1.0 if not defined

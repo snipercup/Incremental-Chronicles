@@ -228,12 +228,11 @@
 	  "story_text": "The reeds part — a massive serpent lunges from the water, all sinew and fangs. You barely have time to react.",
 	  "requirements": {
 		"h_marshbeast_triggered": { "appear": { "min": 1.0 } },
-		"Strength": { "amount": 5.0 }
+		"Strength": { "amount": 5.0 },
+		"Resolve": { "consume": 2.0 },
+		"Focus": { "consume": 1.0 }
 	  },
-	  "enemy": {
-		"name": "Marshbeast Lurker",
-		"strength": 10.0
-	  },
+	  "enemy": { "name": "Marshbeast Lurker", "strength": 10.0 },
 	  "rewards": {
 		"Story points": 30.0,
 		"h_hillstead_access": 1.0,

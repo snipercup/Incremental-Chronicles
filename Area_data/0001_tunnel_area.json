@@ -92,20 +92,13 @@
 	{
 	  "action_type": "free",
 	  "story_text": "Examine the weathered stone remnants.",
-	  "requirements": {
-		"Focus": { "consume": 1.0 }
-	  },
-	  "rewards": {
-		"Story points": 6.0
-	  }
+	  "requirements": { "Focus": { "consume": 1.0 } },
+	  "rewards": { "Story points": 6.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Rest beneath the shade of the oak trees.",
-	  "rewards": {
-		"Story points": 4.0,
-		"Focus": 2
-	  }
+	  "rewards": { "Story points": 4.0, "Focus": 2 }
 	},
 	{
 	  "action_type": "free",
@@ -117,10 +110,7 @@
 	  "action_type": "loop",
 	  "cooldown": 2.0,
 	  "story_text": "Meditate under the ancient oak tree.",
-	  "rewards": {
-		"Resolve": 1.0,
-		"Focus": 1.0
-	  }
+	  "rewards": { "Resolve": 1.0, "Focus": 1.0 }
 	},
 	{
 	  "action_type": "combat",

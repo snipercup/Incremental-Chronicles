@@ -60,9 +60,7 @@
 	  "action_type": "free",
 	  "story_text": "Decipher the echo glyphs. They seem to align with memories \u2014 not your own, but familiar nonetheless.",
 	  "requirements": {
-		"Insight": {
-		  "amount": 3.0
-		},
+		"Insight": { "amount": 3.0 },
 		"Memory": {
 		  "amount": 2.0
 		},
