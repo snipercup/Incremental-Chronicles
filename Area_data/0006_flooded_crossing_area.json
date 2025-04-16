@@ -11,7 +11,7 @@
 	  "action_type": "free",
 	  "story_text": "Inspect the remains of the broken bridge.",
 	  "requirements": { "Focus": { "consume": 1.0 } },
-	  "rewards": { "Story points": 5.0, "h_broken_bridge_inspect": 1.0 }
+	  "rewards": { "Story points": 1.0, "h_broken_bridge_inspect": 1.0 }
 	},
 	{
 	  "action_type": "free",
@@ -20,10 +20,7 @@
 		"h_broken_bridge_inspect": { "appear": { "min": 1.0 } },
 		"Focus": {"consume":1.0}
 	  },
-	  "rewards": {
-		"Story points": 5.0,
-		"h_elandra_met": 1.0
-	  }
+	  "rewards": { "Story points": 1.0, "h_elandra_met": 1.0 }
 	},
 	{
 	  "action_type": "free",
@@ -33,7 +30,7 @@
 		"Focus": {"consume":1.0}
 	  },
 	  "rewards": {
-		"Story points": 5.0,
+		"Story points": 1.0,
 		"h_brena_met": 1.0
 	  }
 	},
@@ -45,7 +42,7 @@
 		"Focus": {"consume":1.0}
 	  },
 	  "rewards": {
-		"Story points": 5.0,
+		"Story points": 1.0,
 		"h_joryn_vel_met": 1.0
 	  }
 	},
@@ -56,7 +53,7 @@
 		"h_broken_bridge_inspect": {"appear": { "min": 1.0 } }
 	  },
 	  "rewards": {
-		"Story points": 5.0,
+		"Story points": 1.0,
 		"h_mirella_intro": 1.0
 	  }
 	},
@@ -205,10 +202,7 @@
 		"Focus": { "consume": 2.0 },
 		"h_broken_bridge_inspect": { "appear": { "min": 1.0 } }
 	  },
-	  "rewards": {
-		"Story points": 15.0,
-		"h_flood_reflection": 1.0
-	  }
+	  "rewards": { "Story points": 1.0, "h_flood_reflection": 1.0 }
 	},
 	{
 	  "action_type": "free",
@@ -218,7 +212,7 @@
 		"h_mirella_intro": { "appear": { "min": 1.0 } }
 	  },
 	  "rewards": {
-		"Story points": 5.0,
+		"Story points": 1.0,
 		"h_dry_path_hint": 1.0,
 		"h_talen_met": 1.0
 	  }
@@ -226,13 +220,8 @@
 	{
 	  "action_type": "free",
 	  "story_text": "You scout the willow path. It’s passable — just barely. But a ripple moves across the surface. Something waits beneath.",
-	  "requirements": {
-		"h_dry_path_hint": { "appear": { "min": 1.0 } }
-	  },
-	  "rewards": {
-		"Story points": 10.0,
-		"h_marshbeast_triggered": 1.0
-	  }
+	  "requirements": { "h_dry_path_hint": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 1.0, "h_marshbeast_triggered": 1.0 }
 	},
 	{
 	  "action_type": "combat",
@@ -262,7 +251,7 @@
 		"h_talen_met": { "appear": { "min": 1.0 } }
 	  },
 	  "rewards": {
-		"Story points": 10.0,
+		"Story points": 1.0,
 		"Resolve": 5.0,
 		"h_talen_backstory_unlocked": 1.0
 	  }

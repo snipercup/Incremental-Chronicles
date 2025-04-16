@@ -3,7 +3,7 @@
   "description": "Still waters lap at the edges of flooded grasslands. The lake should not be here \u2014 its birth was sudden, and its silence is unnatural. Beneath the surface, ruined stone and flickering shapes hint at deeper truths.",
   "tier": 2.0,
   "requirements": {
-	"Story points": { "consume":220.0 },
+	"Story points": { "consume": 150.0 },
 	"h_lake_access": { "appear": { "min": 1.0 } }
   },
   "story_actions": [

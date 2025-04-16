@@ -14,32 +14,20 @@
 	{
 	  "action_type": "free",
 	  "story_text": "Engrave your memory into the fabric of the world. (Increase Max Story Points)",
-	  "requirements": {
-		"Echoes of the Past": { "consume": 1.0, "permanent": true }
-	  },
-	  "rewards": {
-		"Story points": { "permanent_capacity": 10 }
-	  }
+	  "requirements": { "Echoes of the Past": { "consume": 1.0, "permanent": true } },
+	  "rewards": { "Story points": { "permanent_capacity": 25 } }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Strengthen your foundation. (Increase Base Strength by 1)",
-	  "requirements": {
-		"Echoes of the Past": { "consume": 1.0, "permanent": true }
-	  },
-	  "rewards": {
-		"Strength": {"permanent": 1}
-	  }
+	  "requirements": { "Echoes of the Past": { "consume": 1.0, "permanent": true } },
+	  "rewards": { "Strength": { "permanent": 1 } }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Sharpen your insight. (Increase Perception by 1)",
-	  "requirements": {
-		"Echoes of the Past": { "consume": 1.0, "permanent": true }
-	  },
-	  "rewards": {
-		"Perception": { "permanent": 1 }
-	  }
+	  "requirements": { "Echoes of the Past": { "consume": 1.0, "permanent": true } },
+	  "rewards": { "Perception": { "permanent": 1 } }
 	},
 	{
 	  "action_type": "free",
@@ -48,9 +36,13 @@
 		"Echoes of the Past": { "consume": 1.0, "permanent": true },
 		"Focus": { "appear": { "regeneration": { "max": 0.0 } } }
 	  },
-	  "rewards": {
-		"Focus": {"regeneration": 0.1}
-	  }
+	  "rewards": { "Focus": { "regeneration": 0.1 } }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Expand the mind's boundaries. (Increase Max Focus permanently)",
+	  "requirements": { "Echoes of the Past": { "consume": 1.0, "permanent": true } },
+	  "rewards": { "Focus": { "permanent_capacity": 10.0 } }
 	},
 	{
 	  "action_type": "free",
@@ -59,14 +51,12 @@
 		"Echoes of the Past": { "consume": 1.0, "permanent": true },
 		"Resolve": { "appear": { "permanent_capacity": { "max": 10.0 } } }
 	  },
-	  "rewards": {
-		"Resolve": { "permanent_capacity": 5.0 }
-	  }
+	  "rewards": { "Resolve": { "permanent_capacity": 5.0 } }
 	},
 	{
 	  "action_type": "reincarnation",
 	  "story_text": "You step forward. The mirror ripples, then steadies \u2014 your new self reflected clearly. The cycle is complete. You are ready to begin again.",
-	  "rewards": {"h_reincarnation_finished": 0.0}
+	  "rewards": { "h_reincarnation_finished": 0.0 }
 	}
   ]
 }

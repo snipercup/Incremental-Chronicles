@@ -3,7 +3,7 @@
   "description": "The trees twist as they lean inward, forming a shrouded path into the gorge. The deeper you go, the quieter it gets — until silence itself feels like a presence. Shadows flit between the trees, and claw marks line the bark. Something waits.",
   "tier": 2.0,
   "requirements": {
-	"Story points": { "consume": 200.0 },
+	"Story points": { "consume": 125.0 },
 	"h_gorge_access": { "appear": { "min": 1.0 } }
   },
   "story_actions": [

@@ -62,15 +62,14 @@ func _show_area_details(area: StoryArea) -> void:
 				requirement_item_list.set_item_metadata(idx, resource)
 
 		# === REWARDS ===
-		if data.get("temporary_reward", 0.0) > 0.0:
-			var reward_text := "%s: %.2f" % [resource, data["temporary_reward"]]
+		var temp_reward: float = data.get("temporary_reward", 0.0)
+		if temp_reward > 0.0 or temp_reward == -1.0:
+			var reward_text := "%s: ∞" % resource if temp_reward == -1.0 else "%s: %.2f" % [resource, temp_reward]
 			var idx := hidden_reward_item_list.add_item(reward_text) if is_hidden else reward_item_list.add_item(reward_text)
 			if is_hidden:
 				hidden_reward_item_list.set_item_metadata(idx, resource)
 			else:
 				reward_item_list.set_item_metadata(idx, resource)
-
-
 
 
 # Function to create StoryArea instances from loaded areas and set area_list

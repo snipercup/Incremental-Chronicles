@@ -9,182 +9,99 @@
   "story_actions": [
 	{
 	  "action_type": "free",
-	  "rewards": { "Story points": 4.0, "h_npc_intro_1": 1.0 },
+	  "rewards": { "Story points": 5.0, "h_npc_intro_1": 1.0 },
 	  "story_text": "A hooded villager steps forward. You... don't look like you're from here."
 	},
 	{
 	  "action_type": "free",
-	  "requirements": {
-		"h_npc_intro_1": {
-		  "appear": {
-			"min": 1.0
-		  }
-		}
-	  },
-	  "rewards": {
-		"Story points": 4.0,
-		"h_npc_intro_2": 1.0
-	  },
+	  "requirements": { "h_npc_intro_1": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 6.0, "h_npc_intro_2": 1.0 },
 	  "story_text": "The forest's been talking. Something stirs beyond the stone hill."
 	},
 	{
 	  "action_type": "free",
-	  "requirements": {
-		"h_npc_intro_2": {
-		  "appear": {
-			"min": 1.0
-		  }
-		}
-	  },
-	  "rewards": {
-		"Story points": 6.0,
-		"h_npc_intro_3": 1.0
-	  },
+	  "requirements": { "h_npc_intro_2": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 8.0, "h_npc_intro_3": 1.0 },
 	  "story_text": "My brother went looking. Days ago. Hasn\u2019t come back."
 	},
 	{
 	  "action_type": "free",
-	  "requirements": {
-		"h_npc_intro_3": {
-		  "appear": {
-			"min": 1.0
-		  }
-		}
-	  },
-	  "rewards": {
-		"Story points": 10.0,
-		"h_npc_quest_active": 1.0
-	  },
+	  "requirements": { "h_npc_intro_3": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 12.0, "h_npc_quest_active": 1.0 },
 	  "story_text": "I saw his trail. It led into the hollow grove. Will you look for him?"
 	},
 	{
 	  "action_type": "free",
-	  "requirements": {
-		"h_npc_quest_active": {
-		  "appear": {
-			"min": 1.0
-		  }
-		}
-	  },
-	  "rewards": {
-		"Story points": 8.0,
-		"h_grove_access": 1.0
-	  },
+	  "requirements": { "h_npc_quest_active": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 16.0, "h_grove_access": 2.0 },
 	  "story_text": "You agree to help and note the direction of the hollow grove."
 	},
 	{
 	  "action_type": "free",
-	  "rewards": {
-		"Story points": 2.0
-	  },
+	  "rewards": { "Story points": 2.0 },
 	  "story_text": "Talk to the old blacksmith sharpening a blade."
 	},
 	{
 	  "action_type": "free",
-	  "rewards": {
-		"Story points": 2.0,
-		"Focus": 1
-	  },
+	  "rewards": { "Story points": 2.0, "Focus": 1 },
 	  "story_text": "Pet a friendly village dog."
 	},
 	{
 	  "action_type": "free",
-	  "requirements": {
-		"Focus": {"consume":1.0}
-	  },
-	  "rewards": {
-		"Story points": 2.0
-	  },
+	  "requirements": { "Focus": { "consume":1.0 } },
+	  "rewards": { "Story points": 2.0 },
 	  "story_text": "Read the weathered notice board near the inn."
 	},
 	{
 	  "action_type": "free",
-	  "requirements": {
-		"Focus": {"consume":1.0}
-	  },
-	  "rewards": {
-		"Story points": 1.0
-	  },
-	  "story_text": "Peek inside the chapel \u2014 old and still, candles flickering inside."
+	  "story_text": "Peek inside the chapel \u2014 old and still, candles flickering inside.",
+	  "requirements": { "Focus": { "consume":1.0 } },
+	  "rewards": { "Story points": 2.0 }
 	},
 	{
 	  "action_type": "free",
-	  "requirements": {
-		"h_grove_report_complete": { "appear": { "min": 1.0 } }
-	  },
-	  "rewards": {
-		"Story points": 5.0
-	  },
+	  "requirements": { "h_grove_report_complete": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 2.0 },
 	  "story_text": "The villager listens in silence. So he\u2019s gone then... Thank you. He deserved peace."
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "You return to the village. The air feels heavier, your steps slower. The grove has left its mark on you.",
-	  "requirements": {
-		"h_temple_intro_1": { "appear": { "min": 1.0 } }
-	  },
-	  "rewards": {
-		"h_returned_from_grove": 1.0
-	  }
+	  "requirements": { "h_temple_intro_1": { "appear": { "min": 1.0 } } },
+	  "rewards": { "h_returned_from_grove": 2.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "The elder watches you from afar. As you pass, he stops you. 'You saw it, didn’t you? The grove has stirred — it hasn’t spoken in years.'\n\nHe lowers his voice. 'There was another place, once. Older. Stone and silence. Some say it reshaped those who entered.'",
-	  "requirements": {
-		"h_returned_from_grove": { "appear": { "min": 1.0 } }
-	  },
-	  "rewards": {
-		"Story points": 2.0,
-		"h_temple_intro_2": 1.0
+	  "requirements": { "h_returned_from_grove": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 2.0, "h_temple_intro_2": 1.0
 	  }
 	},
 	{
 	  "action_type": "free",
-	  "requirements": {
-		"h_temple_intro_2": {
-		  "appear": {
-			"min": 1.0
-		  }
-		}
-	  },
-	  "rewards": {
-		"Story points": 19.0,
-		"h_temple_access": 1.0
-	  },
-	  "story_text": "Some say it teaches the path of rebirth. But few return from the temple unchanged."
+	  "story_text": "Some say it teaches the path of rebirth. But few return from the temple unchanged.",
+	  "requirements": { "h_temple_intro_2": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 2.0, "h_temple_access": 1.0 }
 	},
 	{
 		"action_type": "free",
 		"story_text": "You speak of the temple — how the ritual failed, how something was missing.\n\nThe Elder frowns. 'Long ago, there was something... left behind. Sealed away, perhaps. It’s only a shadow in my mind now.'\n\nHe gestures vaguely toward the outskirts of the village. 'Old places sometimes remember what people forget.'",
-		"requirements": {
-		  "h_visited_temple": { "appear": { "min": 1.0 } }
-		},
-		"rewards": {
-		  "h_vault_search_hint": 1.0
-		}
+		"requirements": { "h_visited_temple": { "appear": { "min": 1.0 } } },
+		"rewards": { "h_vault_search_hint": 1.0 }
 	},
 	{
 		"action_type": "loop",
 		"cooldown": 2.0,
 		"max_loops": 5,
 		"story_text": "You begin exploring the overgrown outskirts of the village. The land is quiet, half-swallowed by nature. Something feels near, but you’ll need more time.",
-		"requirements": {
-		  "h_vault_search_hint": { "appear": { "min": 1.0 } }
-		},
-		"rewards": {
-		  "Story points": 2.0,
-		  "h_outskirts_explored": 1.0
-		}
+		"requirements": { "h_vault_search_hint": { "appear": { "min": 1.0 } } },
+		"rewards": { "Story points": 2.0, "h_outskirts_explored": 1.0 }
 	},
 	{
 		"action_type": "free",
 		"story_text": "After searching and subtle signs, the foliage parts. You find it: a sealed stone structure, covered in moss and memory. You sense its importance immediately.",
-		"requirements": {
-		  "h_outskirts_explored": { "appear": { "min": 5.0 } }
-		},
-		"rewards": {
-		  "h_vault_discovered": 1.0
-		}
+		"requirements": { "h_outskirts_explored": { "appear": { "min": 5.0 } } },
+		"rewards": { "h_vault_discovered": 1.0 }
 	},
 	{
 		"action_type": "free",
@@ -194,10 +111,7 @@
 		  "h_soul_vessel_obtained": { "appear": { "max": 0.0 } },
 		  "Strength": 2.0
 		},
-		"rewards": {
-		  "Soul Vessel": 1.0,
-		  "h_soul_vessel_obtained": 1.0
-		}
+		"rewards": { "Soul Vessel": 1.0, "h_soul_vessel_obtained": 1.0 }
 	},
 	{
 		"action_type": "free",
@@ -207,76 +121,48 @@
 		  "h_soul_vessel_obtained": { "appear": { "max": 0.0 } },
 		  "Vault Key": { "consume": 1.0 }
 		},
-		"rewards": {
-		  "Soul Vessel": 1.0,
-		  "h_soul_vessel_obtained": 1.0
-		}
+		"rewards": { "Soul Vessel": 1.0, "h_soul_vessel_obtained": 1.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "The Elder calls to you quietly. 'You found it, didn’t you? The stone place. I dreamt of it again. There was a key. I gave it away — to someone I trusted. A quiet girl, always among the herbs.'",
-	  "requirements": {
-		"h_vault_discovered": { "appear": { "min": 1.0 } }
-	  },
-	  "rewards": {
-		"h_vault_key_rumor": 1.0
-	  }
+	  "requirements": { "h_vault_discovered": { "appear": { "min": 1.0 } } },
+	  "rewards": { "h_vault_key_rumor": 1.0 }
 	},
 	{
 	  "action_type": "loop",
 	  "story_text": "Help harvest turnips in the outer fields. Each root adds to the village’s store for the winter ahead.",
 	  "cooldown": 1.0,
 	  "max_loops": 10,
-	  "rewards": {
-		"Turnips": 1.0,
-		"h_village_resilience": 0.2
-	  }
+	  "rewards": { "Turnips": 1.0, "h_village_resilience": 0.2 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Trade your bundle of turnips for lantern oil — a resource more precious now as the nights grow longer.",
-	  "requirements": {
-		"Turnips": {
-		  "appear": { "min": 5.0 },
-		  "consume": 10
-		}
-	  },
-	  "rewards": {
-		"Lantern Oil": 1.0,
-		"h_village_resilience": 0.2
-	  }
+	  "requirements": { "Turnips": { "appear": { "min": 5.0 }, "consume": 10 } },
+	  "rewards": { "Lantern Oil": 1.0, "h_village_resilience": 0.2 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Deliver the lantern oil to the chapel keeper. With your help, the dusk lighting ceremony will continue.",
-	  "requirements": {
-		"Lantern Oil": {
-		  "appear": { "min": 1.0 },
-		  "consume": 1.0
-		}
-	  },
-	  "rewards": {
-		"Resolve": 10.0,
-		"h_village_resilience": 0.3
-	  }
+	  "requirements": { "Lantern Oil": { "appear": { "min": 1.0 }, "consume": 1.0 } },
+	  "rewards": { "Resolve": 10.0, "h_village_resilience": 0.3 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "The village elder notices your steady contributions. 'You’ve done much for this place. It remembers.'",
-	  "requirements": {
-		"h_village_resilience": { "appear": { "min": 3.0 } }
-	  },
+	  "requirements": { "h_village_resilience": { "appear": { "min": 3.0 } } },
 	  "rewards": {
-		"Story points": 10.0,
+		"Story points": 1.0,
 		"Resolve": { "temporary_capacity": 5.0 },
-		"h_community_respected": 1.0
+		"h_community_respected": 2.0
 	  }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Visit the smithy and watch sparks fly as iron meets anvil.",
 	  "requirements": { "Focus": { "consume":1.0 } },
-	  "rewards": { "Story points": 2.0 }
+	  "rewards": { "Story points": 1.0 }
 	},
 	{
 	  "action_type": "free",
@@ -298,13 +184,13 @@
 	{
 	  "action_type": "free",
 	  "story_text": "You meet Elder Branna near the well. She tells you of a massive landslide that has buried the forest path to the east. 'It fell after a quake some winters ago. We've sent for help, but none came. That path must be cleared. There are people waiting.'",
-	  "rewards": { "Story points": 3.0, "h_path_obstructed": 1.0 }
+	  "rewards": { "Story points": 4.0, "h_path_obstructed": 1.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "The blacksmith crosses his arms. 'That landslide? It's not just rubble. There's old stone, roots grown thick, and slabs heavier than oxen. You'd need the strength of ten men and something to shift the earth itself.'",
 	  "requirements": { "h_path_obstructed": { "appear": { "min": 1.0 } } },
-	  "rewards": { "Story points": 2.0 }
+	  "rewards": { "Story points": 4.0 }
 	},
 	{
 	  "action_type": "free",
@@ -319,13 +205,13 @@
 	{
 	  "action_type": "free",
 	  "story_text": "You see a woman sorting herbs near the well. She nods as you approach but says little.\n\nA nearby villager whispers, 'That's Lyra. Brings herbs to the chapel every dusk. She doesn't speak much, but she listens.'",
-	  "rewards": { "Story points": 2.0, "h_lyra_intro": 1.0 }
+	  "rewards": { "Story points": 3.0, "h_lyra_intro": 1.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "The chapel priest frowns. 'Lyra’s late. She never misses dusk rites. If you’re heading that way, could you check on her? She gathers herbs near the southern trail.'",
 	  "requirements": { "h_lyra_intro": { "appear": { "min": 1.0 } } },
-	  "rewards": { "Story points": 2.0, "h_lyra_help_prompt": 1.0 }
+	  "rewards": { "Story points": 3.0, "h_lyra_help_prompt": 1.0 }
 	},
 	{
 	  "action_type": "loop",

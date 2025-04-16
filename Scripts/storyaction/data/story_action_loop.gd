@@ -1,10 +1,10 @@
 class_name LoopAction
 extends StoryAction
 
+# The ui scene representing this loop action
 var ui_scene: PackedScene = preload("res://Scenes/action/story_action_loop_ui.tscn")
-var cooldown: float = 1.0
-# Add this line to declare the new property with a default value
-var max_loops: int = -1
+var cooldown: float = 1.0 # The amount of seconds before the next loop
+var max_loops: int = -1 # Maximum amount of loops. -1 means infinite
 
 # --- Loop state tracking ---
 var elapsed_time: float = 0.0
@@ -95,3 +95,21 @@ func get_progress_percent() -> float:
 	if cooldown <= 0.0:
 		return 0.0
 	return clamp((elapsed_time / cooldown) * 100.0, 0.0, 100.0)
+
+
+# Gets a dictionary of every resource and their requirement/rewards
+func get_resource_summary(summary: Dictionary) -> void:
+	super.get_resource_summary(summary)
+
+	for res_name: String in get_rewards().keys():
+		var reward: ResourceReward = get_rewards()[res_name]
+
+		if reward.temporary > 0.0:
+			var loops := get_max_loops()
+
+			if loops == -1:
+				summary[res_name]["temporary_reward"] = -1.0  # Mark as infinite
+			elif loops > 1:
+				# We've already added 1 loop in super(), so add the remaining loops
+				var additional_reward := reward.temporary * (loops - 1)
+				summary[res_name]["temporary_reward"] += additional_reward

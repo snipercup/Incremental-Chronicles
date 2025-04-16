@@ -27,20 +27,38 @@ func _init(data: Dictionary, myarea: StoryArea = null) -> void:
 	print_debug("my class name is: " + get_class())
 
 
-#Player Strength	Enemy Strength	Success Chance
-#0					1				0%
-#1					1				50%
-#2					1				100%
-#1.5				1				75%
-#0.5				1				25%
+# === Combat Success Chance Table (Enemy Strength = 10) ===
+# Player Strength    Enemy Strength    Success Chance
+# 0.0                10                0%
+# 2.5                10                ~5%
+# 5.0                10                10%   # Half strength
+# 7.5                10                30%
+# 10.0               10                50%   # Equal strength
+# 12.5               10                62.5%
+# 15.0               10                75%
+# 17.5               10                87.5%
+# 20.0               10                100%  # Double strength
 func test_combat_success(player_strength: float) -> bool:
 	var enemy_strength: float = enemy.get("strength", 1.0)
 	if player_strength <= 0:
 		return false  # 0 strength = 0% chance
-	var success_chance: float = clamp(player_strength / (enemy_strength * 2), 0.0, 1.0)
-	# If player strength == enemy strength → 50% chance of success
-	success_chance = lerp(0.5, 1.0, success_chance)
+	
+	# Calculate ratio
+	var ratio := player_strength / enemy_strength
+	var success_chance: float
+	
+	if ratio < 1.0:
+		# Below enemy strength — scale from 10% to 50%
+		success_chance = lerp(0.1, 0.5, ratio)
+	elif ratio == 1.0:
+		success_chance = 0.5
+	else:
+		# Above enemy strength — scale from 50% to 100%
+		var overkill = min((ratio - 1.0), 1.0)  # Cap overkill at 2x
+		success_chance = lerp(0.5, 1.0, overkill)
+
 	return randf() < success_chance
+
 
 # The icon to use in the UI
 func get_icon() -> String:

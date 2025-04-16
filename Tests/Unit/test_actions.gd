@@ -137,10 +137,11 @@ func _run_loop_until_resource(query: ActionQuery, threshold: float, permanent: b
 	
 	var actions := _get_actions_by_filters(action_list, query)
 	assert_true(actions.size() > 0, "No matching loop action found.")
-	var loop_action: Control = actions[0]
-	loop_action.story_action.cooldown = 0.1
-	loop_action.action_instance._on_action_button_pressed()
-	await _wait_for_resource(resources, permanent, resource_name, threshold)
+	if actions.size() > 0:
+		var loop_action: Control = actions[0]
+		loop_action.story_action.cooldown = 0.1
+		loop_action.action_instance._on_action_button_pressed()
+		await _wait_for_resource(resources, permanent, resource_name, threshold)
 
 # Waits until at least one action matches the given ActionQuery.
 # Optional timeout/interval can be passed to control how long to wait/check.
@@ -223,7 +224,7 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 	if await _open_area(area_list, "Village", stop_area_name): return true
 	# Keep pressing free actions until 1 remains
 	await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
-	
+
 	myactionquery.reward_key = "Turnips" # Loop to generate 10 turnips
 	await _run_loop_until_resource(myactionquery,10.0)
 	myactionquery.reward_key = "Herbs" # collect herbs with lyra
@@ -304,8 +305,11 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 			await _press_actions_of_type(action_list, query, 1)
 			#-- FLOODED CROSSING --
 			if await _open_area(area_list, "Flooded Crossing", stop_area_name): return true
+			var story_point_resource: ResourceData = resources.get_resource("Story points")
+			assert_eq(story_point_resource.temporary, 0.0, "Story points should be 0.0.")
+			
 			# Keep pressing free actions until 1 remains
-			#await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
+			await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
 
 	
 	if delay_seconds > 0.0: await wait_seconds(delay_seconds)

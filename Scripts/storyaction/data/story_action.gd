@@ -207,4 +207,6 @@ func get_resource_summary(summary: Dictionary) -> void:
 
 		# Apply temporary reward
 		if reward.temporary > 0.0:
-			summary[res_name]["temporary_reward"] += reward.temporary
+			# Only add if it's not already set to -1, which counts as ∞
+			if summary[res_name].get("temporary_reward", 0.0) != -1:
+				summary[res_name]["temporary_reward"] += reward.temporary
