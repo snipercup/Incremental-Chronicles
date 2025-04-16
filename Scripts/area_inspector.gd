@@ -15,6 +15,17 @@ func _ready():
 	loaded_areas = load_json_files_from_path("res://Area_data/")
 	create_story_areas()
 
+	# Connect selection sync
+	_connect_list_selection(requirement_item_list)
+	_connect_list_selection(reward_item_list)
+	_connect_list_selection(hidden_requirement_item_list)
+	_connect_list_selection(hidden_reward_item_list)
+
+func _connect_list_selection(list: ItemList) -> void:
+	if list and not list.item_selected.is_connected(_on_resource_selected):
+		list.item_selected.connect(_on_resource_selected.bind(list))
+
+
 func _on_area_selected(button):
 	var story_area: StoryArea = button.get_meta("area")
 	if story_area:
@@ -35,26 +46,30 @@ func _show_area_details(area: StoryArea) -> void:
 
 		# === REQUIREMENTS ===
 		if data.get("appear_min_total", 0.0) > 0.0:
-			var text := "🔍 %s: %.2f" % [resource, data["appear_min_total"]]
+			var appear_text := "🔍 %s: %.2f" % [resource, data["appear_min_total"]]
+			var idx := hidden_requirement_item_list.add_item(appear_text) if is_hidden else requirement_item_list.add_item(appear_text)
 			if is_hidden:
-				hidden_requirement_item_list.add_item(text)
+				hidden_requirement_item_list.set_item_metadata(idx, resource)
 			else:
-				requirement_item_list.add_item(text)
+				requirement_item_list.set_item_metadata(idx, resource)
 
 		if data.get("temporary_consume", 0.0) > 0.0:
-			var text := "🔥 %s: %.2f" % [resource, data["temporary_consume"]]
+			var consume_text := "🔥 %s: %.2f" % [resource, data["temporary_consume"]]
+			var idx := hidden_requirement_item_list.add_item(consume_text) if is_hidden else requirement_item_list.add_item(consume_text)
 			if is_hidden:
-				hidden_requirement_item_list.add_item(text)
+				hidden_requirement_item_list.set_item_metadata(idx, resource)
 			else:
-				requirement_item_list.add_item(text)
+				requirement_item_list.set_item_metadata(idx, resource)
 
 		# === REWARDS ===
 		if data.get("temporary_reward", 0.0) > 0.0:
-			var text := "%s: %.2f" % [resource, data["temporary_reward"]]
+			var reward_text := "%s: %.2f" % [resource, data["temporary_reward"]]
+			var idx := hidden_reward_item_list.add_item(reward_text) if is_hidden else reward_item_list.add_item(reward_text)
 			if is_hidden:
-				hidden_reward_item_list.add_item(text)
+				hidden_reward_item_list.set_item_metadata(idx, resource)
 			else:
-				reward_item_list.add_item(text)
+				reward_item_list.set_item_metadata(idx, resource)
+
 
 
 
@@ -124,3 +139,24 @@ func load_json_files_from_path(path: String) -> Dictionary:
 				print_debug("Failed to parse JSON file: %s" % file_path)
 			file.close()
 	return data_dict
+
+# Triggered when a resource is selected in any of the item lists
+func _on_resource_selected(index: int, source_list: ItemList) -> void:
+	var selected_resource = source_list.get_item_metadata(index)
+	if selected_resource == null:
+		return
+
+	var all_lists: Array[ItemList] = [
+		requirement_item_list,
+		reward_item_list,
+		hidden_requirement_item_list,
+		hidden_reward_item_list
+	]
+
+	for list in all_lists:
+		if list == source_list:
+			continue
+		for i in list.item_count:
+			if list.get_item_metadata(i) == selected_resource:
+				list.select(i)
+				break
