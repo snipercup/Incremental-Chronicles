@@ -121,7 +121,7 @@
 				"h_patrolled_around_hillstead": { "appear": { "min": 5 } }, 
 				"Focus": { "consume": 1.0 }
 			},
-			"rewards": { "Story points": 5, "h_patrol_hint_unlocked": 1 }
+			"rewards": { "Story points": 4, "h_patrol_hint_unlocked": 1 }
 		},
 		{
 			"action_type": "free",

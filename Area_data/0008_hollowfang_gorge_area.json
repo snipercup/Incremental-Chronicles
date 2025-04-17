@@ -48,7 +48,7 @@
 	  "action_type": "free",
 	  "story_text": "You stare at the glyphs, but their patterns twist away from understanding. Whatever they once meant, that meaning is lost to you.",
 	  "requirements": {
-		"h_glyphs_observed": { "min": 1.0 }, "Focus": { "consume": 6.0 }
+		"h_glyphs_observed": { "appear": { "min": 1.0 } }, "Focus": { "consume": 6.0 }
 	  },
 	  "rewards": {
 		"Story points": 5.0,
