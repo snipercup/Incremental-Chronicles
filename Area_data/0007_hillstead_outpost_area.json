@@ -10,37 +10,37 @@
 		{
 			"action_type": "free",
 			"story_text": "You arrive at Hillstead Outpost and are nearly knocked aside by a running child. A guard shouts, a wolf-horn sounds in the distance, and someone slams a door shut just ahead.\n\nWhispers swirl around your presence. 'They came from the bridge?' — 'But the bridge was broken.' — 'Maybe the wolves followed them.'\n\nNo one has time to greet you properly. The village is in disarray.",
-			"rewards": { "Story points": 10, "h_hillstead_revealed": 1 }
+			"rewards": { "Story points": 2, "h_hillstead_revealed": 1 }
 		},
 		{
 			"action_type": "free",
 			"story_text": "A large hound lies wounded beneath a porch. A child pets its head while whispering, 'He tried to warn us.'",
 			"requirements": { "h_hillstead_revealed": { "appear": { "min": 1 } } },
-			"rewards": { "Story points": 5, "Resolve": 2, "h_hound_wounded": 1 }
+			"rewards": { "Story points": 1, "Resolve": 2, "h_hound_wounded": 1 }
 		},
 		{
 			"action_type": "free",
 			"story_text": "You apply the salve gently. The hound whines, then rests its head on its paws. The child watches in silence. 'He’ll make it. I think.'",
 			"requirements": {  "h_hound_wounded": { "appear": { "min": 1 } }, "Healing Salve": { "consume": 1 } },
-			"rewards": { "Story points": 5, "Spirit Bond": 1, "h_hound_saved": 1 }
+			"rewards": { "Story points": 1, "Spirit Bond": 1, "h_hound_saved": 1 }
 		},
 		{
 			"action_type": "free",
 			"story_text": "An elder woman grabs your arm. 'You crossed the bridge? Mirella sent you? Then maybe we’re not abandoned after all…'",
 			"requirements": { "h_bridge_complete": { "appear": { "min": 1 } } },
-			"rewards": { "Story points": 5, "h_bridge_news_spread": 1 }
+			"rewards": { "Story points": 1, "h_bridge_news_spread": 1 }
 		},
 		{
 			"action_type": "free",
 			"story_text": "You hear shouting. A courier mounts a horse and gallops toward the high road. 'Tell them Hillstead still stands!' someone calls after them.",
 			"requirements": { "h_bridge_news_spread": { "appear": { "min": 1 } } },
-			"rewards": { "Story points": 3 }
+			"rewards": { "Story points": 1 }
 		},
 		{
 			"action_type": "free",
 			"story_text": "You pass a home where someone bakes flatbread over a dying fire. The smell is nostalgic. The mood is anything but.",
 			"requirements": { "h_hillstead_revealed": { "appear": { "min": 1 } } },
-			"rewards": { "Story points": 3 }
+			"rewards": { "Story points": 1 }
 		},
 		{
 			"action_type": "free",
@@ -49,7 +49,7 @@
 				"h_hillstead_revealed": { "appear": { "min": 1 } }, 
 				"Focus": { "consume":1.0 } 
 			},
-			"rewards": { "Story points": 5, "h_hunter_conversed": 1 }
+			"rewards": { "Story points": 1, "h_hunter_conversed": 1 }
 		},
 		{
 			"action_type": "free",
@@ -58,7 +58,7 @@
 				"h_hillstead_revealed": { "appear": { "min": 1 } }, 
 				"Focus": { "consume":1.0 }
 			},
-			"rewards": { "Story points": 3, "h_priest_conversed": 1 }
+			"rewards": { "Story points": 1, "h_priest_conversed": 1 }
 		},
 		{
 			"action_type": "free",
@@ -68,7 +68,7 @@
 				"h_priest_conversed": { "appear": { "min": 1 } }, 
 				"Focus": { "consume": 1.0 } 
 			},
-			"rewards": { "Story points": 5, "h_pact_theory_revealed": 1 }
+			"rewards": { "Story points": 1, "h_pact_theory_revealed": 1 }
 		},
 		{
 			"action_type": "free",
@@ -77,7 +77,7 @@
 				"h_pact_theory_revealed": { "appear": { "min": 1 } }, 
 				"Focus": { "consume": 1.0 }
 			},
-			"rewards": { "Story points": 5, "h_pact_symbol_found": 1 }
+			"rewards": { "Story points": 1, "h_pact_symbol_found": 1 }
 		},
 		{
 			"action_type": "free",
@@ -86,7 +86,7 @@
 				"h_pact_symbol_found": { "appear": { "min": 1 } }, 
 				"Focus": { "consume": 1.0 }
 			},
-			"rewards": { "Story points": 4, "h_book_study_unlocked": 1 }
+			"rewards": { "Story points": 1, "h_book_study_unlocked": 1 }
 		},
 		{
 			"action_type": "loop",
@@ -112,7 +112,7 @@
 			"requirements": { "h_hunter_conversed": { "appear": { "min": 1 } } },
 			"cooldown": 2,
 			"max_loops": 5,
-			"rewards": { "Story points": 3, "h_patrolled_around_hillstead": 1 }
+			"rewards": { "Story points": 1, "h_patrolled_around_hillstead": 1 }
 		},
 		{
 			"action_type": "free",

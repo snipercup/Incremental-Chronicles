@@ -381,13 +381,10 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 			await _wait_for_action_type_count(action_list, "loop", 2, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
 			myactionquery.reward_key = "Story points" # study weathered tomes
 			await _press_actions_of_type(action_list,myactionquery,1) # Press study loop
-			#await _wait_for_action_type_count(action_list, "loop", 1, 15, 0.2) # One loop remains
-			#await _press_all_actions_of_type(action_list, "free") # close the last book
-			#await _press_actions_of_type(action_list,myactionquery,1) # Press patrol loop
-			#await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2) # One free action remains
-			# Keep pressing free actions until 0 remain
-			#await _wait_for_action_type_count(action_list, "free", 0, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
-			#
+			await _wait_for_action_type_count(action_list, "loop", 1, 15, 0.2) # One loop remains
+			await _press_all_actions_of_type(action_list, "free") # close the last book
+			await _press_actions_of_type(action_list,myactionquery,1) # Press patrol loop
+			await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2) # One free action remains
 
 			
 	

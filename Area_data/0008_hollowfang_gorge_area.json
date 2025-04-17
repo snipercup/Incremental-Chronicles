@@ -17,7 +17,7 @@
 	  "action_type": "free",
 	  "story_text": "Follow pawprints that vanish and reappear in unnatural patterns.",
 	  "requirements": {
-		"h_wolf_presence": { "appear": { "min": 1.0 }, "Focus": { "consume":1.0 } }
+		"h_wolf_presence": { "appear": { "min": 1.0 } }, "Focus": { "consume":1.0 }
 	  },
 	  "rewards": { "Story points": 8.0, "h_glyph_path_found": 1.0 }
 	},
@@ -25,8 +25,8 @@
 	  "action_type": "free",
 	  "story_text": "Discover an ancient glyph carved into a stone, surrounded by wolf fur.",
 	  "requirements": {
-		"h_glyph_path_found": { "appear": { "min": 1.0 },
-		"Focus": { "consume": 1.0 } }
+		"h_glyph_path_found": { "appear": { "min": 1.0 } },
+		"Focus": { "consume": 1.0 }
 	  },
 	  "rewards": { "Story points": 10.0, "h_glyphs_observed": 1.0 }
 	},
@@ -36,7 +36,7 @@
 	  "requirements": {
 		"Wisdom": { "amount": 4.0 },
 		"Insight": { "amount": 2.0 },
-		"h_glyphs_observed": { "appear": { "min": 1.0 } }, "Focus": { "consume":1.0 }
+		"h_glyphs_observed": { "appear": { "min": 1.0 } }, "Focus": { "consume": 6.0 }
 	  },
 	  "rewards": {
 		"Story points": 10.0,
@@ -48,7 +48,7 @@
 	  "action_type": "free",
 	  "story_text": "You stare at the glyphs, but their patterns twist away from understanding. Whatever they once meant, that meaning is lost to you.",
 	  "requirements": {
-		"h_glyphs_observed": { "min": 1.0 }, "Focus": { "consume":1.0 }
+		"h_glyphs_observed": { "min": 1.0 }, "Focus": { "consume": 6.0 }
 	  },
 	  "rewards": {
 		"Story points": 5.0,

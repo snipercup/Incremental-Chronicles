@@ -40,7 +40,10 @@
 	{
 	  "action_type": "free",
 	  "story_text": "He finally meets your eyes. 'This lake… I can’t prove it, but it *moved*. Came from somewhere far off. I felt it, deep in my bones. Like it left something behind to get here.'",
-	  "requirements": { "h_flood_impact_witnessed": { "appear": { "min": 1.0 } } },
+	  "requirements": { 
+		"h_flood_impact_witnessed": { "appear": { "min": 1.0 } },
+		"Focus": { "consume":1.0 }
+	  },
 	  "rewards": { "Story points": 7.0, "h_displacement_suspected": 1.0 }
 	},
 	{
@@ -52,13 +55,19 @@
 	{
 	  "action_type": "free",
 	  "story_text": "The woman from Hillstead catches up to you. 'That path used to drain out toward the quarry. Now it’s a damn wall.' She scans the jammed debris, eyes narrowing. 'My brother’s crew is still out there.'",
-	  "requirements": { "h_gully_blocked": { "appear": { "min": 1.0 } } },
+	  "requirements": { 
+		"h_gully_blocked": { "appear": { "min": 1.0 } },
+		"Focus": { "consume":1.0 }
+	  },
 	  "rewards": { "Story points": 6.0, "h_brother_mentioned": 1.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "You test the edge of the debris. It shifts underfoot — heavy, waterlogged, unstable. Clearing it would take strength and care.",
-	  "requirements": { "h_brother_mentioned": { "appear": { "min": 1.0 } } },
+	  "requirements": { 
+		"h_brother_mentioned": { "appear": { "min": 1.0 } },
+		"Focus": { "consume":1.0 }
+	  },
 	  "rewards": { "Story points": 3.0, "h_evaluated_gully_debris": 1.0 }
 	},
 	{
@@ -76,7 +85,7 @@
 	  "requirements": {
 		"h_evaluated_gully_debris": { "appear": { "min": 1.0 } },
 		"h_help_needed_from_hillstead": { "appear": { "max": 0.0 } },
-		"Strength": { "min": 3.0 }
+		"Strength": 5
 	  },
 	  "rewards": { "Story points": 4.0, "h_clearance_attempt_started": 1.0 }
 	},
@@ -85,7 +94,10 @@
 	  "story_text": "You brace your legs and start hauling the worst of the blockage away — stone by stone, log by sodden log. The woman watches, silent, then starts helping too.",
 	  "cooldown": 2.0,
 	  "max_loops": 5,
-	  "requirements": { "h_clearance_attempt_started": { "appear": { "min": 1.0 } } },
+	  "requirements": { 
+		"h_clearance_attempt_started": { "appear": { "min": 1.0 } },
+		"Focus": { "consume":1.0 }
+	  },
 	  "rewards": { "Story points": 2.0, "h_debris_cleared": 1.0 }
 	},
 	{
