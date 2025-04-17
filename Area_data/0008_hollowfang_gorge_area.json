@@ -67,46 +67,31 @@
 	  "action_type": "free",
 	  "story_text": "Touch the Silent Stone. Visions flood your mind — wolves circling, ancient fire, your own reflection staring back from another life.",
 	  "requirements": {
-		"Spirit Bond": { "amount": 2.0 },
-		"h_silent_stone_found": { "appear": { "min": 1.0 } }, "Focus": { "consume": 5.0 }
+		"Spirit Bond": { "amount": 1.0 },
+		"h_silent_stone_found": { "appear": { "min": 1.0 } }, 
+		"Focus": { "consume": 5.0 }
 	  },
-	  "rewards": {
-		"Story points": 20.0,
-		"h_vision_experienced": 1.0
-	  }
+	  "rewards": { "Story points": 20.0, "h_vision_experienced": 1.0 }
 	},
 	{
 	  "action_type": "free",
-	  "story_text": "You come to a rise where the trees open slightly. The Pale Alpha emerges — tall, spectral, and quiet. It does not attack. It watches. And waits."
-	  ,
+	  "story_text": "You come to a rise where the trees open slightly. The Pale Alpha emerges — tall, spectral, and quiet. It does not attack. It watches. And waits.",
 	  "requirements": {
 		"h_vision_experienced": { "appear": { "min": 1.0 } }, "Focus": { "consume": 1.0 }
 	  },
-	  "rewards": {
-		"Story points": 25.0,
-		"h_pact_restored": 1.0,
-		"Soul Fang": 1.0
-	  }
+	  "rewards": { "Story points": 25.0, "h_pact_restored": 1.0, "Soul Fang": 1.0 }
 	},
 	{
 	  "action_type": "combat",
-	  "story_text": "You hear a low growl before you see the gleam of fangs. The Pale Alpha lunges from the shadows. There will be no peace. Only survival."
-	  ,
+	  "story_text": "You hear a low growl before you see the gleam of fangs. The Pale Alpha lunges from the shadows. There will be no peace. Only survival.",
 	  "requirements": {
 		"h_glyphs_misunderstood": { "appear": { "min": 1.0 } },
 		"Strength": { "amount": 5.0 },
 		"Resolve": { "consume": 2.0 },
 		"Focus": { "consume": 1.0 }
 	  },
-	  "enemy": {
-		"name": "Pale Alpha",
-		"strength": 10.0
-	  },
-	  "rewards": {
-		"Story points": 25.0,
-		"h_alpha_defeated": 1.0,
-		"Soul Fang": 1.0
-	  }
+	  "enemy": { "name": "Pale Alpha", "strength": 10.0 },
+	  "rewards": { "Story points": 25.0, "h_alpha_defeated": 1.0, "Soul Fang": 1.0 }
 	}
   ]
 }

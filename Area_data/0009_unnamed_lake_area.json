@@ -10,21 +10,25 @@
 	{
 	  "action_type": "free",
 	  "story_text": "Speak with a farmer standing at the edge of the flood, mourning their ruined fields.",
+	  "requirements": { "Focus": { "consume":1.0 } },
 	  "rewards": { "Story points": 5.0, "h_farmer_grieved": 1.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "You spot the ribs of a merchant cart poking from the water. A wheel spins slowly in the current. No bones — just broken crates, and a single sealed box.",
+	  "requirements": { "Focus": { "consume":1.0 } },
 	  "rewards": { "Story points": 4.0, "Resolve": 1.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "You wade through shallow water and find the tops of fence posts, a stone wall, and the faint lines of old furrows. This was farmland. Until recently.",
+	  "requirements": { "Focus": { "consume":1.0 } },
 	  "rewards": { "Story points": 4.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "An older man crouches near the lake, wringing water from a ragged coat. 'Crossing gave out beneath me,' he mutters. 'Bridge snapped like straw. One moment dry, the next — swallowed.'",
+	  "requirements": { "Focus": { "consume":1.0 } },
 	  "rewards": { "Story points": 6.0, "h_refugee_found": 1.0 }
 	},
 	{
@@ -42,6 +46,7 @@
 	{
 	  "action_type": "free",
 	  "story_text": "You follow the water’s edge toward the cliffs. A gully cuts through the land — or used to. It’s now packed with stone, splintered wood, and twisted brush. The runoff has nowhere to go.",
+	  "requirements": { "Focus": { "consume":1.0 } },
 	  "rewards": { "Story points": 5.0, "h_gully_blocked": 1.0 }
 	},
 	{
@@ -54,10 +59,7 @@
 	  "action_type": "free",
 	  "story_text": "You test the edge of the debris. It shifts underfoot — heavy, waterlogged, unstable. Clearing it would take strength and care.",
 	  "requirements": { "h_brother_mentioned": { "appear": { "min": 1.0 } } },
-	  "rewards": {
-		"Story points": 3.0,
-		"h_evaluated_gully_debris": 1.0
-	  }
+	  "rewards": { "Story points": 3.0, "h_evaluated_gully_debris": 1.0 }
 	},
 	{
 	  "action_type": "free",

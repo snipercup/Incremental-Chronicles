@@ -63,8 +63,42 @@ func _press_actions_of_type(action_list: Control, query: ActionQuery, times: int
 		if matches.is_empty():
 			break
 		var action_ui: Control = matches[0]
+		# If the story_action has a 'cooldown' property, override it for testing
+		if "cooldown" in action_ui.story_action:
+			action_ui.story_action.cooldown = 0.1
 		action_ui.action_instance._on_action_button_pressed()
 		await get_tree().process_frame
+
+
+# Finds and runs a loop action until the specified resource reaches a threshold
+func _run_loop_until_resource(query: ActionQuery, threshold: float, permanent: bool = false ) -> void:
+	var action_list: Control = test_instance.action_list
+	var resources: Label = test_instance.helper.resource_manager
+	var resource_name: String = query.reward_key
+	
+	resources.apply_rewards({"Focus": 10})
+	var actions := _get_actions_by_filters(action_list, query)
+	assert_true(actions.size() > 0, "No matching loop action found.")
+	if actions.size() > 0:
+		var loop_action: Control = actions[0]
+		loop_action.story_action.cooldown = 0.1
+		loop_action.action_instance._on_action_button_pressed()
+		await _wait_for_resource(resources, permanent, resource_name, threshold)
+
+
+# Waits until at least one action matches the given ActionQuery.
+# Optional timeout/interval can be passed to control how long to wait/check.
+func _wait_for_action_query_match(action_list: Control, query: ActionQuery) -> void:
+	var timeout := 10.0
+	var interval := 0.2
+	var match_exists := func():
+		var matches := _get_actions_by_filters(action_list, query)
+		return not matches.is_empty()
+
+	assert_true(
+		await wait_until(match_exists, timeout, interval),
+		"Expected at least one action matching query: %s" % query.type_name
+	)
 
 # Presses all visible actions of a given type
 func _press_all_actions_of_type(action_list: Control, type_name: String) -> void:
@@ -129,34 +163,6 @@ func _run_test_sequence(fn: Callable, steps: int = 10, stop_area: String = "", d
 			return true
 	return false
 
-# Finds and runs a loop action until the specified resource reaches a threshold
-func _run_loop_until_resource(query: ActionQuery, threshold: float, permanent: bool = false ) -> void:
-	var action_list: Control = test_instance.action_list
-	var resources: Label = test_instance.helper.resource_manager
-	var resource_name: String = query.reward_key
-	
-	var actions := _get_actions_by_filters(action_list, query)
-	assert_true(actions.size() > 0, "No matching loop action found.")
-	if actions.size() > 0:
-		var loop_action: Control = actions[0]
-		loop_action.story_action.cooldown = 0.1
-		loop_action.action_instance._on_action_button_pressed()
-		await _wait_for_resource(resources, permanent, resource_name, threshold)
-
-# Waits until at least one action matches the given ActionQuery.
-# Optional timeout/interval can be passed to control how long to wait/check.
-func _wait_for_action_query_match(action_list: Control, query: ActionQuery) -> void:
-	var timeout := 10.0
-	var interval := 0.2
-	var match_exists := func():
-		var matches := _get_actions_by_filters(action_list, query)
-		return not matches.is_empty()
-
-	assert_true(
-		await wait_until(match_exists, timeout, interval),
-		"Expected at least one action matching query: %s" % query.type_name
-	)
-
 
 func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 	var action_list: Control = test_instance.action_list
@@ -189,7 +195,7 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 	
 	# Force Resolve to 10 to proceed
 	resources.apply_rewards({"Resolve": 10})
-	_wait_for_resource(resources, false, "Resolve", 10.0)
+	await _wait_for_resource(resources, false, "Resolve", 10.0)
 
 	# -- COMBAT --
 	var combat_action: Control = action_list.get_first_action_of_type("combat")
@@ -241,7 +247,7 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 	resources.apply_rewards({"Focus": 10})
 	await _wait_for_action_type_count(action_list, "free", 0, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
 	
-	# Return to the village
+	# -- VILLAGE --
 	if await _open_area(area_list, "Village", stop_area_name): return true
 	# Keep pressing free actions until 1 remains
 	await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
@@ -286,13 +292,18 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 			await _press_actions_of_type(action_list, query, 1)
 			
 			# We get one echo from the reward list, then force 2 more. This will save reincarnating again
-			resources.apply_rewards({"Echoes of the Past": { "permanent": 2 }})
+			resources.apply_rewards({"Echoes of the Past": { "permanent": 4 }})
 			query.reward_key = "Focus" # Get the focus regeneration buff
 			await _press_actions_of_type(action_list, query, 1)
 			query.reward_key = "Strength" # We also get strength
 			await _press_actions_of_type(action_list, query, 1)
 			query.reward_key = "Resolve" # Get the Resolve max capacity buff
 			await _press_actions_of_type(action_list, query, 1)
+			query.reward_key = "Wisdom" # Get the Wisdom buff
+			await _press_actions_of_type(action_list, query, 1)
+			query.reward_key = "Story points" # Get the "Story points" max capacity buff
+			await _press_actions_of_type(action_list, query, 1)
+			resources.apply_rewards({ "Story points": { "permanent_capacity": 25 } }) # Sneak more cap in
 			query = ActionQuery.new("reincarnation") # Reincarnate and start over
 			await _press_actions_of_type(action_list, query, 1)
 			
@@ -308,9 +319,77 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 			var story_point_resource: ResourceData = resources.get_resource("Story points")
 			assert_eq(story_point_resource.temporary, 0.0, "Story points should be 0.0.")
 			
-			# Keep pressing free actions until 1 remains
-			await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
+			# We keep pressing free actions until 2 loop action remain
+			await _wait_for_action_type_count(action_list, "loop", 2, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
+			await _wait_for_action_type_count(action_list, "loop", 2, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
 
+			
+			myactionquery.reward_key = "Story points" # collect move the beams from the water
+			await _run_loop_until_resource(myactionquery, 10.0)
+			myactionquery.reward_key = "Iron Nails" # Scavenge wood and nails
+			await _run_loop_until_resource(myactionquery, 5.0)
+			# Keep pressing free actions until 3 free actions remain
+			await _wait_for_action_type_count(action_list, "free", 3, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
+			await _wait_for_action_type_count(action_list, "free", 3, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
+			
+			# -- HOLLOW GROVE --
+			if await _open_area(area_list, "Hollow Grove", stop_area_name): return true
+			await get_tree().process_frame
+			myactionquery.reward_key = "Knotroot Timber" # Scavenge Knotroot Timber
+			await _run_loop_until_resource(myactionquery, 6.0)
+			
+			# -- VILLAGE --
+			if await _open_area(area_list, "Village", stop_area_name): return true
+			myactionquery.reward_key = "Stone Dowels" # Scavenge Stone Dowels
+			await _run_loop_until_resource(myactionquery, 6.0)
+			await _press_all_actions_of_type(action_list, "free") # Talk to smith
+			myactionquery.reward_key = "Iron Braces" # get Iron Braces from smith
+			await _run_loop_until_resource(myactionquery, 4.0)
+			await _press_all_actions_of_type(action_list, "free") # Talk to smith
+			
+			#-- FLOODED CROSSING --
+			if await _open_area(area_list, "Flooded Crossing", stop_area_name): return true
+			
+			# We keep pressing free actions until 1 loop action remains
+			await _wait_for_action_type_count(action_list, "loop", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
+			await _wait_for_action_type_count(action_list, "loop", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
+
+			myactionquery.reward_key = "Story points" # build the bridge
+			await _run_loop_until_resource(myactionquery, 103.0)
+			await _press_all_actions_of_type(action_list, "free") # Talk to mirella
+			
+			#-- HILLSTEAD OUTPOST --
+			if await _open_area(area_list, "Hillstead Outpost", stop_area_name): return true
+			resources.apply_rewards({"Focus": 10})
+			await _press_all_actions_of_type(action_list, "free") # do actions
+			resources.apply_rewards({"Focus": 10})
+			query = ActionQuery.new("free")
+			await _press_actions_of_type(action_list,query,4) # Press patrol loop
+			resources.apply_rewards({"Focus": 10})
+			await _wait_for_action_type_count(action_list, "free", 2, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
+			resources.apply_rewards({"Focus": 10})
+			await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
+			resources.apply_rewards({"Focus": 10})
+			await _wait_for_action_type_count(action_list, "loop", 2, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
+
+			# -- VILLAGE --
+			if await _open_area(area_list, "Village", stop_area_name): return true
+			await _press_all_actions_of_type(action_list, "free") # We get the salve
+			
+			#-- HILLSTEAD OUTPOST --
+			if await _open_area(area_list, "Hillstead Outpost", stop_area_name): return true
+			await _wait_for_action_type_count(action_list, "loop", 2, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
+			myactionquery.reward_key = "Story points" # study weathered tomes
+			await _press_actions_of_type(action_list,myactionquery,1) # Press study loop
+			#await _wait_for_action_type_count(action_list, "loop", 1, 15, 0.2) # One loop remains
+			#await _press_all_actions_of_type(action_list, "free") # close the last book
+			#await _press_actions_of_type(action_list,myactionquery,1) # Press patrol loop
+			#await _wait_for_action_type_count(action_list, "free", 1, 15, 0.2) # One free action remains
+			# Keep pressing free actions until 0 remain
+			#await _wait_for_action_type_count(action_list, "free", 0, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
+			#
+
+			
 	
 	if delay_seconds > 0.0: await wait_seconds(delay_seconds)
 	return false # No interruptions, so return false

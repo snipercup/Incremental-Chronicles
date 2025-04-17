@@ -11,7 +11,7 @@
 	  "action_type": "free",
 	  "story_text": "Step between the towering trees and feel the air grow heavy.",
 	  "requirements": {
-		"Focus": {"consume":1.0}
+		"Focus": { "consume":1.0 }
 	  },
 	  "rewards": {
 		"Story points": 3.0
