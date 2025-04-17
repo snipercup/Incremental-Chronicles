@@ -95,13 +95,19 @@ func from_dict(data: Variant) -> void:
 
 # Returns true if only the "appear" requirements are fulfilled
 func does_appear_requirements_pass(resource: ResourceData) -> bool:
-	var total := resource.get_total()
-	var regen := resource.regeneration
-	var temporary_capacity := resource.temporary_capacity
-	var permanent_capacity := resource.permanent_capacity
-	
-	# Check total value bounds
-	if total < appear_min_total or total > appear_max_total:
+	var total: float = resource.get_total()
+	var regen: float = resource.regeneration
+	var temporary_capacity: float = resource.temporary_capacity
+	var permanent_capacity: float = resource.permanent_capacity
+	# Debug info for total value check
+	#print("🧪 Checking appear requirements for resource:", resource.name, "  [RAW] total=%.20f, min=%.20f, max=%.20f" % [total, appear_min_total, appear_max_total])
+
+	# Check total value bounds (broken up)
+	var fail_min: bool = total < appear_min_total
+	var fail_max: bool = total > appear_max_total
+
+	#print("  Check: total < min →", fail_min, "  Check: total > max →", fail_max)
+	if fail_min or fail_max:
 		return false
 
 	# Check regeneration bounds
@@ -117,7 +123,6 @@ func does_appear_requirements_pass(resource: ResourceData) -> bool:
 		return false
 
 	return true
-
 
 # Returns true if any appear requirement is active
 func has_appear_requirements() -> bool:

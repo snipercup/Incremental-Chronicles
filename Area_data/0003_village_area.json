@@ -172,7 +172,7 @@
 	{
 	  "action_type": "free",
 	  "story_text": "Bring herbs to the chapel to prepare for dusk rites.",
-	  "requirements": { "Herbs": { "consume":1.0 } },
+	  "requirements": { "Herbs": { "consume": 1.0 } },
 	  "rewards": { "Resolve": 10.0, "h_village_resilience": 0.5 }
 	},
 	{
