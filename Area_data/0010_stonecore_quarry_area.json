@@ -115,7 +115,6 @@
 	  },
 	  "rewards": {
 		"Story points": 10.0,
-		"Adaptation": 1.0,
 		"h_stone_amplified": 1.0,
 		"h_core_stone_touched": 1.0
 	  }

@@ -49,6 +49,15 @@
 	  "rewards": { "Story points": 1.0 }
 	},
 	{
+	  "action_type": "free",
+	  "story_text": "The grove stirs in response to your memory-marked presence. Where others feel quiet, you feel resonance. The Core Stone's influence lingers — you remember more than you should.",
+	  "requirements": { "h_stone_amplified": { "appear": { "min": 1.0 } } },
+	  "rewards": {
+		"Memory": { "permanent": 1.0 },
+		"Story points": 1.0
+	  }
+	},
+	{
 	  "action_type": "reincarnation",
 	  "story_text": "You touch the fruit. It becomes light. You do not fade \u2014 you are drawn inward. The grove vanishes behind your eyes.",
 	  "requirements": {
