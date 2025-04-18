@@ -9,36 +9,85 @@
   "story_actions": [
 	{
 	  "action_type": "free",
-	  "story_text": "Speak with a stonemason who won't chisel anymore. He claims the stone speaks back.",
-	  "requirements": { "Focus": { "consume": 1.0 } },
-	  "rewards": { "Story points": 5.0, "h_mason_warned": 1.0 }
+	  "story_text": "A quarry worker waves as you step in. 'About time! We’re fine — just cut off. The flood didn’t reach us, but it rattled everything up top.'",
+	  "requirements": { "h_quarry_access": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 10.0, "h_quarry_crew_contacted": 1.0 }
 	},
 	{
 	  "action_type": "loop",
-	  "story_text": "Clear rubble near the broken lift shaft.",
-	  "requirements": { "Focus": { "consume": 1.0 } },
+	  "story_text": "Shift rubble and re-align support beams near the damaged lift shaft. The crew works alongside you, grateful for the extra hands.",
+	  "requirements": {
+		"Focus": { "consume": 1.0 },
+		"h_quarry_crew_contacted": { "appear": { "min": 1.0 } }
+	  },
 	  "cooldown": 2.0,
 	  "max_loops": 4,
-	  "rewards": { "Story points": 3.0, "Stone Debris": 1.0 }
+	  "rewards": {
+		"Story points": 3.0,
+		"Stone Debris": 1.0,
+		"h_lift_access_prepared": 0.25
+	  }
 	},
 	{
 	  "action_type": "free",
-	  "story_text": "Repair the lift using salvaged parts.",
+	  "story_text": "You and the crew rig the lift back together using scavenged nails and stone. It shudders, then steadies — ready to descend once more.",
 	  "requirements": {
 		"Stone Debris": { "consume": 3.0 },
 		"Iron Nails": { "consume": 2.0 },
-		"Focus": { "consume": 1.0 }
+		"Focus": { "consume": 1.0 },
+		"h_lift_access_prepared": { "appear": { "min": 1.0 } }
 	  },
 	  "rewards": { "Story points": 15.0, "h_lift_repaired": 1.0 }
 	},
 	{
 	  "action_type": "free",
-	  "story_text": "Descend into the quarry's lower pit. The walls are carved with repeated symbols — a name, inscribed again and again.",
+	  "story_text": "The lift lowers you into the main pit. Stone walls loom around you, carved with clean lines and quarry marks. Crew voices echo faintly through the tunnels.",
 	  "requirements": {
 		"h_lift_repaired": { "appear": { "min": 1.0 } },
 		"Focus": { "consume": 1.0 }
 	  },
-	  "rewards": { "Story points": 10.0, "h_core_entry_unlocked": 1.0 }
+	  "rewards": { "Story points": 10.0, "h_quarry_base_access": 1.0 }
+	},
+
+	{
+	  "action_type": "loop",
+	  "story_text": "You help load carts with quarried stone and assist the crew in guiding them to the surface. The lift groans with each load.",
+	  "cooldown": 2.0,
+	  "max_loops": 6,
+	  "requirements": {
+		"h_quarry_base_access": { "appear": { "min": 1.0 } },
+		"Focus": { "consume": 1.0 }
+	  },
+	  "rewards": {
+		"Quarried Stone": 1.0,
+		"Story points": 1.0,
+		"h_quarry_haul_progress": 0.25
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You redistribute salvaged nails and reinforce tool racks. The workers nod in approval — small things matter in keeping pace.",
+	  "requirements": {
+		"Iron Nails": { "consume": 2.0 },
+		"h_quarry_base_access": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"Story points": 5.0,
+		"h_quarry_ready_for_output": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "With stone hauled and the lift steady, you arrange the first outbound shipment. A crewmember grins. 'Hillstead’s going to feel this one.'",
+	  "requirements": {
+		"Quarried Stone": { "consume": 4.0 },
+		"h_quarry_ready_for_output": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"Story points": 10.0,
+		"h_quarry_resupply_started": 1.0,
+		"h_hillstead_supply_boost": 1.0
+	  }
 	},
 	{
 	  "action_type": "free",
@@ -89,6 +138,18 @@
 	  "rewards": {
 		"Story points": 20.0,
 		"h_region_arc_complete": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "The crew gathers as the final shipment is loaded. 'Feels like we're back in rhythm,' one says, clapping dust from his gloves. Another nods toward you. 'Couldn’t have done it without the help.' The quarry hums with purpose once more.",
+	  "requirements": {
+		"h_quarry_resupply_started": { "appear": { "min": 1.0 } }
+	  },
+	  "rewards": {
+		"Story points": 15.0,
+		"Resolve": 5.0,
+		"h_quarry_arc_complete": 1.0
 	  }
 	}
   ]
