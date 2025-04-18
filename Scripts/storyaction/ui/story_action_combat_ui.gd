@@ -9,19 +9,37 @@ var parent: Control
 @export var checks_v_box_container: VBoxContainer = null
 
 func set_action_button_text(value: String) -> void:
-	button.text = value
+	var resource_manager: Node = parent.get_resource_manager()
+	var show_chance := false
+
+	# Check if any resource has a value >= 1.0
+	if resource_manager.get_total_value("h_combat_insight") >= 1.0:
+		show_chance = true
+
+	# Base button text
+	var text := value
+
+	# Append success chance if condition is met
+	if show_chance and story_action:
+		var player_strength := get_player_strength()
+		var enemy_strength = story_action.get_enemy_strength()  # You might need to implement this
+		var chance := story_action.calculate_combat_success_chance(player_strength, enemy_strength)
+		text += " [(%.0f%%) chance]" % (chance * 100.0)
+
+	button.text = text
+
 
 # Update the UI for this action
 func set_story_action(value: StoryAction) -> void:
 	story_action = value
-	if story_action:
-		set_action_button_text(story_action.get_story_text())
 
 func set_parent(newparent: Control) -> void:
 	parent = newparent
 
 # Handle action button press
 func _ready():
+	if story_action:
+		set_action_button_text(story_action.get_story_text())
 	button.pressed.connect(_on_action_button_pressed)
 	update_combat_progress()
 
@@ -30,7 +48,6 @@ func _ready():
 func get_player_strength() -> float:
 	var resource_manager: Node = parent.get_resource_manager()
 	return resource_manager.get_total_value("Strength")
-
 
 # Create nodes in the container to represent combat chances
 func update_combat_progress() -> void:

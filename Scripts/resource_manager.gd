@@ -126,7 +126,7 @@ func add_generation(key: String, data: Dictionary) -> void:
 # Applies regeneration to all resources and emits update signal only if something changed
 func update_generation(delta: float) -> void:
 	var changed := false
-	for res in resources.values():
+	for res: ResourceData in resources.values():
 		if res.apply_regeneration(delta):
 			changed = true
 	if changed:

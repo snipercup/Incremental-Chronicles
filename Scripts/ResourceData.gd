@@ -20,7 +20,7 @@ func _init(myname: String, cap: float = 0.0):
 
 # Total value (not used in capacity checks)
 func get_total() -> float:
-	return temporary + permanent
+	return snappedf(temporary + permanent, 0.0001)
 
 # Returns the total capacity (temporary + permanent capacity)
 func get_capacity() -> float:
@@ -55,9 +55,13 @@ func add_permanent_capacity(amount: float) -> void:
 func add_temporary(amount: float) -> void:
 	if amount == 0.0:
 		return
+	var before := temporary
 	temporary += amount
 	_enforce_capacity()
-	resource_updated.emit(self)
+	# Emit only if the value changed
+	if temporary != before:
+		resource_updated.emit(self)
+
 
 func remove_temporary(amount: float) -> void:
 	if amount == 0.0:

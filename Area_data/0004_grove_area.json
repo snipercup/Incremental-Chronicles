@@ -11,7 +11,7 @@
 	  "action_type": "free",
 	  "story_text": "Step between the towering trees and feel the air grow heavy.",
 	  "requirements": {
-		"Focus": {"consume":1.0}
+		"Focus": { "consume":1.0 }
 	  },
 	  "rewards": {
 		"Story points": 3.0
@@ -40,19 +40,13 @@
 	{
 	  "action_type": "free",
 	  "story_text": "Discover a torn piece of cloth tangled in a bramble.",
-	  "requirements": {
-		"Focus": {"consume":1.0}
-	  },
-	  "rewards": {
-		"Story points": 3.0
-	  }
+	  "requirements": { "Focus": { "consume":1.0 } },
+	  "rewards": { "Story points": 3.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "You find a boot lying beside a fallen log \u2014 worn, and stained with mud.",
-	  "requirements": {
-		"Focus": {"consume":1.0}
-	  },
+	  "requirements": { "Focus": { "consume":1.0 } },
 	  "rewards": {
 		"Story points": 1.0,
 		"h_grove_clue_1": 1.0
@@ -62,11 +56,7 @@
 	  "action_type": "free",
 	  "story_text": "Nearby, a shattered wooden charm \u2014 the same design worn by the villager in town.",
 	  "requirements": {
-		"h_grove_clue_1": {
-		  "appear": {
-			"min": 1.0
-		  }
-		}
+		"h_grove_clue_1": { "appear": { "min": 1.0 } }
 	  },
 	  "rewards": {
 		"Story points": 1.0,
@@ -77,11 +67,7 @@
 	  "action_type": "free",
 	  "story_text": "At the base of a tree, you uncover a journal \u2014 pages torn, but the name is clear: Aldric.",
 	  "requirements": {
-		"h_grove_clue_2": {
-		  "appear": {
-			"min": 1.0
-		  }
-		}
+		"h_grove_clue_2": { "appear": { "min": 1.0 } }
 	  },
 	  "rewards": {
 		"Story points": 2.0,
@@ -91,32 +77,14 @@
 	{
 	  "action_type": "free",
 	  "story_text": "You gather what you\u2019ve found and prepare to return to the village with news of Aldric.",
-	  "requirements": {
-		"h_grove_final_clue": {
-		  "appear": {
-			"min": 1.0
-		  }
-		}
-	  },
-	  "rewards": {
-		"Story points": 5.0,
-		"h_grove_report_complete": 1.0
-	  }
+	  "requirements": { "h_grove_final_clue": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 5.0, "h_grove_report_complete": 1.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "As you prepare to leave, a warmth floods your senses. For a moment, time bends \u2014 a vision of a sunlit altar flashes in your mind.",
-	  "requirements": {
-		"h_grove_final_clue": {
-		  "appear": {
-			"min": 1.0
-		  }
-		}
-	  },
-	  "rewards": {
-		"Story points": 1.0,
-		"h_temple_intro_1": 1.0
-	  }
+	  "requirements": { "h_grove_final_clue": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 1.0, "h_temple_intro_1": 1.0 }
 	},
 	{
 	  "action_type": "loop",
@@ -127,10 +95,7 @@
 	  },
 	  "cooldown": 2.0,
 	  "max_loops": 6,
-	  "rewards": {
-		"Knotroot Timber": 1.0,
-		"Story points": 4.0
-	  }
+	  "rewards": { "Knotroot Timber": 1.0, "Story points": 1.0 }
 	}
   ]
 }
