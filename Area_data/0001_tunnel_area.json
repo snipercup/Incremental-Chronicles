@@ -47,9 +47,7 @@
 		  "consume": 1.0
 		}
 	  },
-	  "rewards": {
-		"Story points": 3.0
-	  }
+	  "rewards": { "Story points": 3.0 }
 	},
 	{
 	  "action_type": "free",
