@@ -114,9 +114,10 @@
 		"Focus": { "consume": 1.0 }
 	  },
 	  "rewards": {
-		"Story points": 25.0,
+		"Story points": 10.0,
 		"Adaptation": 1.0,
-		"h_stone_amplified": 1.0
+		"h_stone_amplified": 1.0,
+		"h_core_stone_touched": 1.0
 	  }
 	},
 	{
@@ -126,18 +127,17 @@
 		"h_stone_core_found": { "appear": { "min": 1.0 } },
 		"Focus": { "consume": 1.0 }
 	  },
-	  "rewards": { "Story points": 10.0, "h_stone_passive": 1.0 }
+	  "rewards": { "Story points": 10.0, "h_stone_passive": 1.0, "h_core_stone_touched": 1.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Depart the quarry. As you ascend the lift, the memory of the Stone Core lingers. Its rhythm echoes in your chest, as if calling to something deeper. You don’t know why yet — only that it feels... connected.. The wind carries a voice that murmurs your name — or perhaps a future version of it.",
 	  "requirements": {
-		"h_stone_amplified": { "appear": { "min": 1.0 } },
+		"h_core_stone_touched": { "appear": { "min": 1.0 } },
 		"Focus": { "consume": 1.0 }
 	  },
 	  "rewards": {
-		"Story points": 20.0,
-		"h_region_arc_complete": 1.0
+		"Story points": 10.0
 	  }
 	},
 	{
@@ -146,11 +146,7 @@
 	  "requirements": {
 		"h_quarry_resupply_started": { "appear": { "min": 1.0 } }
 	  },
-	  "rewards": {
-		"Story points": 15.0,
-		"Resolve": 5.0,
-		"h_quarry_arc_complete": 1.0
-	  }
+	  "rewards": { "Story points": 10.0, "Resolve": 5.0 }
 	}
   ]
 }
