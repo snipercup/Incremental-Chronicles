@@ -67,7 +67,7 @@
 	  "rewards": {
 		"Reincarnation": 1.0,
 		"Echoes of the Past": { "permanent": 1 },
-		"h_second_reincarnation_complete": 1.0
+		"h_returned_from_grove": 1.0
 	  }
 	}
   ]

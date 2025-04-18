@@ -224,6 +224,7 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 	assert_true(combat_action != null, "Expected a combat action.")
 	var max_attempts := 100
 	while combat_action and max_attempts > 0:
+		resources.apply_rewards({"Resolve": 10})
 		combat_action.action_instance._on_action_button_pressed()
 		await get_tree().process_frame
 		combat_action = action_list.get_first_action_of_type("combat")
@@ -462,6 +463,7 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 		await _press_actions_of_type(action_list, query, 1)
 		query.reward_key = "Story points" # Get the "Story points" max capacity buff
 		await _press_actions_of_type(action_list, query, 1)
+		resources.apply_rewards({"Story points": { "permanent_capacity": 25 }}) # Sneak in 25 more SP
 		query = ActionQuery.new("reincarnation") # Reincarnate and start over
 		await _press_actions_of_type(action_list, query, 1)
 		return false # No interruptions, so return false

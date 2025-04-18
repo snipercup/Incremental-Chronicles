@@ -111,7 +111,7 @@
 		"Focus": { "consume": 1.0 }
 	  },
 	  "rewards": {
-		"Story points": 10.0,
+		"Story points": 90.0,
 		"h_debris_cleared": 5.0
 	  }
 	},

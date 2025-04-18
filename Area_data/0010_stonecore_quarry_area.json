@@ -25,6 +25,7 @@
 	  "rewards": {
 		"Story points": 3.0,
 		"Stone Debris": 1.0,
+		"Iron Nails": 1.0,
 		"h_lift_access_prepared": 0.25
 	  }
 	},
@@ -111,6 +112,7 @@
 	  "requirements": {
 		"Echoes of the Past": { "consume": 1.0 },
 		"h_stone_core_found": { "appear": { "min": 1.0 } },
+		"h_stone_passive": { "appear": { "max": 0.0 } },
 		"Focus": { "consume": 1.0 }
 	  },
 	  "rewards": {
@@ -124,6 +126,7 @@
 	  "story_text": "Choose to leave the stone untouched, sensing that it may awaken on its own later...",
 	  "requirements": {
 		"h_stone_core_found": { "appear": { "min": 1.0 } },
+		"h_stone_amplified": { "appear": { "max": 0.0 } },
 		"Focus": { "consume": 1.0 }
 	  },
 	  "rewards": { "Story points": 10.0, "h_stone_passive": 1.0, "h_core_stone_touched": 1.0 }
