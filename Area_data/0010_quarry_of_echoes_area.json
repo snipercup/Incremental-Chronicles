@@ -3,105 +3,66 @@
   "description": "Stone walls rise high, cut not just by hand but by something older. The quarry's base is littered with rusted tools and half-formed statues. Whispers drift through the dust \u2014 not wind, but memory.",
   "tier": 2.0,
   "requirements": {
-	"Story points": { "consume":250.0 },
-	"h_quarry_access": {"appear": { "min": 1.0 } }
+	"Story points": { "consume": 175.0 },
+	"h_quarry_access": { "appear": { "min": 1.0 } }
   },
   "story_actions": [
 	{
 	  "action_type": "free",
 	  "story_text": "Speak with a stonemason who won't chisel anymore. He claims the stone speaks back.",
-	  "rewards": {
-		"Story points": 5.0,
-		"h_mason_warned": 1.0
-	  }
+	  "requirements": { "Focus": { "consume": 1.0 } },
+	  "rewards": { "Story points": 5.0, "h_mason_warned": 1.0 }
 	},
 	{
 	  "action_type": "loop",
 	  "story_text": "Clear rubble near the broken lift shaft.",
+	  "requirements": { "Focus": { "consume": 1.0 } },
 	  "cooldown": 2.0,
 	  "max_loops": 4,
-	  "rewards": {
-		"Story points": 3.0,
-		"Stone Debris": 1.0
-	  }
+	  "rewards": { "Story points": 3.0, "Stone Debris": 1.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Repair the lift using salvaged parts.",
 	  "requirements": {
-		"Stone Debris": {
-		  "consume": 3.0
-		},
-		"Iron Nails": {
-		  "consume": 2.0
-		}
+		"Stone Debris": { "consume": 3.0 },
+		"Iron Nails": { "consume": 2.0 },
+		"Focus": { "consume": 1.0 }
 	  },
-	  "rewards": {
-		"Story points": 15.0,
-		"h_lift_repaired": 1.0
-	  }
+	  "rewards": { "Story points": 15.0, "h_lift_repaired": 1.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Descend into the quarry's lower pit. The walls are carved with repeated symbols \u2014 a name, echoed again and again.",
 	  "requirements": {
-		"h_lift_repaired": {
-		  "appear": {
-			"min": 1.0
-		  }
-		}
+		"h_lift_repaired": { "appear": { "min": 1.0 } },
+		"Focus": { "consume": 1.0 }
 	  },
-	  "rewards": {
-		"Story points": 10.0,
-		"h_core_entry_unlocked": 1.0
-	  }
+	  "rewards": { "Story points": 10.0, "h_core_entry_unlocked": 1.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Decipher the echo glyphs. They seem to align with memories \u2014 not your own, but familiar nonetheless.",
 	  "requirements": {
 		"Insight": { "amount": 3.0 },
-		"Memory": {
-		  "amount": 2.0
-		},
-		"h_core_entry_unlocked": {
-		  "appear": {
-			"min": 1.0
-		  }
-		}
+		"Memory": { "amount": 2.0 },
+		"h_core_entry_unlocked": { "appear": { "min": 1.0 } }
 	  },
-	  "rewards": {
-		"Story points": 20.0,
-		"h_stone_core_access": 1.0
-	  }
+	  "rewards": { "Story points": 20.0, "h_stone_core_access": 1.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Approach the Stone Core \u2014 a crystalline monolith vibrating softly. It pulses in rhythm with your breath.",
-	  "requirements": {
-		"h_stone_core_access": {
-		  "appear": {
-			"min": 1.0
-		  }
-		}
-	  },
-	  "rewards": {
-		"Story points": 10.0,
-		"h_stone_core_found": 1.0
-	  }
+	  "requirements": { "h_stone_core_access": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 10.0, "h_stone_core_found": 1.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Choose to amplify the stone, sealing part of your memory into it.",
 	  "requirements": {
-		"Echoes of the Past": {
-		  "consume": 1.0
-		},
-		"h_stone_core_found": {
-		  "appear": {
-			"min": 1.0
-		  }
-		}
+		"Echoes of the Past": { "consume": 1.0 },
+		"h_stone_core_found": { "appear": { "min": 1.0 } },
+		"Focus": { "consume": 1.0 }
 	  },
 	  "rewards": {
 		"Story points": 25.0,
@@ -113,26 +74,17 @@
 	  "action_type": "free",
 	  "story_text": "Choose to leave the stone untouched, sensing that it may awaken on its own later...",
 	  "requirements": {
-		"h_stone_core_found": {
-		  "appear": {
-			"min": 1.0
-		  }
-		}
+		"h_stone_core_found": { "appear": { "min": 1.0 } },
+		"Focus": { "consume": 1.0 }
 	  },
-	  "rewards": {
-		"Story points": 10.0,
-		"h_stone_passive": 1.0
-	  }
+	  "rewards": { "Story points": 10.0, "h_stone_passive": 1.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Depart the quarry. The wind carries a whisper that echoes your own name \u2014 or perhaps a future version of it.",
 	  "requirements": {
-		"h_stone_amplified": {
-		  "appear": {
-			"min": 1.0
-		  }
-		}
+		"h_stone_amplified": { "appear": { "min": 1.0 } },
+		"Focus": { "consume": 1.0 }
 	  },
 	  "rewards": {
 		"Story points": 20.0,

@@ -75,7 +75,8 @@
 	  "story_text": "You shake your head. It’s too much. The woman exhales sharply. 'Then we need help — Hillstead has axes, ropes, people who’ll care. I’ll go. If you reach them first, send word.'",
 	  "requirements": {
 		"h_evaluated_gully_debris": { "appear": { "min": 1.0 } },
-		"h_clearance_attempt_started": { "appear": { "max": 0.0 } }
+		"h_clearance_attempt_started": { "appear": { "max": 0.0 } },
+		"Focus": { "consume": 1.0 }
 	  },
 	  "rewards": { "Story points": 4.0, "h_help_needed_from_hillstead": 1.0 }
 	},
@@ -85,6 +86,7 @@
 	  "requirements": {
 		"h_evaluated_gully_debris": { "appear": { "min": 1.0 } },
 		"h_help_needed_from_hillstead": { "appear": { "max": 0.0 } },
+		"Focus": { "consume": 1.0 },
 		"Strength": 5
 	  },
 	  "rewards": { "Story points": 4.0, "h_clearance_attempt_started": 1.0 }
@@ -105,7 +107,8 @@
 	  "story_text": "You return with a small crew from Hillstead — rope coils, shovels, hands hardened by stone and storm. The woman smiles, just barely. 'Told you they'd come.'",
 	  "requirements": {
 		"h_help_needed_from_hillstead": { "appear": { "min": 1.0 } },
-		"h_hillstead_assistance_ready": { "appear": { "min": 1.0 } }
+		"h_hillstead_assistance_ready": { "appear": { "min": 1.0 } },
+		"Focus": { "consume": 1.0 }
 	  },
 	  "rewards": {
 		"Story points": 10.0,
@@ -115,7 +118,10 @@
 	{
 	  "action_type": "free",
 	  "story_text": "The last beam rolls free with a wet crack. Water rushes forward — not enough to drain the lake, but enough to carve a way east. The woman grips your arm. 'You did it. Let’s find them.'",
-	  "requirements": { "h_debris_cleared": { "appear": { "min": 5.0 } } },
+	  "requirements": { 
+		"h_debris_cleared": { "appear": { "min": 5.0 } },
+		"Focus": { "consume": 1.0 }
+	  },
 	  "rewards": { "Story points": 12.0, "h_quarry_access": 1.0 }
 	}
   ]

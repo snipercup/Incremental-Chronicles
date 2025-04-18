@@ -36,10 +36,12 @@
 	  "requirements": {
 		"Wisdom": { "amount": 4.0 },
 		"Insight": { "amount": 2.0 },
-		"h_glyphs_observed": { "appear": { "min": 1.0 } }, "Focus": { "consume": 6.0 }
+		"h_glyphs_observed": { "appear": { "min": 1.0 } }, 
+		"h_glyphs_misunderstood": { "appear": { "max": 0.0 } }, 
+		"Focus": { "consume": 6.0 }
 	  },
 	  "rewards": {
-		"Story points": 10.0,
+		"Story points": 50.0,
 		"h_glyphs_understood": 1.0,
 		"h_stone_cave_access": 1.0
 	  }
@@ -48,7 +50,9 @@
 	  "action_type": "free",
 	  "story_text": "You stare at the glyphs, but their patterns twist away from understanding. Whatever they once meant, that meaning is lost to you.",
 	  "requirements": {
-		"h_glyphs_observed": { "appear": { "min": 1.0 } }, "Focus": { "consume": 6.0 }
+		"h_glyphs_observed": { "appear": { "min": 1.0 } },
+		"h_glyphs_understood": { "appear": { "max": 0.0 } },
+		"Focus": { "consume": 6.0 }
 	  },
 	  "rewards": {
 		"Story points": 5.0,

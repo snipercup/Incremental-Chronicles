@@ -6,12 +6,8 @@
 	{
 	  "action_type": "free",
 	  "story_text": "You step out from the mirrored tunnel — reborn, but unsteady. Something about the air feels... known. A breeze brushes past.",
-	  "requirements": {
-		"Reincarnation": { "appear": { "min": 1.0, "max": 1.0 } }
-	  },
-	  "rewards": {
-		"h_mirrored_entity_step1": 1.0
-	  }
+	  "requirements": { "Reincarnation": { "appear": { "min": 1.0, "max": 1.0 } } },
+	  "rewards": { "h_mirrored_entity_step1": 1.0 }
 	},
 	{
 	  "action_type": "free",
@@ -19,9 +15,7 @@
 	  "requirements": {
 		"h_mirrored_entity_step1": { "appear": { "min": 1.0 } }
 	  },
-	  "rewards": {
-		"h_mirrored_entity_step2": 1.0
-	  }
+	  "rewards": { "h_mirrored_entity_step2": 1.0 }
 	},
 	{
 	  "action_type": "free",
@@ -29,9 +23,7 @@
 	  "requirements": {
 		"h_mirrored_entity_step2": { "appear": { "min": 1.0 } }
 	  },
-	  "rewards": {
-		"Echoes of the Past": { "permanent": 1 }
-	  }
+	  "rewards": { "Echoes of the Past": { "permanent": 1 } }
 	},
 	{
 	  "action_type": "free",
@@ -39,10 +31,7 @@
 	  "requirements": {
 		"Reincarnation": { "appear": { "min": 2.0, "max": 2.0 } }
 	  },
-	  "rewards": {
-		"Story points": 5.0,
-		"h_mirrored_entity_absent": 1.0
-	  }
+	  "rewards": { "Story points": 5.0, "h_mirrored_entity_absent": 1.0 }
 	},
 	{
 	  "action_type": "free",
@@ -80,14 +69,8 @@
 	{
 	  "action_type": "free",
 	  "story_text": "Observe small creatures darting through the tall grass.",
-	  "requirements": {
-		"Focus": {
-		  "consume": 1.0
-		}
-	  },
-	  "rewards": {
-		"Story points": 6.0
-	  }
+	  "requirements": { "Focus": { "consume": 1.0 } },
+	  "rewards": { "Story points": 6.0 }
 	},
 	{
 	  "action_type": "free",

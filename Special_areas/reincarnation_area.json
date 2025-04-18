@@ -35,9 +35,7 @@
 	  "requirements": {
 		"Echoes of the Past": { "consume": 1.0, "permanent": true }
 	  },
-	  "rewards": {
-		"Insight": { "permanent": 1 }
-	  }
+	  "rewards": { "Insight": { "permanent": 1 } }
 	},
 	{
 	  "action_type": "free",

@@ -186,20 +186,26 @@
 			"action_type": "loop",
 			"story_text": "You move between homes and workshops, offering aid where you can — lifting crates, hauling water, holding torches as repairs are made. Hillstead is strained, but not heartless.",
 			"requirements": { "h_help_request_started": { "appear": { "min": 1.0 } } },
-			"cooldown": 1,
-			"max_loops": 4,
+			"cooldown": 2,
+			"max_loops": 5,
 			"rewards": { "Story points": 1.0, "h_help_favor_earned": 1.0 }
 		},
 		{
 			"action_type": "free",
 			"story_text": "After your quiet efforts, a wiry man waves you over. 'Saw you helping Old Brin. You're the one who crossed the lake, right? That jammed gully? I've cleared worse.'",
-			"requirements": { "h_help_favor_earned": { "appear": { "min": 4.0 } } },
+			"requirements": { 
+				"h_help_favor_earned": { "appear": { "min": 4.0 } },
+				"Focus": { "consume": 1.0 }
+			},
 			"rewards": { "Story points": 5.0, "h_help_found_volunteer": 1.0 }
 		},
 		{
 			"action_type": "free",
 			"story_text": "A smith nods slowly. 'If it’s for quarry folk, I’ll send tools. Just bring them back.' He sets aside a bundle of iron prybars, wrapped in leather.",
-			"requirements": { "h_help_found_volunteer": { "appear": { "min": 1.0 } } },
+			"requirements": { 
+				"h_help_found_volunteer": { "appear": { "min": 1.0 } },
+				"Focus": { "consume": 1.0 }
+			},
 			"rewards": { "Story points": 6.0, "h_hillstead_assistance_ready": 1.0 }
 		}
 	]
