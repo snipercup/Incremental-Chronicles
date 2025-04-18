@@ -31,7 +31,7 @@
 	  }
 	},
 	{
-	  "action_type": "exploration",
+	  "action_type": "free",
 	  "story_text": "Search beneath the roots \u2014 you find a buried tablet, pulsing with warmth. It names you, though the letters rearrange.",
 	  "requirements": {
 		"Perception": { "amount": 1.0 },
@@ -67,6 +67,7 @@
 	  "rewards": {
 		"Reincarnation": 1.0,
 		"Echoes of the Past": { "permanent": 1 },
+		"h_reincarnation_started": 0.0,
 		"h_returned_from_grove": 1.0
 	  }
 	}

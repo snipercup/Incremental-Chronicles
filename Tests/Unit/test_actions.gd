@@ -251,9 +251,6 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 	myactionquery.reward_key = "h_miles"
 	await _wait_for_action_query_match(action_list,myactionquery)
 	await _run_loop_until_resource(myactionquery,5.0)
-	
-	# Keep pressing free actions. Once they are all gone, we return to tunnel, which has 1 loop action
-	await _wait_for_action_type_count(action_list, "loop", 1, 15, 0.2, _press_all_actions_of_type.bind(action_list, "free"))
 
 
 	# -- VILLAGE --
@@ -456,10 +453,13 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 		await _press_actions_of_type(action_list, query, 1)
 		
 		# We get one echo from the reward list, then force 2 more. This will save reincarnating again
-		resources.apply_rewards({"Echoes of the Past": { "permanent": 2 }})
+		resources.apply_rewards({"Echoes of the Past": { "permanent": 3 }})
 		query.reward_key = "Wisdom" # We also get Wisdom
 		await _press_actions_of_type(action_list, query, 1)
 		query.reward_key = "Insight" # We also get Insight
+		await _press_actions_of_type(action_list, query, 1)
+		resources.apply_rewards({"Insight": { "permanent": 1 }}) # Sneak in 1 more Insight
+		query.reward_key = "Perception" # We also get Perception
 		await _press_actions_of_type(action_list, query, 1)
 		query.reward_key = "Story points" # Get the "Story points" max capacity buff
 		await _press_actions_of_type(action_list, query, 1)
@@ -488,6 +488,8 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 	await wait_seconds(0.01, "Entering The Unnamed Lake, reincarnation = " + str(current_reincarnation) + ", Story points = " + str(resources.get_resource("Story points").temporary))
 	if await _open_area(area_list, "The Unnamed Lake", stop_area_name): return true
 	await _wait_for_action_type_count(action_list, "free", 5, 15, 0.2) # We have 5 free actions
+	resources.apply_rewards({"Focus": 10})
+	await _press_all_actions_of_type(action_list, "free")
 
 	if delay_seconds > 0.0: await wait_seconds(delay_seconds)
 	return false # No interruptions, so return false
