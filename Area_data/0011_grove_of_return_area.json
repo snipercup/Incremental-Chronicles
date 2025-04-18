@@ -4,7 +4,7 @@
   "tier": 2.0,
   "requirements": {
   	"Soul Fang": { "appear": { "min": 1.0 } },
-	"h_region_arc_complete": {"appear": { "min": 1.0 } }
+	"h_core_stone_touched": { "appear": { "min": 1.0 } }
   },
   "story_actions": [
 	{
@@ -16,16 +16,13 @@
 	  "action_type": "free",
 	  "story_text": "A voice hums from beneath the roots \u2014 not in words, but emotion. You feel longing, sorrow, and awe.",
 	  "requirements": { "h_glyph_memory_marked": { "appear": { "min": 1.0 } } },
-	  "rewards": {
-		"Story points": 8.0,
-		"h_grove_song_heard": 1.0
-	  }
+	  "rewards": { "Story points": 1.0, "h_grove_song_heard": 1.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Meditate in the clearing. Time becomes strange. For a moment, you are the fruit. The grove watches you grow.",
 	  "requirements": {
-		"Spirit Bond": { "amount": 3.0 },
+		"Spirit Bond": { "amount": 1.0 },
 		"h_grove_song_heard": { "appear": { "min": 1.0 } }
 	  },
 	  "rewards": {
@@ -34,26 +31,31 @@
 	  }
 	},
 	{
-	  "action_type": "exploration",
+	  "action_type": "free",
 	  "story_text": "Search beneath the roots \u2014 you find a buried tablet, pulsing with warmth. It names you, though the letters rearrange.",
 	  "requirements": {
-		"Perception": {
-		  "amount": 3.0
-		},
+		"Perception": { "amount": 1.0 },
 		"h_fruit_understood": { "appear": { "min": 1.0 } }
 	  },
 	  "rewards": {
-		"Story points": 15.0,
+		"Story points": 1.0,
 		"h_second_reincarnation_ready": 1.0
 	  }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "The fruit pulses once more. It waits for your hand. The grove is silent \u2014 watching.",
-	  "requirements": {
-		"h_second_reincarnation_ready": { "appear": { "min": 1.0 } }
-	  },
-	  "rewards": { "Story points": 10.0 }
+	  "requirements": { "h_second_reincarnation_ready": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "The grove stirs in response to your memory-marked presence. Where others feel quiet, you feel resonance. The Core Stone's influence lingers — you remember more than you should.",
+	  "requirements": { "h_stone_amplified": { "appear": { "min": 1.0 } } },
+	  "rewards": {
+		"Memory": { "permanent": 1.0 },
+		"Story points": 1.0
+	  }
 	},
 	{
 	  "action_type": "reincarnation",
@@ -64,8 +66,9 @@
 	  },
 	  "rewards": {
 		"Reincarnation": 1.0,
-		"Echoes of the Past": 2.0,
-		"h_second_reincarnation_complete": 1.0
+		"Echoes of the Past": { "permanent": 1 },
+		"h_reincarnation_started": 0.0,
+		"h_returned_from_grove": 1.0
 	  }
 	}
   ]

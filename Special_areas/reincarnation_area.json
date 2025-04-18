@@ -39,6 +39,14 @@
 	},
 	{
 	  "action_type": "free",
+	  "story_text": "Sharpen your awareness. (Increase Perception by 1)",
+	  "requirements": {
+		"Echoes of the Past": { "consume": 1.0, "permanent": true }
+	  },
+	  "rewards": { "Perception": { "permanent": 1 } }
+	},
+	{
+	  "action_type": "free",
 	  "story_text": "Attune to the flow of thought. (Regenerate Focus over time)",
 	  "requirements": {
 		"Echoes of the Past": { "consume": 1.0, "permanent": true },

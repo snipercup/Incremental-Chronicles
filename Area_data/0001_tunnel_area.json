@@ -36,15 +36,8 @@
 	{
 	  "action_type": "free",
 	  "story_text": "Lift a stone. Your muscles strain against the weight — it moves, just barely.",
-	  "requirements": {
-		"Focus": {
-		  "consume": 1.0
-		}
-	  },
-	  "rewards": {
-		"Story points": 5.0,
-		"Strength": 1.0
-	  }
+	  "requirements": { "Focus": { "consume": 1.0 } },
+	  "rewards": { "Story points": 5.0, "Strength": 1.0 }
 	},
 	{
 	  "action_type": "free",

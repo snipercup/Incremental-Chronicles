@@ -47,26 +47,30 @@
 	{
 	  "action_type": "free",
 	  "story_text": "Look ahead toward the horizon.",
-	  "rewards": {
-		"Story points": 5.0,
-		"Focus": 1
-	  }
+	  "rewards": { "Story points": 5.0, "Focus": 1 }
 	},
 	{
 	  "action_type": "loop",
 	  "story_text": "Keep walking down the road.",
+	  "requirements": { "h_returned_from_grove": { "appear": { "max": 0.0 } } },
 	  "cooldown": 2.0,
 	  "max_loops": 5.0,
-	  "rewards": {
-		"h_miles": 1.0
-	  }
+	  "rewards": { "h_miles": 1.0 }
+	},
+	{
+	  "action_type": "loop",
+	  "story_text": "Keep walking down the road.",
+	  "requirements": { 
+		"h_returned_from_grove": { "appear": { "min": 1.0 }, "consume": 0.2, "permanent": true }
+	  },
+	  "cooldown": 2.0,
+	  "max_loops": 5.0,
+	  "rewards": { "h_miles": 1.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "A village appears in the distance \u2014 small homes and the sound of voices greet you. You've reached the end of the road.",
-	  "requirements": {
-		"h_miles": { "appear": { "min": 5.0 } }
-	  },
+	  "requirements": { "h_miles": { "appear": { "min": 5.0 } } },
 	  "rewards": {
 		"Story points": 25.0,
 		"h_village_access": 1.0

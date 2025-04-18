@@ -19,26 +19,26 @@
 	},
 	{
 	  "action_type": "free",
-	  "rewards": { "Story points": 3.0, "h_visited_temple": 3.0 },
-	  "story_text": "Study an inscription: 'To rise again, the soul must shed its tether to the past.'"
+	  "story_text": "Study an inscription: 'To rise again, the soul must shed its tether to the past.'",
+	  "rewards": { "Story points": 3.0, "h_visited_temple": 3.0 }
 	},
 	{
 	  "action_type": "free",
+	  "story_text": "You kneel before the altar, prepared for rebirth \u2014 but the ritual falters. Something\u2019s missing.",
 	  "requirements": {
 		"Soul Vessel": {"consume":1.0},
 		"h_visited_temple": { "appear": { "min": 1.0 } }
-	  },
-	  "story_text": "You kneel before the altar, prepared for rebirth \u2014 but the ritual falters. Something\u2019s missing."
+	  }
 	},
 	{
 	  "action_type": "reincarnation",
+	  "story_text": "The soul vessel glows. Light floods your vision as your form dissolves. You are reborn \u2014 stronger, wiser, and bound to a greater cycle.",
 	  "requirements": { "h_soul_vessel_obtained": { "appear": { "min": 1.0 } } },
 	  "rewards": {
 		"Story points": 10.0,
-		"Reincarnation": {"permanent": 1.0},
+		"Reincarnation": { "permanent": 1.0 },
 		"h_reincarnation_started": 0.0
-	  },
-	  "story_text": "The soul vessel glows. Light floods your vision as your form dissolves. You are reborn \u2014 stronger, wiser, and bound to a greater cycle."
+	  }
 	}
   ]
 }
