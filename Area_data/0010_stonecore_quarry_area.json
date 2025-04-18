@@ -9,7 +9,7 @@
   "story_actions": [
 	{
 	  "action_type": "free",
-	  "story_text": "A quarry worker waves as you step in. 'About time! We’re fine — just cut off. The flood didn’t reach us, but it rattled everything up top.'",
+	  "story_text": "A quarry worker waves as you step in. 'About time! The name's Jorn. We're the Hillstead crew — been cutting stone here for years. After that flood hit, the path to the lake jammed up, and we got stuck in here. Quarry took a hit too — the lift's busted, and we can't move anything until it's fixed. Help us get it running again, and we’ll get Hillstead the stone it needs.",
 	  "requirements": { "h_quarry_access": { "appear": { "min": 1.0 } } },
 	  "rewards": { "Story points": 10.0, "h_quarry_crew_contacted": 1.0 }
 	},
@@ -91,7 +91,7 @@
 	},
 	{
 	  "action_type": "free",
-	  "story_text": "Decipher the glyphs. They seem to align with memories — not your own, but familiar nonetheless.",
+	  "story_text": "You notice strange glyphs faintly etched along the far wall of the quarry base — unlike any chisel mark made by the crew. One of the workers eyes it warily. 'That thing? It’s old. Deeper than our cut lines. We were told not to dig near it.' They seem to align with memories — not your own, but familiar nonetheless.",
 	  "requirements": {
 		"Insight": { "amount": 3.0 },
 		"Memory": { "amount": 2.0 },
@@ -101,7 +101,7 @@
 	},
 	{
 	  "action_type": "free",
-	  "story_text": "Approach the Stone Core — a crystalline monolith vibrating softly. It pulses in rhythm with your breath.",
+	  "story_text": "You step closer to the strange formation at the heart of the quarry — a crystalline stone unlike the rest, humming faintly. The air grows tense. 'We told you not to go near that,' Jorn calls out. 'Stone like that doesn’t belong in any quarry... but we couldn’t move it. Might be best left alone.' It pulses in rhythm with your breath.",
 	  "requirements": { "h_stone_core_access": { "appear": { "min": 1.0 } } },
 	  "rewards": { "Story points": 10.0, "h_stone_core_found": 1.0 }
 	},
@@ -130,7 +130,7 @@
 	},
 	{
 	  "action_type": "free",
-	  "story_text": "Depart the quarry. The wind carries a voice that murmurs your name — or perhaps a future version of it.",
+	  "story_text": "Depart the quarry. As you ascend the lift, the memory of the Stone Core lingers. Its rhythm echoes in your chest, as if calling to something deeper. You don’t know why yet — only that it feels... connected.. The wind carries a voice that murmurs your name — or perhaps a future version of it.",
 	  "requirements": {
 		"h_stone_amplified": { "appear": { "min": 1.0 } },
 		"Focus": { "consume": 1.0 }
