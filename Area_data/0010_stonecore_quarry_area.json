@@ -1,6 +1,6 @@
 {
-  "name": "Quarry of Echoes",
-  "description": "Stone walls rise high, cut not just by hand but by something older. The quarry's base is littered with rusted tools and half-formed statues. Whispers drift through the dust \u2014 not wind, but memory.",
+  "name": "Stonecore Quarry",
+  "description": "Stone walls rise high, cut not just by hand but by something older. The quarry's base is littered with rusted tools and half-formed statues. Dust lingers in the still air — not wind, but memory.",
   "tier": 2.0,
   "requirements": {
 	"Story points": { "consume": 175.0 },
@@ -33,7 +33,7 @@
 	},
 	{
 	  "action_type": "free",
-	  "story_text": "Descend into the quarry's lower pit. The walls are carved with repeated symbols \u2014 a name, echoed again and again.",
+	  "story_text": "Descend into the quarry's lower pit. The walls are carved with repeated symbols — a name, inscribed again and again.",
 	  "requirements": {
 		"h_lift_repaired": { "appear": { "min": 1.0 } },
 		"Focus": { "consume": 1.0 }
@@ -42,7 +42,7 @@
 	},
 	{
 	  "action_type": "free",
-	  "story_text": "Decipher the echo glyphs. They seem to align with memories \u2014 not your own, but familiar nonetheless.",
+	  "story_text": "Decipher the glyphs. They seem to align with memories — not your own, but familiar nonetheless.",
 	  "requirements": {
 		"Insight": { "amount": 3.0 },
 		"Memory": { "amount": 2.0 },
@@ -52,7 +52,7 @@
 	},
 	{
 	  "action_type": "free",
-	  "story_text": "Approach the Stone Core \u2014 a crystalline monolith vibrating softly. It pulses in rhythm with your breath.",
+	  "story_text": "Approach the Stone Core — a crystalline monolith vibrating softly. It pulses in rhythm with your breath.",
 	  "requirements": { "h_stone_core_access": { "appear": { "min": 1.0 } } },
 	  "rewards": { "Story points": 10.0, "h_stone_core_found": 1.0 }
 	},
@@ -81,7 +81,7 @@
 	},
 	{
 	  "action_type": "free",
-	  "story_text": "Depart the quarry. The wind carries a whisper that echoes your own name \u2014 or perhaps a future version of it.",
+	  "story_text": "Depart the quarry. The wind carries a voice that murmurs your name — or perhaps a future version of it.",
 	  "requirements": {
 		"h_stone_amplified": { "appear": { "min": 1.0 } },
 		"Focus": { "consume": 1.0 }
