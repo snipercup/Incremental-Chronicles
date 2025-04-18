@@ -92,6 +92,18 @@
 	},
 	{
 	  "action_type": "free",
+	  "story_text": "You pause beside a fissure in the quarry wall. Something deeper lies beyond — not just stone. You clear the loose rock and find a narrow passage curling into darkness.",
+	  "requirements": {
+		"h_quarry_base_access": { "appear": { "min": 1.0 } },
+		"Focus": { "consume": 1.0 }
+	  },
+	  "rewards": {
+		"Story points": 5.0,
+		"h_core_entry_unlocked": 1.0
+	  }
+	},
+	{
+	  "action_type": "free",
 	  "story_text": "You notice strange glyphs faintly etched along the far wall of the quarry base — unlike any chisel mark made by the crew. One of the workers eyes it warily. 'That thing? It’s old. Deeper than our cut lines. We were told not to dig near it.' They seem to align with memories — not your own, but familiar nonetheless.",
 	  "requirements": {
 		"Insight": { "amount": 3.0 },
