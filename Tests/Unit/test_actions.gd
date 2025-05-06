@@ -251,6 +251,7 @@ func my_test_sequence(stop_area_name := "", delay_seconds := 0.0) -> bool:
 	myactionquery.reward_key = "h_miles"
 	await _wait_for_action_query_match(action_list,myactionquery)
 	await _run_loop_until_resource(myactionquery,5.0)
+	await _press_all_actions_of_type(action_list, "free") # We spot the village
 
 
 	# -- VILLAGE --

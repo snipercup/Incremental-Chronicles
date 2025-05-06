@@ -1,0 +1,63 @@
+{
+  "name": "Mistwood Trail",
+  "description": "The trees here aren’t twisted, haunted, or sacred — they’re just trees. Still, something about this forest seems to fold in on itself. Paths double back. Your own footprints appear ahead. The quiet is absolute.",
+  "tier": 3.0,
+  "requirements": {
+	"Story points": { "consume": 200.0 },
+	"h_returned_from_grove": { "appear": { "min": 1.0 } }
+  },
+  "story_actions": [
+	{
+	  "action_type": "free",
+	  "story_text": "You step beneath the forest canopy. The air grows cooler. A path winds ahead — or was it behind?",
+	  "rewards": { "Story points": 5.0, "h_forest_entered": 1.0 }
+	},
+	{
+	  "action_type": "loop",
+	  "story_text": "You follow a bend in the trail, only to find yourself back where you started. The trees seem... familiar.",
+	  "requirements": { "h_forest_entered": { "appear": { "min": 1.0 } } },
+	  "cooldown": 1.0,
+	  "max_loops": 4,
+	  "rewards": { "Story points": 1.0, "h_forest_disoriented": 0.5 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You score a mark into the bark of a tree and choose a new direction. When you see the mark again, it’s older. Deeper. But you didn’t make that cut… did you?",
+	  "requirements": { "h_forest_disoriented": { "appear": { "min": 2.0 } } },
+	  "rewards": { "Story points": 5.0, "h_forest_mystery_triggered": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You breathe slowly, center your thoughts, and listen. Wind rustles one side only — faint, but real. You follow.",
+	  "requirements": { 
+		"Focus": { "consume": 1.0 }, 
+		"h_forest_mystery_triggered": { "appear": { "min": 1.0 } } 
+	  },
+	  "rewards": { "Story points": 15.0, "Resolve": 5.0, "h_forest_navigated": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "The trees thin. Ahead, a faint road. You made it out. You're not sure what you learned — only that you’re moving forward again.",
+	  "requirements": { "h_forest_navigated": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 25.0, "h_next_region_unlocked": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You find an offshoot path choked with brambles. Something stirs in the distance — not danger, exactly. Just... potential.",
+	  "requirements": { 
+		"Perception": { "amount": 2.0 }, 
+		"h_forest_mystery_triggered": { "appear": { "min": 1.0 } } 
+	  },
+	  "rewards": { "Story points": 5.0, "h_forest_alt_path_found": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You push through the overgrowth and find a moss-covered arch. Beneath it, faint footprints lead to a stone stair, half-sunken into earth. You feel watched — but not unwelcome.",
+	  "requirements": { 
+		"h_forest_alt_path_found": { "appear": { "min": 1.0 } }, 
+		"Focus": { "consume": 1.0 } 
+	  },
+	  "rewards": { "Story points": 10.0, "h_forest_secret_path_unlocked": 1.0 }
+	}
+  ]
+}

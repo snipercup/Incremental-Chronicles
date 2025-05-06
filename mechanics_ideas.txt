@@ -1,0 +1,171 @@
+############################################################################################
+################################## --- Resource sink --- ###################################
+############################################################################################
+
+Here are three fully developed ideas that let the player make permanent investments using temporary resources during a run. These ideas are designed to preserve *Incremental Chronicles’* theme of growth through effort and reincarnation, while creating satisfying mid-run decision points:
+
+---
+
+### 1. **Seed of Restoration (Area Project Investment)**
+
+**Concept**: In specific areas — such as the Village or Flooded Crossing — the player can contribute certain temporary resources (e.g. Turnips, Herbs, Iron Nails, etc.) to long-term restoration projects like rebuilding a structure, restoring a shrine, or sustaining a community.
+
+**Mechanic**:
+
+* During the run, the player invests a bundle of resources into a project (e.g. “Deliver 10 Turnips and 5 Herbs to the chapel’s winter stores.”).
+* Once complete, the project is marked with a **permanent milestone** (e.g. `h_chapel_restored`).
+* On future runs, the area shows a **visible change** (e.g. glowing lights in the chapel, stronger Resolve bonuses, new actions unlocked).
+* These projects **require no special currency**, just careful resource management during a run.
+
+**Why it Works**: It rewards sacrifice — giving up resources now to permanently improve part of the world. It’s immersive, fits the tone, and gives purpose to otherwise expendable items.
+
+---
+
+### 2. **Ember of Persistence (Convert into Legacy Resource)**
+
+**Concept**: Introduce rare locations or actions during a run where a player can *burn* large quantities of temporary resources to produce a single **Ember of Persistence**, a permanent currency.
+
+**Mechanic**:
+
+* Found in secret shrines or through difficult paths, a player can perform a ritual: “Burn 250 Story Points or 10 Focus Crystals to create an Ember of Persistence.”
+* Embers are stored in the Shifting Mirror and can be exchanged for powerful permanent traits (e.g. new Focus regeneration tiers, unique actions, or legacy gear slots).
+* Optional: Track how many embers the player has forged across runs for hidden lore or Memory Codex entries.
+
+**Why it Works**: It provides an end-of-run sink for excess resources and gives expert players long-term goals without disrupting early balance. The conversion process feels like a sacrifice and ties into the game’s spiritual tone.
+
+---
+
+### 3. **Oaths and Offerings (Area-Specific Legacy Paths)**
+
+**Concept**: Certain factions, altars, or NPCs accept temporary resources as *offerings* in exchange for **hidden oaths** that permanently alter the story or future access.
+
+**Mechanic**:
+
+* A player may find an altar that asks for “25 Resolve and 5 Herbs” to make an offering.
+* If paid, a **permanent flag** (e.g. `h_oath_to_the_grove`) is set.
+* On future runs, this could unlock:
+
+  * A unique story path
+  * Modified enemy behavior
+  * Access to a different reincarnation site
+  * Lore from that faction in the Memory Codex
+
+**Why it Works**: This makes temporary stat/resource choices matter narratively and mechanically. The oaths can represent alignment, sacrifice, or preparation for deeper truths.
+
+
+
+############################################################################################
+################################## --- Memory Codex --- ####################################
+############################################################################################
+
+Excellent — let’s design the **Codex UI** so it feels intuitive, thematic, and scalable across many reincarnations. Here's a full layout + categories, with descriptions and interaction patterns that match the tone and flow of *Incremental Chronicles*.
+
+---
+
+## 📘 **Memory Codex – UI Layout & Design**
+
+> 🧭 *“The Codex remembers what you do not. It weaves the echoes of past lives into truth.”*
+
+---
+
+### 🖼️ **Codex Layout Overview**
+
+#### **Main Screen:**
+
+```
++---------------------------------------------+
+|        📖 MEMORY CODEX [ Cycle: 12 ]        |
++---------------------------------------------+
+
+[🌿 Fragments]  [🌌 Visions]  [🧩 Lore Chains]  [🔒 Hidden]  [⭐ Traits Gained]
+
+──────────────────────────────────────────────
+ Title:         “Beneath the Oak”
+ Area:          Tunnel
+ Tags:          Nature, Memory, Reincarnation
+ Status:        ✔ Unlocked in Cycle #3
+ Reward:        +1 Memory
+
+ Entry Text:
+ “The bark pressed against your back felt like time itself...”
+
+ [📜 VIEW FULL ENTRY]   [🧠 PIN TO TRAIT MENU]
+──────────────────────────────────────────────
+
+< PREVIOUS MEMORY     |     NEXT MEMORY >
+```
+
+---
+
+## 📂 **Codex Categories**
+
+### 🌿 **Fragments** (Unlocked Memory Entries)
+
+* Individual lore snippets from free or trait-based actions.
+* Displayed in a scrollable list with unlock cycle + associated trait or area.
+* **Sort Options:** By area, by trait rewarded, by unlock cycle, by tag
+
+> 🔎 *Example:*
+>
+> * *“Aldric’s Journal”* → Hollow Grove → +1 Wisdom
+> * *“Village Notice”* → Village → +1 Perception
+
+---
+
+### 🌌 **Visions** (Trait- or Focus-Gated Lore)
+
+* Entries that **require Wisdom, Soul Resonance, or high Focus** when triggered.
+* These give **expanded insights** or deeper truths about recurring themes.
+* Visions may show extra story paths in later runs.
+
+> 🧠 These are often **optional versions of normal Codex entries** with extended text.
+
+---
+
+### 🧩 **Lore Chains** (Grouped Narratives)
+
+* Groups Codex entries that together tell a **mini-storyline** (e.g., the fate of Aldric).
+* Completing a chain may reward an **Echo**, **Hidden Trait**, or **Vision**.
+* Chains unlock a visual marker (glowing spiral, rune pattern, etc.)
+
+> *e.g.*:
+>
+> * *Tunnel → Grove → Village → Temple*
+> * *“The Forest Watches”* chain completed = unlocks “Instinct +1”
+
+---
+
+### 🔒 **Hidden** (Undiscovered or Obscured Memories)
+
+* Shows silhouettes or “?” for Codex entries **you’ve nearly unlocked**.
+* Hovering may hint at:
+
+  * “Unlocked by high Perception in Tier 2”
+  * “One action remains to complete this chain”
+
+---
+
+### ⭐ **Traits Gained**
+
+* A visual summary of **permanent traits earned through memory**.
+* Each trait icon (Memory, Wisdom, Echoes, Perception) links to the memories that granted it.
+
+---
+
+## 🧪 **Codex Interaction Features**
+
+| Feature                  | Description                                                         |
+| ------------------------ | ------------------------------------------------------------------- |
+| 🔍 **Search & Filter**   | By area, tag, trait, or text                                        |
+| 📌 **Pin to Trait Menu** | Shows a tooltip on stat screen with Codex link                      |
+| 🕰️ **Cycle Stamp**      | Records the cycle number and reincarnation when memory was found    |
+| ✨ **Codex Progress**     | Progress bar shows % entries found (optionally by tier or category) |
+| 📖 **Auto-Replay**       | Re-read flavor text or show re-trigger option for visions           |
+
+---
+
+## 🌈 Aesthetic Notes (optional flair)
+
+* Background: faded, parchment-style book interface with subtle sparkles (Echoes) or ripple lines (memory distortion)
+* Memory entries glow faintly when recently added
+* “Visions” shimmer slightly, with soft color pulses when selected

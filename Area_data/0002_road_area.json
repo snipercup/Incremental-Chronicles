@@ -60,12 +60,54 @@
 	{
 	  "action_type": "loop",
 	  "story_text": "Keep walking down the road.",
-	  "requirements": { 
-		"h_returned_from_grove": { "appear": { "min": 1.0 }, "consume": 0.2, "permanent": true }
-	  },
+	  "requirements": { "h_fate_met_in_road": { "appear": { "min": 1.0 } } },
 	  "cooldown": 2.0,
 	  "max_loops": 5.0,
 	  "rewards": { "h_miles": 1.0 }
+	},
+	{
+	  "action_type": "loop",
+	  "story_text": "Keep walking down the road.",
+	  "requirements": { "h_returned_from_grove": { "appear": { "min": 1.0 } } },
+	  "cooldown": 2.0,
+	  "max_loops": 2.0,
+	  "rewards": { "h_miles": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You hear something shuffle behind you. Your body refuses to move. You know exactly who it is. Then, a voice: 'Did the wolves give you any trouble?'. The question sinks in. Those wolves… they were from another life.",
+	  "requirements": { 
+		"h_miles": { "appear": { "min": 2.0 } }, 
+		"h_returned_from_grove": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 1.0, "h_fate_intro_1": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "You feel her presence draw near. Slowly, you turn your head. It's the creature of immense beauty! It's a lizard? White-scaled, draped in embroidered robes, her eyes gentle and ancient. It is her. The one from the tunnel.",
+	  "requirements": { "h_fate_intro_1": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 1.0, "h_fate_intro_2": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "She meets your gaze. 'How do I know about the wolves? I'm sure you'll find out eventually.' Her voice is calm, inevitable. Then: 'I am called Fate. I've taken interest in you ever since you reincarnated.'",
+	  "requirements": { "h_fate_intro_2": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 1.0, "h_fate_intro_3": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "Fate walks a few steps ahead. 'Come. You're going to the village, aren't you?' You force your legs to follow. With effort, you do. Each step adds weight to your journey.",
+	  "requirements": { "h_fate_intro_3": { "appear": { "min": 1.0 } } },
+	  "rewards": { "Story points": 1.0, "h_fate_intro_4": 1.0, "h_miles": 1.0 }
+	},
+	{
+	  "action_type": "free",
+	  "story_text": "She stops again. 'I’ll keep watching. Your path will not be easy.' She smiles gently, turns, and walks into the light. 'We’ll meet again.'",
+	  "requirements": { "h_fate_intro_4": { "appear": { "min": 1.0 } } },
+	  "rewards": { 
+		"Story points": 1.0, 
+		"Echoes of the Past": { "permanent": 1 }, 
+		"h_fate_met_in_road": { "permanent": 1 }
+	  }
 	},
 	{
 	  "action_type": "free",

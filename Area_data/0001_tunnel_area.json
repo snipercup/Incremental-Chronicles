@@ -12,25 +12,19 @@
 	{
 	  "action_type": "free",
 	  "story_text": "A figure appears ahead. Still. Perfect. Your breath catches — not from fear, but reverence. You blink, and the figure is closer. You try to move, but your body disobeys.",
-	  "requirements": {
-		"h_mirrored_entity_step1": { "appear": { "min": 1.0 } }
-	  },
+	  "requirements": { "h_mirrored_entity_step1": { "appear": { "min": 1.0 } } },
 	  "rewards": { "h_mirrored_entity_step2": 1.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "The figure meets your gaze. No words — only light and silence. A warmth settles in your chest, and then, they vanish.\n\nYou are alone again... but changed.",
-	  "requirements": {
-		"h_mirrored_entity_step2": { "appear": { "min": 1.0 } }
-	  },
+	  "requirements": { "h_mirrored_entity_step2": { "appear": { "min": 1.0 } } },
 	  "rewards": { "Echoes of the Past": { "permanent": 1 } }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "You emerge once more into wind and golden grass. But this time, the presence you remember — the still figure of light — is nowhere to be found. You wait. Nothing.\n\nYou wonder: will it return? Or was it never truly there?",
-	  "requirements": {
-		"Reincarnation": { "appear": { "min": 2.0, "max": 2.0 } }
-	  },
+	  "requirements": { "Reincarnation": { "appear": { "min": 2.0, "max": 2.0 } } },
 	  "rewards": { "Story points": 5.0, "h_mirrored_entity_absent": 1.0 }
 	},
 	{
@@ -42,22 +36,13 @@
 	{
 	  "action_type": "free",
 	  "story_text": "Smell the air.",
-	  "requirements": {
-		"Focus": {
-		  "consume": 1.0
-		}
-	  },
-	  "rewards": {
-		"Story points": 3.0
-	  }
+	  "requirements": { "Focus": { "consume": 1.0 } },
+	  "rewards": { "Story points": 3.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "Touch the rough bark of a nearby gnarled oak tree.",
-	  "rewards": {
-		"Story points": 3.0,
-		"Focus": 2
-	  }
+	  "rewards": { "Story points": 3.0, "Focus": 2 }
 	},
 	{
 	  "action_type": "free",
