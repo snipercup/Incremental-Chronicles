@@ -32,25 +32,25 @@
 	},
 	{
 	  "action_type": "free",
+	  "story_text": "You agree to help and note the direction of the hollow grove.",
 	  "requirements": { "h_npc_quest_active": { "appear": { "min": 1.0 } } },
-	  "rewards": { "Story points": 16.0, "h_grove_access": 2.0 },
-	  "story_text": "You agree to help and note the direction of the hollow grove."
+	  "rewards": { "Story points": 16.0, "h_grove_access": 2.0 }
 	},
 	{
 	  "action_type": "free",
-	  "rewards": { "Story points": 2.0 },
-	  "story_text": "Talk to the old blacksmith sharpening a blade."
+	  "story_text": "Talk to the old blacksmith sharpening a blade.",
+	  "rewards": { "Story points": 2.0 }
 	},
 	{
 	  "action_type": "free",
-	  "rewards": { "Story points": 2.0, "Focus": 1 },
-	  "story_text": "Pet a friendly village dog."
+	  "story_text": "Pet a friendly village dog.",
+	  "rewards": { "Story points": 2.0, "Focus": 1 }
 	},
 	{
 	  "action_type": "free",
+	  "story_text": "Read the weathered notice board near the inn.",
 	  "requirements": { "Focus": { "consume":1.0 } },
-	  "rewards": { "Story points": 2.0 },
-	  "story_text": "Read the weathered notice board near the inn."
+	  "rewards": { "Story points": 2.0 }
 	},
 	{
 	  "action_type": "free",
@@ -60,20 +60,20 @@
 	},
 	{
 	  "action_type": "free",
+	  "story_text": "The villager listens in silence. So he\u2019s gone then... Thank you. He deserved peace.",
 	  "requirements": { "h_grove_report_complete": { "appear": { "min": 1.0 } } },
-	  "rewards": { "Story points": 2.0 },
-	  "story_text": "The villager listens in silence. So he\u2019s gone then... Thank you. He deserved peace."
+	  "rewards": { "Story points": 2.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "You return to the village. The air feels heavier, your steps slower. The grove has left its mark on you.",
 	  "requirements": { "h_temple_intro_1": { "appear": { "min": 1.0 } } },
-	  "rewards": { "h_returned_from_grove": 2.0 }
+	  "rewards": { "h_returned_from_hollow_grove": 2.0 }
 	},
 	{
 	  "action_type": "free",
 	  "story_text": "The elder watches you from afar. As you pass, he stops you. 'You saw it, didn’t you? The grove has stirred — it hasn’t spoken in years.'\n\nHe lowers his voice. 'There was another place, once. Older. Stone and silence. Some say it reshaped those who entered.'",
-	  "requirements": { "h_returned_from_grove": { "appear": { "min": 1.0 } } },
+	  "requirements": { "h_returned_from_hollow_grove": { "appear": { "min": 1.0 } } },
 	  "rewards": { "Story points": 2.0, "h_temple_intro_2": 1.0
 	  }
 	},
